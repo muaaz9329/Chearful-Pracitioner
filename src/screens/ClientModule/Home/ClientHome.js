@@ -6,6 +6,8 @@ import {
   ScrollView,
   Pressable,
   Linking,
+  SafeAreaView,
+  StatusBar
 } from "react-native";
 import React from "react";
 import Header from "@CommonComponents/Header";
@@ -50,7 +52,9 @@ const [visible, setVisible] = React.useState(false);
 
 
   return (
-    <ScrollView style={{ backgroundColor: "white" }}>
+    <SafeAreaView style={{ backgroundColor: "white" }} >
+      <StatusBar />
+    <ScrollView >
       <LogoutModel navigation={navigation} setVisible={setVisible} visible={visible}  />
       <View style={styles.Body}>
         <Animatable.View
@@ -79,7 +83,7 @@ const [visible, setVisible] = React.useState(false);
           easing="ease-in-out"
           duration={1500}
         >
-          <View style={styles.GreatingTextCont}>
+          <View>
             <Text style={styles.GoodMessage}>Good morning,</Text>
             <Text style={styles.UserName}>Samantha</Text>
           </View>
@@ -158,6 +162,7 @@ const [visible, setVisible] = React.useState(false);
         <InterviewAndSound navigation={navigation}/>
       </Animatable.View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -192,7 +197,7 @@ const styles = StyleSheet.create({
     width: Wp(65),
     height: Wp(65),
     borderRadius: Wp(22),
-    resizeMode: "contain",
+    resizeMode: "cover",
   },
   menuCont: {
     flexDirection: "row",
