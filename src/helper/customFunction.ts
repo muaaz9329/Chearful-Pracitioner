@@ -44,23 +44,23 @@ export const DesignRendering = (data : any, template: any) : any[] => { //! <---
  * @param array that is is total array that is going to be broken
  * @param n is the no of element that to be broke Down
  *  */
-// export const StringWithDots = (arr, n) => {
-//   if (arr.toString().length > n) {
-//     let ShownArr = arr.filter((element, index) => index < n);
-//     let RemainElements = arr.filter((element, index) => index >= n);
-//     return {
-//       shownElements: ShownArr,
-//       remainElements: RemainElements,
-//       noOfRemainElements: RemainElements.length,
-//     };
-//   } else {
-//     return {
-//       shownElements: arr,
-//       remainElements: [],
-//       noOfRemainElements: 0,
-//     };
-//   }
-// }; 
+export const StringWithDots = (arr : string[], n:number) => {
+  if (arr.toString().length > n) {
+    let ShownArr = arr.filter((element, index) => index < n);
+    let RemainElements = arr.filter((element, index) => index >= n);
+    return {
+      shownElements: ShownArr,
+      remainElements: RemainElements,
+      noOfRemainElements: RemainElements.length,
+    };
+  } else {
+    return {
+      shownElements: arr,
+      remainElements: [],
+      noOfRemainElements: 0,
+    };
+  }
+}; 
 //! Not in use Anymore
 
 /**
