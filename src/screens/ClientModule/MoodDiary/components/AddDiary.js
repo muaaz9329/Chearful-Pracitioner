@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import React from "react";
 import ActionSheet from "react-native-actions-sheet";
@@ -72,7 +73,10 @@ useEffect(()=>{
    const handleNext = () => {
     
     CorasalRef.current?.next();
-    setHeight(200)
+    setHeight(
+      Platform.OS == "ios" ? 190 : 200
+    
+      )
    }
 
 
@@ -243,6 +247,6 @@ const styles = StyleSheet.create({
   FormCont: {
     justifyContent: "space-between",
     alignItems: "center",
-    height: hp(85),
+    height: Platform.OS =='ios'? hp(80):hp(85)
   },
 });

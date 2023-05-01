@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { NoteAppcolor } from '@constants/NoteAppcolor'
 import { Wp } from '@helper/CustomResponsive'
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
         width:wp(80),
         backgroundColor:NoteAppcolor.BtnCont,
         borderRadius:Wp(12),
-        paddingHorizontal:Wp(10),
-        paddingVertical:Wp(2),
+        paddingHorizontal: Platform.OS=='android'?  Wp(10):Wp(15),
+        paddingVertical: Platform.OS =='android'? Wp(2):Wp(13),
         marginVertical:Wp(20),
         position:"relative"
     },
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
         height:wp(70),
         backgroundColor:NoteAppcolor.BtnCont,
         borderRadius:Wp(12),
-        paddingHorizontal:Wp(10),
-        paddingVertical:Wp(2),
+        paddingHorizontal: Platform.OS=='android'?  Wp(10):Wp(15),
+        paddingVertical: Platform.OS =='android'? Wp(2):Wp(6),
         
         
     },

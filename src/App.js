@@ -67,6 +67,7 @@ const App = () => {
         <Stack.Screen name="WebPreview" component={Client_WebPreview} />
       </Stack.Navigator>
     </NavigationContainer>
+    
   );
 };
 

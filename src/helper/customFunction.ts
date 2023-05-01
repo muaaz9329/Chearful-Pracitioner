@@ -61,7 +61,7 @@ export const StringWithDots = (arr : string[], n:number) => {
     };
   }
 }; 
-//! Not in use Anymore
+
 
 /**
  * This function returns array with the flag info

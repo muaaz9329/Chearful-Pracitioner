@@ -11,7 +11,7 @@ const BlogsAndArticle = ({navigation}) => {
   }
   return (
     <View>
-      <Text style={styles.Title}>Blogs & Article</Text>
+      <Text style={styles.Title}>Research</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}  >
         <View style={{marginHorizontal:Wp(16) , flexDirection:'row'}}>
         {

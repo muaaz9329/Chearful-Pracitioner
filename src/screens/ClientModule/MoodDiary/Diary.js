@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
+import { StyleSheet, Text, View, FlatList, Pressable, Platform } from "react-native";
 import React, { useState } from "react";
 import { FontSize, Wp } from "@helper/CustomResponsive.js";
 import Header from "@CommonComponents/Header";
@@ -12,11 +12,13 @@ import { IconPlus } from "tabler-icons-react-native";
 import DateAndFilter from "@CommonComponents/DateAndFilter";
 import AddDiary from "./components/AddDiary";
 import { useRef } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 const Diary = ({ navigation }) => {
   const [Data, setData] = useState(MoodDiaryData);
   const SheetRef = useRef(null);
   return (
-    <View style={styles.body}>
+    <SafeAreaView  style={styles.body} edges={['top','right','left']}>
+    
       <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
         <Text style={styles.HeadTitle}>Mood Diary</Text>
       </Header>
@@ -50,7 +52,8 @@ const Diary = ({ navigation }) => {
         </Pressable>
       </View>
       <AddDiary ref={SheetRef} />
-    </View>
+   
+    </SafeAreaView>
   );
 };
 
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingHorizontal: Wp(16),
-    paddingTop: Wp(20),
+    paddingTop: Platform.OS =='android'? Wp(20):Wp(10),
   },
   HeadTitle: {
     fontFamily: Mulish(700),
@@ -79,7 +82,7 @@ const styles = StyleSheet.create({
   },
   AddCont: {
     position: "absolute",
-    bottom: Wp(10),
-    right: Wp(10),
+    bottom: Platform.OS = 'android' ? Wp(20):Wp(10),
+    right:  Platform.OS='android' ? Wp(20):Wp(10)
   },
 });

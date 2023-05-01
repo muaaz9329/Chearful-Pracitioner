@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Header from "@CommonComponents/Header";
 import { ChevronLeft } from "@svg";
@@ -10,7 +10,8 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 
 const PreviewDiary = ({navigation}) => {
   return (
-    <View style={styles.body}>
+    <SafeAreaView style={{ flex: 1 , backgroundColor:"white"}}>
+    <View style={styles.body} >
       <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}  />
 
       <View style={styles.header}>
@@ -21,6 +22,7 @@ const PreviewDiary = ({navigation}) => {
         <Text style={styles.Content}>{MoodDiaryData[0].Content}</Text>
       </View>
     </View>
+    </SafeAreaView>
   );
 };
 
@@ -31,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: Wp(16),
-    paddingTop: Wp(20),
+    paddingTop:Platform.OS =='android'? Wp(20):Wp(10),
   },
   header: {
     marginTop: Wp(20),

@@ -6,8 +6,7 @@ import {
   ScrollView,
   Pressable,
   Linking,
-  SafeAreaView,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import React from "react";
 import Header from "@CommonComponents/Header";
@@ -25,6 +24,7 @@ import BlogsAndArticle from "./Components/BlogsAndArticle";
 import InterviewAndSound from "./Components/InterviewAndSound";
 import { IconBell } from "tabler-icons-react-native";
 import LogoutModel from "@models/LogoutModel";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const ClientHome = ({navigation}) => {
@@ -52,8 +52,7 @@ const [visible, setVisible] = React.useState(false);
 
 
   return (
-    <SafeAreaView style={{ backgroundColor: "white" }} >
-      <StatusBar />
+    <SafeAreaView style={{ backgroundColor: "white" }} edges={['left','right','top']} >
     <ScrollView >
       <LogoutModel navigation={navigation} setVisible={setVisible} visible={visible}  />
       <View style={styles.Body}>
@@ -107,7 +106,7 @@ const [visible, setVisible] = React.useState(false);
                 <View style={styles.MenuImage}>
                   <JournalImg10
                     width={wp(2.5 * 14.9)}
-                    height={wp(2.5 * 19.1)}
+                    height={wp(2.5 * 21)}
                   />
                 </View>
               </View>
@@ -173,7 +172,7 @@ const styles = StyleSheet.create({
     backgroundColor: NoteAppcolor.White,
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingVertical: Wp(20),
+    paddingVertical: Platform.OS =='android'? Wp(20):Wp(10),
   },
   GreatingCont: {
     marginTop: Hp(30),
