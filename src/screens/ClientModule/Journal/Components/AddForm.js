@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput, Platform } from "react-native";
 import React, { useRef } from "react";
 import { FontSize, Wp } from "@app/helper/CustomResponsive";
 import { typeOfJournal } from "./JournalFunctions";
@@ -56,12 +56,15 @@ const styles = StyleSheet.create({
     borderRadius: Wp(20),
     backgroundColor: NoteAppcolor.OffWhiteCont,
     width: wp(92),
+    paddingVertical: Platform.OS =='android'? Wp(15):Wp(15),
+    paddingHorizontal: Platform.OS =='android'? Wp(15):Wp(20),
+
+
   },
   InputStyles: {
     fontFamily: Mulish(400),
     fontSize: FontSize(15),
     color: NoteAppcolor.MenuText,
-    paddingHorizontal: Wp(15),
-    paddingVertical: Wp(15),
+    
   },
 });

@@ -4,6 +4,7 @@ import {
   View,
   Pressable,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import React from "react";
 import Header from "@app/common/components/Header";
@@ -18,6 +19,11 @@ import { useEffect } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import UpcomingCoursalComponent from "./Components/UpcomingCoursalComponent";
 import HistoryCoursalComponent from "./Components/HistoryCoursalComponent";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView } from "react-native-gesture-handler";
+import { PractitionerData } from "../Data/PractitonerData";
+import UpcomingCardDesign from "./Components/UpcomingCardDesign";
+import HistoryCardDesign from "./Components/HistoryCardDesign";
 
 const SessionHistory = ({navigation}) => {
   const btnRef = useRef([]);
@@ -52,7 +58,7 @@ const SessionHistory = ({navigation}) => {
     HandleOption(0);
   }, []);
   return (
-    <View style={styles.body}>
+    <SafeAreaView style={styles.body} edges={['left','right','top']} >
       <View style={styles.Body}>
         <Header Icon={ChevronLeft} navigation={navigation} pram={'back'}  >
           <Text style={styles.HeaderTitle}>Sessions</Text>
@@ -84,13 +90,11 @@ const SessionHistory = ({navigation}) => {
           </Pressable>
         </View>
       </View>
-
+      
       <Carousel
         loop
         width={width}
-        panGestureHandlerProps={{
-          activeOffsetX: [-10, 10],
-        }}
+    
         style={{ flex: 1 }}
         ref={CarousalRef}
         autoPlay={false}
@@ -98,14 +102,37 @@ const SessionHistory = ({navigation}) => {
         scrollAnimationDuration={1000}
         onSnapToItem={(index) => HandleOption(index, false)}
         renderItem={({ index }) => {
-          if (index === 0) {
-            return <UpcomingCoursalComponent />;
-          } else {
-            return <HistoryCoursalComponent />;
+          if(index==0){
+            {
+              return (
+                <ScrollView  showsVerticalScrollIndicator={false} style={{marginHorizontal:Wp(16),marginBottom:Wp(10)}} >
+                  {
+                    PractitionerData.map((item,index)=>{
+                      return(
+                        <UpcomingCardDesign data={item} key={`${index}upcoming`} />
+                      )
+                    })
+                  }
+                </ScrollView>
+              )
+            }
+          }
+          else{
+            return(
+              <ScrollView  showsVerticalScrollIndicator={false} style={{marginHorizontal:Wp(16),marginBottom:Wp(10)}} >
+                  {
+                    PractitionerData.map((item,index)=>{
+                      return(
+                        <HistoryCardDesign data={item} key={`${index}history`} />
+                      )
+                    })
+                  }
+                </ScrollView>
+            )
           }
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -119,7 +146,7 @@ const styles = StyleSheet.create({
   },
   Body: {
     paddingHorizontal: Wp(16),
-    paddingTop: Wp(20),
+    paddingTop:Platform.OS =='ios'? Wp(10):Wp(20),
   },
   body: {
     flex: 1,

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View ,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View ,TouchableOpacity, Platform } from 'react-native'
 import React, {forwardRef , useImperativeHandle} from 'react'
 import ActionSheet from 'react-native-actions-sheet'
 import { heightPercentageToDP as hp , widthPercentageToDP as wp } from 'react-native-responsive-screen'
@@ -23,7 +23,7 @@ const CloseSheet = () => {
     <ActionSheet
     ref={actionSheetRef}
       containerStyle={{
-        height: hp(70),
+        height: Platform.OS =='ios'? hp(60):hp(70),
         paddingVertical: Wp(20),
         borderTopRightRadius: Wp(20),
         borderTopLeftRadius: Wp(20),

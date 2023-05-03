@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput, Platform } from "react-native";
 import React from "react";
 import { useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -46,8 +46,11 @@ const AddTaskForm = () => {
               setValue={setValue}
               setItems={setItems}
               placeholder="Select Category"
-              dropDownContainerStyle={styles.dropDownStyle}
+              dropDownContainerStyle={[styles.dropDownStyle,{zIndex:100}]}
               style={styles.dropDownStyle}
+              // listMode={Platform.OS =='ios'?'MODAL':'FLATLIST'}
+              dropDownDirection="TOP"
+
             />
           </View>
         </View>
@@ -64,6 +67,8 @@ const AddTaskForm = () => {
               placeholder="Select Pirority"
               dropDownContainerStyle={styles.dropDownStyle}
               style={styles.dropDownStyle}
+              dropDownDirection="TOP"
+
             />
           </View>
         </View>
@@ -108,13 +113,14 @@ const styles = StyleSheet.create({
     fontFamily: Mulish(400),
     fontSize: FontSize(14),
     color: NoteAppcolor.MenuText,
-    paddingVertical: Wp(10),
+    paddingVertical: Platform.OS =='android'? Wp(10):Wp(13),
     paddingHorizontal: Wp(10),
   },
   dropDownStyle: {
     width: wp(40),
     backgroundColor: NoteAppcolor.OffWhiteCont,
     borderRadius: Wp(10),
+    zIndex: 100,
   },
   DropDownContainer: {
     marginTop: Wp(8),

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { FontSize, Wp } from '@app/helper/CustomResponsive'
 import Header from '@CommonComponents/Header'
@@ -8,13 +8,13 @@ import { NoteAppcolor } from '@app/constants/NoteAppcolor'
 import { Mulish, Nunito } from '@app/helper/FontWeight'
 import { Contbg, JournalDate, typeOfJournal } from './Components/JournalFunctions'
 import { widthPercentageToDP as wp , heightPercentageToDP as hp } from 'react-native-responsive-screen'
-
+import { SafeAreaView } from 'react-native-safe-area-context'
 const PreviewJounal = ({navigation,route}) => {
     const data = route.params.JournalData
     const {type,date,content} = data
     console.log(data)
   return (
-    <View style={styles.Body}>
+    <SafeAreaView style={styles.Body}>
       <Header Icon={ChevronLeft} navigation={navigation} pram={"back"} >
       <View style={styles.DateCont} >
         <IconCalendar size={Wp(40)} color={NoteAppcolor.Primary}/>
@@ -26,7 +26,7 @@ const PreviewJounal = ({navigation,route}) => {
         <Text style={styles.TextCont} >{content}</Text>
         
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:'#fff',
         paddingHorizontal:Wp(16),
-        paddingTop:Wp(20)
+        paddingTop:Platform.OS === 'android' ? Wp(20) : Wp(10),
     },
     DateText:{
         fontFamily:Mulish(700),

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, Platform } from "react-native";
 import React from "react";
 import Header from "@app/common/components/Header";
 import { ChevronLeft } from "@app/svgs/Index";
@@ -7,10 +7,11 @@ import { Mulish } from "@app/helper/FontWeight";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 
 import NotifCard from "./Components/NotifCard";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const AlertScreen = ({Alerts, navigation}) => {
   return (
-    <View style={{flex:1 , backgroundColor:"#fff"}}>
+    <SafeAreaView style={{flex:1 , backgroundColor:"#fff"}} edges={['left','right','top']}>
     <View style={styles.body}>
       <Header Icon={ChevronLeft} navigation={navigation} pram={'back'}  >
         <Text style={styles.HeaderTitle}>Notifications</Text>
@@ -26,7 +27,7 @@ const AlertScreen = ({Alerts, navigation}) => {
      )}
    
    />
-   </View>
+   </SafeAreaView>
   );
 };
 
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     body: {
         
         backgroundColor: "#fff",
-        paddingVertical: Wp(20),
+        paddingVertical: Platform.OS =='ios'? Wp(10): Wp(20),
         paddingHorizontal:Wp(16)
     },
     HeaderTitle: {

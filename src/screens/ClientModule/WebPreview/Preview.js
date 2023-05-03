@@ -45,7 +45,7 @@ document.getElementsByTagName('footer')[0].remove();
         <WebView
           ref={WebviewRef}
           source={{
-            uri: url,
+            uri: "https://chearful.com/blog/helping-your-child-through-stress-and-anxiety-1",
           }}
           style={{ flex: 1 }}
           // injectedJavaScript={BoilerPlateCode}
@@ -65,6 +65,7 @@ document.getElementsByTagName('footer')[0].remove();
               }, 700);
             }
           }}
+          limitsNavigationsToAppBoundDomains={true}
         />
       </View>
     </View>

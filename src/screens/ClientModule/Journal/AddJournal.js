@@ -1,4 +1,5 @@
 import {
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -16,7 +17,7 @@ import JounalType from "./Components/JounalType";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import AddForm from "./Components/AddForm";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
+import { SafeAreaView } from "react-native-safe-area-context";
 const AddJournal = ({navigation}) => {
   const CoursalRef = useRef(null);
   const { width } = useWindowDimensions();
@@ -29,8 +30,8 @@ const AddJournal = ({navigation}) => {
 
   return (
    
-    <View style={styles.body}>
-      <View style={{ paddingHorizontal: Wp(16), paddingVertical: Wp(20) }}>
+    <SafeAreaView style={styles.body}>
+      <View style={{ paddingHorizontal: Wp(16), paddingVertical: Platform.OS =='android'?Wp(20):Wp(10) }}>
         <Header Icon={ChevronLeft} navigation={navigation} pram={"back"} >
           <Text style={styles.HeaderText}>Add Journal</Text>
         </Header>
@@ -57,7 +58,7 @@ const AddJournal = ({navigation}) => {
                 <Text
                   style={[
                     styles.HeaderText,
-                    { color: NoteAppcolor.MenuText, textAlign: "center" },
+                    { color: NoteAppcolor.MenuText, textAlign: "center" , marginTop:Wp(10) },
                   ]}
                 >
                   Choose Type Of Journal
@@ -87,7 +88,7 @@ const AddJournal = ({navigation}) => {
           }
         }}
       />
-    </View>
+    </SafeAreaView>
 
   );
 };
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: Wp(10),
     borderRadius: Wp(10),
-    marginTop: Wp(20),
+    marginTop: Platform.OS =='android'? Wp(10):Wp(20),
   },
   btnText: {
     fontFamily: Mulish(700),

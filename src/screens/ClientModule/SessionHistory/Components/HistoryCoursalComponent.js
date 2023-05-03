@@ -5,19 +5,18 @@ import HistoryCardDesign from './HistoryCardDesign'
 import { Wp } from '@app/helper/CustomResponsive'
 const HistoryCoursalComponent = () => {
   return (
-   <FlatList
-   data={PractitionerData}
-    renderItem={({ item, index }) => {
-        return(
-            <HistoryCardDesign data={item} key={index} />
-        )
-    }}
-    contentContainerStyle={{
-        paddingHorizontal: Wp(16),
-    }}
-    showsVerticalScrollIndicator={false}
-   
-   />
+    <ScrollView showsVerticalScrollIndicator={false} style={{paddingHorizontal:Wp(16)}} >
+        {
+            PractitionerData.map((item,index)=>{
+                return(
+                    <HistoryCardDesign
+                    key={index}
+                    data={item}
+                    />
+                )
+            })
+        }
+        </ScrollView>
 
   )
 }

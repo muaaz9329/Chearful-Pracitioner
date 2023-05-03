@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
     alignItems:'center',
     
     borderColor:NoteAppcolor.MenuText,
-    borderWidth:Wp(0.8)
+    borderWidth:Wp(0.8),
+    zIndex:0
   },
   TextStyle:{
     fontSize:FontSize(16),

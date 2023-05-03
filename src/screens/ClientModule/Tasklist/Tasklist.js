@@ -5,6 +5,7 @@ import {
   Pressable,
   TouchableOpacity,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import React from "react";
 import { FontSize, Wp } from "@app/helper/CustomResponsive";
@@ -21,6 +22,7 @@ import Carousel from "react-native-reanimated-carousel";
 import { useRef } from "react";
 import { useEffect } from "react";
 import AddTask from "./components/AddTask";
+import { SafeAreaView } from "react-native-safe-area-context";
 const Tasklist = ({navigation}) => {
   const [taskData, setTaskData] = React.useState(TaskData);
   const { width } = useWindowDimensions();
@@ -73,7 +75,7 @@ useEffect(()=>{
     ChangeStyle(0)
 },[])
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }} edges={['left','right','top']}>
       <View style={styles.body}>
         <View style={styles.Header}>
           <Header Icon={ChevronLeft} navigation={navigation} pram={'back'} >
@@ -174,7 +176,7 @@ useEffect(()=>{
         }}
       />
       <AddTask ref={SheetRef}/>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -183,7 +185,7 @@ export default Tasklist;
 const styles = StyleSheet.create({
   body: {
     paddingHorizontal: Wp(16),
-    paddingTop: Wp(20),
+    paddingTop: Platform.OS=='android'?Wp(20):Wp(10),
   },
   TextTitle: {
     fontFamily: Mulish(700),
