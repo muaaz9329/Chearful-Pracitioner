@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { WebView } from "react-native-webview";
 import Header from "@CommonComponents/Header";
@@ -7,6 +7,7 @@ import { Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { ActivityIndicator } from "react-native-paper";
 import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
+import { SafeAreaView } from "react-native-safe-area-context";
 const Preview = ({navigation , route}) => {
   const [alreadyInjected, setAlreadyInjected] = React.useState(false);
   const {url} = route.params
@@ -20,11 +21,11 @@ document.querySelectorAll('.labelslist')[0].innerHTML=null
 document.getElementsByTagName('footer')[0].remove();
     `;
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: "white",
-        paddingVertical: Wp(20),
+        paddingVertical: Platform.OS == 'android'? Wp(20):Wp(10),
         paddingHorizontal: Wp(16),
       }}
     >
@@ -68,7 +69,7 @@ document.getElementsByTagName('footer')[0].remove();
           limitsNavigationsToAppBoundDomains={true}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
