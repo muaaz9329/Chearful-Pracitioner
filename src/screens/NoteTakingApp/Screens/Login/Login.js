@@ -6,17 +6,18 @@ import {
   Linking,
 } from "react-native";
 import React, { useState } from "react";
-import { NoteAppcolor } from "../../constants/NoteAppcolor";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { TextInput } from "react-native-paper";
+import * as Animatable from "react-native-animatable";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { ChearfulLogo } from "../../../../svgs/Index";
-import { FontSize, Hp, Wp } from "../../../../helper/CustomResponsive";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import * as Animatable from "react-native-animatable";
-import { TextInput } from "react-native-paper";
-import { Mulish, Nunito } from "../../../../helper/FontWeight";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
+import { Nunito } from "@helper/FontWeight";
+import { ChearfulLogo } from "@svg";
+
 const Login = ({ navigation }) => {
   const [pass, SetPass] = useState({
     Pass: true,
@@ -36,77 +37,96 @@ const Login = ({ navigation }) => {
       });
     }
   };
+
   return (
     <View style={styles.Container}>
-        <KeyboardAwareScrollView enableOnAndroid={true}>
-
-      <View style={styles.FirstCont}>
-        <View style={{ justifyContent: "space-between", alignItems: "center" }}>
-          <Animatable.View
-            animation="fadeInDown"
-            duration={2000}
-            easing={"ease-in-out"}
-          >
-            <ChearfulLogo
-              height={wp(30)}
-              width={wp(70)}
-              color={NoteAppcolor.Primary}
-            />
-          </Animatable.View>
-        </View>
-      </View>
-      <View style={styles.SecondCont}>
-        <View style={styles.MainTextCont}>
-          <Text style={styles.MainTitle}>Welcome to Chearful!</Text>
-          <Text style={styles.MainSubtitle}>
-            Mental Health, Built Around You
-          </Text>
-        </View>
-        <View style={{ alignItems: "center" }}>
+      <KeyboardAwareScrollView enableOnAndroid={true}>
+        <View style={styles.FirstCont}>
           <View
-            style={[
-              styles.form,
-              { borderRadius: Wp(8), overflow: "hidden", width: wp(85),marginTop:Wp(20),marginBottom:Wp(5), },
-            ]}
+            style={{ justifyContent: "space-between", alignItems: "center" }}
           >
-            <TextInput
-              mode="flat"
-              label="Email"
-              placeholder="Enter Your Email Address"
-              underlineColor={"#EFF3F2"}
-              style={{ backgroundColor: "#EFF3F2" ,height:Hp(40) , fontSize:Wp(14) }}
-              underlineStyle={{ borderRadius: Wp(18) }}
-              outlineStyle={{ borderRadius: Wp(18) }}
-            />
+            <Animatable.View
+              animation="fadeInDown"
+              duration={2000}
+              easing={"ease-in-out"}
+            >
+              <ChearfulLogo
+                height={wp(30)}
+                width={wp(70)}
+                color={NoteAppcolor.Primary}
+              />
+            </Animatable.View>
           </View>
-          <View
-            style={[
-              styles.form,
-              { borderRadius: Wp(8), overflow: "hidden", width: wp(85),marginVertical:Wp(10), },
-            ]}
-          >
-            <TextInput
-              mode="flat"
-              label="Password"
-              placeholder="Enter Your Password"
-              underlineColor={"#EFF3F2"}
-              style={{ backgroundColor: "#EFF3F2",height:Hp(40),fontSize:Wp(14) }}
-              underlineStyle={{ borderRadius: Wp(18) }}
-              outlineStyle={{ borderRadius: Wp(18) }}
-              secureTextEntry={pass.Pass}
-              right={<TextInput.Icon icon={pass.icon} onPress={showPass} />}
-            />
+        </View>
+        <View style={styles.SecondCont}>
+          <View style={styles.MainTextCont}>
+            <Text style={styles.MainTitle}>Welcome to Chearful!</Text>
+            <Text style={styles.MainSubtitle}>
+              Mental Health, Built Around You
+            </Text>
           </View>
-          
-          <TouchableOpacity  onPress={()=>
-          navigation.push("Home")
-          } >
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>Login</Text>
+          <View style={{ alignItems: "center" }}>
+            <View
+              style={[
+                styles.form,
+                {
+                  borderRadius: Wp(8),
+                  overflow: "hidden",
+                  width: wp(85),
+                  marginTop: Wp(20),
+                  marginBottom: Wp(5),
+                },
+              ]}
+            >
+              <TextInput
+                mode="flat"
+                label="Email"
+                placeholder="Enter Your Email Address"
+                underlineColor={"#EFF3F2"}
+                style={{
+                  backgroundColor: "#EFF3F2",
+                  height: Hp(40),
+                  fontSize: Wp(14),
+                }}
+                underlineStyle={{ borderRadius: Wp(18) }}
+                outlineStyle={{ borderRadius: Wp(18) }}
+              />
             </View>
-          </TouchableOpacity>
+            <View
+              style={[
+                styles.form,
+                {
+                  borderRadius: Wp(8),
+                  overflow: "hidden",
+                  width: wp(85),
+                  marginVertical: Wp(10),
+                },
+              ]}
+            >
+              <TextInput
+                mode="flat"
+                label="Password"
+                placeholder="Enter Your Password"
+                underlineColor={"#EFF3F2"}
+                style={{
+                  backgroundColor: "#EFF3F2",
+                  height: Hp(40),
+                  fontSize: Wp(14),
+                }}
+                underlineStyle={{ borderRadius: Wp(18) }}
+                outlineStyle={{ borderRadius: Wp(18) }}
+                secureTextEntry={pass.Pass}
+                right={<TextInput.Icon icon={pass.icon} onPress={showPass} />}
+              />
+            </View>
 
-          <Text
+            <TouchableOpacity onPress={() => navigation.push("Home")}>
+              <View style={styles.btn}>
+                <Text style={styles.btnText}>Login</Text>
+              </View>
+            </TouchableOpacity>
+
+            <Text
               style={styles.ForgetPassCont}
               onPress={() => {
                 Linking.openURL("https://chearful.com/");
@@ -114,9 +134,8 @@ const Login = ({ navigation }) => {
             >
               Forget Password?
             </Text>
-          
+          </View>
         </View>
-      </View>
       </KeyboardAwareScrollView>
     </View>
   );
@@ -155,7 +174,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize(14),
     fontFamily: Nunito(700),
     color: NoteAppcolor.Primary,
-    marginTop:Wp(15)
+    marginTop: Wp(15),
   },
   btn: {
     backgroundColor: NoteAppcolor.btnColor,
@@ -164,12 +183,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: Wp(12),
-    marginTop:Wp(20)
+    marginTop: Wp(20),
   },
   btnText: {
     color: "#fff",
     fontFamily: Nunito(700),
-    fontSize: FontSize(16)
+    fontSize: FontSize(16),
   },
   MainTitle: {
     fontFamily: Nunito(800),

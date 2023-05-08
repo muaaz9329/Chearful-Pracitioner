@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import React from "react";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { FontSize, Wp } from "../../../../../helper/CustomResponsive";
-import { NoteAppcolor } from "../../../constants/NoteAppcolor";
-import { Nunito } from "../../../../../helper/FontWeight";
+import { FontSize, Wp } from "@helper/CustomResponsive";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { Nunito } from "@helper/FontWeight";
 
 const NotesCard = ({ Arr, navigation ,ClientData}) => {
   return (

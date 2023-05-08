@@ -5,6 +5,7 @@ import {
   Text,
   View,
   ScrollView,
+  Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { NoteAppcolor } from "../../constants/NoteAppcolor";
@@ -15,6 +16,7 @@ import { Mulish, Nunito } from "../../../../helper/FontWeight";
 import SessionCardDesign from "./components/SessionCardDesign";
 import NotesCard from "./components/NotesCard";
 import { DateConstrctor } from "../../../../helper/customFunction";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const UserSelection = ({ SetState }) => {
   const user = ["mySelf", "someoneElse"];
@@ -106,8 +108,8 @@ const ClientDetail = ({navigation,route}) => {
   let newArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   return (
-    <View style={styles.body}>
-      <ScrollView stickyHeaderIndices={[2]}>
+    <SafeAreaView style={styles.body} edges={['top','right','left']}>
+      <ScrollView stickyHeaderIndices={[2]} showsVerticalScrollIndicator={false}>
         <View style={styles.HeaderStyle}>
           <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}></Header>
         </View>
@@ -137,7 +139,7 @@ const ClientDetail = ({navigation,route}) => {
           </View>
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: NoteAppcolor.White,
     paddingHorizontal: Wp(16),
-    paddingTop: Wp(20),
+    paddingTop: Platform.OS=='android' ? Wp(20) : Wp(10),
   },
   HeaderStyle: {
     position: "absolute",
@@ -196,7 +198,7 @@ const styles = StyleSheet.create({
     borderColor: "#E6E7E6",
   },
   btnText: {
-    fontSize: Wp(14),
+    fontSize:  Platform.OS =='android' ? Wp(14) : Wp(16) ,
     fontFamily: Mulish(700),
   },
 });

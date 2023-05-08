@@ -1,16 +1,16 @@
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+import { Image, StyleSheet, Text, View, Pressable, Platform } from "react-native";
 import React, { useState } from "react";
-import { FontSize, Wp } from "../../../../../helper/CustomResponsive";
+import { FontSize, Wp } from "@helper/CustomResponsive";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { NoteAppcolor } from "../../../constants/NoteAppcolor";
-import { Dot } from "../../../../../svgs/Index";
-import { Mulish, Nunito } from "../../../../../helper/FontWeight";
-import { Plus, Eye } from "../../../../../svgs/Index";
-import NotesType from "../../Models/NotesType";
-import { DateConstrctor } from "../../../../../helper/customFunction";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { Dot } from "@svg";
+import { Mulish, Nunito } from "@helper/FontWeight";
+import { Plus, Eye } from "@svg";
+import NotesType from "@models/NotesType";
+import { DateConstrctor } from "@helper/customFunction";
 const CardDesign = ({ Data, navigation }) => {
   const [model, setmodel] = useState(false);
   return (
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     width: Wp(76),
     height: Wp(76),
     borderRadius: Wp(38),
-    resizeMode: "contain",
+    resizeMode: Platform.OS === "ios" ? "center" : "contain",
     marginEnd: Wp(10),
   },
   LastVisitCont: {

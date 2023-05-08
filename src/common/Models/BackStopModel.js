@@ -2,14 +2,10 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 
 import { Modal, Portal } from "react-native-paper";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { FontSize, Wp } from "../../../../helper/CustomResponsive";
-import { Mulish } from "../../../../helper/FontWeight";
+import { FontSize, Wp } from "@helper/CustomResponsive";
+import { Mulish } from "@helper/FontWeight";
 import Lottie from "lottie-react-native";
-import { NoteAppcolor } from "../../constants/NoteAppcolor";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
 
 const BackStopModel = ({visible , setVisible , navigation}) => {
     

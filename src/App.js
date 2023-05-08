@@ -36,37 +36,37 @@ const App = () => {
     SplashScreen.hide();
   }, []);
   return (
-    // <NavigationContainer>
-    //   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    //     <Stack.Screen name="Login" component={Login} />
-    //     <Stack.Screen name="Home" component={Home} />
-    //     <Stack.Screen name="Session" component={Session} />
-    //     <Stack.Screen name="Client" component={Client} />
-    //     <Stack.Screen name="ClientDetail" component={ClientDetail} />
-    //     <Stack.Screen name="NoteScreen" component={Notes} />
-    //     <Stack.Screen name="NotesEditor" component={Editor} />
-    //     <Stack.Screen name="WrittenEditor" component={WrittenEditor}/>
-    //     <Stack.Screen name="NotesPreview" component={NotesPreview}/>
-    //     <Stack.Screen name="AddNoteClient" component={AddNoteClient}/>
-    //     <Stack.Screen name="AddNoteSession" component={AddNoteSession}/>
-    //   </Stack.Navigator>
-    // </NavigationContainer>
-
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Home" component={Client_Home} />
-        <Stack.Screen name="MoodDiary" component={Client_MoodDiary_Main} />
-        <Stack.Screen name="MoodDiaryPreview" component={Client_MoodDiary_Preview} />
-        <Stack.Screen name="Journal" component={Client_Journal_Main} />
-        <Stack.Screen name="JournalPreview" component={Client_Journal_Preview} />
-        <Stack.Screen name="AddJournal" component={Client_Journal_Add} />
-        <Stack.Screen name="TaskList" component={Client_TaskList_Main} />
-        <Stack.Screen name="SessionHistory" component={Client_SessionHistory_Main} />
-        <Stack.Screen name="Notification" component={Client_Notification_Main} />
-        <Stack.Screen name="WebPreview" component={Client_WebPreview} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Session" component={Session} />
+        <Stack.Screen name="Client" component={Client} />
+        <Stack.Screen name="ClientDetail" component={ClientDetail} />
+        <Stack.Screen name="NoteScreen" component={Notes} />
+        <Stack.Screen name="NotesEditor" component={Editor} />
+        <Stack.Screen name="WrittenEditor" component={WrittenEditor}/>
+        <Stack.Screen name="NotesPreview" component={NotesPreview}/>
+        <Stack.Screen name="AddNoteClient" component={AddNoteClient}/>
+        <Stack.Screen name="AddNoteSession" component={AddNoteSession}/>
       </Stack.Navigator>
     </NavigationContainer>
+
+    // <NavigationContainer>
+    //   <Stack.Navigator screenOptions={{ headerShown: false }}>
+    //     <Stack.Screen name="Login" component={Login} />
+    //     <Stack.Screen name="Home" component={Client_Home} />
+    //     <Stack.Screen name="MoodDiary" component={Client_MoodDiary_Main} />
+    //     <Stack.Screen name="MoodDiaryPreview" component={Client_MoodDiary_Preview} />
+    //     <Stack.Screen name="Journal" component={Client_Journal_Main} />
+    //     <Stack.Screen name="JournalPreview" component={Client_Journal_Preview} />
+    //     <Stack.Screen name="AddJournal" component={Client_Journal_Add} />
+    //     <Stack.Screen name="TaskList" component={Client_TaskList_Main} />
+    //     <Stack.Screen name="SessionHistory" component={Client_SessionHistory_Main} />
+    //     <Stack.Screen name="Notification" component={Client_Notification_Main} />
+    //     <Stack.Screen name="WebPreview" component={Client_WebPreview} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
     
   );
 };

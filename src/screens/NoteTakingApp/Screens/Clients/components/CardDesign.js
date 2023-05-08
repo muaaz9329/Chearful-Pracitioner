@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { FontSize, Wp } from "../../../../../helper/CustomResponsive";
 import {
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     width: Wp(60),
     height: Wp(60),
     borderRadius: Wp(38),
-    resizeMode: "contain",
+    resizeMode:Platform.OS == 'android' ? "contain" : "center",
     marginEnd: Wp(10),
   },
   LastVisitCont: {

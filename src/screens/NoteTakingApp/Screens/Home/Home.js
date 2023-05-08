@@ -5,43 +5,65 @@ import {
   Image,
   ScrollView,
   Pressable,
-  Linking
+  Linking,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
-import Header from "../../ConstantComponents/Header";
-import { ChearfulLogo, JournalImg12, JournalImg6, Logout } from "../../../../svgs/Index";
-import { NoteAppcolor } from "../../constants/NoteAppcolor";
-import { FontSize, Hp, Wp } from "../../../../helper/CustomResponsive";
-import { Mulish, Nunito } from "../../../../helper/FontWeight";
-import { JournalImg11, JournalImg8, JournalImg5  } from "../../../../svgs/Index";
 import * as Animatable from "react-native-animatable";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import LogoutModel from "../Models/LogoutModel";
+import Header from "@CommonComponents/Header";
+import {
+  JournalImg11,
+  JournalImg8,
+  JournalImg5,
+  ChearfulLogo,
+  JournalImg12,
+  JournalImg6,
+  Logout,
+} from "@svg";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
+import { Mulish, Nunito } from "@helper/FontWeight";
+
+
+import LogoutModel from "@models/LogoutModel";
+import { SafeAreaView } from "react-native-safe-area-context";
 const Home = ({ navigation }) => {
-  const [model,setModel] = useState(false)
+  const [model, setModel] = useState(false);
   return (
+    <SafeAreaView style={styles.Body} edges={['left','right','top']} >
     <ScrollView>
-      <LogoutModel navigation={navigation} visible={model} setVisible={setModel} /> 
-      <View style={styles.Body}>
+      <LogoutModel
+        navigation={navigation}
+        visible={model}
+        setVisible={setModel}
+      />
+      <View >
         <Animatable.View
           animation="slideInDown"
           easing="ease-in-out"
           duration={1500}
         >
-          <Header Icon={Logout} pram={"model"} visible={model} setVisible={setModel}>
-            <Pressable onPress={() => {
+          <Header
+            Icon={Logout}
+            pram={"model"}
+            visible={model}
+            setVisible={setModel}
+          >
+            <Pressable
+              onPress={() => {
                 Linking.openURL("https://chearful.com/");
-              }}>
-                    <ChearfulLogo
-              height={Wp(27)}
-              width={Wp(122)}
-              color={NoteAppcolor.Primary}
-            />
+              }}
+            >
+              <ChearfulLogo
+                height={Wp(27)}
+                width={Wp(122)}
+                color={NoteAppcolor.Primary}
+              />
             </Pressable>
-          
           </Header>
         </Animatable.View>
 
@@ -73,7 +95,10 @@ const Home = ({ navigation }) => {
               <View style={[styles.RectangleCont, styles.SessionCont]}>
                 <Text style={styles.MenuText}>Sessions</Text>
                 <View style={styles.MenuImage}>
-                <JournalImg12 width={wp(2.5*12.9)} height={wp(2.5*14.1)} />
+                  <JournalImg12
+                    width={wp(2.5 * 12.9)}
+                    height={wp(2.5 * 14.1)}
+                  />
                 </View>
               </View>
             </Pressable>
@@ -100,16 +125,14 @@ const Home = ({ navigation }) => {
                 </View>
               </View>
             </Pressable>
-            <Pressable onPress={()=>navigation.push("AddNoteClient")}>
+            <Pressable onPress={() => navigation.push("AddNoteClient")}>
+              <View style={[styles.RectangleCont, styles.AddNotes]}>
+                <Text style={styles.MenuText}>Add Notes</Text>
 
-           
-            <View style={[styles.RectangleCont, styles.AddNotes]}>
-              <Text style={styles.MenuText}>Add Notes</Text>
-
-              <View style={styles.MenuImage}>
-                <JournalImg6 width={wp(2.5*14)} height={wp(2.5*14.1)} />
+                <View style={styles.MenuImage}>
+                  <JournalImg6 width={wp(2.5 * 14)} height={wp(2.5 * 14.1)} />
                 </View>
-            </View>
+              </View>
             </Pressable>
           </Animatable.View>
         </View>
@@ -141,6 +164,7 @@ const Home = ({ navigation }) => {
         </Animatable.View>
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -151,7 +175,7 @@ const styles = StyleSheet.create({
     backgroundColor: NoteAppcolor.White,
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingVertical: Wp(20),
+    paddingVertical:Platform.OS=='android' ? Wp(20):Wp(10),
   },
   GreatingCont: {
     marginTop: Hp(30),
@@ -175,7 +199,7 @@ const styles = StyleSheet.create({
     width: Wp(65),
     height: Wp(65),
     borderRadius: Wp(22),
-    resizeMode: "contain",
+    resizeMode: Platform.OS == "ios" ? "cover" : "contain",
   },
   menuCont: {
     flexDirection: "row",

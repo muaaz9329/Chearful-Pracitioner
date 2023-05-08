@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, FlatList } from 'react-native';
-import { Wp } from '../../../helper/CustomResponsive';
+import { Wp } from '@helper/CustomResponsive';
 import { useRef } from 'react';
 
 const AnimatedFlatList = ({

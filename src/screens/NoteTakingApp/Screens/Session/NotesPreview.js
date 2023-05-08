@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image, ScrollView, Platform } from "react-native";
 import React from "react";
 import Header from "../../ConstantComponents/Header";
 import { ChevronLeft, Dot } from "../../../../svgs/Index";
@@ -8,11 +8,12 @@ import { Mulish, Nunito } from "../../../../helper/FontWeight";
 import NotesCard from "./components/NotesCard";
 import notesCardData from "../../Data/NotesCardData";
 import { DateConstrctor } from "../../../../helper/customFunction";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const NotesPreview = ({ navigation,route }) => {
   const {ClientData} = route.params
   return (
-    <View style={styles.Body}>
+    <SafeAreaView style={styles.Body}>
       <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
         <View style={styles.CardContet}>
           <View style={styles.Cont1}>
@@ -45,7 +46,7 @@ const NotesPreview = ({ navigation,route }) => {
           ClientData={ClientData}
         />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -56,13 +57,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingTop: Wp(20),
+    paddingTop:Platform.OS =='android'? Wp(20):Wp(10),
   },
   ClientImage: {
     width: Wp(43),
     height: Wp(43),
     borderRadius: Wp(25),
-    resizeMode: "contain",
+    resizeMode: Platform.OS === "ios" ? "center" : "cover",
     marginEnd: Wp(7),
   },
   LastVisitCont: {

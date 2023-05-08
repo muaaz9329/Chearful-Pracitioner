@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, TextInput, ScrollView } from "react-native";
+import { StyleSheet, Text, View, TextInput, ScrollView, Platform } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { NoteAppcolor } from "../../constants/NoteAppcolor";
-import { FontSize, Hp, Wp } from "../../../../helper/CustomResponsive";
-import Header from "../../ConstantComponents/Header";
-import { ChevronLeft, FilterIcon, SearchIcon } from "../../../../svgs/Index";
-import { Mulish, Nunito } from "../../../../helper/FontWeight";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
+import Header from "@CommonComponents/Header";
+import { ChevronLeft, FilterIcon, SearchIcon } from "@svg";
+import { Mulish, Nunito } from "@helper/FontWeight";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import {
   widthPercentageToDP as wp,
@@ -14,6 +14,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import PractitionerNotes from "../../Data/PractitionerNotes";
 import NotesCard from "./Components/NotesCard";
 import { IconPlus } from "tabler-icons-react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 function SearchBox({ HandleFunction, OpenSheet  }) {
   const refInput = useRef();
   return (
@@ -204,7 +205,7 @@ const Client = ({navigation}) => {
   ]);
 
   return (
-    <View style={styles.Body}>
+    <SafeAreaView edges={['top','left','right']} style={styles.Body}>
       <Pressable style={styles.Addbtn} onPress={()=>{
         navigation.push("AddNoteClient")
       }}>
@@ -219,7 +220,7 @@ const Client = ({navigation}) => {
         HandleFunction={HandleFilter}
         OpenSheet={bottomSheetOpen}
       />
-      <ScrollView style={{ marginTop: Wp(20) }}>
+      <ScrollView style={{ marginTop: Wp(20) }} showsVerticalScrollIndicator={false}>
         <NotesCard Arr={NotesInfo} navigation={navigation}  />
       </ScrollView>
       <RBSheet
@@ -248,7 +249,7 @@ const Client = ({navigation}) => {
           UnselectedDesign={UnselectedDesign}
         />
       </RBSheet>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
     backgroundColor: NoteAppcolor.White,
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingTop: Wp(20),
+    paddingTop: Platform.OS=='android'?  Wp(20) :Wp(10),
   },
   Text: {
     fontFamily: Mulish(700),
