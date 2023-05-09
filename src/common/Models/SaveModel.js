@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 
 import { Modal, Portal } from "react-native-paper";
-import { FontSize, Wp } from ".@helper/CustomResponsive";
+import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
 import Lottie from "lottie-react-native";
 import { NoteAppcolor } from "@constants/NoteAppcolor";

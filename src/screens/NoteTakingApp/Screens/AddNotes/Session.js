@@ -17,6 +17,7 @@ import { DateConstrctor } from "../../../../helper/customFunction";
 
 import SessionCard from "./components/SessionCards";
 import AnimatedFlatList from "../../constants/AnimatedFlatList";
+import { SafeAreaView } from "react-native-safe-area-context";
 const Session = ({ navigation, route }) => {
 
 
@@ -48,7 +49,7 @@ const Session = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.Body}>
+    <SafeAreaView style={styles.Body} edges={['top','left','right']}>
       <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
         <Text style={styles.Text}>Sessions</Text>
       </Header>
@@ -102,7 +103,7 @@ const Session = ({ navigation, route }) => {
         }}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

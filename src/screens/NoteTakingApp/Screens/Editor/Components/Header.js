@@ -1,20 +1,20 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import { FontSize, Hp, Wp } from "../../../../../helper/CustomResponsive";
-import { NoteAppcolor } from "../../../constants/NoteAppcolor";
+import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
 import {
   widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
+
 } from "react-native-responsive-screen";
-import { ChevronLeft, Dot, LikeBtn, ListIcon, SaveBtn } from "../../../../../svgs/Index";
+import { ChevronLeft, Dot,SaveBtn } from "@svg";
 import {
   moderateScale,
   moderateVerticalScale,
 } from "react-native-size-matters";
-import { Mulish, Nunito } from "../../../../../helper/FontWeight";
-import BackStopModel from "../../Models/BackStopModel";
-import SaveModel from "../../Models/SaveModel";
-import { DateConstrctor } from "../../../../../helper/customFunction";
+import { Mulish, Nunito } from "@helper/FontWeight";
+import BackStopModel from "@models/BackStopModel";
+import SaveModel from "@models/SaveModel";
+import { DateConstrctor } from "@helper/customFunction";
 const Header = ({navigation,mode,data}) => {
   const [model , setModel] = useState(false)
   const [model2 , setmodel2] = useState(false)

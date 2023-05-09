@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet , TextInput} from "react-native";
 import React, { useEffect } from "react";
 import SplashScreen from "react-native-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
@@ -51,6 +51,11 @@ const App = () => {
         <Stack.Screen name="AddNoteSession" component={AddNoteSession}/>
       </Stack.Navigator>
     </NavigationContainer>
+    // <TextInput
+             
+    //           onChange={(e)=> console.log(e.nativeEvent.text)}
+    //           placeholder='Enter your name'
+    //           />
 
     // <NavigationContainer>
     //   <Stack.Navigator screenOptions={{ headerShown: false }}>

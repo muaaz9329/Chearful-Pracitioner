@@ -13,7 +13,7 @@ const CardDesign = ({ Data }) => {
     <View style={styles.cardCont}>
       <View style={styles.CardContet}>
         <View style={styles.Cont1}>
-          <Image source={Data.Picture} style={styles.ClientImage} />
+          <Image source={Data.Picture} style={styles.ClientImage} resizeMethod={'scale'} />
         </View>
         <View style={styles.CardTextCont}>
           <Text style={styles.Name}>
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     width: Wp(60),
     height: Wp(60),
     borderRadius: Wp(38),
-    resizeMode: "contain",
+   
     marginEnd: Wp(10),
   },
   LastVisitCont: {

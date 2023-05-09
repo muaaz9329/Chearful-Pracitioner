@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Animated, Pressable, StyleSheet, View } from "react-native";
+import { Animated, Platform, Pressable, StyleSheet, View } from "react-native";
 import { Canvas, DEFAULT_BRUSH_COLOR } from "@benjeau/react-native-draw";
 import {
   widthPercentageToDP as wp,
@@ -16,6 +16,7 @@ import Header from "./Header";
 import { Wp } from "../../../../../helper/CustomResponsive";
 import { IconPencil, IconTrash } from "tabler-icons-react-native";
 import DeleteModel from "../../Models/DeleteModel";
+import { SafeAreaView } from "react-native-safe-area-context";
 const WrittenEditor = ({ navigation, route }) => {
   const { mode, content,ClientData } = route.params;
   const [Mode, setMode] = useState(mode);
@@ -68,7 +69,7 @@ const WrittenEditor = ({ navigation, route }) => {
 
   return (
     <>
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 ,paddingBottom: Platform.OS=='android'? null: Wp(20)}} edges={['top','left','right']} >
         <Header navigation={navigation} mode={Mode} data={ClientData} />
         <DeleteModel navigation={navigation} visible={model} setVisible={setModel} /> 
         <Canvas
@@ -152,7 +153,7 @@ const WrittenEditor = ({ navigation, route }) => {
           </Pressable>
         </View>
       )}
-      </View>
+      </SafeAreaView>
     </>
   );
 };

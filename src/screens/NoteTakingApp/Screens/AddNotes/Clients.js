@@ -4,6 +4,7 @@ import {
   View,
   TextInput,
   Pressable,
+  Platform,
 
 } from "react-native";
 import React, { useRef, useState } from "react";
@@ -25,6 +26,7 @@ import CardDesign from "./components/CardDesign";
 import AddNewNote from "../../Data/AddNewNote";
 import RBSheet from "react-native-raw-bottom-sheet";
 import AnimatedFlatList from "../../constants/AnimatedFlatList";
+import { SafeAreaView } from "react-native-safe-area-context";
 function SearchBox({ HandleFunction, OpenSheet }) {
   const refInput = useRef();
 
@@ -125,7 +127,7 @@ const Client = ({ navigation }) => {
   ]);
 
   return (
-    <View style={styles.Body}>
+    <SafeAreaView style={styles.Body} edges={['top','left','right']}>
       <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
         <Text style={styles.Text}>Clients</Text>
       </Header>
@@ -179,7 +181,7 @@ const Client = ({ navigation }) => {
           UnselectedDesign={UnselectedDesign}
         />
       </RBSheet>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -281,7 +283,7 @@ const styles = StyleSheet.create({
     backgroundColor: NoteAppcolor.White,
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingTop: Wp(20),
+    paddingTop: Platform.OS =='android'? Wp(20):Wp(10),
   },
   Text: {
     fontFamily: Mulish(700),

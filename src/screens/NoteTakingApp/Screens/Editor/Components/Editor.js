@@ -3,7 +3,6 @@ import {
   Text,
   Platform,
   KeyboardAvoidingView,
-  SafeAreaView,
   ScrollView,
   View,
   StyleSheet,
@@ -28,7 +27,9 @@ import {
   moderateScale,
   moderateVerticalScale,
 } from "react-native-size-matters";
-import DeleteModel from "../../Models/DeleteModel";
+import DeleteModel from '@models/DeleteModel';
+
+import { SafeAreaView } from "react-native-safe-area-context";
 const Editor = ({ route, navigation }) => {
   const { mode, content ,ClientData } = route.params;
   const [Mode, setmode] = useState(mode);
@@ -65,7 +66,7 @@ const ConvertToBase64 = (image) => {
     .catch((err) => console.log(err));
 };
   return (
-    <View style={{ flex: 1 , backgroundColor:"white"}}>
+    <SafeAreaView style={{ flex: 1 , backgroundColor:"white",paddingBottom: Platform.OS =='android'? null :  Wp(20)}} edges={['top','left','right']}>
       <DeleteModel
         navigation={navigation}
         visible={model}
@@ -143,7 +144,7 @@ const ConvertToBase64 = (image) => {
           </Pressable>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
