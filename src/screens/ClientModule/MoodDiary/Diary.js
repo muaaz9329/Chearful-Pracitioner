@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   AddCont: {
     position: "absolute",
-    bottom: Platform.OS = 'android' ? Wp(20):Wp(10),
-    right:  Platform.OS='android' ? Wp(20):Wp(10)
+    bottom: Platform.OS == 'ios' ? Wp(20):Wp(10),
+    right:  Platform.OS =='ios' ? Wp(20):Wp(10)
   },
 });

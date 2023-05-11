@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, Image ,Pressable} from "react-native";
+import { StyleSheet, Text, View, ImageBackground, Image ,Pressable, Platform} from "react-native";
 import React from "react";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { FontSize, Wp } from "../../../../../helper/CustomResponsive";
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     width: Wp(35),
     height: Wp(35),
     borderRadius: Wp(17.5),
-    resizeMode: "contain",
+    resizeMode: Platform.OS =='ios' ? 'center':'contain' ,
     marginHorizontal: Wp(10),
   },
   LastVisitCont: {

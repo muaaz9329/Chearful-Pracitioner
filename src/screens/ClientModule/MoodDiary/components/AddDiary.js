@@ -74,7 +74,7 @@ useEffect(()=>{
     
     CorasalRef.current?.next();
     setHeight(
-      Platform.OS == "ios" ? 190 : 200
+      190
     
       )
    }

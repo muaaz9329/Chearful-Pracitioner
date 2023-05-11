@@ -1,4 +1,4 @@
-import { StyleSheet , TextInput} from "react-native";
+import { StyleSheet , TextInput, View} from "react-native";
 import React, { useEffect } from "react";
 import SplashScreen from "react-native-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
@@ -51,11 +51,16 @@ const App = () => {
         <Stack.Screen name="AddNoteSession" component={AddNoteSession}/>
       </Stack.Navigator>
     </NavigationContainer>
-    // <TextInput
-             
-    //           onChange={(e)=> console.log(e.nativeEvent.text)}
-    //           placeholder='Enter your name'
-    //           />
+
+
+
+    // <View style={styles.container}>
+    //     <TextInput
+    //           style={styles.searchBar}
+            
+    //           placeholder='Search State'
+    //        />
+    //   </View>
 
     // <NavigationContainer>
     //   <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -78,4 +83,16 @@ const App = () => {
 
 export default App;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  searchBar: {
+    borderWidth: 1,
+    height: 40
+  }
+});
