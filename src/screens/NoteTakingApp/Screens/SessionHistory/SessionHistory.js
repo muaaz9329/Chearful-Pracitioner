@@ -4,6 +4,7 @@ import {
   View,
   Pressable,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import React from "react";
 import Header from "@app/common/components/Header";
@@ -18,8 +19,9 @@ import { useEffect } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import UpcomingCoursalComponent from "./Components/UpcomingCoursalComponent";
 import HistoryCoursalComponent from "./Components/HistoryCoursalComponent";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const SessionHistory = () => {
+const SessionHistory = ({navigation}) => {
   const btnRef = useRef([]);
   const CarousalRef = React.useRef(null);
   const { width } = useWindowDimensions();
@@ -52,9 +54,9 @@ const SessionHistory = () => {
     HandleOption(0);
   }, []);
   return (
-    <View style={styles.body}>
+    <SafeAreaView edges={['top']} style={styles.body}>
       <View style={styles.Body}>
-        <Header Icon={ChevronLeft}>
+        <Header Icon={ChevronLeft} navigation={navigation} pram={'back'}>
           <Text style={styles.HeaderTitle}>Sessions History</Text>
         </Header>
         <View>
@@ -105,7 +107,7 @@ const SessionHistory = () => {
           }
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
   },
   Body: {
     paddingHorizontal: Wp(16),
-    paddingTop: Wp(20),
+    paddingTop: Platform.OS=='ios'? Wp(10): Wp(20),
   },
   body: {
     flex: 1,

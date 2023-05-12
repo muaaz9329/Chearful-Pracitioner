@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     width: Wp(43),
     height: Wp(43),
     borderRadius: Wp(25),
-    resizeMode: "contain",
+    resizeMode: Platform.OS === "ios" ? "center" : "cover",
     marginEnd:Wp(7)
   },
   LastVisitCont:{

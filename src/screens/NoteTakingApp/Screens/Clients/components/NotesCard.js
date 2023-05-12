@@ -19,10 +19,10 @@ const NotesCard = ({ Arr,navigation,data }) => {
         return (
           <Pressable onPress={()=>{
             if(item.type === "written"|| index%2===0 ){ //! Remember to remove the even odd condion  in this system
-              navigation.push("WrittenEditor",{mode:"view",ClientData:data})
+              navigation.push("Prac_WrittenEditor",{mode:"view",ClientData:data})
             }
             else{
-              navigation.push("NotesEditor",{mode:"view",content:"",ClientData:data})
+              navigation.push("Prac_NotesEditor",{mode:"view",content:"",ClientData:data})
             }
           }}>
 

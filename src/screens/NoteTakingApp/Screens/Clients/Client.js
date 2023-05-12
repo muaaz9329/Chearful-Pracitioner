@@ -235,7 +235,7 @@ const Client = ({ navigation }) => {
         renderItem={({ item, index }) => (
           <Pressable
             onPress={() => {
-              navigation.push("ClientDetail", { ClientDetail: item });
+              navigation.push("Prac_ClientDetail", { ClientDetail: item });
             }}
           >
             <CardDesign Data={item} key={index} />

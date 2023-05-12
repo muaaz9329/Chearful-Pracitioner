@@ -142,7 +142,7 @@ const Client = ({ navigation }) => {
         renderItem={({ item, index }) => (
           <Pressable
             onPress={() => {
-              navigation.push("AddNoteSession", { ClientDetail: item });
+              navigation.push("Prac_AddNoteSession", { ClientDetail: item });
             }}
           >
             <CardDesign Data={item} key={index} />

@@ -8,7 +8,7 @@ import {
 import { NoteAppcolor } from "../../../constants/NoteAppcolor";
 import { Mulish, Nunito } from "../../../../../helper/FontWeight";
 import { Plus, Eye } from "../../../../../svgs/Index";
-import NotesType from "../../Models/NotesType";
+import NotesType from "@models/NotesType";
 const SessionCardDesign = ({navigation,data}) => {
   const [model,Setmodel] = useState(false)
   return (
@@ -35,7 +35,7 @@ const SessionCardDesign = ({navigation,data}) => {
           <Plus width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />
         </Pressable>
         <Pressable style={styles.btnDesign} onPress={()=>{
-          navigation.push("NotesPreview",{ClientData:data})
+          navigation.push("Prac_NotesPreview",{ClientData:data})
         }}>
           <Eye width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />
         </Pressable>

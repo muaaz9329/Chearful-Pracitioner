@@ -17,13 +17,14 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import { Nunito } from "@helper/FontWeight";
 import { ChearfulLogo } from "@svg";
+import LoginModel from "@models/LoginModel";
 
 const Login = ({ navigation }) => {
   const [pass, SetPass] = useState({
     Pass: true,
     icon: "eye",
   });
-
+const [model, setModel] = useState(false);
   const showPass = () => {
     if (pass.Pass) {
       SetPass({
@@ -40,6 +41,7 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.Container}>
+      <LoginModel navigation={navigation} setVisible={setModel} visible={model}/>
       <KeyboardAwareScrollView enableOnAndroid={true}>
         <View style={styles.FirstCont}>
           <View
@@ -120,7 +122,7 @@ const Login = ({ navigation }) => {
               />
             </View>
 
-            <TouchableOpacity onPress={() => navigation.push("Home")}>
+            <TouchableOpacity onPress={() => setModel(true)}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Login</Text>
               </View>

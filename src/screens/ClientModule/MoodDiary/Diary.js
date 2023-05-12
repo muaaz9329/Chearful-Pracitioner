@@ -33,7 +33,7 @@ const Diary = ({ navigation }) => {
         data={MoodDiaryData}
         renderItem={({ item, index }) => {
           return (
-            <Pressable onPress={() => navigation.navigate("MoodDiaryPreview")} key={index}>
+            <Pressable onPress={() => navigation.navigate("Client_MoodDiaryPreview")} key={index}>
               <CardDesign Item={item} />
             </Pressable>
           );

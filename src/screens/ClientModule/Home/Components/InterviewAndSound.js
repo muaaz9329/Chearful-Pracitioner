@@ -8,7 +8,7 @@ import SoundBitesData from '../../Data/SoundBitesData'
 
 const InterviewAndSound = ({navigation}) => {
   const HandleNavigtion = (url) => {
-    navigation.navigate('WebPreview',{url:url})
+    navigation.navigate('Client_WebPreview',{url:url})
   }
   
   return (

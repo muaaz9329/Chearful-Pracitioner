@@ -207,7 +207,7 @@ const Client = ({navigation}) => {
   return (
     <SafeAreaView edges={['top','left','right']} style={styles.Body}>
       <Pressable style={styles.Addbtn} onPress={()=>{
-        navigation.push("AddNoteClient")
+        navigation.push("Prac_AddNoteClient")
       }}>
         <IconPlus size={Wp(25)} color={"white"} />
       </Pressable>

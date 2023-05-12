@@ -316,6 +316,10 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
+  - react-native-skia (0.1.188):
+    - React
+    - React-callinvoker
+    - React-Core
   - react-native-slider (4.4.2):
     - React-Core
   - react-native-splash-screen (3.3.0):
@@ -492,6 +496,7 @@ DEPENDENCIES:
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-image-base64 (from `../node_modules/react-native-image-base64`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - "react-native-skia (from `../node_modules/@shopify/react-native-skia`)"
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -587,6 +592,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-base64"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-skia:
+    :path: "../node_modules/@shopify/react-native-skia"
   react-native-slider:
     :path: "../node_modules/@react-native-community/slider"
   react-native-splash-screen:
@@ -674,6 +681,7 @@ SPEC CHECKSUMS:
   react-native-date-picker: 89c419d88fa8e3c5f2d3cbae0bb7f7454ae8ea55
   react-native-image-base64: 2ff9ac788639c87a91361ab6652cc95e871b1e54
   react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4
+  react-native-skia: 8c68c437707fd47b25420ca4c8563fe3cfc52ada
   react-native-slider: 33b8d190b59d4f67a541061bb91775d53d617d9d
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1

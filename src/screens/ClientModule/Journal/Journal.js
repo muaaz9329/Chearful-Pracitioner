@@ -30,7 +30,7 @@ const Journal = ({ navigation }) => {
           return (
             <Pressable
               onPress={() =>
-                navigation.navigate("JournalPreview", { JournalData: item })
+                navigation.navigate("Client_JournalPreview", { JournalData: item })
               }
             >
               <JournalCard
@@ -47,7 +47,7 @@ const Journal = ({ navigation }) => {
       <View style={styles.AddCont}>
         <Pressable
           style={styles.AddBtn}
-          onPress={() => navigation.navigate("AddJournal")}
+          onPress={() => navigation.navigate("Client_AddJournal")}
         >
           <IconPlus size={Wp(30)} color={NoteAppcolor.White} />
         </Pressable>

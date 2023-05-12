@@ -77,7 +77,7 @@ const AddJournal = ({navigation}) => {
                 <TouchableOpacity
                   style={styles.btn}
                   onPress={() => {
-                    navigation.navigate("Journal");
+                    navigation.navigate("Client_Journal");
                   }}
                 >
                   <Text style={styles.btnText}>Save</Text>

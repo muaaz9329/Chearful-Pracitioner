@@ -13,11 +13,11 @@ const NotesCard = ({ Arr , navigation}) => {
         return (
           <Pressable onPress={()=>{
             if(index%2===0){
-              navigation.push("NotesEditor",{ mode:"view", content:"" ,ClientData:item })
+              navigation.push("Prac_NotesEditor",{ mode:"view", content:"" ,ClientData:item }) //! Need to change this later
             }
             else
             {
-              navigation.push("WrittenEditor",{ mode:"view", content:[] ,ClientData:item })
+              navigation.push("Prac_WrittenEditor",{ mode:"view", content:[] ,ClientData:item }) //! Need to change this later
             }
           }}>
           <ImageBackground style={styles.cardCont} key={index}>

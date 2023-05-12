@@ -34,7 +34,7 @@ const NotesType = ({visible,setVisible , navigation,data}) => {
             />
             <TouchableOpacity style={styles.btnStyles} onPress={()=>{
                 hideModal()
-                navigation.push("NotesEditor",{mode:"edit", ClientData:data})
+                navigation.push("Prac_NotesEditor",{mode:"edit", ClientData:data})
             }}>
               <Text style={styles.btnText}>Typing</Text>
             </TouchableOpacity>
@@ -48,7 +48,7 @@ const NotesType = ({visible,setVisible , navigation,data}) => {
             />
             <TouchableOpacity style={styles.btnStyles} onPress={()=>{
                  hideModal()
-                navigation.push("WrittenEditor", {mode:"edit" , ClientData:data})
+                navigation.push("Prac_WrittenEditor", {mode:"edit" , ClientData:data})
             }}>
               <Text style={styles.btnText}>Written</Text>
             </TouchableOpacity>

@@ -34,7 +34,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Home = ({ navigation }) => {
   const [model, setModel] = useState(false);
   return (
-    <SafeAreaView style={styles.Body} edges={['left','right','top']} >
+    <SafeAreaView style={styles.Body} edges={['top']} >
     <ScrollView>
       <LogoutModel
         navigation={navigation}
@@ -91,7 +91,7 @@ const Home = ({ navigation }) => {
             easing="ease-in-out"
             duration={1500}
           >
-            <Pressable onPress={() => navigation.push("Session")}>
+            <Pressable onPress={() => navigation.push("Prac_Session")}>
               <View style={[styles.RectangleCont, styles.SessionCont]}>
                 <Text style={styles.MenuText}>Sessions</Text>
                 <View style={styles.MenuImage}>
@@ -102,7 +102,7 @@ const Home = ({ navigation }) => {
                 </View>
               </View>
             </Pressable>
-            <Pressable onPress={() => navigation.push("NoteScreen")}>
+            <Pressable onPress={() => navigation.push("Prac_NoteScreen")}>
               <View style={[styles.SquareCont, styles.NotesCont]}>
                 <Text style={styles.MenuText}>Notes</Text>
                 <View style={styles.MenuImage}>
@@ -117,7 +117,7 @@ const Home = ({ navigation }) => {
             easing="ease-in-out"
             duration={1500}
           >
-            <Pressable onPress={() => navigation.push("Client")}>
+            <Pressable onPress={() => navigation.push("Prac_Client")}>
               <View style={[styles.SquareCont, styles.ClientCont]}>
                 <Text style={styles.MenuText}>Clients</Text>
                 <View style={styles.MenuImage}>
@@ -125,7 +125,7 @@ const Home = ({ navigation }) => {
                 </View>
               </View>
             </Pressable>
-            <Pressable onPress={() => navigation.push("AddNoteClient")}>
+            <Pressable onPress={() => navigation.push("Prac_AddNoteClient")}>
               <View style={[styles.RectangleCont, styles.AddNotes]}>
                 <Text style={styles.MenuText}>Add Notes</Text>
 
@@ -136,6 +136,7 @@ const Home = ({ navigation }) => {
             </Pressable>
           </Animatable.View>
         </View>
+        <Pressable onPress={()=> navigation.push('Prac_SessionHistory')}>
         <Animatable.View
           style={styles.infoCont}
           animation="slideInUp"
@@ -162,6 +163,7 @@ const Home = ({ navigation }) => {
             </View>
           </View>
         </Animatable.View>
+        </Pressable>
       </View>
     </ScrollView>
     </SafeAreaView>

@@ -34,7 +34,7 @@ const [visible, setVisible] = React.useState(false);
   }
 
   const RightIcon = (
-    <Pressable onPress={()=>HandleNavigation("Notification")}
+    <Pressable onPress={()=>HandleNavigation("Client_Notification")}
       style={{
         padding: Wp(10),
         backgroundColor: NoteAppcolor.BtnCont,
@@ -100,7 +100,7 @@ const [visible, setVisible] = React.useState(false);
             easing="ease-in-out"
             duration={1500}
           >
-            <Pressable onPress={()=>HandleNavigation("MoodDiary")}>
+            <Pressable onPress={()=>HandleNavigation("Client_MoodDiary")}>
               <View style={[styles.RectangleCont, styles.SessionCont]}>
                 <Text style={styles.MenuText}>Mood Diary</Text>
                 <View style={styles.MenuImage}>
@@ -111,7 +111,7 @@ const [visible, setVisible] = React.useState(false);
                 </View>
               </View>
             </Pressable>
-            <Pressable onPress={()=>HandleNavigation("SessionHistory")}>
+            <Pressable onPress={()=>HandleNavigation("Client_SessionHistory")}>
               <View style={[styles.SquareCont, styles.ClientCont]}>
                 <Text style={styles.MenuText}>Sessions</Text>
                 <View style={styles.MenuImage}>
@@ -126,7 +126,7 @@ const [visible, setVisible] = React.useState(false);
             easing="ease-in-out"
             duration={1500}
           >
-            <Pressable onPress={()=>HandleNavigation("Journal")}>
+            <Pressable onPress={()=>HandleNavigation("Client_Journal")}>
               <View style={[styles.SquareCont, styles.NotesCont]}>
                 <Text style={styles.MenuText}>Journal</Text>
                 <View style={styles.MenuImage}>
@@ -134,7 +134,7 @@ const [visible, setVisible] = React.useState(false);
                 </View>
               </View>
             </Pressable>
-            <Pressable onPress={()=>HandleNavigation("TaskList")}>
+            <Pressable onPress={()=>HandleNavigation("Client_TaskList")}>
               <View style={[styles.RectangleCont, styles.AddNotes]}>
                 <Text style={styles.MenuText}>Tasks</Text>
 

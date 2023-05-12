@@ -8,7 +8,7 @@ import {
 import { NoteAppcolor } from "../../../constants/NoteAppcolor";
 import { Mulish, Nunito } from "../../../../../helper/FontWeight";
 import { DateConstrctor } from "../../../../../helper/customFunction";
-import NotesType from "../../Models/NotesType";
+import NotesType from "@models/NotesType";
 
 const SessionCard = ({ Data,navigation,ClientData }) => {
   const [model,setmodel] = useState(false)

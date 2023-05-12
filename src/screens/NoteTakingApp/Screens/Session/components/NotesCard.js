@@ -20,9 +20,9 @@ const NotesCard = ({ Arr, navigation ,ClientData}) => {
           <Pressable
             onPress={() => {
               if (item.type === "written") {
-                navigation.push("WrittenEditor" ,{mode:"view", content:item.content , ClientData:ClientData});
+                navigation.push("Prac_WrittenEditor" ,{mode:"view", content:item.content , ClientData:ClientData});
               } else {
-                navigation.push("NotesEditor",{mode:"view", content:item.content ,ClientData:ClientData});
+                navigation.push("Prac_NotesEditor",{mode:"view", content:item.content ,ClientData:ClientData});
               }
             }}
           >

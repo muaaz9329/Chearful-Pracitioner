@@ -7,7 +7,7 @@ import BlogsData from '../../Data/BlogsData'
 
 const BlogsAndArticle = ({navigation}) => {
   const HandleNavigtion = (url) => {
-    navigation.navigate('WebPreview',{url:url})
+    navigation.navigate('Client_WebPreview',{url:url})
   }
   return (
     <View>
