@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated, Platform, Pressable, StyleSheet, View } from "react-native";
 import { Canvas, DEFAULT_BRUSH_COLOR } from "@benjeau/react-native-draw";
 import {
@@ -27,6 +27,12 @@ const WrittenEditor = ({ navigation, route }) => {
   const [opacity, setOpacity] = useState(1);
   const [tool, setTool] = useState(DrawingTool.Brush);
   const [visibleBrushProperties, setVisibleBrushProperties] = useState(false);
+
+
+  useEffect(  ()=>{
+      alert("This Module is depricated and will be removed in future updates , New Module is under development , You can use it by going to login Screen and selecting the new module")
+      navigation.goBack()
+  },[])
 
   const handleUndo = () => {
     canvasRef.current?.undo();
