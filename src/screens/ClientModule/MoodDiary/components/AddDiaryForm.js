@@ -32,7 +32,7 @@ const AddDiaryForm = () => {
         <View style={styles.formContentCont}  onTouchStart={()=>{
             ContentFocusRef.current.focus()
         }}  >
-            <TextInput style={styles.formContent} placeholder="Description" multiline ref={ContentFocusRef} />
+            <TextInput style={[styles.formContent]} placeholder="Description" multiline numberOfLines={50} ref={ContentFocusRef} />
 
         </View>
       </View>
@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
     formContent:{
         fontSize:Wp(16),
         fontFamily:Mulish(400),
-        color:NoteAppcolor.Primary
+        color:NoteAppcolor.Primary,
+        height:wp(66),
     },
     LengthCount:{
         position:"absolute",

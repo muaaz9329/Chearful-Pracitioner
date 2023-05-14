@@ -8,14 +8,14 @@ import {
   Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { NoteAppcolor } from "../../constants/NoteAppcolor";
-import Header from "../../ConstantComponents/Header";
-import { ChevronLeft } from "../../../../svgs/Index";
-import { FontSize, Hp, Wp } from "../../../../helper/CustomResponsive";
-import { Mulish, Nunito } from "../../../../helper/FontWeight";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import Header from "@CommonComponents/Header";
+import { ChevronLeft } from "@svg";
+import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
+import { Mulish, Nunito } from "@helper/FontWeight";
 import SessionCardDesign from "./components/SessionCardDesign";
 import NotesCard from "./components/NotesCard";
-import { DateConstrctor } from "../../../../helper/customFunction";
+import { DateConstrctor } from "@helper/customFunction";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const UserSelection = ({ SetState }) => {

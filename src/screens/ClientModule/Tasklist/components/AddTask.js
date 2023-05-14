@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View ,TouchableOpacity, Platform } from 'react-native'
+import { StyleSheet, Text, View ,TouchableOpacity, Platform, Keyboard } from 'react-native'
 import React, {forwardRef , useImperativeHandle} from 'react'
 import ActionSheet from 'react-native-actions-sheet'
 import { heightPercentageToDP as hp , widthPercentageToDP as wp } from 'react-native-responsive-screen'
@@ -8,6 +8,7 @@ import { Mulish } from '@app/helper/FontWeight'
 import { NoteAppcolor } from '@app/constants/NoteAppcolor'
 import AddDiaryForm from '../../MoodDiary/components/AddDiaryForm'
 import AddTaskForm from './AddTaskForm'
+import KeyboardDismiss from '@app/common/components/KeyboardDismiss'
 const AddTask = forwardRef( (props,ref) => {
     const actionSheetRef = useRef(null)
 useImperativeHandle(ref, () => ({
@@ -23,7 +24,7 @@ const CloseSheet = () => {
     <ActionSheet
     ref={actionSheetRef}
       containerStyle={{
-        height: Platform.OS =='ios'? hp(60):hp(70),
+        height:Wp(480),
         paddingVertical: Wp(20),
         borderTopRightRadius: Wp(20),
         borderTopLeftRadius: Wp(20),
@@ -31,6 +32,10 @@ const CloseSheet = () => {
       }}
       
     >
+      <KeyboardDismiss>
+      <View>
+
+     
       <View style={styles.Heder} >
         <Text style={styles.HeaderTitle}>Add Task</Text>
 
@@ -41,6 +46,9 @@ const CloseSheet = () => {
       <TouchableOpacity style={styles.AddBtn} onPress={CloseSheet} >
         <Text style={styles.AddBtnText} >Add Task</Text>
         </TouchableOpacity>
+        </View>
+        </KeyboardDismiss>
+       
 
         
     </ActionSheet>

@@ -8,16 +8,16 @@ import {
 
 } from "react-native";
 import React, { useRef, useState } from "react";
-import { NoteAppcolor } from "../../constants/NoteAppcolor";
-import { FontSize, Hp, Wp } from "../../../../helper/CustomResponsive";
-import Header from "../../ConstantComponents/Header";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
+import Header from "@CommonComponents/Header";
 import {
   ChevronLeft,
   FilterIcon,
   SearchIcon,
   Tick,
-} from "../../../../svgs/Index";
-import { Mulish, Nunito } from "../../../../helper/FontWeight";
+} from "@svg";
+import { Mulish, Nunito } from "@helper/FontWeight";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -25,7 +25,7 @@ import {
 import CardDesign from "./components/CardDesign";
 import AddNewNote from "../../Data/AddNewNote";
 import RBSheet from "react-native-raw-bottom-sheet";
-import AnimatedFlatList from "../../constants/AnimatedFlatList";
+import AnimatedFlatList from "@constants/AnimatedFlatList";
 import { SafeAreaView } from "react-native-safe-area-context";
 function SearchBox({ HandleFunction, OpenSheet }) {
   const refInput = useRef();

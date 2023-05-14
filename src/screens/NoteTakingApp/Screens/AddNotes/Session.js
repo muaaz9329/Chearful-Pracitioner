@@ -5,18 +5,18 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { NoteAppcolor } from "../../constants/NoteAppcolor";
-import { FontSize, Hp, Wp } from "../../../../helper/CustomResponsive";
-import { Mulish, Nunito } from "../../../../helper/FontWeight";
-import { ChevronLeft, CalenderIcon } from "../../../../svgs/Index";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
+import { Mulish, Nunito } from "@helper/FontWeight";
+import { ChevronLeft, CalenderIcon } from "@svg";
 
-import Header from "../../ConstantComponents/Header";
+import Header from "@CommonComponents/Header";
 
 import DatePicker from "react-native-date-picker";
-import { DateConstrctor } from "../../../../helper/customFunction";
+import { DateConstrctor } from "@helper/customFunction";
 
 import SessionCard from "./components/SessionCards";
-import AnimatedFlatList from "../../constants/AnimatedFlatList";
+import AnimatedFlatList from "@constants/AnimatedFlatList";
 import { SafeAreaView } from "react-native-safe-area-context";
 const Session = ({ navigation, route }) => {
 

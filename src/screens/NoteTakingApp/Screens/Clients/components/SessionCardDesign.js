@@ -1,13 +1,13 @@
 import { Image, StyleSheet, Text, View ,Pressable} from "react-native";
 import React, { useState } from "react";
-import { FontSize, Wp } from "../../../../../helper/CustomResponsive";
+import { FontSize, Wp } from "@helper/CustomResponsive";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { NoteAppcolor } from "../../../constants/NoteAppcolor";
-import { Mulish, Nunito } from "../../../../../helper/FontWeight";
-import { Plus, Eye } from "../../../../../svgs/Index";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { Mulish, Nunito } from "@helper/FontWeight";
+import { Plus, Eye } from "@svg";
 import NotesType from "@models/NotesType";
 const SessionCardDesign = ({navigation,data}) => {
   const [model,Setmodel] = useState(false)

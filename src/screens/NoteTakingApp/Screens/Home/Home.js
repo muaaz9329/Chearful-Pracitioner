@@ -35,7 +35,7 @@ const Home = ({ navigation }) => {
   const [model, setModel] = useState(false);
   return (
     <SafeAreaView style={styles.Body} edges={['top']} >
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <LogoutModel
         navigation={navigation}
         visible={model}

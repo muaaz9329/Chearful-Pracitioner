@@ -11,11 +11,11 @@ import {
   DrawingTool,
   BrushProperties,
 } from "@benjeau/react-native-draw-extras";
-import { NoteAppcolor } from "../../../constants/NoteAppcolor";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
 import Header from "./Header";
-import { Wp } from "../../../../../helper/CustomResponsive";
+import { Wp } from "@helper/CustomResponsive";
 import { IconPencil, IconTrash } from "tabler-icons-react-native";
-import DeleteModel from "../../Models/DeleteModel";
+import DeleteModel from "@models/DeleteModel";
 import { SafeAreaView } from "react-native-safe-area-context";
 const WrittenEditor = ({ navigation, route }) => {
   const { mode, content,ClientData } = route.params;

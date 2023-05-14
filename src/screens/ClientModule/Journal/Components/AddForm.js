@@ -4,7 +4,7 @@ import { FontSize, Wp } from "@app/helper/CustomResponsive";
 import { typeOfJournal } from "./JournalFunctions";
 import { Mulish, Nunito } from "@app/helper/FontWeight";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { widthPercentageToDP as wp , heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 const AddForm = ({ type }) => {
   const FocusRef = useRef(null);
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     marginVertical: Wp(20),
   },
   InputArea: {
-    height: wp(100),
+    height: hp(50),
     borderRadius: Wp(20),
     backgroundColor: NoteAppcolor.OffWhiteCont,
     width: wp(92),

@@ -19,8 +19,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { Hp, Wp } from "../../../../../helper/CustomResponsive";
-import { NoteAppcolor } from "../../../constants/NoteAppcolor";
+import { Hp, Wp } from "@helper/CustomResponsive";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { IconPencil, IconTrash } from "tabler-icons-react-native";
 import Header from "./Header";
 import {
@@ -30,6 +30,7 @@ import {
 import DeleteModel from '@models/DeleteModel';
 
 import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const Editor = ({ route, navigation }) => {
   const { mode, content ,ClientData } = route.params;
   const [Mode, setmode] = useState(mode);
@@ -66,7 +67,11 @@ const ConvertToBase64 = (image) => {
     .catch((err) => console.log(err));
 };
   return (
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    style={{flex:1}}>
     <SafeAreaView style={{ flex: 1 , backgroundColor:"white",paddingBottom: Platform.OS =='android'? null :  Wp(20)}} edges={['top','left','right']}>
+         
       <DeleteModel
         navigation={navigation}
         visible={model}
@@ -97,7 +102,7 @@ const ConvertToBase64 = (image) => {
             editor={richText}
             style={styles.toolbar}
             actions={[
-              actions.insertImage,
+           
               actions.setBold,
               actions.setItalic,
               actions.insertBulletsList,
@@ -109,6 +114,7 @@ const ConvertToBase64 = (image) => {
               actions.checkboxList,
               actions.undo,
               actions.redo,
+              Platform.OS == 'android' ? actions.insertImage : null,
             ]}
             iconMap={{
               [actions.heading1]: ({ tintColor }) => (
@@ -145,6 +151,8 @@ const ConvertToBase64 = (image) => {
         </View>
       )}
     </SafeAreaView>
+    </KeyboardAvoidingView>
+    
   );
 };
 

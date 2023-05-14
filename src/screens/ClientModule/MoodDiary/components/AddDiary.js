@@ -24,6 +24,7 @@ import { IconX } from "tabler-icons-react-native";
 import SpheresSelection from "./SpheresSelection";
 import { useNonInitialEffect } from "@hooks/useNonIntialEffect";
 import AddDiaryForm from "./AddDiaryForm";
+import KeyboardDismiss from "@app/common/components/KeyboardDismiss";
 
 const AddDiary = forwardRef((props, ref) => {
   const { width } = useWindowDimensions();
@@ -74,7 +75,7 @@ useEffect(()=>{
     
     CorasalRef.current?.next();
     setHeight(
-      190
+      185
     
       )
    }
@@ -171,6 +172,7 @@ useEffect(()=>{
           } else {
             return (
               <View style={[{ width }, { paddingHorizontal: Wp(16) }]}>
+                <KeyboardDismiss>
                 <View>
                   <Text style={styles.TitleText}>Add a note</Text>
                   <View style={styles.FormCont}>
@@ -187,6 +189,7 @@ useEffect(()=>{
                     </View>
                   </View>
                 </View>
+                </KeyboardDismiss>
               </View>
             );
           }

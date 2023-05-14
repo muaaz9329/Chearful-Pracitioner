@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View, Image, ScrollView, Platform } from "react-native";
 import React from "react";
-import Header from "../../ConstantComponents/Header";
-import { ChevronLeft, Dot } from "../../../../svgs/Index";
-import { FontSize, Wp } from "../../../../helper/CustomResponsive";
-import { NoteAppcolor } from "../../constants/NoteAppcolor";
-import { Mulish, Nunito } from "../../../../helper/FontWeight";
+import Header from "@CommonComponents/Header";
+import { ChevronLeft, Dot } from "@svg";
+import { FontSize, Wp } from "@helper/CustomResponsive";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { Mulish, Nunito } from "@helper/FontWeight";
 import NotesCard from "./components/NotesCard";
 import notesCardData from "../../Data/NotesCardData";
-import { DateConstrctor } from "../../../../helper/customFunction";
+import { DateConstrctor } from "@helper/customFunction";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const NotesPreview = ({ navigation,route }) => {

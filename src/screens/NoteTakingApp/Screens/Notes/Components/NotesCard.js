@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, ImageBackground, Image ,Pressable, Platform} from "react-native";
 import React from "react";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { FontSize, Wp } from "../../../../../helper/CustomResponsive";
-import { NoteAppcolor } from "../../../constants/NoteAppcolor";
-import { Mulish, Nunito } from "../../../../../helper/FontWeight";
-import { DateConstrctor } from "../../../../../helper/customFunction";
+import { FontSize, Wp } from "@helper/CustomResponsive";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { Mulish, Nunito } from "@helper/FontWeight";
+import { DateConstrctor } from "@helper/customFunction";
 
 const NotesCard = ({ Arr , navigation}) => {
   return (

@@ -1,13 +1,13 @@
 import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { FontSize, Wp } from "../../../../../helper/CustomResponsive";
+import { FontSize, Wp } from "@helper/CustomResponsive";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { NoteAppcolor } from "../../../constants/NoteAppcolor";
-import { Mulish, Nunito } from "../../../../../helper/FontWeight";
-import { DateConstrctor } from "../../../../../helper/customFunction";
+import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { Mulish, Nunito } from "@helper/FontWeight";
+import { DateConstrctor } from "@helper/customFunction";
 const CardDesign = ({ Data }) => {
   return (
     <View style={styles.cardCont}>
