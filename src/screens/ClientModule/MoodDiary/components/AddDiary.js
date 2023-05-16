@@ -40,6 +40,8 @@ const AddDiary = forwardRef((props, ref) => {
     btn:false
   }
   const [show , setShow] = useState(intialShowStage)
+
+  //* this is exporting the function to the parent component , can be accessd by ref
   useImperativeHandle(ref, () => ({
     HandleOpen() {
       actionSheetRef.current?.show();
