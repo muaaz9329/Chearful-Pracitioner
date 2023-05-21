@@ -320,7 +320,7 @@ PODS:
     - React
     - React-callinvoker
     - React-Core
-  - react-native-slider (4.4.2):
+  - react-native-slider (4.4.0):
     - React-Core
   - react-native-splash-screen (3.3.0):
     - React-Core
@@ -682,7 +682,7 @@ SPEC CHECKSUMS:
   react-native-image-base64: 2ff9ac788639c87a91361ab6652cc95e871b1e54
   react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4
   react-native-skia: 8c68c437707fd47b25420ca4c8563fe3cfc52ada
-  react-native-slider: 33b8d190b59d4f67a541061bb91775d53d617d9d
+  react-native-slider: d2938a12c4e439a227c70eec65d119136eb4aeb5
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595

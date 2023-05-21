@@ -75,3 +75,5 @@ export { default as JournalImg12 } from "./Images/JournalImg12";
 export { default as WorseFaceEmoji} from "./Images/WorseFaceEmoji"
 export { default as OkFace} from "./Images/OKface"
 export {default as HappyFace} from "./Images/Happyface"
+
+

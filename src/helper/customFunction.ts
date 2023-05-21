@@ -1,11 +1,21 @@
 /**
+ * Custom Function Written by Muaaz Bin Sarfraz
+ * -> {1.0.0} -
+ */
+
+
+
+
+
+/**
  * This function generates the intial value for the Controling the toggle
  * function(selectedItem state)
  * as well as assigning the data to userSelec state
  * @param data
  *
  *  */
-export const DataRendering = (data:any):any => {  //! <--- Need TO change this later
+export const DataRendering = (data: any): any => {
+  //! <--- Need TO change this later
   let DataRender = [];
 
   for (var i = 0; i < data.length; i++) {
@@ -23,19 +33,14 @@ export const DataRendering = (data:any):any => {  //! <--- Need TO change this l
  * @param data
  * @param template
  *  */
-export const DesignRendering = (data : any, template: any) : any[] => { //! <--- Need to change this later
+export const DesignRendering = (data: any, template: any): any[] => {
+  //! <--- Need to change this later
   let designTemp = [];
   for (var i = 0; i < data.length; i++) {
     designTemp.push(template);
   }
   return designTemp;
 };
-
-
-
-
-
-
 
 /**
  * This function generates a an object that consist of array of elements that are shown and no of elements that are hidden
@@ -44,7 +49,7 @@ export const DesignRendering = (data : any, template: any) : any[] => { //! <---
  * @param array that is is total array that is going to be broken
  * @param n is the no of element that to be broke Down
  *  */
-export const StringWithDots = (arr : string[], n:number) => {
+export const StringWithDots = (arr: string[], n: number) => {
   if (arr.toString().length > n) {
     let ShownArr = arr.filter((element, index) => index < n);
     let RemainElements = arr.filter((element, index) => index >= n);
@@ -60,8 +65,7 @@ export const StringWithDots = (arr : string[], n:number) => {
       noOfRemainElements: 0,
     };
   }
-}; 
-
+};
 
 /**
  * This function returns array with the flag info
@@ -84,21 +88,16 @@ export const StringWithDots = (arr : string[], n:number) => {
 // };
 //! Not in use Anymore
 
-
-
-
-
-
 /**
  * this function slips the name and return it in a arrat consisiting of names in part
  * @param str is the name or String that will be split into parts
  */
-export const splitName = (str:string):string[] => {
+export const splitName = (str: string): string[] => {
   const arr = str.split(/\s+/);
   return arr;
 };
 
-export const GetMonth = (month:string) : number | undefined => {
+export const GetMonth = (month: string): number | undefined => {
   switch (month) {
     case "jan":
       return 1;
@@ -136,51 +135,46 @@ export const GetMonth = (month:string) : number | undefined => {
     case "dec":
       return 12;
     default:
-      null
+      null;
   }
 };
 
-
-
-
-
-
-
 //This is a function to create an object that contains date and day of the week based on the input date.
 
-export const DateConstrctor = (date:Date):any => { //! <--- Need to Change this later
-  
+export const DateConstrctor = (date: Date): any => {
+  //! <--- Need to Change this later
+
   //Create a new object with empty properties.
-  let ReturnedObj ={
-    Date:"",
-    Day:"",
-    Time:""
-  }
-  
+  let ReturnedObj = {
+    Date: "",
+    Day: "",
+    Time: "",
+  };
+
   //creating the date object which will help us to find the day of the week
   const WeekDay = new Date(date);
   //using switch statement to update the value of 'Day'
   switch (WeekDay.getDay()) {
     case 1:
-      ReturnedObj.Day ="Monday"
+      ReturnedObj.Day = "Monday";
       break;
     case 2:
-      ReturnedObj.Day ="Tuesday"
+      ReturnedObj.Day = "Tuesday";
       break;
     case 3:
-      ReturnedObj.Day ="Wednesday"
+      ReturnedObj.Day = "Wednesday";
       break;
     case 4:
-      ReturnedObj.Day ="Thursday"
+      ReturnedObj.Day = "Thursday";
       break;
     case 5:
-      ReturnedObj.Day ="Friday"
+      ReturnedObj.Day = "Friday";
       break;
     case 6:
-      ReturnedObj.Day ="Saturday"
+      ReturnedObj.Day = "Saturday";
       break;
     case 0:
-      ReturnedObj.Day ="Sunday"
+      ReturnedObj.Day = "Sunday";
       break;
   }
 
@@ -189,26 +183,53 @@ export const DateConstrctor = (date:Date):any => { //! <--- Need to Change this 
   const day = String(date).slice(8, 10);
   const year = String(date).slice(11, 15);
 
-  
-    var hours = date.getHours();
-    var minutes : number | string = date.getMinutes();
-    var ampm = hours >= 12 ? 'PM' : 'Am';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
-    ReturnedObj.Time = strTime;
-  
+  var hours = date.getHours();
+  var minutes: number | string = date.getMinutes();
+  var ampm = hours >= 12 ? "PM" : "Am";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  var strTime = hours + ":" + minutes + " " + ampm;
+  ReturnedObj.Time = strTime;
+
   ReturnedObj.Date = `${day} ${month} , ${year}`;
-  return ReturnedObj
-  
+  return ReturnedObj;
 };
 
 /***
  * Capitals the first Character of string
  * @param {String}
  */
-export function capitalizeFirstLetter(string:string):string {
+export function capitalizeFirstLetter(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+/**
+ * 
+ * @param {hex} : string  , Which  is HEX string value 
+ * @param {opacity}:number , Which is Number Value which is used for telling opacity , should Range from 0 - 1 
+ * @returns : string value of HEX with Opacity that was given As Argument 
+ * @description function that returns the Hex value of color with Opacity
+ * {1.0.0} written by Muaaz bin Sarfraz
+ * 
+ * Used in Drawic Library
+ */
+
+export const ColorWithopacity = (hex : string, opacity : number):string => {
+  if (
+    typeof hex !== "string" ||
+    !/^#([A-Fa-f0-9]{3}){1,2}($|[A-Fa-f0-9]{2})$/.test(hex)
+  )
+    throw new Error("Invalid hexadecimal color value");
+  if (typeof opacity !== "number" || opacity > 1 || opacity < 0)
+    throw new Error("Opacity should be float between 0 - 1");
+  let color = hex.substring(1);
+  if (color.length === 5 || color.length === 8)
+    color = color.substring(0, color.length - 2);
+  if (color.length === 3)
+    color = color[0] + color[0] + color[1] + color[1] + color[2] + color[2];
+  color += Math.round(opacity * 255)
+    .toString(16)
+    .padStart(2, "0");
+  return `#${color}`.toUpperCase();
+};
