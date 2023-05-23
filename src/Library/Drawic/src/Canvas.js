@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet,View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import React, {
   useRef,
   forwardRef,
@@ -9,11 +9,11 @@ import { SketchCanvas } from "rn-perfect-sketch-canvas";
 import { ColorWithopacity } from "@app/helper/customFunction";
 
 /**
- * Canvas Component 
+ * Canvas Component
  * Written by : Muaaz Bin Sarfaraz
  * @param {ref} ref
  * -> Version {1.0.0} , 16th may , 2023
- * can access the following functions using ref 
+ * can access the following functions using ref
  * 1) HandelStrokeWidth(Width) : number
  * 2) HandleColorChange(color) : HexCode String
  * 3) HandleOpacity(opacity) : number
@@ -25,16 +25,12 @@ import { ColorWithopacity } from "@app/helper/customFunction";
  * 9) Save_Canvas_Svg() : void
  * 10) Get_Canvas_Points() : Array of points
  * 11) Set_Canvas_Points(points) : void
- * 
- * 
- * 
+ *
+ *
+ *
  */
 
-
-
 const Canvas = forwardRef((props, ref) => {
-
-
   const DEVICE_WIDTH = Dimensions.get("window").width;
   const DEVICE_HEIGHT = Dimensions.get("window").height;
   const canvasRef = useRef();
@@ -50,7 +46,7 @@ const Canvas = forwardRef((props, ref) => {
      *
      */
     HandelStrokeWidth(Width) {
-      setStrokeWidth(Width*0.3);
+      setStrokeWidth(Width * 0.3);
     },
 
     /**
@@ -129,12 +125,21 @@ const Canvas = forwardRef((props, ref) => {
      *@description this function is used to save the canvas as SVG
      */
     Save_Canvas_Svg() {
-      return canvasRef.current.toSvg(DEVICE_WIDTH , DEVICE_HEIGHT);
+      return canvasRef.current.toSvg(DEVICE_WIDTH, DEVICE_HEIGHT);
     },
+    Save_Canvas_toImage(){
+      return canvasRef.current.toImage()
+    }
   }));
 
   return (
     <View style={styles.container}>
+      <View
+        style={[
+          styles.DisplayOverLay,
+          { height: DEVICE_HEIGHT, width: DEVICE_WIDTH , display : props.disable ? 'flex' : 'none'  },
+        ]}
+      ></View>
       <SketchCanvas
         ref={canvasRef}
         strokeColor={color}
@@ -151,5 +156,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  DisplayOverLay: {
+    
+    position: "absolute",
+
+    zIndex: 100,
+    
   },
 });

@@ -99,10 +99,11 @@ const CanvasControl = ({ DismissRef, CanvasRef }) => {
       <ActionSheet
         containerStyle={{
           height: Wp(500),
-          borderRadius: Wp(50),
+          
           
         }}
         ref={SheetRef2}
+        
       >
         <AndroidColorControl/>
       </ActionSheet>

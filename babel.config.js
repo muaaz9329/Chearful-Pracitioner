@@ -17,7 +17,8 @@ module.exports = {
           "@CommonComponents":"./src/common/components",
           "@svg":"./src/svgs/Index.js",
           "@hooks":"./src/hooks",
-          "@models":"./src/common/Models"
+          "@models":"./src/common/Models",
+          "@Library": ["./src/Library"]
         },
         
       },

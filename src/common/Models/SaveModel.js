@@ -35,7 +35,7 @@ const SaveModel = ({visible,setVisible,navigation}) => {
             <View style={styles.btnCont}>
               <TouchableOpacity style={[styles.btnStyles, styles.DeleteBtn]} onPress={()=>{
                 hideModal()
-                navigation.goBack("Session")
+                navigation.goBack("Prac_Session")
               }}>
                 <Text style={styles.btnText}>Save</Text>
               </TouchableOpacity>

@@ -16,7 +16,7 @@ export { default as Prac_Notes } from "./Notes/Notes";
 
 export { default as Prac_Editor } from "./Editor/Components/Editor";
 
-export { default as Prac_WrittenEditor } from "./Editor/Components/WrittenEditor";
+export { default as Prac_WrittenEditor } from "./Editor/Components/DrawingEditor";
 
 export { default as Prac_NotesPreview } from "./Session/NotesPreview";
 

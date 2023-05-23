@@ -1,46 +1,59 @@
-import { Platform, StyleSheet} from "react-native";
-import React from "react";
+import { Platform, StyleSheet , View } from "react-native";
+import React, { forwardRef, useEffect, useImperativeHandle } from "react";
 import CanvasControl from "./src/CanvasControl";
 import OutsideView from "react-native-detect-press-outside";
 import { UpdateHideModel } from "./utils/features/Hide-Model-control-state/HideModel";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 import Canvas from "./src/Canvas";
 
-
-const Main = () => {
+// const Main = forwardRef(({view}, ref) => {
+  const Main =   ({view , CanvasRef}) => {
   const Childref = React.useRef();
-  const CanvasRef = React.useRef();
+  // const CanvasRef = React.useRef();
+    
   const Dispatch = useDispatch();
-  if(Platform.OS === "ios"){
+  //  useImperativeHandle(ref , ()=>({
+  //   GetPoints(){
+  //     CanvasRef.current.Get_Canvas_Points();
+  //   },
+  //   SetPoints(Points){ // Array of numbers
+  //     CanvasRef.current.Set_Canvas_Points(Points)
+  //   },
+    
+  //  }))
+
+  
+
+ 
+
+  if (Platform.OS === "ios") {
     return (
       <OutsideView
         style={{ flex: 1 }}
         childRef={Childref}
         onPressOutside={() => Dispatch(UpdateHideModel(true))}
-  
       >
-        <SafeAreaView style={styles.container} edges={["top"]}>
-          <Canvas ref={CanvasRef} />
+        <Canvas
+          ref={CanvasRef}
+          disable={(view == "edit" ? false : true)}
+        />
+        {view == "edit" && (
           <CanvasControl DismissRef={Childref} CanvasRef={CanvasRef} />
-          
-        </SafeAreaView>
+        )}
       </OutsideView>
     );
-  }
-  else if(Platform.OS === "android"){
+  } else if (Platform.OS === "android") {
     return (
-     
-        <SafeAreaView style={styles.container} edges={["top"]}>
-          <Canvas ref={CanvasRef} />
+      <View style={styles.container}>
+        <Canvas ref={CanvasRef} />
+        {view == "edit" && (
           <CanvasControl DismissRef={Childref} CanvasRef={CanvasRef} />
-         
-          
-        </SafeAreaView>
-      
+        )}
+      </View>
     );
   }
 };
+// });
 
 export default Main;
 
