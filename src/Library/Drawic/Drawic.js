@@ -1,10 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useRef } from "react";
-import { Provider, useDispatch } from "react-redux";
-import { store } from "./utils/store/store";
+import React from "react";
 import Main from "./Main";
-
-
 
 /**
  *
@@ -15,21 +11,13 @@ import Main from "./Main";
  *
  */
 
-const Drawic = ({view ,CanvasRef}) => {
-
-
-  return (
-    <Provider store={store}>
-      <Main view={view} CanvasRef={CanvasRef} />
-    </Provider>
+const Drawic = ({ view, CanvasRef }) => {
+  return( 
+  <Main view={view} CanvasRef={CanvasRef} />
   );
 };
 
 export default Drawic;
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -37,5 +25,3 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 });
-
-

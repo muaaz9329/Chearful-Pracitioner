@@ -5,7 +5,7 @@ import {
   View,
   Linking,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInput } from "react-native-paper";
 import * as Animatable from "react-native-animatable";
@@ -18,8 +18,14 @@ import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import { Nunito } from "@helper/FontWeight";
 import { ChearfulLogo } from "@svg";
 import LoginModel from "@models/LoginModel";
+import { useDispatch } from "react-redux";
+import { login } from "@app/features/authReducer/authReducer";
+import LoginFunction from "./Functions/LoginFunction";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
+
+  const Dispatch = useDispatch()
   const [pass, SetPass] = useState({
     Pass: true,
     icon: "eye",
@@ -38,6 +44,20 @@ const [model, setModel] = useState(false);
       });
     }
   };
+
+  const [User, setUser] = useState({email:'', password:''});
+
+  const HandleLogin = async ()=>{
+    const response =  await LoginFunction(User,Dispatch)
+    if(response){
+      navigation.push('PRACTITIONER_Home')
+    }
+    else{
+      alert('Invalid Email or Password')
+    }
+  }
+
+
 
   return (
     <View style={styles.Container}>
@@ -92,6 +112,7 @@ const [model, setModel] = useState(false);
                 }}
                 underlineStyle={{ borderRadius: Wp(18) }}
                 outlineStyle={{ borderRadius: Wp(18) }}
+                onChangeText={(text) => setUser({...User, email:text})}
               />
             </View>
             <View
@@ -119,10 +140,11 @@ const [model, setModel] = useState(false);
                 outlineStyle={{ borderRadius: Wp(18) }}
                 secureTextEntry={pass.Pass}
                 right={<TextInput.Icon icon={pass.icon} onPress={showPass} />}
+                onChangeText={(text) => setUser({...User, password:text})}
               />
             </View>
 
-            <TouchableOpacity onPress={() => setModel(true)}>
+            <TouchableOpacity onPress={HandleLogin}>
               <View style={styles.btn}>
                 <Text style={styles.btnText}>Login</Text>
               </View>

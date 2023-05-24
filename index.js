@@ -22,12 +22,13 @@ const theme = {
 };
 export default function Main() {
   return (
-    
+
     <PaperProvider theme={theme}>
     <GestureHandlerRootView style={{ flex: 1 }}>
       <App />
       </GestureHandlerRootView>
     </PaperProvider>
+  
    
   );
 }
