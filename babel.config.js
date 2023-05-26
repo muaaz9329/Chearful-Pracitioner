@@ -18,7 +18,8 @@ module.exports = {
           "@svg":"./src/svgs/Index.js",
           "@hooks":"./src/hooks",
           "@models":"./src/common/Models",
-          "@Library": ["./src/Library"]
+          "@Library": ["./src/Library"],
+          "@env": ["./dotEnv.js"]
         },
         
       },

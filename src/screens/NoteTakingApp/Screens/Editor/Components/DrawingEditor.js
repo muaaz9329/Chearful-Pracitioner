@@ -16,6 +16,13 @@ const DrawingEditor = ({navigation , route}) => {
   const [model, setModel] = useState(false);
   const DrawicRef = useRef()
   const CanvasFunc = new RefFunctions(DrawicRef); // Consists of all the Required Function to work with the Drawic Component 
+
+  useEffect(() => {
+    CanvasFunc.Reset_Canvas();
+    if(Mode === "view" && content){
+      CanvasFunc.SetPoint(content)
+    }
+  },[])
   return (
     <SafeAreaView edges={['top']} style={styles.Continer} >
       <Header data={PractitionerNotes[0]} mode={Mode} navigation={navigation} />

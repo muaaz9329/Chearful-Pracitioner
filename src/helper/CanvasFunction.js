@@ -17,6 +17,9 @@ export class RefFunctions{
     GET_IMG_SVG(){
         return this.CanvesRef.current.Save_Canvas_Svg()
     }
+    Reset_Canvas(){
+        return this.CanvesRef.current.Reset_Whole_Canvas();
+    }
 
 }
 

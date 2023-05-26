@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from '@env';
 // Async thunk to perform the login API call
 export const login = createAsyncThunk('auth/login', async (credentials) => {
-  const response = await axios.post('https://dev.chearful.com/api/v2/user/login', credentials ,);
+  const response = await axios.post(`${BASE_URL}/user/login`, credentials ,);
   console.log(response)
    return response.data.data
 });
