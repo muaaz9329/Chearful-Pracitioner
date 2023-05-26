@@ -12,6 +12,8 @@ import App from "./src/App";
 import { name as appName } from "./app.json";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { store } from "@app/store/store";
+import { Provider } from "react-redux";
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -22,12 +24,13 @@ const theme = {
 };
 export default function Main() {
   return (
-
+    <Provider store={store}>
     <PaperProvider theme={theme}>
     <GestureHandlerRootView style={{ flex: 1 }}>
       <App />
       </GestureHandlerRootView>
     </PaperProvider>
+    </Provider>
   
    
   );

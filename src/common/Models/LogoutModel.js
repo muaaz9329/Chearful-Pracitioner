@@ -5,6 +5,9 @@ import Lottie from "lottie-react-native";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { logout } from "@app/features/authReducer/authReducer";
 
 /**
  * 
@@ -18,6 +21,13 @@ const LogoutModel = ({navigation,visible,setVisible}) => {
     
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
+    const Dispatch = useDispatch();
+
+    const RemoveToken = async () => {
+      await AsyncStorage.removeItem("USER_accessToken");
+      Dispatch(logout())
+      console.log("Token Removed");
+    }
   
     return (
       <Portal>
@@ -42,6 +52,7 @@ const LogoutModel = ({navigation,visible,setVisible}) => {
             <View style={styles.btnCont}>
               <TouchableOpacity style={[styles.btnStyles, styles.DeleteBtn]} onPress={()=>{
                 hideModal()
+                RemoveToken()
                 navigation.navigate("Auth")
               }}>
                 <Text style={styles.btnText}>Yes</Text>

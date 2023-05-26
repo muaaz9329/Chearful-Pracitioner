@@ -10,29 +10,48 @@ import CanvasControl from "./Library/Drawic/src/CanvasControl";
 import Canvas from "./Library/Drawic/src/Canvas";
 import Slider from "@react-native-community/slider";
 import DrawingEditor from "./screens/NoteTakingApp/Screens/Editor/Components/DrawingEditor";
-import { Provider } from "react-redux";
-import {store} from "./store/store";
+import {useSelector } from "react-redux";
+import { store } from "./store/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createStackNavigator();
 const App = () => {
+  const [IsLogedIn, SetLogin] = React.useState(null);
+  const { accessToken } = useSelector((state) => state.auth);
   useEffect(() => {
+
     SplashScreen.hide();
   }, []);
+
+  useEffect(()=>{
+    checkLogin();
+  },[accessToken])
+
+
+  const checkLogin = async () => {
+    const GetToken = await AsyncStorage.getItem("USER_accessToken");
+    console.log(GetToken);
+    if (GetToken != null) {
+      SetLogin(true);
+    } else {
+      SetLogin(false);
+    }
+  };
   return (
     <>
-    <Provider store={store}>
-      <StatusBar barStyle={"dark-content"} />
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Auth" component={AuthStack} />
-          <Stack.Screen name="CLIENT_Home" component={ClientStack} />
-          <Stack.Screen name="PRACTITIONER_Home" component={PracStack} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+      
+        <StatusBar barStyle={"dark-content"} />
+        <NavigationContainer>
+          {IsLogedIn !== null && (
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {IsLogedIn ==false ? <Stack.Screen name="Auth" component={AuthStack} /> :
+              <Stack.Screen name="PRACTITIONER_Home" component={PracStack} />}
+            </Stack.Navigator>
+          )}
+        </NavigationContainer>
+      
     </>
     // <Drawic/>
     // <DrawingEditor/>
-   
   );
 };
 

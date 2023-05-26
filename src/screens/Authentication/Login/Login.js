@@ -17,20 +17,18 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import { Nunito } from "@helper/FontWeight";
 import { ChearfulLogo } from "@svg";
-import LoginModel from "@models/LoginModel";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "@app/features/authReducer/authReducer";
-import LoginFunction from "./Functions/LoginFunction";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
+  const { Success } = useSelector((state) => state.auth); // consist of State that tells Weather the user is logged in or not , True means logged in , False means not logged in
 
-  const Dispatch = useDispatch()
+  const Dispatch = useDispatch();
   const [pass, SetPass] = useState({
     Pass: true,
     icon: "eye",
   });
-const [model, setModel] = useState(false);
+
   const showPass = () => {
     if (pass.Pass) {
       SetPass({
@@ -45,23 +43,25 @@ const [model, setModel] = useState(false);
     }
   };
 
-  const [User, setUser] = useState({email:'', password:''});
+  const [User, setUser] = useState({ email: "", password: "" });
 
-  const HandleLogin = async ()=>{
-    const response =  await LoginFunction(User,Dispatch)
-    if(response){
-      navigation.push('PRACTITIONER_Home')
+  const HandleLogin = async () => {
+    Dispatch(login(User));
+    // email and Password is Dispatched to Thunk Function that makes a request to the server and returns a response
+    // you can save the response in a variable other wise it Updates the State of the Reducer name AuthReducer
+    // Authreducer will Save the Data in Async Storage and will update the State of Success to True
+    // ExtraReducers in the AuthReducer can also be used as it consist of the State of the Request
+    // test email:"hammad.khan@beaconhousetechnology.com" , password:"12345678@"
+  };
+
+  useEffect(() => {
+    if (Success) {
+      navigation.navigate("PRACTITIONER_Home");
     }
-    else{
-      alert('Invalid Email or Password')
-    }
-  }
-
-
+  }, [Success]); // if Success is True then it will navigate to the Practitioner Home Screen
 
   return (
     <View style={styles.Container}>
-      <LoginModel navigation={navigation} setVisible={setModel} visible={model}/>
       <KeyboardAwareScrollView enableOnAndroid={true}>
         <View style={styles.FirstCont}>
           <View
@@ -112,7 +112,7 @@ const [model, setModel] = useState(false);
                 }}
                 underlineStyle={{ borderRadius: Wp(18) }}
                 outlineStyle={{ borderRadius: Wp(18) }}
-                onChangeText={(text) => setUser({...User, email:text})}
+                onChangeText={(text) => setUser({ ...User, email: text })}
               />
             </View>
             <View
@@ -140,7 +140,7 @@ const [model, setModel] = useState(false);
                 outlineStyle={{ borderRadius: Wp(18) }}
                 secureTextEntry={pass.Pass}
                 right={<TextInput.Icon icon={pass.icon} onPress={showPass} />}
-                onChangeText={(text) => setUser({...User, password:text})}
+                onChangeText={(text) => setUser({ ...User, password: text })}
               />
             </View>
 
