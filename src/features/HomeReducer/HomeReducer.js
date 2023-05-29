@@ -5,7 +5,8 @@ import axios from 'axios';
 export const GetUserInfo = createAsyncThunk('auth/login', async (token) => {
     const response = await axios.get('https://dev.chearful.com/api/v2/get-user', {
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            "Accept": "application/json",
         }
     });
     console.log(response.data.data)

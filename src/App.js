@@ -17,7 +17,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    checkLogin();
+    checkLogin()
   }, [accessToken]);
 
   const checkLogin = async () => {
@@ -43,7 +43,6 @@ const App = () => {
         )}
       </NavigationContainer>
     </>
-
   );
 };
 

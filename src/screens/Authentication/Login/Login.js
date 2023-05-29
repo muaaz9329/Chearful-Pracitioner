@@ -19,10 +19,11 @@ import { Nunito } from "@helper/FontWeight";
 import { ChearfulLogo } from "@svg";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@app/features/authReducer/authReducer";
+import LoginBtn from "./components/LoginBtn";
 
 const Login = ({ navigation }) => {
-  const { Success } = useSelector((state) => state.auth); // consist of State that tells Weather the user is logged in or not , True means logged in , False means not logged in
-
+  const { Success , error } = useSelector((state) => state.auth); // consist of State that tells Weather the user is logged in or not , True means logged in , False means not logged in
+  const [InputBoxBorders, setInputBoxBorders] = useState('#EFF3F2')
   const Dispatch = useDispatch();
   const [pass, SetPass] = useState({
     Pass: true,
@@ -60,6 +61,19 @@ const Login = ({ navigation }) => {
     }
   }, [Success]); // if Success is True then it will navigate to the Practitioner Home Screen
 
+
+
+  useEffect(()=>{
+    if(error.status){
+      setInputBoxBorders(NoteAppcolor.Error)
+      console.log(error)
+
+    }
+    else{
+      setInputBoxBorders('#EFF3F2')
+    }
+  },[error]) // use to control the style of input box border when error occurs
+
   return (
     <View style={styles.Container}>
       <KeyboardAwareScrollView enableOnAndroid={true}>
@@ -87,6 +101,9 @@ const Login = ({ navigation }) => {
               Mental Health, Built Around You
             </Text>
           </View>
+          <View style={styles.Errorbox}>
+            { error.status && <Text style={styles.Errortext}>Please Enter Correct Email or Password</Text>}
+          </View> 
           <View style={{ alignItems: "center" }}>
             <View
               style={[
@@ -97,6 +114,8 @@ const Login = ({ navigation }) => {
                   width: wp(85),
                   marginTop: Wp(20),
                   marginBottom: Wp(5),
+                  borderColor: InputBoxBorders,
+                  borderWidth: 2,
                 },
               ]}
             >
@@ -109,9 +128,10 @@ const Login = ({ navigation }) => {
                   backgroundColor: "#EFF3F2",
                   height: Hp(40),
                   fontSize: Wp(14),
+                  
                 }}
                 underlineStyle={{ borderRadius: Wp(18) }}
-                outlineStyle={{ borderRadius: Wp(18) }}
+                outlineStyle={{ borderRadius: Wp(18)}}
                 onChangeText={(text) => setUser({ ...User, email: text })}
               />
             </View>
@@ -123,6 +143,9 @@ const Login = ({ navigation }) => {
                   overflow: "hidden",
                   width: wp(85),
                   marginVertical: Wp(10),
+                  borderColor: InputBoxBorders,
+                  borderWidth: 2,
+                 
                 },
               ]}
             >
@@ -135,20 +158,16 @@ const Login = ({ navigation }) => {
                   backgroundColor: "#EFF3F2",
                   height: Hp(40),
                   fontSize: Wp(14),
+                  
                 }}
                 underlineStyle={{ borderRadius: Wp(18) }}
-                outlineStyle={{ borderRadius: Wp(18) }}
+                outlineStyle={{ borderRadius: Wp(18)  }}
                 secureTextEntry={pass.Pass}
                 right={<TextInput.Icon icon={pass.icon} onPress={showPass} />}
                 onChangeText={(text) => setUser({ ...User, password: text })}
               />
             </View>
-
-            <TouchableOpacity onPress={HandleLogin}>
-              <View style={styles.btn}>
-                <Text style={styles.btnText}>Login</Text>
-              </View>
-            </TouchableOpacity>
+            <LoginBtn HandleLogin={HandleLogin} />
 
             <Text
               style={styles.ForgetPassCont}
@@ -200,20 +219,7 @@ const styles = StyleSheet.create({
     color: NoteAppcolor.Primary,
     marginTop: Wp(15),
   },
-  btn: {
-    backgroundColor: NoteAppcolor.btnColor,
-    width: wp(85),
-    paddingVertical: Wp(15),
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: Wp(12),
-    marginTop: Wp(20),
-  },
-  btnText: {
-    color: "#fff",
-    fontFamily: Nunito(700),
-    fontSize: FontSize(16),
-  },
+
   MainTitle: {
     fontFamily: Nunito(800),
     fontSize: FontSize(22),
@@ -231,6 +237,19 @@ const styles = StyleSheet.create({
   MainTextCont: {
     marginBottom: Wp(20),
   },
+  Errorbox:{
+    height:Hp(10),  
+    alignItems:'center',
+    justifyContent:'center',
+
+  },
+  Errortext:{
+    color:NoteAppcolor.Error,
+    fontFamily:Nunito(700),
+    fontSize:FontSize(10),
+    textAlign:'center'
+
+  }
 });
 
 // import React from 'react';
