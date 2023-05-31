@@ -1,0 +1,5 @@
+export const BASE_URL = "https://dev.chearful.com/api/v2"
+export const Auth = "/user/login"
+export const Get_User_Info = "/get-user"
+export const Get_Doctor_Sessions = "/practitioner/sessions/all"
+export const Reset_Password = "/user/password-reset"

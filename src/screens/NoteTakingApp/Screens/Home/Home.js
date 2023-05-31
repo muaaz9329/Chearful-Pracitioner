@@ -32,8 +32,9 @@ import LogoutModel from "@models/LogoutModel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
-import { GetUserInfo } from "@app/features/HomeReducer/HomeReducer";
+import { GetUserInfo, SetUserData } from "@app/features/HomeReducer/HomeReducer";
 import { ActivityIndicator } from "react-native-paper";
+import { ApiServices } from "@app/services/Apiservice";
 const Home = ({ navigation }) => {
   const [model, setModel] = useState(false);
   const { Success, UserInfo } = useSelector((state) => state.Home);
@@ -42,15 +43,15 @@ const Home = ({ navigation }) => {
   const GetUserInfoApi = async () => {
     const Token = await AsyncStorage.getItem("USER_accessToken");
     console.log(Token);
-    const response = dispatch(GetUserInfo(Token));
-    // console.log(response);
-    console.log("GetUserInfoApi");
+    dispatch(GetUserInfo(Token));
+
   };
 
   useEffect(() => {
-    GetUserInfoApi();
+    ApiServices.GetUserInfo(SetUserData , dispatch)
   }, []);
 
+// console.log(UserInfo)
   return (
     <SafeAreaView style={styles.Body} edges={['top']}>
       {Success ? (

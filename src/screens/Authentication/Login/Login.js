@@ -172,7 +172,7 @@ const Login = ({ navigation }) => {
             <Text
               style={styles.ForgetPassCont}
               onPress={() => {
-                Linking.openURL("https://chearful.com/");
+                navigation.navigate("Auth_ResetPass")
               }}
             >
               Forget Password?

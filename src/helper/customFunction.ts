@@ -233,3 +233,16 @@ export const ColorWithopacity = (hex : string, opacity : number):string => {
     .padStart(2, "0");
   return `#${color}`.toUpperCase();
 };
+
+export function isValidDateFormat(dateString:string) : boolean {
+  const regex = /^\d{4}-\d{2}-\d{2}$/;
+  return regex.test(dateString);
+}
+
+
+export function isValidEmail(email:string) {
+  // Regular expression pattern for email validation
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+  return emailPattern.test(email);
+}

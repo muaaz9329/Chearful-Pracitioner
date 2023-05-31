@@ -2,7 +2,7 @@
  * @format
  */
 
-import { AppRegistry } from "react-native";
+import { AppRegistry , LogBox } from "react-native";
 import {
   MD3LightTheme as DefaultTheme,
   Provider as PaperProvider,
@@ -23,6 +23,7 @@ const theme = {
   },
 };
 export default function Main() {
+  LogBox.ignoreLogs(['Possible Unhandled Promise Rejection....']); // Ignore log notification by message
   return (
     <Provider store={store}>
     <PaperProvider theme={theme}>

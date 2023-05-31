@@ -1,5 +1,5 @@
 import { Platform, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
@@ -10,9 +10,25 @@ import SessionData from "../../Data/SessionData.js";
 import AnimatedFlatList from "@constants/AnimatedFlatList";
 import DateAndFilter from "@CommonComponents/DateAndFilter";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
+
+import { ApiServices } from "@app/services/Apiservice";
+import { SetSessionData } from "@app/features/SessionReducer/SessionReducer";
 
 const Session = ({ navigation }) => {
   const [data, setData] = useState(SessionData);
+  const Dispatch = useDispatch()
+  const {HasSession} = useSelector(state=>state.Session)
+
+
+  useEffect(()=>{
+    ApiServices.Get_User_Session_by_Date(SetSessionData,Dispatch,"2023-05-25")
+  },[])
+
+
+  useEffect(()=>{
+    console.log(HasSession)
+  },[HasSession])
   return (
     <SafeAreaView style={{ backgroundColor: NoteAppcolor.White, flex: 1 }} edges={['top','right','left']}>
       <View style={styles.Body}>
