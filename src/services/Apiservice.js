@@ -1,11 +1,8 @@
-import axios from "axios";
-import { GetAccessToken, UrlMaker, Url_With_Prams } from "@app/api/util";
-import {
-  Get_Doctor_Sessions,
-  Get_User_Info,
-  Reset_Password,
-} from "@app/api/endpoints";
-import { isValidDateFormat, isValidEmail } from "@app/helper/customFunction";
+import{
+GetUserInfo_ApiFunc,
+UserResetPass_ApiFunc,
+Get_User_Session_by_Date_ApiFunc
+} from './Api-Services/Index'
 
 /**
  * Api services for the app
@@ -22,22 +19,7 @@ export const ApiServices = {
    * @param {function} dispatch - redux toolkit dispatch function to dispatch the data to the reducer , as hook useDispatch is not available in services and we are not using class based components so we have to pass dispatch function from the component to the service
    *
    */
-  GetUserInfo: async (action, dispatch) => {
-    try {
-      const url = UrlMaker(Get_User_Info);
-      const Token = await GetAccessToken();
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${Token}`,
-          Accept: "application/json",
-        },
-      });
-      dispatch(action(response.data.data));
-    } catch (error) {
-      // Handle error
-      throw new Error("Failed to fetch user profile :" + error);
-    }
-  },
+  GetUserInfo: GetUserInfo_ApiFunc,
 
   /**
    * @description Used for Reseting the Password , User gives his email to get Reset password link
@@ -48,35 +30,7 @@ export const ApiServices = {
    * @param {*} email (string)
    */
 
-  UserResetPass: async (
-    actionSuccess,
-    actionFail,
-    actionLoading,
-    dispatch,
-    email
-  ) => {
-    try {
-      dispatch(actionLoading());
-      if (isValidEmail(email)) {
-        const url = UrlMaker(Reset_Password);
-        const response = await fetch(url, {
-          method: "POST",
-          
-
-          body: {
-            email: email,
-          },
-        });
-        console.log(response.data);
-        dispatch(actionSuccess());
-      } else {
-        dispatch(actionFail("Please enter correct email address"));
-      }
-    } catch (error) {
-      // console.log(error);
-      // dispatch(actionFail(error));
-    }
-  },
+  UserResetPass: UserResetPass_ApiFunc,
 
   /**
    * @description Api call to get user sessions with his cutomers , will update the redux store (SessionReducers) with the user sessions
@@ -85,24 +39,5 @@ export const ApiServices = {
    * @param {*} date - Date in string in format "YYYY-MM-DD" , if date is not provided in this format it will throw an error of invalid date format
    */
 
-  Get_User_Session_by_Date: async (action, dispatch, date) => {
-    if (!isValidDateFormat(date)) {
-      throw new Error("Invalid Date Format");
-    } else {
-      try {
-        const url = Url_With_Prams(Get_Doctor_Sessions, { date_filter: date });
-        const Token = await GetAccessToken();
-        const response = await axios.get(url, {
-          headers: {
-            Authorization: `Bearer ${Token}`,
-            Accept: "application/json",
-          },
-        });
-        console.log(response.data);
-        dispatch(action(response.data));
-      } catch (error) {
-        throw new Error("Failed to fetch user Sessions :" + error);
-      }
-    }
-  },
+  Get_User_Session_by_Date: Get_User_Session_by_Date_ApiFunc
 };

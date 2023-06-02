@@ -1,5 +1,5 @@
 import { Platform, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
@@ -8,52 +8,88 @@ import Header from "@CommonComponents/Header";
 import CardDesign from "./components/CardDesign";
 import SessionData from "../../Data/SessionData.js";
 import AnimatedFlatList from "@constants/AnimatedFlatList";
-import DateAndFilter from "@CommonComponents/DateAndFilter";
+import DateAndFilter from "./components/DateAndFilter";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
 import { ApiServices } from "@app/services/Apiservice";
-import { SetSessionData } from "@app/features/SessionReducer/SessionReducer";
+import {
+  ResetSessionData,
+  SetSessionData,
+} from "@app/features/SessionReducer/SessionReducer";
+import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
+import { ActivityIndicator } from "react-native-paper";
+import NotAvil from "@app/common/components/NotAvil";
 
 const Session = ({ navigation }) => {
   const [data, setData] = useState(SessionData);
-  const Dispatch = useDispatch()
-  const {HasSession} = useSelector(state=>state.Session)
+  const Dispatch = useDispatch();
+  const LoadingRef = useRef(); // Ref used to control the Loading Screen
+  const { HasSession, Success, Data, loading, error } = useSelector(
+    (state) => state.Session
+  ); // States from the store
+  const [ApiQueryDate, setApiQueryDate] = useState(""); // Consists of Date in YYYY-MM-DD format
 
+  useEffect(() => {
+    if (ApiQueryDate !== "" || null || undefined) {
+      ApiServices.Get_User_Session_by_Date(
+        SetSessionData,
+        ResetSessionData,
+        Dispatch,
+        ApiQueryDate
+      );
+    }
+  }, [ApiQueryDate]); // To get Session Data from the API
 
-  useEffect(()=>{
-    ApiServices.Get_User_Session_by_Date(SetSessionData,Dispatch,"2023-05-25")
-  },[])
+  useEffect(() => {
+    setTimeout(() => {
+      if (Success) {
+        LoadingRef.current.LoadingEnds();
+      }
+    }, 1000);
+  }, [Success]); // To end Loading Screen if data is Fetched from the API
 
+  useEffect(() => {
+    setData(Data);
+  }, [Data]); // To assign the data from the API to the data State to be used in the FlatList
 
-  useEffect(()=>{
-    console.log(HasSession)
-  },[HasSession])
   return (
-    <SafeAreaView style={{ backgroundColor: NoteAppcolor.White, flex: 1 }} edges={['top','right','left']}>
-      <View style={styles.Body}>
-        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
-          <Text style={styles.Text}>Sessions</Text>
-        </Header>
-        <DateAndFilter
-          ArrayData={data}
-          Property={"LastVisitDate"}
-          setArrayData={setData}
-        />
-      </View>
+    <>
+      <LoadingScreen ref={LoadingRef} />
+      <SafeAreaView
+        style={{ backgroundColor: NoteAppcolor.White, flex: 1 }}
+        edges={["top", "right", "left"]}
+      >
+        <View style={styles.Body}>
+          <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
+            <Text style={styles.Text}>Sessions</Text>
+          </Header>
+          <DateAndFilter ApiQueryDate={setApiQueryDate} />
+        </View>
 
-      <AnimatedFlatList
-        data={data}
-        renderItem={({ item, index }) => (
-          <CardDesign Data={item} key={index} navigation={navigation} />
+        {loading ? (
+          <View style={styles.activityIndicator}>
+            <ActivityIndicator size={"small"} color={NoteAppcolor.Primary} />
+          </View>
+        ) : (
+          HasSession ? (
+            <AnimatedFlatList
+              data={data}
+              renderItem={({ item, index }) => (
+                <CardDesign Data={item} key={index} navigation={navigation} />
+              )}
+              contentContainerStyle={{
+                paddingTop: Wp(10),
+                alignItems: "center",
+              }}
+              showsVerticalScrollIndicator={false}
+            />
+          ) : (
+            <NotAvil Title={"No Session"} Content={"No Session Found"} />
+          )
         )}
-        contentContainerStyle={{
-          paddingTop: Wp(10),
-          alignItems: "center",
-        }}
-        showsVerticalScrollIndicator={false}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -62,7 +98,7 @@ export default Session;
 const styles = StyleSheet.create({
   Body: {
     paddingHorizontal: Wp(16),
-    paddingTop:Platform.OS=='android' ? Wp(20):Wp(10),
+    paddingTop: Platform.OS == "android" ? Wp(20) : Wp(10),
   },
   Text: {
     fontFamily: Mulish(700),
@@ -71,5 +107,10 @@ const styles = StyleSheet.create({
   },
   cardCont: {
     marginTop: Wp(15),
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

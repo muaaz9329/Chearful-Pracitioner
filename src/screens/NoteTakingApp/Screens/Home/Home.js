@@ -40,13 +40,6 @@ const Home = ({ navigation }) => {
   const { Success, UserInfo } = useSelector((state) => state.Home);
   const dispatch = useDispatch();
 
-  const GetUserInfoApi = async () => {
-    const Token = await AsyncStorage.getItem("USER_accessToken");
-    console.log(Token);
-    dispatch(GetUserInfo(Token));
-
-  };
-
   useEffect(() => {
     ApiServices.GetUserInfo(SetUserData , dispatch)
   }, []);

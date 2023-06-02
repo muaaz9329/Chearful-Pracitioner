@@ -24,21 +24,21 @@ const CardDesign = ({ Data, navigation }) => {
 
       <View style={styles.CardContet}>
         <View style={styles.Cont1}>
-          <Image source={Data.Picture} style={styles.ClientImage} />
+          <Image source={{uri:Data.client_image}} style={styles.ClientImage} />
         </View>
         <View style={styles.CardTextCont}>
           <Text style={styles.Name}>
-            {Data.Name.length > 14 ? Data.Name.slice(0, 14) + ".." : Data.Name}
+            {String(Data.client_full_name).length > 14 ? String(Data.client_full_name).slice(0, 14) + ".." : String(Data.client_full_name)}
           </Text>
           <View style={styles.LastVisitCont}>
-            <Text style={styles.LastVisitText}>{DateConstrctor(new Date(Data.LastVisitDate)).Date}</Text>
+            <Text style={styles.LastVisitText}>{Data.appointment_date}</Text>
             <View style={styles.DotMargin}>
               <Dot width={Wp(4)} height={Wp(4)} color={NoteAppcolor.Primary} />
             </View>
-            <Text style={styles.LastVisitText}>{DateConstrctor(new Date(Data.LastVisitDate)).Time}</Text>
+            <Text style={styles.LastVisitText}>{Data.appointment_time}</Text>
           </View>
           <View>
-            <Text style={styles.ServiceTaken}>{Data.Service}</Text>
+            <Text style={styles.ServiceTaken}>{Data.service_name}</Text>
           </View>
         </View>
       </View>
@@ -61,6 +61,7 @@ const CardDesign = ({ Data, navigation }) => {
         </Pressable>
       </View>
     </View>
+    
   );
 };
 

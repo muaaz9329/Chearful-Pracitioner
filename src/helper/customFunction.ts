@@ -149,6 +149,7 @@ export const DateConstrctor = (date: Date): any => {
     Date: "",
     Day: "",
     Time: "",
+    ApiDateQuery:""
   };
 
   //creating the date object which will help us to find the day of the week
@@ -180,6 +181,7 @@ export const DateConstrctor = (date: Date): any => {
 
   //getting month, day and year from the input date and adding it into the object.
   const month = String(date).slice(4, 7).toLowerCase();
+  
   const day = String(date).slice(8, 10);
   const year = String(date).slice(11, 15);
 
@@ -193,6 +195,7 @@ export const DateConstrctor = (date: Date): any => {
   ReturnedObj.Time = strTime;
 
   ReturnedObj.Date = `${day} ${month} , ${year}`;
+  ReturnedObj.ApiDateQuery = date.toISOString().split('T')[0] // Returns the date in YYYY-MM-DD format
   return ReturnedObj;
 };
 
