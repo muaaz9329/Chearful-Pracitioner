@@ -4,29 +4,47 @@ import {
   View,
   ImageBackground,
   Pressable,
-  Image
+  Image,
 } from "react-native";
 import React from "react";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Nunito } from "@helper/FontWeight";
+import { User_Session_Notes_Editor_Pram_object } from "@app/helper/CustomClasses";
 
-const NotesCard = ({ Arr, navigation ,ClientData}) => {
+const NotesCard = ({ Arr, navigation, ClientData }) => {
+  console.log(Arr);
+  const VIEW_MODE = "view";
+  const EDIT_MODE = "edit";
+
+
+
+  const HandleNavigation = (item) => {
+    const Pram = new User_Session_Notes_Editor_Pram_object(
+      VIEW_MODE,
+      item.content,
+      ClientData
+    );
+    if (item.type === "text") {
+      navigation.push("Prac_NotesEditor", Pram);
+    } else {
+      navigation.push("Prac_WrittenEditor", Pram);
+    }
+  };
+
   return (
     <View style={styles.Parent}>
       {Arr.map((item, index) => {
+        console.log(item);
         return (
-          <Pressable
-            onPress={() => {
-              if (item.type === "written") {
-                navigation.push("Prac_WrittenEditor" ,{mode:"view", content:item.content , ClientData:ClientData});
-              } else {
-                navigation.push("Prac_NotesEditor",{mode:"view", content:item.content ,ClientData:ClientData});
-              }
-            }}
-          >
-            <ImageBackground style={styles.cardCont} key={index} resizeMode={"cover"}  source={{uri: item.img}}>
+          <Pressable onPress={() => HandleNavigation(item)} key={index}>
+            <ImageBackground
+              style={styles.cardCont}
+              key={index}
+              resizeMode={"cover"}
+              source={{ uri: item.img }}
+            >
               <View style={styles.DateCard}>
                 <Text style={styles.cardDate}>24 Feb , 2023</Text>
               </View>
@@ -50,7 +68,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     justifyContent: "flex-end",
     marginBottom: Wp(20),
-    resizeMode:"contain"
+    resizeMode: "contain",
   },
   DateCard: {
     width: wp(40),

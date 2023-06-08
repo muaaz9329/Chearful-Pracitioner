@@ -10,7 +10,7 @@ import { Dot } from "@svg";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
 import NotesType from "@models/NotesType";
-import { DateConstrctor } from "@helper/customFunction";
+import { User_Session_notes_pram_object } from "@app/helper/CustomClasses";
 const CardDesign = ({ Data, navigation }) => {
   const [model, setmodel] = useState(false);
   return (
@@ -54,7 +54,7 @@ const CardDesign = ({ Data, navigation }) => {
         <Pressable
           style={styles.btnDesign}
           onPress={() => {
-            navigation.push("Prac_NotesPreview",{ClientData:Data});
+            navigation.push("Prac_NotesPreview",{ClientData:new User_Session_notes_pram_object(Data)});
           }}
         >
           <Eye width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />

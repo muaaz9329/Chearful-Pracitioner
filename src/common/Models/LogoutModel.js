@@ -19,7 +19,6 @@ import { logout } from "@app/features/authReducer/authReducer";
 
 const LogoutModel = ({navigation,visible,setVisible}) => {
     
-    const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
     const Dispatch = useDispatch();
 
@@ -27,6 +26,7 @@ const LogoutModel = ({navigation,visible,setVisible}) => {
       await AsyncStorage.removeItem("USER_accessToken");
       Dispatch(logout())
       console.log("Token Removed");
+      await navigation.navigate("Auth")
     }
   
     return (
@@ -53,7 +53,7 @@ const LogoutModel = ({navigation,visible,setVisible}) => {
               <TouchableOpacity style={[styles.btnStyles, styles.DeleteBtn]} onPress={()=>{
                 hideModal()
                 RemoveToken()
-                navigation.navigate("Auth")
+                
               }}>
                 <Text style={styles.btnText}>Yes</Text>
               </TouchableOpacity>

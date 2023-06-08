@@ -14,8 +14,11 @@ import {
 import { Mulish, Nunito } from "@helper/FontWeight";
 import BackStopModel from "@models/BackStopModel";
 import SaveModel from "@models/SaveModel";
-import { DateConstrctor } from "@helper/customFunction";
+import { useSelector } from "react-redux";
+import { DateConstrctor } from "@app/helper/customFunction";
 const Header = ({navigation,mode,data}) => {
+  const {SessionInfo} = useSelector((state) => state.SessionNotes);
+
   const [model , setModel] = useState(false)
   const [model2 , setmodel2] = useState(false)
   return (
@@ -38,20 +41,20 @@ const Header = ({navigation,mode,data}) => {
     <View style={styles.CardContet}>
         <View style={styles.Cont1}>
           <Image
-            source={data.Picture}
+            source={{uri:data.Client_image}}
             style={styles.ClientImage}
           />
         </View>
         <View style={styles.CardTextCont}>
           <Text style={styles.Name}>
-         {data.Name} </Text>
+         {SessionInfo.client_full_name} </Text>
           <View style={styles.LastVisitCont}>
-            <Text style={styles.LastVisitText}>{DateConstrctor(new Date(data.LastVisitDate)).Date}</Text>
+            <Text style={styles.LastVisitText}>{DateConstrctor(new Date(SessionInfo.created_at)).Date}</Text>
             <View style={styles.DotMargin}>
             <Dot width={Wp(4)} height={Wp(4)} color={NoteAppcolor.Primary}    />
 
             </View>
-            <Text style={styles.LastVisitText}>{DateConstrctor(new Date(data.LastVisitDate)).Time}</Text>
+            <Text style={styles.LastVisitText}>{DateConstrctor(new Date(SessionInfo.created_at)).Time}</Text>
           </View>
           
         </View>

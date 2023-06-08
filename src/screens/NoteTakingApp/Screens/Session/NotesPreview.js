@@ -1,5 +1,12 @@
-import { StyleSheet, Text, View, Image, ScrollView, Platform } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  Platform,
+} from "react-native";
+import React, { useEffect, useRef } from "react";
 import Header from "@CommonComponents/Header";
 import { ChevronLeft, Dot } from "@svg";
 import { FontSize, Wp } from "@helper/CustomResponsive";
@@ -7,46 +14,98 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import NotesCard from "./components/NotesCard";
 import notesCardData from "../../Data/NotesCardData";
-import { DateConstrctor } from "@helper/customFunction";
 import { SafeAreaView } from "react-native-safe-area-context";
+import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
+import { ApiServices } from "@app/services/Apiservice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ResetSessionNotes,
+  SetSessionNotes,
+} from "@app/features/SessionNotes/SessionNotes";
+import NotAvil from "@app/common/components/NotAvil";
+import Session from "./Session";
 
-const NotesPreview = ({ navigation,route }) => {
-  const {ClientData} = route.params
+const NotesPreview = ({ navigation, route }) => {
+  const { ClientData } = route.params; // Api Prams such as Client Id , Session Id  , Client Image ,
+  //Date and Time are being given as Pram from navigation route From Session.js -> CardDesign.js
+  //in order to use it as pram here
+  const dispatch = useDispatch();
+  const LoadingRef = useRef(); // used to control the Loading Screen
+  const {
+    SessionNotes,
+    SessionNotesSuccess,
+    SessionInfo,
+    HasNotes,
+  } = useSelector((state) => state.SessionNotes); // states from Redux store
+  useEffect(() => {
+    ApiServices.Get_User_Session_Notes(
+      ClientData.Client_ID,
+      ClientData.Session_ID,
+      dispatch,
+      ResetSessionNotes,
+      SetSessionNotes
+    ); //! Need to change Remember
+  }, []); // Api Calling from Here to Get Session notes
+
+
+
+  useEffect(() => {
+    if (SessionNotesSuccess) {
+      setTimeout(() => {
+        LoadingRef.current?.LoadingEnds();
+      });
+    }
+  }, [SessionNotesSuccess]); // used to control the Loading Screen
+
   return (
-    <SafeAreaView style={styles.Body}>
-      <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
-        <View style={styles.CardContet}>
-          <View style={styles.Cont1}>
-            <Image
-              source={ClientData.Picture}
-              style={styles.ClientImage}
-            />
-          </View>
-          <View style={styles.CardTextCont}>
-            <Text style={styles.Name}>{ClientData.Name}</Text>
-            <View style={styles.LastVisitCont}>
-              <Text style={styles.LastVisitText}>{DateConstrctor(new Date(ClientData.LastVisitDate)).Date}</Text>
-              <View style={styles.DotMargin}>
-                <Dot
-                  width={Wp(4)}
-                  height={Wp(4)}
-                  color={NoteAppcolor.Primary}
-                />
+    <>
+      <LoadingScreen ref={LoadingRef} />
+      <SafeAreaView style={styles.Body}>
+        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
+          <View style={styles.CardContet}>
+            <View style={styles.Cont1}>
+              <Image
+                source={{ uri: ClientData.Client_image }}
+                style={styles.ClientImage}
+              />
+            </View>
+            <View style={styles.CardTextCont}>
+              <Text style={styles.Name}>{SessionInfo.client_full_name}</Text>
+              <View style={styles.LastVisitCont}>
+                <Text style={styles.LastVisitText}>
+                  {ClientData.appointment.date}
+                </Text>
+                <View style={styles.DotMargin}>
+                  <Dot
+                    width={Wp(4)}
+                    height={Wp(4)}
+                    color={NoteAppcolor.Primary}
+                  />
+                </View>
+                <Text style={styles.LastVisitText}>
+                  {ClientData.appointment.time}
+                </Text>
               </View>
-              <Text style={styles.LastVisitText}>{DateConstrctor(new Date(ClientData.LastVisitDate)).Time}</Text>
             </View>
           </View>
-        </View>
-      </Header>
+        </Header>
 
-      <ScrollView style={{ marginTop: Wp(20) }}>
-        <NotesCard
-          Arr={notesCardData}
-          navigation={navigation}
-          ClientData={ClientData}
-        />
-      </ScrollView>
-    </SafeAreaView>
+        <ScrollView style={{ marginTop: Wp(20) }}>
+          {HasNotes ? (
+            <NotesCard
+              Arr={SessionNotes}
+              navigation={navigation}
+              ClientData={ClientData}
+            />
+          ) : (
+            <NotAvil
+              Title={"No Notes"}
+              Content={"No Particular Notes Available for this Session"}
+            />
+          )}
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -57,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingTop:Platform.OS =='android'? Wp(20):Wp(10),
+    paddingTop: Platform.OS == "android" ? Wp(20) : Wp(10),
   },
   ClientImage: {
     width: Wp(43),
@@ -87,7 +146,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  DotMargin:{
-    marginHorizontal:Wp(5)
-  }
+  DotMargin: {
+    marginHorizontal: Wp(5),
+  },
 });

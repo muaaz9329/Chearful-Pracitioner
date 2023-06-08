@@ -3,6 +3,7 @@ GetUserInfo_ApiFunc,
 UserResetPass_ApiFunc,
 Get_User_Session_by_Date_ApiFunc
 } from './Api-Services/Index'
+import Get_User_Session_Notes_ApiFunc from './Api-Services/Get_User_Session_Notes';
 
 /**
  * Api services for the app
@@ -37,7 +38,16 @@ export const ApiServices = {
    * @param {*} action - redux toolkit action to dispatch the data to the reducer , in our case it is SetSessionData from SessionReducers.js
    * @param {*} dispatch -  redux toolkit dispatch function to dispatch the data to the reducer , as hook useDispatch is not available in services and we are not using class based components so we have to pass dispatch function from the component to the service
    * @param {*} date - Date in string in format "YYYY-MM-DD" , if date is not provided in this format it will throw an error of invalid date format
+   * 
    */
 
-  Get_User_Session_by_Date: Get_User_Session_by_Date_ApiFunc
+  Get_User_Session_by_Date: Get_User_Session_by_Date_ApiFunc,
+
+
+
+  /**
+   * @description Api to get Session Notes of a particular session 
+   */
+
+  Get_User_Session_Notes : Get_User_Session_Notes_ApiFunc
 };
