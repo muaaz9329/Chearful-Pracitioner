@@ -19,7 +19,7 @@ module.exports = {
           "@hooks":"./src/hooks",
           "@models":"./src/common/Models",
           "@Library": ["./src/Library"],
-          "@env": ["./dotEnv.js"]
+          "@adapters": ["./src/adapters"],
         },
         
       },

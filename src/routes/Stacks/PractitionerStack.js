@@ -11,6 +11,9 @@ import {
   Prac_Session,
   Prac_WrittenEditor,
   Prac_SessionHistory,
+  Prac_DocsEditor,
+  Prac_PDFEditor,
+  Prac_ImageViewer
 } from "@app/screens/NoteTakingApp/Screens/index";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
@@ -24,10 +27,14 @@ const PractitionerStack = () => {
       <Stack.Screen name="Prac_NoteScreen" component={Prac_Notes} />
       <Stack.Screen name="Prac_NotesEditor" component={Prac_Editor} />
       <Stack.Screen name="Prac_WrittenEditor" component={Prac_WrittenEditor} />
+      <Stack.Screen name="Prac_DocsEditor" component={Prac_DocsEditor} />
+      <Stack.Screen name="Prac_PDFEditor" component={Prac_PDFEditor} />
+      <Stack.Screen name="Prac_ImageViewer" component={Prac_ImageViewer} />
       <Stack.Screen name="Prac_NotesPreview" component={Prac_NotesPreview} />
       <Stack.Screen name="Prac_AddNoteClient" component={Prac_AddNoteClient} />
       <Stack.Screen name="Prac_AddNoteSession" component={Prac_AddNoteSession} />
       <Stack.Screen name="Prac_SessionHistory" component={Prac_SessionHistory} />
+      
       </Stack.Navigator>
   );
 };

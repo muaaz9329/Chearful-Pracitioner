@@ -1,3 +1,4 @@
+import useSessionNote from "@adapters/useSessionNote";
 import { createSlice } from "@reduxjs/toolkit";
 
 const intoInitialState = {
@@ -14,11 +15,8 @@ const SessionNotesSlice = createSlice({
   initialState: intoInitialState,
   reducers: {
     SetSessionNotes: (state, action) => {
-      state.SessionNotes = action.payload.session_notes.filter(
-        (item) =>
-          (item.type === "file" && item.canvas !== null) || item.type === "text"
-      ); // filters out all the notes that are not text or canvas 
-      //! Have to change this later after making Viewer Component
+     
+      state.SessionNotes = useSessionNote(action.payload.session_notes);// Custom Hook to get the Session Notes with addtional key of AppType for chosing Proper Viewer & editor
       state.SessionNotesSuccess = true;
       state.SessionNotesLoading = false;
       state.SessionNotesError = null;

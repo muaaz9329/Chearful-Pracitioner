@@ -18,12 +18,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import { ApiServices } from "@app/services/Apiservice";
 import { useDispatch, useSelector } from "react-redux";
+import useSessionNote from "@adapters/useSessionNote"
 import {
   ResetSessionNotes,
   SetSessionNotes,
 } from "@app/features/SessionNotes/SessionNotes";
 import NotAvil from "@app/common/components/NotAvil";
-import Session from "./Session";
 
 const NotesPreview = ({ navigation, route }) => {
   const { ClientData } = route.params; // Api Prams such as Client Id , Session Id  , Client Image ,
@@ -46,8 +46,7 @@ const NotesPreview = ({ navigation, route }) => {
       SetSessionNotes
     ); //! Need to change Remember
   }, []); // Api Calling from Here to Get Session notes
-
-
+  console.log('newData',SessionNotes[0]);
 
   useEffect(() => {
     if (SessionNotesSuccess) {

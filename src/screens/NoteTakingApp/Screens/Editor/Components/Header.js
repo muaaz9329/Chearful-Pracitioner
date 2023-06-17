@@ -49,12 +49,12 @@ const Header = ({navigation,mode,data}) => {
           <Text style={styles.Name}>
          {SessionInfo.client_full_name} </Text>
           <View style={styles.LastVisitCont}>
-            <Text style={styles.LastVisitText}>{DateConstrctor(new Date(SessionInfo.created_at)).Date}</Text>
+            <Text style={styles.LastVisitText}>{data.appointment.date}</Text>
             <View style={styles.DotMargin}>
             <Dot width={Wp(4)} height={Wp(4)} color={NoteAppcolor.Primary}    />
 
             </View>
-            <Text style={styles.LastVisitText}>{DateConstrctor(new Date(SessionInfo.created_at)).Time}</Text>
+            <Text style={styles.LastVisitText}>{data.appointment.time}</Text>
           </View>
           
         </View>
