@@ -6,13 +6,14 @@ import Lottie from "lottie-react-native";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { User_Session_notes_pram_object } from "@app/adapters/User_Session_notes_pram_object";
+import { User_Session_Add_Notes_Editor_Pram_object } from "@app/adapters/User_Session_Add_Notes_Editor_Pram_object";
 
 const NotesType = ({visible,setVisible , navigation,data}) => {
-  
-
-  const showModal = () => setVisible(true);
+  const MODE = "edit"
+  console.log(new User_Session_Add_Notes_Editor_Pram_object(MODE , data , "text" , "upload"))
   const hideModal = () => setVisible(false);
-
+ 
   return (
     <Portal>
       <Modal
@@ -34,7 +35,7 @@ const NotesType = ({visible,setVisible , navigation,data}) => {
             />
             <TouchableOpacity style={styles.btnStyles} onPress={()=>{
                 hideModal()
-                navigation.push("Prac_NotesEditor",{mode:"edit", ClientData:data})
+                navigation.push("Prac_NotesEditor",new User_Session_Add_Notes_Editor_Pram_object(MODE , data , "text" , "upload"))
             }}>
               <Text style={styles.btnText}>Typing</Text>
             </TouchableOpacity>
@@ -48,7 +49,7 @@ const NotesType = ({visible,setVisible , navigation,data}) => {
             />
             <TouchableOpacity style={styles.btnStyles} onPress={()=>{
                  hideModal()
-                navigation.push("Prac_WrittenEditor", {mode:"edit" , ClientData:data})
+                navigation.push("Prac_WrittenEditor",new User_Session_Add_Notes_Editor_Pram_object(MODE , data , "canvas" , "upload"))
             }}>
               <Text style={styles.btnText}>Written</Text>
             </TouchableOpacity>

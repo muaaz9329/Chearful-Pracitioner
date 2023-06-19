@@ -7,7 +7,7 @@ import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import HeaderWithDeleteBtn from "./HeaderWithDeleteBtn";
 
 const DocsEditor = ({ route, navigation }) => {
-  const { mode, content, ClientData } = route.params;
+  const { mode, content, ClientData ,NoteId } = route.params;
   const [url, setUrl] = useState("");
   const LoadingRef = React.useRef();
   const SetUrl = () => {
@@ -29,7 +29,7 @@ const DocsEditor = ({ route, navigation }) => {
     <>
     <LoadingScreen ref={LoadingRef} />
     <SafeAreaView style={styles.Body}>
-      <HeaderWithDeleteBtn navigation={navigation} mode={mode} data={ClientData} />
+      <HeaderWithDeleteBtn navigation={navigation} mode={mode} data={ClientData} NoteId={NoteId} />
       <WebView source={{ uri: url }} style={{ flex: 1 }} onLoadEnd={()=>LoadingComplete()} />
     </SafeAreaView>
     </>

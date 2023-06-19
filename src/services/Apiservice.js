@@ -1,9 +1,12 @@
 import{
 GetUserInfo_ApiFunc,
 UserResetPass_ApiFunc,
-Get_User_Session_by_Date_ApiFunc
+Get_User_Session_by_Date_ApiFunc,
+Get_User_Session_Notes_ApiFunc,
+Post_New_Text_Note_ApiFunc,
+Delete_Session_Note_ApiFunc
 } from './Api-Services/Index'
-import Get_User_Session_Notes_ApiFunc from './Api-Services/Get_User_Session_Notes';
+
 
 /**
  * Api services for the app
@@ -47,7 +50,29 @@ export const ApiServices = {
 
   /**
    * @description Api to get Session Notes of a particular session 
+   * @param {*} client_id - client id of the user
+   * @param {*} session_id - session id of the session
+   * @param {*} dispatch -  redux toolkit dispatch function to dispatch the data to the reducer , as hook useDispatch is not available in services and we are not using class based components so we have to pass dispatch function from the component to the service
+   * @param {*} ResetAction - Action to reset the state of the reducer
+   * @param {*} OnSuccessAction - Action to update the state of the reducer when request is successful
+   * 
    */
 
-  Get_User_Session_Notes : Get_User_Session_Notes_ApiFunc
+  Get_User_Session_Notes : Get_User_Session_Notes_ApiFunc,
+
+
+  /**
+   * @description Api to post new text note to a session
+   * @param {*} client_id - client id of the user
+   * @param {*} session_id - session id of the session
+   * @param title - title of the note
+   * @param Content - note Content
+   */
+  Post_New_Text_Note : Post_New_Text_Note_ApiFunc,
+
+  /**
+   * @description Api to delete a session note
+   * @param {*} note_Id - Note Id of the note to be deleted
+   */
+  Delete_Session_Note : Delete_Session_Note_ApiFunc
 };

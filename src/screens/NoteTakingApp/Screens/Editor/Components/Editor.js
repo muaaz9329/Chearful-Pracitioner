@@ -32,14 +32,15 @@ import DeleteModel from "@models/DeleteModel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const Editor = ({ route, navigation }) => {
-  const { mode, content, ClientData , NoteId} = route.params;
+  const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote } =
+    route.params;
   // mode = edit or view , content = content of the note ,
   // ClientData = Data of the client coming from ./Session/Components/CardsDesign.js ->
   // ../NotesPreview.js -> ./Components/NotesCard.js -> Editor.js
   const [Mode, setmode] = useState(mode);
+  const [Content, setContent] = useState(content);
   const [model, setModel] = useState(false);
   const richText = React.useRef();
-
 
   // This function is used to open the image picker and choose an image.
   const PutImage = () => {
@@ -85,16 +86,26 @@ const Editor = ({ route, navigation }) => {
           navigation={navigation}
           visible={model}
           setVisible={setModel}
+          ClientData={ClientData}
+          NoteId={NoteId}
         />
-        <Header navigation={navigation} mode={Mode} data={ClientData} />
+        <Header
+          navigation={navigation}
+          mode={Mode}
+          data={ClientData}
+          NoteId={NoteId}
+          ComingFor={ComingFor}
+          TypeOfNote={TypeOfNote}
+          Content={Content}
+        />
         <ScrollView>
           <RichEditor
             ref={richText}
             onChange={(descriptionText) => {
-              console.log(descriptionText);
+              setContent(descriptionText);
             }}
             disabled={Mode === "edit" ? false : true}
-            initialContentHTML={content}
+            initialContentHTML={Content}
             firstFocusEnd
             initialFocus
             initialHeight={hp(50)}

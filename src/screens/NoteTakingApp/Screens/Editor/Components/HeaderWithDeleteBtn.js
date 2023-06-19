@@ -21,7 +21,7 @@ import DeleteModel from "@app/common/Models/DeleteModel";
 import { useSelector } from "react-redux";
 import { DateConstrctor } from "@app/helper/customFunction";
 import { IconTrash } from "tabler-icons-react-native";
-const HeaderWithDeleteBtn = ({ navigation, mode, data }) => {
+const HeaderWithDeleteBtn = ({ navigation, mode, data , NoteId }) => {
   const { SessionInfo } = useSelector((state) => state.SessionNotes);
 
   const [model, setModel] = useState(false);
@@ -37,6 +37,7 @@ const HeaderWithDeleteBtn = ({ navigation, mode, data }) => {
         visible={model2}
         setVisible={setmodel2}
         navigation={navigation}
+        NoteId={NoteId}
       />
       <Pressable
         style={styles.Listbtn}

@@ -6,10 +6,24 @@ import Lottie from "lottie-react-native";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
-const DeleteModel = ({navigation,visible,setVisible}) => {
+import { ApiServices } from "@app/services/Apiservice";
+import LoadingAndSuccess from "../animatedComponents/Success/LoadingAndSuccess";
+const DeleteModel = ({ navigation, visible, setVisible, NoteId }) => {
+  const [loading, setLoading] = useState(false);
+  const animationControl = React.useRef();
+  const HandleApi = async () => {
+    setLoading(true);
+    const response = await ApiServices.Delete_Session_Note(NoteId);
+    if (response) {
+      animationControl.current.LoadingEnds();
+      setTimeout(() => {
+        setLoading(false);
+        hideModal();
+        navigation.goBack();
+      }, 1000);
+    }
+  };
 
-
-  const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
   return (
@@ -20,11 +34,15 @@ const DeleteModel = ({navigation,visible,setVisible}) => {
         contentContainerStyle={styles.containerStyle}
       >
         <View style={styles.animationCont}>
-          <Lottie
-            source={require("./animation/Delete2.json")}
-            autoPlay
-            style={[styles.animationSize]}
-          />
+          {loading ? (
+            <LoadingAndSuccess ref={animationControl} />
+          ) : (
+            <Lottie
+              source={require("./animation/Delete2.json")}
+              autoPlay
+              style={[styles.animationSize]}
+            />
+          )}
         </View>
 
         <View style={styles.content}>
@@ -32,15 +50,20 @@ const DeleteModel = ({navigation,visible,setVisible}) => {
             Are You Sure You Want To Delete This Document?
           </Text>
           <View style={styles.btnCont}>
-            <TouchableOpacity style={[styles.btnStyles, styles.DeleteBtn]} onPress={()=>{
-              hideModal()
-              navigation.goBack()
-            }}>
+            <TouchableOpacity
+              style={[styles.btnStyles, styles.DeleteBtn]}
+              onPress={() => {
+                HandleApi();
+              }}
+            >
               <Text style={styles.btnText}>Delete</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.btnStyles, styles.btnCancel]} onPress={()=>{
-              hideModal()
-            }}>
+            <TouchableOpacity
+              style={[styles.btnStyles, styles.btnCancel]}
+              onPress={() => {
+                hideModal();
+              }}
+            >
               <Text style={[styles.btnText, styles.cancelText]}>Cancel</Text>
             </TouchableOpacity>
           </View>
@@ -103,9 +126,11 @@ const styles = StyleSheet.create({
   DeleteBtn: {
     backgroundColor: "#FF8383",
   },
-  btnCont:{
-    flexDirection:"row",
-    justifyContent:"space-around",
-    marginTop:Wp(15)
-  }
+  btnCont: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: Wp(15),
+  },
 });
+// hideModal()
+//               navigation.goBack()

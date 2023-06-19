@@ -1,3 +1,10 @@
+/**
+ * @description Used for Passing the Prameter object through the navigation 
+ * @data is the Object that consists of Session notes information and content
+ */
+
+
+
 interface appointmentType {
     date:string;
     time:string
