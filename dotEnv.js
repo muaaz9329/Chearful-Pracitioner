@@ -1,1 +1,0 @@
-export const BASE_URL = "https://dev.chearful.com/api/v2"
