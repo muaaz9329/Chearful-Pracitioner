@@ -10,8 +10,9 @@ import { Dot } from "@svg";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
 import NotesType from "@models/NotesType";
-import { User_Session_notes_pram_object } from "@app/helper/CustomClasses";
+import { User_Session_notes_pram_object } from "@app/adapters/User_Session_notes_pram_object";
 const CardDesign = ({ Data, navigation }) => {
+  console.log(Data)
   const [model, setmodel] = useState(false);
   return (
     <View style={styles.cardCont}>
@@ -101,17 +102,17 @@ const styles = StyleSheet.create({
   Name: {
     fontFamily: Nunito(700),
     color: NoteAppcolor.Primary,
-    fontSize: FontSize(16),
+    fontSize: FontSize(14),
   },
   LastVisitText: {
     fontFamily: Mulish(600),
-    fontSize: FontSize(12),
+    fontSize: FontSize(11),
     color: NoteAppcolor.Primary,
     opacity: 0.7,
   },
   ServiceTaken: {
     fontFamily: Mulish(600),
-    fontSize: FontSize(12),
+    fontSize: FontSize(11),
     color: NoteAppcolor.Primary,
     opacity: 0.7,
   },

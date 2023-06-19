@@ -11,7 +11,7 @@ import DeleteModel from '@app/common/Models/DeleteModel'
 import { useState, useRef } from 'react'
 import { RefFunctions } from '@helper/CanvasFunction'
 const DrawingEditor = ({navigation , route}) => {
-  const { mode, content,ClientData } = route.params;
+  const { mode, content,ClientData ,NoteId } = route.params;
   const [Mode, setMode] =useState(mode);
   const [model, setModel] = useState(false);
   const DrawicRef = useRef()
@@ -25,7 +25,7 @@ const DrawingEditor = ({navigation , route}) => {
   },[])
   return (
     <SafeAreaView edges={['top']} style={styles.Continer} >
-      <Header data={PractitionerNotes[0]} mode={Mode} navigation={navigation} />
+      <Header data={ClientData} mode={Mode} navigation={navigation} />
       <DeleteModel navigation={navigation} visible={model} setVisible={setModel} />
         
         

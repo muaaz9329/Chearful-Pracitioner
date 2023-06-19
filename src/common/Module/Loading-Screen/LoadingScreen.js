@@ -6,6 +6,13 @@ import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { Wp } from "@app/helper/CustomResponsive";
 import * as Animated from "react-native-animatable";
+
+
+/**
+ * @description This is a Loading Screen Component
+ * @param {object} ref - pass the ref to the componet to access the LoadingEnds function
+ * @function LoadingEnds - This function is used to end the loading screen
+ */
 const LoadingScreen =forwardRef( ({state}, ref) => {
   const Animationref = useRef(null);
   const [Z_INDEX , SetZ_INDEX] = useState(100)

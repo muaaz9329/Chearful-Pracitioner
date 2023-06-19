@@ -32,14 +32,14 @@ import DeleteModel from "@models/DeleteModel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const Editor = ({ route, navigation }) => {
-  const { mode, content, ClientData } = route.params;
+  const { mode, content, ClientData , NoteId} = route.params;
   // mode = edit or view , content = content of the note ,
   // ClientData = Data of the client coming from ./Session/Components/CardsDesign.js ->
   // ../NotesPreview.js -> ./Components/NotesCard.js -> Editor.js
   const [Mode, setmode] = useState(mode);
   const [model, setModel] = useState(false);
   const richText = React.useRef();
-  console.log(navigation);
+
 
   // This function is used to open the image picker and choose an image.
   const PutImage = () => {
