@@ -17,7 +17,7 @@ import { DateConstrctor } from "@app/helper/customFunction";
 const NotesCard = ({ Arr, navigation, ClientData }) => {
   const VIEW_MODE = "view";
   const EDIT_MODE = "edit";
-
+  console.log(Arr);
   const HandleNavigation = (item) => {
     const Pram = new User_Session_Notes_Editor_Pram_object(
       ClientData,
@@ -25,7 +25,7 @@ const NotesCard = ({ Arr, navigation, ClientData }) => {
       item.Apptype,
       VIEW_MODE
     );
-    console.log(Pram)
+
 
     switch (item.Apptype) {
       case "text":

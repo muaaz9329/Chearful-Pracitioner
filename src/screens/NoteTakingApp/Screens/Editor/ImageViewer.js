@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View ,Image} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import HeaderWithDeleteBtn from "./HeaderWithDeleteBtn";
+import HeaderWithDeleteBtn from "./Components/HeaderWithDeleteBtn";
 const ImageViewer = ({ route, navigation }) => {
   const { mode, content, ClientData,NoteId } = route.params;
   console.log("content", content);

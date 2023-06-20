@@ -4,7 +4,9 @@ UserResetPass_ApiFunc,
 Get_User_Session_by_Date_ApiFunc,
 Get_User_Session_Notes_ApiFunc,
 Post_New_Text_Note_ApiFunc,
-Delete_Session_Note_ApiFunc
+Delete_Session_Note_ApiFunc,
+Update_Note_Content_ApiFunc,
+Update_Canvas_Content_ApiFunc
 } from './Api-Services/Index'
 
 
@@ -74,5 +76,27 @@ export const ApiServices = {
    * @description Api to delete a session note
    * @param {*} note_Id - Note Id of the note to be deleted
    */
-  Delete_Session_Note : Delete_Session_Note_ApiFunc
+  Delete_Session_Note : Delete_Session_Note_ApiFunc,
+
+  /**
+   * @description Api function to Update Session Note
+   * @param {*} Client_id - client id of the user
+   * @param {*} Session_id - session id of the session
+   * @param {*} Note_Id - Id of Note 
+   * @param title - title of the note
+   * @param content - note Content needed to be Updated
+   * 
+   */
+  Update_Note_Content_Text : Update_Note_Content_ApiFunc,
+
+  /**
+   * @description Api function to Update  Canvas Session Note
+   * @param {*} Client_id - client id of the user
+   * @param {*} Session_id - session id of the session
+   * @param {*} Note_Id - Id of Note
+   * @param {*} Content - note Content needed to be Updated , mainly array of points
+   * @param {*} Base64Img -  Base64 Image of the Canvas
+   * 
+   */
+  Update_Canvas_Content : Update_Canvas_Content_ApiFunc
 };

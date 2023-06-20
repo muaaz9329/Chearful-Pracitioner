@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   Platform,
+  RefreshControl,
 } from "react-native";
 import React, { useEffect, useRef } from "react";
 import Header from "@CommonComponents/Header";
@@ -18,10 +19,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import { ApiServices } from "@app/services/Apiservice";
 import { useDispatch, useSelector } from "react-redux";
-import useSessionNote from "@adapters/useSessionNote"
+import useSessionNote from "@adapters/useSessionNote";
 import {
   ResetSessionNotes,
   SetSessionNotes,
+  RefreshSessionNotes,
 } from "@app/features/SessionNotes/SessionNotes";
 import NotAvil from "@app/common/components/NotAvil";
 
@@ -31,22 +33,34 @@ const NotesPreview = ({ navigation, route }) => {
   //in order to use it as pram here
   const dispatch = useDispatch();
   const LoadingRef = useRef(); // used to control the Loading Screen
-  const {
-    SessionNotes,
-    SessionNotesSuccess,
-    SessionInfo,
-    HasNotes,
-  } = useSelector((state) => state.SessionNotes); // states from Redux store
-  useEffect(() => {
+  const { SessionNotes, SessionNotesSuccess, SessionInfo, HasNotes, refresh } =
+    useSelector((state) => state.SessionNotes); // states from Redux store
+
+  const HandleApi = () => {
     ApiServices.Get_User_Session_Notes(
       ClientData.Client_ID,
       ClientData.Session_ID,
       dispatch,
       ResetSessionNotes,
       SetSessionNotes
-    ); //! Need to change Remember
+    );
+  };
+  useEffect(() => {
+    HandleApi();
   }, []); // Api Calling from Here to Get Session notes
-  console.log('newData',SessionNotes[0]);
+
+  useEffect(() => {
+    if (refresh) {
+      HandleApi();
+      dispatch(RefreshSessionNotes(false));
+    }
+  }, [refresh]); // Api Calling from Here to Get Session notes when Note get Updated or Deleted
+
+  const onRefresh = React.useCallback(async () => {
+    dispatch(RefreshSessionNotes(true));
+    HandleApi();
+    dispatch(RefreshSessionNotes(false));
+  }, []); // Pull to Refresh
 
   useEffect(() => {
     if (SessionNotesSuccess) {
@@ -89,7 +103,12 @@ const NotesPreview = ({ navigation, route }) => {
           </View>
         </Header>
 
-        <ScrollView style={{ marginTop: Wp(20) }}>
+        <ScrollView
+          style={{ marginTop: Wp(20) }}
+          refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+          }
+        >
           {HasNotes ? (
             <NotesCard
               Arr={SessionNotes}

@@ -5,7 +5,7 @@ export class RefFunctions{
     constructor(ref){
         this.CanvesRef = ref;
     }
-    GetPoints(){
+   GetPoints(){
         return this.CanvesRef.current.Get_Canvas_Points()
     }
     SetPoint(Points){

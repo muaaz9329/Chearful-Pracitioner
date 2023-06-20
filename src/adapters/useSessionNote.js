@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import React from "react";
 const useSessionNote = (newObj) => {
 
-  
+  console.log("newObj",newObj[1].type)
   const FilterObj = newObj.map((item)=>{
+   
     return {
       ...item,
       Apptype:null
     }
   })
+
+
 
   for(let i=0;i<FilterObj.length;i++){
     if (FilterObj[i].type === "file") {
@@ -29,8 +32,11 @@ const useSessionNote = (newObj) => {
       FilterObj[i].Apptype = "text";
   
       
-    } else if (FilterObj[i].canvas !== null) {
+    } else if (FilterObj[i].type === "drawing"){
       FilterObj[i].Apptype = "canvas";
+      console.log(FilterObj[i])
+
+      
      
 
     }

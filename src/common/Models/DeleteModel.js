@@ -8,7 +8,11 @@ import { Mulish } from "@helper/FontWeight";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { ApiServices } from "@app/services/Apiservice";
 import LoadingAndSuccess from "../animatedComponents/Success/LoadingAndSuccess";
+import { useDispatch } from "react-redux";
+import { RefreshSessionNotes } from "@app/features/SessionNotes/SessionNotes";
 const DeleteModel = ({ navigation, visible, setVisible, NoteId }) => {
+  const Dispatch = useDispatch();
+  
   const [loading, setLoading] = useState(false);
   const animationControl = React.useRef();
   const HandleApi = async () => {
@@ -16,6 +20,7 @@ const DeleteModel = ({ navigation, visible, setVisible, NoteId }) => {
     const response = await ApiServices.Delete_Session_Note(NoteId);
     if (response) {
       animationControl.current.LoadingEnds();
+      Dispatch(RefreshSessionNotes(true)) // State to make THe Session Screen Refresh
       setTimeout(() => {
         setLoading(false);
         hideModal();

@@ -8,6 +8,8 @@ import Lottie from "lottie-react-native";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { ApiServices } from "@app/services/Apiservice";
 import LoadingAndSuccess from "../animatedComponents/Success/LoadingAndSuccess";
+import { useDispatch } from "react-redux";
+import { RefreshSessionNotes } from "@app/features/SessionNotes/SessionNotes";
 const SaveModel = ({
   visible,
   setVisible,
@@ -20,12 +22,12 @@ const SaveModel = ({
   Content,
 }) => {
   const hideModal = () => setVisible(false);
-  console.log(ComingFor, ClientData, NoteId, TypeOfNote, File, Content);
   const [Loading, setLoading] = useState(false);
   const AnimationControl = React.useRef();
-
+  const Dispatch = useDispatch();
   const HandleApiCall = async () => {
-    setLoading(true);
+    // this is the function that is called when the user presses the save button
+    setLoading(true); // set loading to true to show the loading animation
     if (
       ComingFor.toLowerCase() == "upload" &&
       TypeOfNote.toLowerCase() == "text"
@@ -37,17 +39,67 @@ const SaveModel = ({
         ClientData.Session_ID,
         "Test Title(in proces of building this Field)",
         Content
-      );
+      ); // this is the api call to upload the text note
       if (response) {
-        AnimationControl.current.LoadingEnds()
+        AnimationControl.current.LoadingEnds();
+        Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
         setTimeout(() => {
           setLoading(false);
           hideModal();
           navigation.goBack("Prac_Session");
-        },1500)
+        }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
       }
-    } else if (ComingFor.toLowerCase() == "update") {
-      console.log("update");
+    } else if (
+      ComingFor.toLowerCase() == "update" &&
+      TypeOfNote.toLowerCase() == "text"
+    ) {
+      // update text note
+      const response = await ApiServices.Update_Note_Content_Text(
+        ClientData.Client_ID,
+        ClientData.Session_ID,
+        NoteId,
+        "Updated Title(in proces of building this Field)",
+        Content
+      ); // this is the api call to update the text note
+      if (response) {
+        AnimationControl.current.LoadingEnds();
+        Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
+        setTimeout(() => {
+          setLoading(false);
+          hideModal();
+        }, 1000);
+      } // this is the function that is called when Api call is successfull and the loading animation is finished
+    } else if (
+      ComingFor.toLowerCase() === "update" &&
+      TypeOfNote.toLowerCase() === "canvas"
+    ) {
+      // update canvas note
+   
+      const response = await ApiServices.Update_Canvas_Content(
+        ClientData.Client_ID,
+        ClientData.Session_ID,
+        Content,
+        NoteId,
+        `data:image/image/png;base64,${File}`
+      )
+      if(response){
+        AnimationControl.current.LoadingEnds();
+        Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
+        setTimeout(() => {
+          setLoading(false);
+          hideModal();
+        }, 1000);
+      }
+      
+
+
+
+    } else if (
+      ComingFor.toLowerCase() === "upload" &&
+      TypeOfNote.toLowerCase() === "canvas"
+    ) {
+      // upload canvas note
+      console.log("upload canvas");
     }
   };
   return (

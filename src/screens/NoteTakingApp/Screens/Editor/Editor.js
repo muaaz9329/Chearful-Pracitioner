@@ -22,7 +22,7 @@ import {
 import { Hp, Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { IconPencil, IconTrash } from "tabler-icons-react-native";
-import Header from "./Header";
+import Header from "./Components/Header";
 import {
   moderateScale,
   moderateVerticalScale,

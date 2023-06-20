@@ -8,6 +8,7 @@ const intoInitialState = {
   SessionNotesSuccess: false,
   SessionInfo: {},
   HasNotes: false,
+  refresh:false
 };
 
 const SessionNotesSlice = createSlice({
@@ -35,8 +36,11 @@ const SessionNotesSlice = createSlice({
       state.HasNotes = false;
       state.SessionInfo = {};
     },
+    RefreshSessionNotes:(state,action)=>{
+      state.refresh = action.payload
+    }
   },
 });
 
-export const { SetSessionNotes, ResetSessionNotes } = SessionNotesSlice.actions;
+export const { SetSessionNotes, ResetSessionNotes ,RefreshSessionNotes } = SessionNotesSlice.actions;
 export default SessionNotesSlice.reducer;

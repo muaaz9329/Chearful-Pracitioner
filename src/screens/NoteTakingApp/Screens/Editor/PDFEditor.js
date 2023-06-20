@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "./Header";
+import Header from "./Components/Header";
 import Pdf from "react-native-pdf";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
-import HeaderWithDeleteBtn from "./HeaderWithDeleteBtn";
+import HeaderWithDeleteBtn from "./Components/HeaderWithDeleteBtn";
 
 const PDFEditor = ({ navigation, route }) => {
   const { mode, content, ClientData , NoteId} = route.params;

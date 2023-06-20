@@ -21,7 +21,7 @@ class User_Session_Notes_Editor_Pram_object {
   constructor(ClientData: User_Session_notes_pram_object, Data: any , type: string , Mode: string) {
     this.Data = Data;
     this.NoteId = Data.id;
-    
+    this.ComingFor = "update"
     this.ClientData = ClientData;
     if (type === 'pdf'|| "docx" || "img") {
       this.SetForFile(Mode);
@@ -31,11 +31,11 @@ class User_Session_Notes_Editor_Pram_object {
         console.log('content',this.Data.content);
         this.TypeOfNote = 'text'
     }
-    if (type =='canvas') {
+    if (type ==='canvas') {
         this.SetForCanvas(Mode);
         this.TypeOfNote = 'canvas'
     }
-    this.ComingFor = "update"
+
 
   }
   private SetForFile(Mode: string): void {
@@ -48,7 +48,7 @@ class User_Session_Notes_Editor_Pram_object {
   }
   private SetForCanvas(Mode: string): void {
     this.mode = Mode;
-    this.content = this.Data.canvas;
+    this.content = JSON.parse(this.Data.canvas);
   }
 }
 
