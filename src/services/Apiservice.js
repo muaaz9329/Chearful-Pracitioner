@@ -6,7 +6,8 @@ Get_User_Session_Notes_ApiFunc,
 Post_New_Text_Note_ApiFunc,
 Delete_Session_Note_ApiFunc,
 Update_Note_Content_ApiFunc,
-Update_Canvas_Content_ApiFunc
+Update_Canvas_Content_ApiFunc,
+Post_New_Canvas_Note_ApiFunc
 } from './Api-Services/Index'
 
 
@@ -98,5 +99,15 @@ export const ApiServices = {
    * @param {*} Base64Img -  Base64 Image of the Canvas
    * 
    */
-  Update_Canvas_Content : Update_Canvas_Content_ApiFunc
+  Update_Canvas_Content : Update_Canvas_Content_ApiFunc,
+  /**
+   * @description Api function to Post  Canvas Session Note
+   * @param {*} Client_id - client id of the user
+   * @param {*} Session_id - session id of the session
+   * @param {*} file - Base64 Image of the Canvas
+   * @param {*} Content - note Content needed to be Uploaded , mainly array of points
+   * 
+   */
+  Post_Canvas_Content : Post_New_Canvas_Note_ApiFunc,
+
 };

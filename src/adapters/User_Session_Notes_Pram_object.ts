@@ -16,6 +16,7 @@ interface IncomingObj {
     client_image:string;
     appointment_date:string;
     appointment_time:string;
+    client_full_name:string;
 
 }
 
@@ -23,11 +24,13 @@ export class User_Session_notes_pram_object {
     Client_ID:number;
     Session_ID:number;
     Client_image:string;
+    Client_fullName:string;
     appointment: appointmentType;
     constructor(data:IncomingObj) {
       this.Client_ID = data.patient_id;
       this.Session_ID = data.id;
       this.Client_image = data.client_image;
+      this.Client_fullName = data.client_full_name
       this.appointment = {
         date: data.appointment_date,
         time: data.appointment_time,

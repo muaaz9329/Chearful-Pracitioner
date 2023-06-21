@@ -183,11 +183,11 @@ export const DateConstrctor = (date: Date): any => {
   const month = String(date).slice(4, 7).toLowerCase();
   
   const day = String(date).slice(8, 10);
-  const year = String(date).slice(11, 15);
+  const year = String(date).slice(13, 15); // change this to 11 , 15 for 2023 date
 
   var hours = date.getHours();
   var minutes: number | string = date.getMinutes();
-  var ampm = hours >= 12 ? "PM" : "Am";
+  var ampm = hours >= 12 ? "pm" : "am";
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = minutes < 10 ? "0" + minutes : minutes;

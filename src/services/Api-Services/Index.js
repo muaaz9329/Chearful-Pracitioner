@@ -11,3 +11,4 @@ export {default as Post_New_Text_Note_ApiFunc } from './POST_REQUESTS/Post_New_T
 export {default as Delete_Session_Note_ApiFunc} from './POST_REQUESTS/Delete_Session_Note_ApiFunc'
 export {default as Update_Note_Content_ApiFunc} from './POST_REQUESTS/Update_Note_Content_ApiFunc'
 export {default as Update_Canvas_Content_ApiFunc} from './POST_REQUESTS/Update_Canvas_Content_ApiFunc'
+export {default as Post_New_Canvas_Note_ApiFunc} from './POST_REQUESTS/Post_New_Canvas_Note_ApiFunc'

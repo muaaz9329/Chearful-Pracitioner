@@ -60,7 +60,7 @@ const HeaderWithDeleteBtn = ({ navigation, mode, data , NoteId }) => {
             />
           </View>
           <View style={styles.CardTextCont}>
-            <Text style={styles.Name}>{SessionInfo.client_full_name} </Text>
+            <Text style={styles.Name}>{data.Client_fullName} </Text>
             <View style={styles.LastVisitCont}>
               <Text style={styles.LastVisitText}>{data.appointment.date}</Text>
               <View style={styles.DotMargin}>

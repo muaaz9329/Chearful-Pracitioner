@@ -13,6 +13,9 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import User_Session_Notes_Editor_Pram_object from "@app/adapters/User_Session_Notes_Editor_Pram_object";
 import { DateConstrctor } from "@app/helper/customFunction";
+import { IconClockHour3 } from "tabler-icons-react-native";
+import { ClockIcon } from "@app/svgs/Index";
+import FileIconGenrator from "./FileIconGenrator";
 
 const NotesCard = ({ Arr, navigation, ClientData }) => {
   const VIEW_MODE = "view";
@@ -25,7 +28,6 @@ const NotesCard = ({ Arr, navigation, ClientData }) => {
       item.Apptype,
       VIEW_MODE
     );
-
 
     switch (item.Apptype) {
       case "text":
@@ -74,20 +76,34 @@ const NotesCard = ({ Arr, navigation, ClientData }) => {
     <View style={styles.Parent}>
       {Arr.map((item, index) => {
         return (
-          <Pressable
-            onPress={() => {
-              HandleNavigation(item);
-              console.log(item.Apptype);
-            }}
-            key={index}
-          >
-            <View style={{ paddingHorizontal: Wp(10) , marginBottom:Wp(20) }}>
-              <View style={styles.Container}></View>
-              <View style={styles.DateCont}>
+          <Pressable onPress={()=>{
+            HandleNavigation(item)
+          }} key={index} >
+
+          
+          <View style={styles.cont}>
+            <View style={styles.ImageCont}>
+              <Image source={FileIconGenrator(item.Apptype)} style={styles.DocIconSize} />
+            </View>
+            <View style={styles.Content}>
+              <View style={styles.TopText}>
                 <Text style={styles.Date}>{DateConstrctor(new Date(item.created_at)).Date}</Text>
-                <Text style={styles.Time}>{DateConstrctor(new Date(item.created_at)).Time}</Text>
+                <View style={styles.TimeCont}>
+                  <View style={styles.iconCont}>
+                    <ClockIcon color={"#90A3A7"} width={Wp(15)} height={Wp(15)} />
+                  </View>
+                  <View style={styles.IconText}>
+                    <Text style={styles.Time}>{DateConstrctor(new Date(item.created_at)).Time}</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.BottomCont}>
+                <Text style={styles.Time}>
+                  {`Last Edit ${DateConstrctor(new Date(item.updated_at)).Time}, ${DateConstrctor(new Date(item.updated_at)).Date}`}
+                </Text>
               </View>
             </View>
+          </View>
           </Pressable>
         );
       })}
@@ -132,33 +148,60 @@ export default NotesCard;
 //* Old Card StyleSheet
 
 const styles = StyleSheet.create({
-  Container: {
-    width: Wp(150),
-    height: Wp(120),
-    borderColor: NoteAppcolor.Primary,
-    borderWidth: 1,
-    borderRadius: Wp(10),
+  cont: {
+    height: Wp(82),
+    flexDirection: "row",
+    paddingVertical: Wp(8),
+    paddingHorizontal: Wp(8),
+    backgroundColor: "#F5F5F5",
+    borderRadius: Wp(12),
+    justifyContent: "space-between",
+    marginVertical:Wp(8)
   },
-  Date: {
-    fontFamily: Mulish(700),
-    fontSize: Wp(16),
-    color: NoteAppcolor.MenuText,
-    marginTop: Wp(5),
+  ImageCont: {
+    width: Wp(63),
+    height: Wp(65),
+    backgroundColor: "white",
+    borderRadius: Wp(8),
+    alignItems: "center",
+    justifyContent: "center",
   },
-  Time: {
-    fontFamily: Mulish(700),
-    fontSize: Wp(18),
-    color: NoteAppcolor.MenuText,
-    marginTop: Wp(5),
-    opacity: 0.7,
-  },
-  DateCont: {
-    marginLeft: Wp(5),
-  },
-  Parent: {
-    flex: 1,
-    flexWrap: "wrap",
+  TopText: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  TimeCont: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  IconText: {
+    marginHorizontal: Wp(3),
+  },
+  Content: {
+    width: Wp(280),
+    paddingVertical: Wp(8),
+    justifyContent: "space-between",
+    paddingHorizontal: Wp(3),
+  },
+  Date: {
+    fontSize: Wp(14.5),
+    fontFamily: Nunito(800),
+    color: NoteAppcolor.Primary,
+  },
+  Time: {
+    fontFamily: Nunito(500),
+    fontSize: Wp(13),
+    color: NoteAppcolor.Primary,
+  },
+  IconText:{
+    width:Wp(65),
+    
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  DocIconSize:{
+    width:Wp(38),
+    height:Wp(48),
+  },
+
 });

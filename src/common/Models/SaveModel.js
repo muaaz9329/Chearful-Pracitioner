@@ -99,7 +99,21 @@ const SaveModel = ({
       TypeOfNote.toLowerCase() === "canvas"
     ) {
       // upload canvas note
-      console.log("upload canvas");
+      const response = await ApiServices.Post_Canvas_Content(
+        ClientData.Client_ID,
+        ClientData.Session_ID,
+        `data:image/jpeg;base64,${File}`,
+        Content
+      )
+      if(response){
+        AnimationControl.current.LoadingEnds();
+        Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
+        setTimeout(() => {
+          setLoading(false);
+          hideModal();
+          navigation.goBack("Prac_Session");
+        }, 1000);
+      }
     }
   };
   return (

@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import React from "react";
 const useSessionNote = (newObj) => {
-
-  console.log("newObj",newObj[1].type)
   const FilterObj = newObj.map((item)=>{
    
     return {
@@ -34,7 +32,7 @@ const useSessionNote = (newObj) => {
       
     } else if (FilterObj[i].type === "drawing"){
       FilterObj[i].Apptype = "canvas";
-      console.log(FilterObj[i])
+  
 
       
      
