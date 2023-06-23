@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Text,
   Platform,
@@ -7,6 +7,7 @@ import {
   View,
   StyleSheet,
   Pressable,
+  Keyboard,
 } from "react-native";
 import {
   actions,
@@ -31,6 +32,8 @@ import DeleteModel from "@models/DeleteModel";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import dismissKeyboard from 'react-native-dismiss-keyboard';
+import { Button } from "react-native-paper";
 const Editor = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote } =
     route.params;
@@ -39,8 +42,10 @@ const Editor = ({ route, navigation }) => {
   // ../NotesPreview.js -> ./Components/NotesCard.js -> Editor.js
   const [Mode, setmode] = useState(mode);
   const [Content, setContent] = useState(content);
+  const IntailContent = useRef(content);
   const [model, setModel] = useState(false);
   const richText = React.useRef();
+  const ref = React.useRef();
 
   // This function is used to open the image picker and choose an image.
   const PutImage = () => {
@@ -69,6 +74,13 @@ const Editor = ({ route, navigation }) => {
       })
       .catch((err) => console.log(err));
   };
+
+  const keyboardDismiss = () => {
+    richText.current.blurContentEditor()
+  }
+
+
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -97,6 +109,8 @@ const Editor = ({ route, navigation }) => {
           ComingFor={ComingFor}
           TypeOfNote={TypeOfNote}
           Content={Content}
+          keyboardDismiss={keyboardDismiss}
+          IntailContent={IntailContent}
         />
         <ScrollView>
           <RichEditor
@@ -114,6 +128,7 @@ const Editor = ({ route, navigation }) => {
 
         {Mode === "edit" && (
           <RichToolbar
+          ref={ref}
             editor={richText}
             style={styles.toolbar}
             actions={[
@@ -128,6 +143,7 @@ const Editor = ({ route, navigation }) => {
               actions.checkboxList,
               actions.undo,
               actions.redo,
+              
               Platform.OS == "android" ? actions.insertImage : null,
             ]}
             iconMap={{
@@ -140,6 +156,8 @@ const Editor = ({ route, navigation }) => {
             }}
             selectedIconTint={NoteAppcolor.Primary}
             iconSize={Wp(27)}
+            
+           
           />
         )}
 

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View, Text, LogBox } from "react-native";
+import { Pressable, StyleSheet, View, Text, LogBox, Alert } from "react-native";
 import React, { useEffect } from "react";
 import Header from "./Components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,11 +10,12 @@ import DeleteModel from "@app/common/Models/DeleteModel";
 import { useState, useRef } from "react";
 import { RefFunctions } from "@helper/CanvasFunction";
 import HeaderWithFunc from "./Components/HeaderWithFunc";
-LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
-
+LogBox.ignoreLogs(["Warning:..."]); // Ignore log notification by message
 const DrawingEditor = ({ navigation, route }) => {
+
   const { mode, content, ClientData, NoteId, ComingFor } = route.params;
   const [Content, setContent] = useState();
+  const IntialContent = useRef(content)
   const [file , setFile] = useState();
   const [Mode, setMode] = useState(mode);
   const [model, setModel] = useState(false);
@@ -25,8 +26,12 @@ const DrawingEditor = ({ navigation, route }) => {
     CanvasFunc.Reset_Canvas();
     if (Mode === "view" && content) {
       CanvasFunc.SetPoint(content);
+      IntialContent.current = content
     }
   }, []);
+
+
+
 
 
   const GetPoint = () => {
@@ -45,6 +50,7 @@ const DrawingEditor = ({ navigation, route }) => {
         NoteId={NoteId}
         TypeOfNote={"canvas"}
         File={file}
+        IntialContent={IntialContent}
 
       />
       <DeleteModel

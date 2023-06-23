@@ -7,6 +7,8 @@ import React, {
 } from "react";
 import { SketchCanvas } from "rn-perfect-sketch-canvas";
 import { ColorWithopacity } from "@app/helper/customFunction";
+import { useDispatch } from "react-redux";
+import { UpdateHasDrawn } from "../utils/features/Brush-Control/BrushControl";
 
 /**
  * Canvas Component
@@ -37,6 +39,8 @@ const Canvas = forwardRef((props, ref) => {
   const [color, setColor] = useState("#000");
   const [strokeWidth, setStrokeWidth] = useState();
   const Memorizing_ref = useRef();
+  const Disparch = useDispatch();
+
 
   useImperativeHandle(ref, () => ({
     /**
@@ -133,19 +137,22 @@ const Canvas = forwardRef((props, ref) => {
   }));
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container}  >
       <View
         style={[
           styles.DisplayOverLay,
           { height: DEVICE_HEIGHT, width: DEVICE_WIDTH , display : props.disable ? 'flex' : 'none'  },
         ]}
       ></View>
+      <View style={styles.container} onStartShouldSetResponder={() =>{Disparch(UpdateHasDrawn(true))} }>
       <SketchCanvas
         ref={canvasRef}
         strokeColor={color}
         strokeWidth={strokeWidth}
         containerStyle={styles.container}
       />
+      </View>
+   
     </View>
   );
 });

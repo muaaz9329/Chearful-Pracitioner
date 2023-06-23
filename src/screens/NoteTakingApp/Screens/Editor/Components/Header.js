@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Keyboard
 } from "react-native";
 import React, { useState } from "react";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
@@ -19,7 +20,7 @@ import { Mulish, Nunito } from "@helper/FontWeight";
 import BackStopModel from "@models/BackStopModel";
 import SaveModel from "@models/SaveModel";
 import { useSelector } from "react-redux";
-import { DateConstrctor } from "@app/helper/customFunction";
+
 const Header = ({
   navigation,
   mode,
@@ -28,6 +29,8 @@ const Header = ({
   ComingFor,
   TypeOfNote,
   Content,
+  keyboardDismiss,
+  IntailContent
 }) => {
   const { SessionInfo } = useSelector((state) => state.SessionNotes);
 
@@ -49,11 +52,21 @@ const Header = ({
         TypeOfNote={TypeOfNote}
         NoteId={NoteId}
         Content={Content}
+        IntailContent={IntailContent} // passing so if the content changes and get saved then the back button will work as normal without showing the model
       />
+
       <Pressable
         style={styles.Listbtn}
         onPress={() => {
+          keyboardDismiss() 
+         if(IntailContent.current !== Content){ // if the content is changed then show the model
           setModel(!model);
+         }
+         else{ // if the content is not changed then go back
+          navigation.goBack();
+         }
+        
+         
         }}
       >
         <ChevronLeft
@@ -62,6 +75,7 @@ const Header = ({
           color={NoteAppcolor.btnColor}
         />
       </Pressable>
+
       <View>
         <View style={styles.CardContet}>
           <View style={styles.Cont1}>
@@ -92,6 +106,7 @@ const Header = ({
           style={[styles.Listbtn]}
           onPress={() => {
             setmodel2(!model2);
+            keyboardDismiss()
           }}
         >
           <SaveBtn

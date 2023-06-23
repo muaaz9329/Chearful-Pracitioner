@@ -9,9 +9,19 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { User_Session_notes_pram_object } from "@app/adapters/User_Session_notes_pram_object";
 import { User_Session_Add_Notes_Editor_Pram_object } from "@app/adapters/User_Session_Add_Notes_Editor_Pram_object";
 
-const NotesType = ({visible,setVisible , navigation,data}) => {
+const NotesType = ({visible,setVisible , navigation,data }) => {
   const MODE = "edit"
   console.log(new User_Session_Add_Notes_Editor_Pram_object(MODE , data , "text" , "upload"))
+
+
+  const PramObject =(type)=>{
+    let obj = {
+      forEditor:new User_Session_Add_Notes_Editor_Pram_object(MODE , data , type , "upload"),
+      ClientData: new User_Session_notes_pram_object(data)
+    }
+    return obj
+     
+  }
   const hideModal = () => setVisible(false);
  
   return (

@@ -10,6 +10,7 @@ import { ApiServices } from "@app/services/Apiservice";
 import LoadingAndSuccess from "../animatedComponents/Success/LoadingAndSuccess";
 import { useDispatch } from "react-redux";
 import { RefreshSessionNotes } from "@app/features/SessionNotes/SessionNotes";
+import { UpdateHasDrawn } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
 const SaveModel = ({
   visible,
   setVisible,
@@ -20,6 +21,7 @@ const SaveModel = ({
   TypeOfNote,
   File,
   Content,
+  IntailContent,
 }) => {
   const hideModal = () => setVisible(false);
   const [Loading, setLoading] = useState(false);
@@ -32,7 +34,7 @@ const SaveModel = ({
       ComingFor.toLowerCase() == "upload" &&
       TypeOfNote.toLowerCase() == "text"
     ) {
-      // upload text note
+      //* upload text note
       console.log("upload text");
       const response = await ApiServices.Post_New_Text_Note(
         ClientData.Client_ID,
@@ -46,14 +48,15 @@ const SaveModel = ({
         setTimeout(() => {
           setLoading(false);
           hideModal();
-          navigation.goBack("Prac_Session");
+          navigation.navigate("Prac_NotesPreview");
         }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
+        IntailContent.current = Content; // setting the intial content to the current content so that if the user presses the back button then the model will not be shown
       }
     } else if (
       ComingFor.toLowerCase() == "update" &&
       TypeOfNote.toLowerCase() == "text"
     ) {
-      // update text note
+      //* update text note
       const response = await ApiServices.Update_Note_Content_Text(
         ClientData.Client_ID,
         ClientData.Session_ID,
@@ -68,50 +71,49 @@ const SaveModel = ({
           setLoading(false);
           hideModal();
         }, 1000);
+        IntailContent.current = Content; // setting the intial content to the current content so that if the user presses the back button then the model will not be shown
       } // this is the function that is called when Api call is successfull and the loading animation is finished
     } else if (
       ComingFor.toLowerCase() === "update" &&
       TypeOfNote.toLowerCase() === "canvas"
     ) {
-      // update canvas note
-   
+      //* update canvas note
+
       const response = await ApiServices.Update_Canvas_Content(
         ClientData.Client_ID,
         ClientData.Session_ID,
         Content,
         NoteId,
         `data:image/image/png;base64,${File}`
-      )
-      if(response){
+      );
+      if (response) {
         AnimationControl.current.LoadingEnds();
         Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
+        Dispatch(UpdateHasDrawn(false)); // State to tell that user have not drawn anything after saving so move with out showing the model
         setTimeout(() => {
           setLoading(false);
           hideModal();
         }, 1000);
       }
-      
-
-
-
     } else if (
       ComingFor.toLowerCase() === "upload" &&
       TypeOfNote.toLowerCase() === "canvas"
     ) {
-      // upload canvas note
+      //* upload canvas note
       const response = await ApiServices.Post_Canvas_Content(
         ClientData.Client_ID,
         ClientData.Session_ID,
         `data:image/jpeg;base64,${File}`,
         Content
-      )
-      if(response){
+      );
+      if (response) {
         AnimationControl.current.LoadingEnds();
         Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
+        Dispatch(UpdateHasDrawn(false)); // State to tell that user have not drawn anything after saving so move with out showing the model
         setTimeout(() => {
           setLoading(false);
           hideModal();
-          navigation.goBack("Prac_Session");
+          navigation.navigate("Prac_NotesPreview");
         }, 1000);
       }
     }

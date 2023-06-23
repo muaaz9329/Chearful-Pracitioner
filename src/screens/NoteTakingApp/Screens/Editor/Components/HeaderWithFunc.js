@@ -6,7 +6,7 @@ import {
     Text,
     View,
   } from "react-native";
-  import React, { useState } from "react";
+  import React, { useEffect, useState } from "react";
   import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
   import { NoteAppcolor } from "@constants/NoteAppcolor";
   import { widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -18,8 +18,9 @@ import {
   import { Mulish, Nunito } from "@helper/FontWeight";
   import BackStopModel from "@models/BackStopModel";
   import SaveModel from "@models/SaveModel";
-  import { useSelector } from "react-redux";
+  import { useDispatch, useSelector } from "react-redux";
   import { DateConstrctor } from "@app/helper/customFunction";
+import { UpdateHasDrawn } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
   const HeaderWithFunc = ({
     navigation,
     mode,
@@ -29,9 +30,19 @@ import {
     TypeOfNote,
     Content,
     GetPointFunc,
-    File
+    File,
+    IntialContent
   }) => {
-    const { SessionInfo } = useSelector((state) => state.SessionNotes);
+
+    useEffect(()=>{
+      console.log('changes: Intial ->',IntialContent.current)
+      console.log(Content)
+    })
+    const {hasDrawn} = useSelector((state) => state.BrushControl);
+
+    useEffect(()=>{
+      console.log(hasDrawn)
+    },[hasDrawn])
   
     const [model, setModel] = useState(false);
     const [model2, setmodel2] = useState(false);
@@ -56,7 +67,13 @@ import {
         <Pressable
           style={styles.Listbtn}
           onPress={() => {
-            setModel(!model);
+            if(hasDrawn){
+              setModel(!model);
+              
+            }
+            else{
+              navigation.goBack();
+            }
           }}
         >
           <ChevronLeft

@@ -6,9 +6,13 @@ import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
 import Lottie from "lottie-react-native";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
+import { useDispatch } from "react-redux";
+import { UpdateHasDrawn } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
 
 const BackStopModel = ({visible , setVisible , navigation}) => {
     
+
+    const dispatch = useDispatch()
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
@@ -35,6 +39,7 @@ const BackStopModel = ({visible , setVisible , navigation}) => {
             <View style={styles.btnCont}>
               <TouchableOpacity style={[styles.btnStyles, styles.DeleteBtn]} onPress={()=>{
                 hideModal()
+                dispatch(UpdateHasDrawn(false)) // for canvas to know that the user has not drawn anything for next time
                 navigation.goBack()
               }}>
                 <Text style={styles.btnText}>Yes</Text>

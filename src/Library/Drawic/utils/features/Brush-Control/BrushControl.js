@@ -4,6 +4,7 @@ const initialState ={
     Opacity:1,
     Color:'#000',
     strokeWidth:8,
+    hasDrawn:false
 
 
 }
@@ -20,9 +21,12 @@ export const BrushControl = createSlice({
         },
         UpdateStrokeWidth:(state,action)=>{
             state['strokeWidth'] = action.payload
+        },
+        UpdateHasDrawn:(state,action)=>{
+            state['hasDrawn'] = action.payload
         }
     }
 })
 
-export const {UpdateColor,UpdateOpacity,UpdateStrokeWidth} = BrushControl.actions
+export const {UpdateColor,UpdateOpacity,UpdateStrokeWidth ,UpdateHasDrawn} = BrushControl.actions
 export default BrushControl.reducer;

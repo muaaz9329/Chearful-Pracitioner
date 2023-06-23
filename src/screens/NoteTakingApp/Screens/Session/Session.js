@@ -85,7 +85,7 @@ const Session = ({ navigation }) => {
               showsVerticalScrollIndicator={false}
             />
           ) : (
-            <NotAvil Title={"No Session"} Content={"No Session Found"} />
+            <NotAvil Title={"No Session Found"} />
           )
         )}
       </SafeAreaView>
