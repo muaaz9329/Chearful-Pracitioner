@@ -31,6 +31,8 @@ const NotesPreview = ({ navigation, route }) => {
   const { ClientData } = route.params; // Api Prams such as Client Id , Session Id  , Client Image ,
   //Date and Time are being given as Pram from navigation route From Session.js -> CardDesign.js
   //in order to use it as pram here
+
+  console.log(ClientData)
   const dispatch = useDispatch();
   const LoadingRef = useRef(); // used to control the Loading Screen
   const { SessionNotes, SessionNotesSuccess, SessionInfo, HasNotes, refresh } =

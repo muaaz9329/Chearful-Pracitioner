@@ -48,7 +48,7 @@ const SaveModel = ({
         setTimeout(() => {
           setLoading(false);
           hideModal();
-          navigation.navigate("Prac_NotesPreview");
+          navigation.navigate("Prac_NotesPreview",{ClientData:ClientData});
         }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
         IntailContent.current = Content; // setting the intial content to the current content so that if the user presses the back button then the model will not be shown
       }
@@ -113,7 +113,7 @@ const SaveModel = ({
         setTimeout(() => {
           setLoading(false);
           hideModal();
-          navigation.navigate("Prac_NotesPreview");
+          navigation.navigate("Prac_NotesPreview",{ClientData:ClientData});
         }, 1000);
       }
     }

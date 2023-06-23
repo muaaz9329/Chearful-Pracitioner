@@ -17,7 +17,7 @@ const PDFEditor = ({ navigation, route }) => {
     <>
     <LoadingScreen ref={LoadingRef} />
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      <HeaderWithDeleteBtn navigation={navigation} mode={mode} data={ClientData} />
+      <HeaderWithDeleteBtn navigation={navigation} mode={mode} data={ClientData} NoteId={NoteId} />
       <Pdf source={{ uri: content }} style={{ flex: 1 }} onLoadComplete={()=> LoadingComplete()} trustAllCerts={false}  />
     </SafeAreaView>
     </>

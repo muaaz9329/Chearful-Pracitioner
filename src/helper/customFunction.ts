@@ -194,7 +194,7 @@ export const DateConstrctor = (date: Date): any => {
   var strTime = hours + ":" + minutes + " " + ampm;
   ReturnedObj.Time = strTime;
 
-  ReturnedObj.Date = `${day} ${month} , ${year}`;
+  ReturnedObj.Date = `${day} ${month}, ${year}`;
   ReturnedObj.ApiDateQuery = date.toISOString().split('T')[0] // Returns the date in YYYY-MM-DD format
   return ReturnedObj;
 };

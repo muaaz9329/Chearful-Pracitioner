@@ -42,7 +42,7 @@ const HeaderWithDeleteBtn = ({ navigation, mode, data , NoteId }) => {
       <Pressable
         style={styles.Listbtn}
         onPress={() => {
-          setModel(!model);
+          navigation.goBack()
         }}
       >
         <ChevronLeft

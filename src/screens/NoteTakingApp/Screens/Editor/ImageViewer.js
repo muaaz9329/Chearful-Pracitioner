@@ -7,7 +7,7 @@ const ImageViewer = ({ route, navigation }) => {
   console.log("content", content);
   return (
     <SafeAreaView style={{flex:1 , backgroundColor:'white'}} >
-      <HeaderWithDeleteBtn navigation={navigation} mode={mode} data={ClientData} />
+      <HeaderWithDeleteBtn navigation={navigation} mode={mode} data={ClientData} NoteId={NoteId}/>
       <Image
       source={{uri:content}}
       style={{flex:1}}
