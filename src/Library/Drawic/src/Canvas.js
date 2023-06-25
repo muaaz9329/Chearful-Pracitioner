@@ -5,10 +5,10 @@ import React, {
   useImperativeHandle,
   useState,
 } from "react";
-import { SketchCanvas } from "rn-perfect-sketch-canvas";
 import { ColorWithopacity } from "@app/helper/customFunction";
 import { useDispatch } from "react-redux";
 import { UpdateHasDrawn } from "../utils/features/Brush-Control/BrushControl";
+import { SketchCanvas } from "@terrylinla/react-native-sketch-canvas";
 
 /**
  * Canvas Component
@@ -40,7 +40,6 @@ const Canvas = forwardRef((props, ref) => {
   const [strokeWidth, setStrokeWidth] = useState();
   const Memorizing_ref = useRef();
   const Disparch = useDispatch();
-
 
   useImperativeHandle(ref, () => ({
     /**
@@ -99,7 +98,7 @@ const Canvas = forwardRef((props, ref) => {
      */
 
     Reset_Whole_Canvas() {
-      canvasRef.current.reset();
+      canvasRef.current.clear();
     },
     /**
      * @description this function is used to clear the last stroke
@@ -117,13 +116,13 @@ const Canvas = forwardRef((props, ref) => {
      * @description this function is used to get the Points that are drawn on the canvas
      */
     Get_Canvas_Points() {
-      return canvasRef.current.toPoints();
+      return canvasRef.current.getPaths();
     },
     /**
      * @description this function is used to set the Points on canvas that are drawn on the canvas , it takes an array of points
      */
     Set_Canvas_Points(Points) {
-      canvasRef.current.addPoints(Points);
+      canvasRef.current.addPath(Points);
     },
     /**
      *@description this function is used to save the canvas as SVG
@@ -131,29 +130,43 @@ const Canvas = forwardRef((props, ref) => {
     Save_Canvas_Svg() {
       return canvasRef.current.toSvg(DEVICE_WIDTH, DEVICE_HEIGHT);
     },
-    Save_Canvas_toImage(){
-      return canvasRef.current.toImage()
-    }
+    Save_Canvas_toImage() {
+      return canvasRef.current.getBase64(
+        "png",
+        false,
+        false,
+        false,
+        false,
+        (err, res) => {
+          console.log(err);
+          return res;
+          
+        }
+      );
+    },
   }));
 
   return (
-    <View style={styles.container}  >
+    <View style={styles.container} >
       <View
         style={[
           styles.DisplayOverLay,
-          { height: DEVICE_HEIGHT, width: DEVICE_WIDTH , display : props.disable ? 'flex' : 'none'  },
+          {
+            height: DEVICE_HEIGHT,
+            width: DEVICE_WIDTH,
+            display: props.disable ? "flex" : "none",
+          },
         ]}
       ></View>
-      <View style={styles.container} onStartShouldSetResponder={() =>{Disparch(UpdateHasDrawn(true))} }>
-      <SketchCanvas
-        ref={canvasRef}
-        strokeColor={color}
-        strokeWidth={strokeWidth}
-        containerStyle={styles.container}
-      />
+  
+        <SketchCanvas
+          strokeColor={color}
+          strokeWidth={strokeWidth}
+          ref={canvasRef}
+          style={styles.container}
+        />
       </View>
    
-    </View>
   );
 });
 
@@ -165,10 +178,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   DisplayOverLay: {
-    
     position: "absolute",
 
     zIndex: 100,
-    
   },
 });

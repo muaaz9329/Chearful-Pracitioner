@@ -10,7 +10,7 @@ import { ApiServices } from "@app/services/Apiservice";
 import LoadingAndSuccess from "../animatedComponents/Success/LoadingAndSuccess";
 import { useDispatch } from "react-redux";
 import { RefreshSessionNotes } from "@app/features/SessionNotes/SessionNotes";
-import { UpdateHasDrawn } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
+import { UpdateHasSaved } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
 const SaveModel = ({
   visible,
   setVisible,
@@ -89,7 +89,7 @@ const SaveModel = ({
       if (response) {
         AnimationControl.current.LoadingEnds();
         Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
-        Dispatch(UpdateHasDrawn(false)); // State to tell that user have not drawn anything after saving so move with out showing the model
+        Dispatch(UpdateHasSaved(true));
         setTimeout(() => {
           setLoading(false);
           hideModal();
@@ -109,7 +109,7 @@ const SaveModel = ({
       if (response) {
         AnimationControl.current.LoadingEnds();
         Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
-        Dispatch(UpdateHasDrawn(false)); // State to tell that user have not drawn anything after saving so move with out showing the model
+        Dispatch(UpdateHasSaved(true));
         setTimeout(() => {
           setLoading(false);
           hideModal();

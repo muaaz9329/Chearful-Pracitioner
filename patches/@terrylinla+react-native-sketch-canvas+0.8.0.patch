@@ -1,0 +1,29 @@
+diff --git a/node_modules/@terrylinla/react-native-sketch-canvas/index.js b/node_modules/@terrylinla/react-native-sketch-canvas/index.js
+index 7935842..2a998b5 100644
+--- a/node_modules/@terrylinla/react-native-sketch-canvas/index.js
++++ b/node_modules/@terrylinla/react-native-sketch-canvas/index.js
+@@ -5,8 +5,8 @@ import ReactNative, {
+   Text,
+   TouchableOpacity,
+   FlatList,
+-  ViewPropTypes,
+ } from 'react-native'
++import {ViewPropTypes} from 'deprecated-react-native-prop-types'
+ import SketchCanvas from './src/SketchCanvas'
+ import { requestPermissions } from './src/handlePermissions';
+ 
+diff --git a/node_modules/@terrylinla/react-native-sketch-canvas/src/SketchCanvas.js b/node_modules/@terrylinla/react-native-sketch-canvas/src/SketchCanvas.js
+index 8f4fe48..6bbde86 100644
+--- a/node_modules/@terrylinla/react-native-sketch-canvas/src/SketchCanvas.js
++++ b/node_modules/@terrylinla/react-native-sketch-canvas/src/SketchCanvas.js
+@@ -9,9 +9,9 @@ import ReactNative, {
+   PanResponder,
+   PixelRatio,
+   Platform,
+-  ViewPropTypes,
+   processColor
+ } from 'react-native'
++import {ViewPropTypes} from 'deprecated-react-native-prop-types'
+ import { requestPermissions } from './handlePermissions';
+ 
+ const RNSketchCanvas = requireNativeComponent('RNSketchCanvas', SketchCanvas, {

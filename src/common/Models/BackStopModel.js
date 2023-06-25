@@ -39,7 +39,6 @@ const BackStopModel = ({visible , setVisible , navigation}) => {
             <View style={styles.btnCont}>
               <TouchableOpacity style={[styles.btnStyles, styles.DeleteBtn]} onPress={()=>{
                 hideModal()
-                dispatch(UpdateHasDrawn(false)) // for canvas to know that the user has not drawn anything for next time
                 navigation.goBack()
               }}>
                 <Text style={styles.btnText}>Yes</Text>

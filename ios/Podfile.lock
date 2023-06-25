@@ -441,6 +441,8 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
+  - RNSketchCanvas (0.8.0):
+    - React
   - RNSVG (13.9.0):
     - React-Core
   - SocketRocket (0.6.0)
@@ -524,6 +526,7 @@ DEPENDENCIES:
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSketchCanvas (from `../node_modules/@terrylinla/react-native-sketch-canvas`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -646,6 +649,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSketchCanvas:
+    :path: "../node_modules/@terrylinla/react-native-sketch-canvas"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -715,6 +720,7 @@ SPEC CHECKSUMS:
   RNImageCropPicker: 648356d68fbf9911a1016b3e3723885d28373eda
   RNReanimated: 0a5f87ec1da472cca3e835333fdebe51d983c411
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
+  RNSketchCanvas: 9c28adb5381543ed55cc98ce6de46479cb3cb12c
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863

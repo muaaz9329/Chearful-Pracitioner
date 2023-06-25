@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NewDesign from "./Test/NewDesign";
+import Drawic from "./Library/Drawic/Drawic";
 const Stack = createStackNavigator();
 const App = () => {
   const [IsLogedIn, SetLogin] = React.useState(null);
@@ -29,6 +30,8 @@ const App = () => {
       SetLogin(false);
     }
   };
+
+  const Ref = React.useRef();
   return (
     <>
       <StatusBar barStyle={"dark-content"} />

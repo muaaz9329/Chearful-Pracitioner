@@ -12,7 +12,7 @@ export class RefFunctions{
         this.CanvesRef.current.Set_Canvas_Points(Points)
     }
     GET_IMG_BASE64(){
-        return this.CanvesRef.current.Save_Canvas_toImage().encodeToBase64()
+        return this.CanvesRef.current.Save_Canvas_toImage()
     }
     GET_IMG_SVG(){
         return this.CanvesRef.current.Save_Canvas_Svg()

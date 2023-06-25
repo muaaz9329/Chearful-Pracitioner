@@ -10,33 +10,37 @@ import DeleteModel from "@app/common/Models/DeleteModel";
 import { useState, useRef } from "react";
 import { RefFunctions } from "@helper/CanvasFunction";
 import HeaderWithFunc from "./Components/HeaderWithFunc";
+import { useDispatch } from "react-redux";
+import { UpdateHasSaved } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
 LogBox.ignoreLogs(["Warning:..."]); // Ignore log notification by message
 const DrawingEditor = ({ navigation, route }) => {
-
   const { mode, content, ClientData, NoteId, ComingFor } = route.params;
   const [Content, setContent] = useState();
-  const IntialContent = useRef(content)
-  const [file , setFile] = useState();
+  const IntialContent = useRef(content);
+  const [file, setFile] = useState();
   const [Mode, setMode] = useState(mode);
   const [model, setModel] = useState(false);
   const DrawicRef = useRef();
   const CanvasFunc = new RefFunctions(DrawicRef); // Consists of all the Required Function to work with the Drawic Component
-
+  const dispatch = useDispatch();
   useEffect(() => {
     CanvasFunc.Reset_Canvas();
     if (Mode === "view" && content) {
-      CanvasFunc.SetPoint(content);
-      IntialContent.current = content
+      if (content.length !== 0) {
+        for (let index = 0; index < content.length; index++) {
+          CanvasFunc.SetPoint(content[index]);
+        }
+      } // Set the Points to the Canvas
+
+      IntialContent.current = content;
     }
+    dispatch(UpdateHasSaved(false));
+
   }, []);
-
-
-
-
 
   const GetPoint = () => {
     setContent(CanvasFunc.GetPoints());
-    setFile(CanvasFunc.GET_IMG_BASE64())
+    setFile(CanvasFunc.GET_IMG_BASE64());
   };
   return (
     <SafeAreaView edges={["top"]} style={styles.Continer}>
@@ -51,7 +55,7 @@ const DrawingEditor = ({ navigation, route }) => {
         TypeOfNote={"canvas"}
         File={file}
         IntialContent={IntialContent}
-
+        CanvasFunc={CanvasFunc}
       />
       <DeleteModel
         navigation={navigation}

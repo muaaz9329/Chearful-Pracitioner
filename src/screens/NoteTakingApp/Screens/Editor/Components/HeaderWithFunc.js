@@ -31,18 +31,13 @@ import { UpdateHasDrawn } from "@app/Library/Drawic/utils/features/Brush-Control
     Content,
     GetPointFunc,
     File,
-    IntialContent
+    IntialContent,
+    CanvasFunc,
   }) => {
 
-    useEffect(()=>{
-      console.log('changes: Intial ->',IntialContent.current)
-      console.log(Content)
-    })
-    const {hasDrawn} = useSelector((state) => state.BrushControl);
+    const {hasSaved} = useSelector((state) => state.BrushControl);
 
-    useEffect(()=>{
-      console.log(hasDrawn)
-    },[hasDrawn])
+
   
     const [model, setModel] = useState(false);
     const [model2, setmodel2] = useState(false);
@@ -67,8 +62,9 @@ import { UpdateHasDrawn } from "@app/Library/Drawic/utils/features/Brush-Control
         <Pressable
           style={styles.Listbtn}
           onPress={() => {
-            if(hasDrawn){
-              setModel(!model);
+            let temp = CanvasFunc.GetPoints();
+            if(IntialContent.current.length!==temp.length && hasSaved==false){ // Checks if the user has Edit or Drawn anythings
+              setModel(!model); // Show the Model
               
             }
             else{
