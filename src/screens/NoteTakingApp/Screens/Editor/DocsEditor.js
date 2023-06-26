@@ -1,15 +1,21 @@
-import { Platform, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "./Components/Header";
 import WebView from "react-native-webview";
-import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import HeaderWithDeleteBtn from "./Components/HeaderWithDeleteBtn";
+import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 
 const DocsEditor = ({ route, navigation }) => {
-  const { mode, content, ClientData ,NoteId } = route.params;
+  const { mode, content, ClientData, NoteId } = route.params;
   const [url, setUrl] = useState("");
-  const LoadingRef = React.useRef();
+  const [loading, setLoading] = useState(true);
   const SetUrl = () => {
     if (Platform.OS === "android") {
       setUrl("https://docs.google.com/gview?embedded=true&url=" + content);
@@ -22,16 +28,25 @@ const DocsEditor = ({ route, navigation }) => {
     console.log(url);
   }, []);
 
-  const LoadingComplete = () => {
-    LoadingRef.current.LoadingEnds();
-  }
   return (
     <>
-    <LoadingScreen ref={LoadingRef} />
-    <SafeAreaView style={styles.Body}>
-      <HeaderWithDeleteBtn navigation={navigation} mode={mode} data={ClientData} NoteId={NoteId} />
-      <WebView source={{ uri: url }} style={{ flex: 1 }} onLoadEnd={()=>LoadingComplete()} />
-    </SafeAreaView>
+      {loading ? (
+        <ActivityIndicator size={"large"} color={NoteAppcolor.Primary}  />
+      ) : (
+        <SafeAreaView style={styles.Body}>
+          <HeaderWithDeleteBtn
+            navigation={navigation}
+            mode={mode}
+            data={ClientData}
+            NoteId={NoteId}
+          />
+          <WebView
+            source={{ uri: url }}
+            style={{ flex: 1 }}
+            onLoadEnd={() => setLoading(false)}
+          />
+        </SafeAreaView>
+      )}
     </>
   );
 };

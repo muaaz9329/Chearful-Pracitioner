@@ -6,12 +6,14 @@ export class User_Session_Add_Notes_Editor_Pram_object{
     TypeOfNote:"text"|"canvas";
     ComingFor:'update'|'upload';
     content:string;
-    constructor(MODE:string , Data:any ,TypeOfNote:"text"|"canvas",Action:'update'|'upload' ){
+    AfterCompletePath:"back"|"PreviewNotes"
+    constructor(MODE:string , Data:any ,TypeOfNote:"text"|"canvas",Action:'update'|'upload' , AfterCompletePath:"back"|"PreviewNotes" ){
         this.mode = MODE;
         this.ClientData = new User_Session_notes_pram_object(Data);
         this.TypeOfNote = TypeOfNote;
         this.ComingFor = Action;
-        this.content=''
+        this.content='';
+        this.AfterCompletePath = AfterCompletePath
 
     }
 }

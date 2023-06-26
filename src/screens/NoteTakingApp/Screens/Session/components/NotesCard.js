@@ -20,7 +20,7 @@ import FileIconGenrator from "./FileIconGenrator";
 const NotesCard = ({ Arr, navigation, ClientData }) => {
   const VIEW_MODE = "view";
   const EDIT_MODE = "edit";
-  console.log(Arr);
+
   const HandleNavigation = (item) => {
     const Pram = new User_Session_Notes_Editor_Pram_object(
       ClientData,
@@ -76,34 +76,50 @@ const NotesCard = ({ Arr, navigation, ClientData }) => {
     <View style={styles.Parent}>
       {Arr.map((item, index) => {
         return (
-          <Pressable onPress={()=>{
-            HandleNavigation(item)
-          }} key={index} >
-
-          
-          <View style={styles.cont}>
-            <View style={styles.ImageCont}>
-              <Image source={FileIconGenrator(item.Apptype)} style={styles.DocIconSize} />
-            </View>
-            <View style={styles.Content}>
-              <View style={styles.TopText}>
-                <Text style={styles.Date}>{DateConstrctor(new Date(item.created_at)).Date}</Text>
-                <View style={styles.TimeCont}>
-                  <View style={styles.iconCont}>
-                    <ClockIcon color={"#90A3A7"} width={Wp(15)} height={Wp(15)} />
-                  </View>
-                  <View style={styles.IconText}>
-                    <Text style={styles.Time}>{DateConstrctor(new Date(item.created_at)).Time}</Text>
-                  </View>
+          <Pressable
+            onPress={() => {
+              HandleNavigation(item);
+            }}
+            key={index}
+          >
+            <View style={styles.cont}>
+              <View style={styles.ImageCont}>
+                <Image
+                  source={FileIconGenrator(item.Apptype)}
+                  style={styles.DocIconSize}
+                />
+              </View>
+              <View style={styles.Content}>
+                <View style={styles.TopText}>
+                  <Text style={styles.Date}>
+                    {DateConstrctor(new Date(item.created_at)).Date}
+                  </Text>
+                  {!(item.created_at === item.updated_at) && (
+                    <View style={styles.TimeCont}>
+                      <View style={styles.iconCont}>
+                        <ClockIcon
+                          color={"#90A3A7"}
+                          width={Wp(15)}
+                          height={Wp(15)}
+                        />
+                      </View>
+                      <View style={styles.IconText}>
+                        <Text style={styles.Time}>
+                          {DateConstrctor(new Date(item.created_at)).Time}
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+                </View>
+                <View style={styles.BottomCont}>
+                  <Text style={styles.Time}>
+                    {`Last Edit ${
+                      DateConstrctor(new Date(item.updated_at)).Time
+                    }, ${DateConstrctor(new Date(item.updated_at)).Date}`}
+                  </Text>
                 </View>
               </View>
-              <View style={styles.BottomCont}>
-                <Text style={styles.Time}>
-                  {`Last Edit ${DateConstrctor(new Date(item.updated_at)).Time}, ${DateConstrctor(new Date(item.updated_at)).Date}`}
-                </Text>
-              </View>
             </View>
-          </View>
           </Pressable>
         );
       })}
@@ -156,7 +172,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     borderRadius: Wp(12),
     justifyContent: "space-between",
-    marginVertical:Wp(8)
+    marginVertical: Wp(8),
   },
   ImageCont: {
     width: Wp(63),
@@ -193,15 +209,14 @@ const styles = StyleSheet.create({
     fontSize: Wp(13),
     color: NoteAppcolor.Primary,
   },
-  IconText:{
-    width:Wp(65),
-    
-    alignItems:'center',
-    justifyContent:'center',
-  },
-  DocIconSize:{
-    width:Wp(38),
-    height:Wp(48),
-  },
+  IconText: {
+    width: Wp(65),
 
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  DocIconSize: {
+    width: Wp(38),
+    height: Wp(48),
+  },
 });
