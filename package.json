@@ -15,7 +15,6 @@
     "@react-navigation/native": "^6.0.14",
     "@react-navigation/stack": "^6.3.5",
     "@reduxjs/toolkit": "^1.9.2",
-    "@shopify/react-native-skia": "^0.1.188",
     "@terrylinla/react-native-sketch-canvas": "^0.8.0",
     "axios": "^1.4.0",
     "babel-plugin-module-resolver": "^5.0.0",
@@ -53,7 +52,6 @@
     "react-native-wheel-color-picker": "^1.2.0",
     "react-redux": "^8.0.5",
     "redux-thunk": "^2.4.2",
-    "rn-perfect-sketch-canvas": "^0.3.0",
     "tabler-icons-react-native": "2.3.1"
   },
   "devDependencies": {

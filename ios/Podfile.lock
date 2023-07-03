@@ -320,10 +320,6 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - react-native-skia (0.1.188):
-    - React
-    - React-callinvoker
-    - React-Core
   - react-native-slider (4.4.0):
     - React-Core
   - react-native-splash-screen (3.3.0):
@@ -504,7 +500,6 @@ DEPENDENCIES:
   - react-native-image-base64 (from `../node_modules/react-native-image-base64`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
-  - "react-native-skia (from `../node_modules/@shopify/react-native-skia`)"
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -605,8 +600,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pdf"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
-  react-native-skia:
-    :path: "../node_modules/@shopify/react-native-skia"
   react-native-slider:
     :path: "../node_modules/@react-native-community/slider"
   react-native-splash-screen:
@@ -698,7 +691,6 @@ SPEC CHECKSUMS:
   react-native-image-base64: 2ff9ac788639c87a91361ab6652cc95e871b1e54
   react-native-pdf: 33c622cbdf776a649929e8b9d1ce2d313347c4fa
   react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4
-  react-native-skia: 8c68c437707fd47b25420ca4c8563fe3cfc52ada
   react-native-slider: d2938a12c4e439a227c70eec65d119136eb4aeb5
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-webview: 13db17f7c7fe8f91c826e9afcc369cbc74507ea0
