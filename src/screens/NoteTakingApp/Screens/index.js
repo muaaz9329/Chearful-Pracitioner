@@ -23,6 +23,12 @@ export { default as Prac_ImageViewer} from "./Editor/ImageViewer"
 
 export { default as Prac_DocsEditor} from "./Editor/DocsEditor"
 
+export { default as Prac_PdfUpload} from "./Editor/PdfUpload"
+
+export { default as Prac_DocxUpload} from "./Editor/DocxUpload"
+
+export { default as Prac_ImageUpload} from "./Editor/ImageUpload"
+
 //* -------------------------------------------------------------------------------
 
 export { default as Prac_NotesPreview } from "./Session/NotesPreview";

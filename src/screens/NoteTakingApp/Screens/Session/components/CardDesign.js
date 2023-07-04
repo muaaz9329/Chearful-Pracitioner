@@ -11,12 +11,13 @@ import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
 import NotesType from "@models/NotesType";
 import { User_Session_notes_pram_object } from "@app/adapters/User_Session_notes_pram_object";
+import TypeOfNote from "@app/common/Models/TypeOfNote";
 const CardDesign = ({ Data, navigation }) => {
   console.log(Data)
   const [model, setmodel] = useState(false);
   return (
     <View style={styles.cardCont}>
-      <NotesType
+      <TypeOfNote
         visible={model}
         setVisible={setmodel}
         data={Data}

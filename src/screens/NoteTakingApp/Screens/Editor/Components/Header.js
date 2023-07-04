@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Keyboard
+  Keyboard,
 } from "react-native";
 import React, { useState } from "react";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
@@ -27,10 +27,10 @@ const Header = ({
   data,
   NoteId,
   ComingFor,
-  TypeOfNote,
+  TypeOfNote = "",
   Content,
   keyboardDismiss,
-  IntailContent
+  IntailContent,
 }) => {
   const { SessionInfo } = useSelector((state) => state.SessionNotes);
 
@@ -58,15 +58,19 @@ const Header = ({
       <Pressable
         style={styles.Listbtn}
         onPress={() => {
-          keyboardDismiss() 
-         if(IntailContent.current !== Content){ // if the content is changed then show the model
-          setModel(!model);
-         }
-         else{ // if the content is not changed then go back
-          navigation.goBack();
-         }
-        
-         
+          if (TypeOfNote.toLowerCase() === "text") {
+            keyboardDismiss();
+            if (IntailContent.current !== Content) {
+              // if the content is changed then show the model
+              setModel(!model);
+            } else {
+              // if the content is not changed then go back
+              navigation.goBack();
+            }
+          } // for Text Note
+          else{
+            navigation.goBack();
+          } // for Image , Docx and Pdf Note
         }}
       >
         <ChevronLeft
@@ -106,7 +110,7 @@ const Header = ({
           style={[styles.Listbtn]}
           onPress={() => {
             setmodel2(!model2);
-            keyboardDismiss()
+            keyboardDismiss();
           }}
         >
           <SaveBtn

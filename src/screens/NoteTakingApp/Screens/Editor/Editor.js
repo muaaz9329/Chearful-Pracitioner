@@ -31,9 +31,6 @@ import {
 import DeleteModel from "@models/DeleteModel";
 
 import { SafeAreaView } from "react-native-safe-area-context";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import dismissKeyboard from 'react-native-dismiss-keyboard';
-import { Button } from "react-native-paper";
 const Editor = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote } =
     route.params;
