@@ -58,7 +58,7 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
 
   const CoursalRef = useRef(null);
 
-  const HandleCoursalMovement_Android = (direction) => {
+  const HandleCoursalMovement= (direction) => {
     if(direction == "left"){
       CoursalRef.current.prev();
     }
@@ -101,17 +101,17 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
         </View>
 
         <View
-          style={[styles.Coursal, Platform.OS === "android" && styles.BtnCont]}
+          style={[styles.Coursal,  styles.BtnCont]}
         >
-         { Platform.OS === 'android' && <Pressable style={styles.btn} onPress={()=>HandleCoursalMovement_Android("left")}>
+          <Pressable style={styles.btn} onPress={()=>HandleCoursalMovement("left")}>
             <IconSquareRoundedArrowLeft
               size={Wp(30)}
               color={NoteAppcolor.Primary}
             />
-          </Pressable>}
+          </Pressable>
           <Carousel
             loop
-            width={Platform.OS === "ios" ? Wp(330) : Wp(250)}
+            width={ Wp(250)}
             height={Wp(200)}
             data={NotesTypeData}
             onSnapToItem={(index) => setText(NotesTypeData[index].name)}
@@ -130,12 +130,12 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
               </View>
             )}
           />
-        { Platform.OS === "android" && <Pressable style={styles.btn} onPress={()=>HandleCoursalMovement_Android("right")}>
+        <Pressable style={styles.btn} onPress={()=>HandleCoursalMovement("right")}>
             <IconSquareRoundedArrowRight
               size={Wp(30)}
               color={NoteAppcolor.Primary}
             />
-          </Pressable>}
+          </Pressable>
         </View>
 
         <View style={{ alignSelf: "center" }}>

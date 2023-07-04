@@ -76,6 +76,10 @@ const Editor = ({ route, navigation }) => {
     richText.current.blurContentEditor()
   }
 
+  useEffect(() => {
+    richText.current.focusContentEditor();
+  },[Mode])
+
 
 
   return (
@@ -110,17 +114,21 @@ const Editor = ({ route, navigation }) => {
           IntailContent={IntailContent}
         />
         <ScrollView>
+         
           <RichEditor
             ref={richText}
             onChange={(descriptionText) => {
               setContent(descriptionText);
             }}
+            
             disabled={Mode === "edit" ? false : true}
             initialContentHTML={Content}
-            firstFocusEnd
             initialFocus
             initialHeight={hp(50)}
+            firstFocusEnd={true}
+           
           />
+
         </ScrollView>
 
         {Mode === "edit" && (
@@ -137,11 +145,10 @@ const Editor = ({ route, navigation }) => {
               actions.setStrikethrough,
               actions.setUnderline,
 
-              actions.checkboxList,
+              
               actions.undo,
               actions.redo,
               
-              Platform.OS == "android" ? actions.insertImage : null,
             ]}
             iconMap={{
               [actions.heading1]: ({ tintColor }) => (

@@ -1,14 +1,41 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { DocIcon } from "@app/screens/NoteTakingApp/Images/Doc-Icons";
 import { Wp } from '@app/helper/CustomResponsive';
 import { Mulish } from '@app/helper/FontWeight';
 import Header from './Components/Header';
+import DocumentPicker from 'react-native-document-picker';
 
 const ImageUpload = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote } =
     route.params;
+
+    const [singleFile, setSingleFile] =useState(null);
+    const UploadImage = async () => {
+      //will only upload png and jpeg images
+      try {
+        const res = await DocumentPicker.pick({
+          type: [DocumentPicker.types.images],
+        });
+        //Printing the log realted to the file
+        console.log('res : ' + JSON.stringify(res));
+        //Setting the state to show single file attributes
+        setSingleFile(res);
+      }
+      catch (err) {
+        setSingleFile(null);
+        //Handling any exception (If any)
+        if (DocumentPicker.isCancel(err)) {
+          //If user canceled the document selection
+          alert('Canceled from single doc picker');
+        } else {
+          //For Unknown Error
+          alert('Unknown Error: ' + JSON.stringify(err));
+          throw err;
+        }
+      }
+    }
   return (
    <SafeAreaView style={styles.Container}>
      <Header
@@ -20,13 +47,13 @@ const ImageUpload = ({ route, navigation }) => {
           TypeOfNote={TypeOfNote}
           Content={content}
         />
-      <View style={styles.Cont} >
+      <Pressable style={styles.Cont} onPress={UploadImage} >
         <View style={styles.ImgIcon}>
           <Image source={DocIcon.img} style={styles.Icon} /> 
           <Text style={styles.UploadText} >Tap to effortlessly upload Image (png,jpeg) documents, simplifying the process of sharing and managing your files.</Text>
         </View>
 
-      </View>
+      </Pressable>
    </SafeAreaView>
   )
 }
