@@ -310,6 +310,8 @@ PODS:
     - React-Core
   - react-native-date-picker (4.2.10):
     - React-Core
+  - react-native-document-picker (9.0.1):
+    - React-Core
   - react-native-image-base64 (0.1.4):
     - React
   - react-native-pdf (6.6.2):
@@ -497,6 +499,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
+  - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-base64 (from `../node_modules/react-native-image-base64`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -594,6 +597,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-blob-util"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
+  react-native-document-picker:
+    :path: "../node_modules/react-native-document-picker"
   react-native-image-base64:
     :path: "../node_modules/react-native-image-base64"
   react-native-pdf:
@@ -688,6 +693,7 @@ SPEC CHECKSUMS:
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
   react-native-blob-util: 2d36383bb52c15c5451be81cb7ddf22bc34a12a6
   react-native-date-picker: 89c419d88fa8e3c5f2d3cbae0bb7f7454ae8ea55
+  react-native-document-picker: 2b8f18667caee73a96708a82b284a4f40b30a156
   react-native-image-base64: 2ff9ac788639c87a91361ab6652cc95e871b1e54
   react-native-pdf: 33c622cbdf776a649929e8b9d1ce2d313347c4fa
   react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4
