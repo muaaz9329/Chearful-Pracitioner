@@ -76,7 +76,7 @@ const NotesPreview = ({ navigation, route }) => {
     <>
       <LoadingScreen ref={LoadingRef} />
       <SafeAreaView style={styles.Body}>
-        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
+        <Header Icon={ChevronLeft} navigation={navigation} pram={"Prac_Session"}>
           <View style={styles.CardContet}>
             <View style={styles.Cont1}>
               <Image

@@ -15,6 +15,9 @@ const Header = ({ Icon, children,navigation , pram ,setVisible , visible , Right
           else if(pram==="model"){
             setVisible(!(visible))
           } 
+          else{
+            navigation.navigate(pram)
+          }
         }} >
           <Icon width={Wp(20)} height={Wp(20)} color={NoteAppcolor.Primary} />
         </Pressable>
