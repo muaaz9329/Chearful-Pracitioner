@@ -54,7 +54,10 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
 
   const [text, setText] = useState("Pdf");
   const MODE = "edit";
-  const hideModal = () => setVisible(false);
+  const hideModal = () =>{ 
+    setVisible(false)
+    setText("Pdf")
+  };
 
   const CoursalRef = useRef(null);
 

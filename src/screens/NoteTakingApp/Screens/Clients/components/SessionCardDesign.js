@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   Name: {
     fontFamily: Nunito(700),
     color: NoteAppcolor.Primary,
-    fontSize: FontSize(16),
+    fontSize: FontSize(15),
   },
   LastVisitText: {
     fontFamily: Mulish(600),
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   date: {
     fontFamily: Nunito(700),
-    fontSize: FontSize(20),
+    fontSize: FontSize(16),
     color: NoteAppcolor.Primary,
   },
 });

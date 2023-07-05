@@ -5,6 +5,7 @@ import { FontSize, Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { DateConstrctor } from "@helper/customFunction";
+import FileIconGenrator from "@app/screens/NoteTakingApp/Screens/Session/components/FileIconGenrator";
 
 const NotesCard = ({ Arr , navigation}) => {
   return (
@@ -21,6 +22,9 @@ const NotesCard = ({ Arr , navigation}) => {
             }
           }}>
           <ImageBackground style={styles.cardCont} key={index}>
+            <View style={styles.UpperCont}>
+              <Image style={styles.IconImg} source={FileIconGenrator('pdf')} />
+            </View>
             <View style={styles.DateCard}>
               {/* <Text style={styles.cardDate}>{DateConstrctor(new Date(item.NoteDate)).Date}</Text> */}
               <Image style={styles.UserImg} source={item.Picture} />
@@ -56,6 +60,13 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     justifyContent: "flex-end",
     marginBottom: Wp(20),
+  },
+  UpperCont:{
+    width:wp(42),
+    height:Wp(90),
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
   },
   DateCard: {
     width: wp(42),
@@ -98,4 +109,9 @@ const styles = StyleSheet.create({
   DotMargin: {
     marginHorizontal: Wp(3),
   },
+  IconImg:{
+    width:Wp(60),
+    height:Wp(80),
+    marginTop:Wp(20)
+  }
 });
