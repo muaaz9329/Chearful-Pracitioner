@@ -56,7 +56,7 @@ const CardDesign = ({ Data, navigation }) => {
         <Pressable
           style={styles.btnDesign}
           onPress={() => {
-            navigation.push("Prac_NotesPreview",{ClientData:new User_Session_notes_pram_object(Data)});
+            navigation.push("Prac_NotesPreview",{ClientData:new User_Session_notes_pram_object(Data) , SessionRawData:Data});
           }}
         >
           <Eye width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />

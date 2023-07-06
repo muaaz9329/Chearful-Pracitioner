@@ -6,8 +6,9 @@ import {
   ScrollView,
   Platform,
   RefreshControl,
+  Pressable,
 } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "@CommonComponents/Header";
 import { ChevronLeft, Dot } from "@svg";
 import { FontSize, Wp } from "@helper/CustomResponsive";
@@ -26,18 +27,22 @@ import {
   RefreshSessionNotes,
 } from "@app/features/SessionNotes/SessionNotes";
 import NotAvil from "@app/common/components/NotAvil";
+import { IconPlus } from "tabler-icons-react-native";
+import NotesType from "@app/common/Models/NotesType";
+import TypeOfNote from "@app/common/Models/TypeOfNote";
 
 const NotesPreview = ({ navigation, route }) => {
-  const { ClientData } = route.params; // Api Prams such as Client Id , Session Id  , Client Image ,
+  const { ClientData, SessionRawData } = route.params; // Api Prams such as Client Id , Session Id  , Client Image ,
   //Date and Time are being given as Pram from navigation route From Session.js -> CardDesign.js
-  //in order to use it as pram here
-
-  console.log(ClientData)
+  //in order to use it as pram here {ClientData Brooooo!!!}
+  // SessionRawData is Raw data non Adapter filtered Session data made for Passing in NoteType Model as this Frikin thing works with this
   const dispatch = useDispatch();
   const LoadingRef = useRef(); // used to control the Loading Screen
   const { SessionNotes, SessionNotesSuccess, SessionInfo, HasNotes, refresh } =
     useSelector((state) => state.SessionNotes); // states from Redux store
+  const SessionData = useRef(SessionRawData); // use to save the data in ref so it doesnt get change after the note is saved and we need to come back to screen
 
+  const [model, setmodel] = useState(false);
   const HandleApi = () => {
     ApiServices.Get_User_Session_Notes(
       ClientData.Client_ID,
@@ -76,7 +81,17 @@ const NotesPreview = ({ navigation, route }) => {
     <>
       <LoadingScreen ref={LoadingRef} />
       <SafeAreaView style={styles.Body}>
-        <Header Icon={ChevronLeft} navigation={navigation} pram={"Prac_Session"}>
+        <TypeOfNote
+          visible={model}
+          setVisible={setmodel}
+          data={SessionData.current}
+          navigation={navigation}
+        />
+        <Header
+          Icon={ChevronLeft}
+          navigation={navigation}
+          pram={"Prac_Session"}
+        >
           <View style={styles.CardContet}>
             <View style={styles.Cont1}>
               <Image
@@ -124,6 +139,14 @@ const NotesPreview = ({ navigation, route }) => {
             />
           )}
         </ScrollView>
+        <Pressable
+          style={styles.addbtn}
+          onPress={() => {
+            setmodel(!model);
+          }}
+        >
+          <IconPlus color={NoteAppcolor.White} size={Wp(25)} />
+        </Pressable>
       </SafeAreaView>
     </>
   );
@@ -168,5 +191,17 @@ const styles = StyleSheet.create({
   },
   DotMargin: {
     marginHorizontal: Wp(5),
+  },
+  addbtn: {
+    width: Wp(50),
+    height: Wp(50),
+    backgroundColor: NoteAppcolor.Primary,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: Wp(25),
+    position: "absolute",
+    zIndex: 10,
+    bottom: Wp(25),
+    right: Wp(25),
   },
 });

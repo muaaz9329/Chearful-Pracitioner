@@ -10,6 +10,7 @@ import { User_Session_Add_Notes_Editor_Pram_object } from "@app/adapters/User_Se
 
 const NotesType = ({visible,setVisible , navigation,data }) => {
   const MODE = "edit"
+  console.log('data in NoteType : ',data)
   console.log(new User_Session_Add_Notes_Editor_Pram_object(MODE , data , "text" , "upload"))
 
 

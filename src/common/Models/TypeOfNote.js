@@ -58,6 +58,8 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
     setVisible(false)
     setText("Pdf")
   };
+  console.log('data in NoteType : ',data)
+
 
   const CoursalRef = useRef(null);
 
