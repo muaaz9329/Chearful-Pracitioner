@@ -25,7 +25,8 @@ import HeaderInfo from "./HeaderInfo";
   const HeaderWithFunc = ({
     navigation,
     mode,
-    data,
+    data // this Consist  of the client id and Session id
+    ,
     NoteId,
     ComingFor,
     TypeOfNote,

@@ -30,17 +30,15 @@ import NotAvil from "@app/common/components/NotAvil";
 import { IconPlus } from "tabler-icons-react-native";
 import NotesType from "@app/common/Models/NotesType";
 import TypeOfNote from "@app/common/Models/TypeOfNote";
+import HeaderInfo from "../Editor/Components/HeaderInfo";
 
 const NotesPreview = ({ navigation, route }) => {
-  const { ClientData, SessionRawData } = route.params; // Api Prams such as Client Id , Session Id  , Client Image ,
-  //Date and Time are being given as Pram from navigation route From Session.js -> CardDesign.js
-  //in order to use it as pram here {ClientData Brooooo!!!}
-  // SessionRawData is Raw data non Adapter filtered Session data made for Passing in NoteType Model as this Frikin thing works with this
+  const { ClientData } = route.params; // Api Prams such as Client Id , Session Id  
   const dispatch = useDispatch();
   const LoadingRef = useRef(); // used to control the Loading Screen
-  const { SessionNotes, SessionNotesSuccess, SessionInfo, HasNotes, refresh } =
+  const LoadingRef2 = useRef(); // used to control the Loading Screen
+  const { SessionNotes, SessionNotesSuccess, HasNotes, refresh } =
     useSelector((state) => state.SessionNotes); // states from Redux store
-  const SessionData = useRef(SessionRawData); // use to save the data in ref so it doesnt get change after the note is saved and we need to come back to screen
 
   const [model, setmodel] = useState(false);
   const HandleApi = () => {
@@ -79,12 +77,12 @@ const NotesPreview = ({ navigation, route }) => {
 
   return (
     <>
-      <LoadingScreen ref={LoadingRef} />
+      <LoadingScreen ref={LoadingRef2} type={"logo"} />
       <SafeAreaView style={styles.Body}>
         <TypeOfNote
           visible={model}
           setVisible={setmodel}
-          data={SessionData.current}
+          data={ClientData}
           navigation={navigation}
         />
         <Header
@@ -92,33 +90,9 @@ const NotesPreview = ({ navigation, route }) => {
           navigation={navigation}
           pram={"Prac_Session"}
         >
-          <View style={styles.CardContet}>
-            <View style={styles.Cont1}>
-              <Image
-                source={{ uri: ClientData.Client_image }}
-                style={styles.ClientImage}
-              />
-            </View>
-            <View style={styles.CardTextCont}>
-              <Text style={styles.Name}>{SessionInfo.client_full_name}</Text>
-              <View style={styles.LastVisitCont}>
-                <Text style={styles.LastVisitText}>
-                  {ClientData.appointment.date}
-                </Text>
-                <View style={styles.DotMargin}>
-                  <Dot
-                    width={Wp(4)}
-                    height={Wp(4)}
-                    color={NoteAppcolor.Primary}
-                  />
-                </View>
-                <Text style={styles.LastVisitText}>
-                  {ClientData.appointment.time}
-                </Text>
-              </View>
-            </View>
-          </View>
+          <HeaderInfo data={ClientData} LoadingRef={LoadingRef2} />
         </Header>
+        <LoadingScreen ref={LoadingRef} type={"loader"} />
 
         <ScrollView
           style={{ marginTop: Wp(20) }}

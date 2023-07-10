@@ -9,18 +9,17 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Dot } from "@svg";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
-import NotesType from "@models/NotesType";
 import { User_Session_notes_pram_object } from "@app/adapters/User_Session_notes_pram_object";
 import TypeOfNote from "@app/common/Models/TypeOfNote";
 const CardDesign = ({ Data, navigation }) => {
-  console.log(Data)
+  
   const [model, setmodel] = useState(false);
   return (
     <View style={styles.cardCont}>
       <TypeOfNote
         visible={model}
         setVisible={setmodel}
-        data={Data}
+        data={new User_Session_notes_pram_object(Data)}
         navigation={navigation}
       />
 
@@ -56,7 +55,7 @@ const CardDesign = ({ Data, navigation }) => {
         <Pressable
           style={styles.btnDesign}
           onPress={() => {
-            navigation.push("Prac_NotesPreview",{ClientData:new User_Session_notes_pram_object(Data) , SessionRawData:Data});
+            navigation.push("Prac_NotesPreview",{ClientData:new User_Session_notes_pram_object(Data)});
           }}
         >
           <Eye width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />

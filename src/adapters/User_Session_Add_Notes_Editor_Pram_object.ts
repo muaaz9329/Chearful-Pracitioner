@@ -7,9 +7,9 @@ export class User_Session_Add_Notes_Editor_Pram_object{
     ComingFor:'update'|'upload';
     content:string;
     AfterCompletePath:"back"|"PreviewNotes"
-    constructor(MODE:string , Data:any ,TypeOfNote:"text"|"canvas",Action:'update'|'upload' , AfterCompletePath:"back"|"PreviewNotes" ){
+    constructor(MODE:string , Data:User_Session_notes_pram_object ,TypeOfNote:"text"|"canvas",Action:'update'|'upload' , AfterCompletePath:"back"|"PreviewNotes" ){
         this.mode = MODE;
-        this.ClientData = new User_Session_notes_pram_object(Data);
+        this.ClientData = Data;
         this.TypeOfNote = TypeOfNote;
         this.ComingFor = Action;
         this.content='';

@@ -45,6 +45,7 @@ const Editor = ({ route, navigation }) => {
   const richText = React.useRef();
   const ref = React.useRef();
   const LoadingRef = useRef();
+  console.log("ClinetData:", ClientData);
 
   // This function is used to open the image picker and choose an image.
   const PutImage = () => {

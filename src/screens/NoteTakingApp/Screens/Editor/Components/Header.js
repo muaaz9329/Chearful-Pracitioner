@@ -28,7 +28,8 @@ import HeaderInfo from "./HeaderInfo";
 const Header = ({
   navigation,
   mode,
-  data,
+  data // this Consist  of the client id and Session id
+  ,
   NoteId,
   ComingFor,
   TypeOfNote = "",
@@ -39,7 +40,6 @@ const Header = ({
 }) => {
   const [model, setModel] = useState(false);
   const [model2, setmodel2] = useState(false);
-  const [ClientData, setClientData] = useState(null); // for storing the data of the header
 
   
   return (
@@ -53,7 +53,7 @@ const Header = ({
         visible={model2}
         setVisible={setmodel2}
         navigation={navigation}
-        ClientData={ClientData}
+        ClientData={data}
         ComingFor={ComingFor}
         TypeOfNote={TypeOfNote}
         NoteId={NoteId}
