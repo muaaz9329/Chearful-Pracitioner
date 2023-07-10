@@ -7,7 +7,10 @@ Post_New_Text_Note_ApiFunc,
 Delete_Session_Note_ApiFunc,
 Update_Note_Content_ApiFunc,
 Update_Canvas_Content_ApiFunc,
-Post_New_Canvas_Note_ApiFunc
+Post_New_Canvas_Note_ApiFunc,
+Get_User_All_Client_ApiFunc,
+Get_User_Client_All_Session_ApiFunc,
+Get_User_Session_Info_ApiFunc
 } from './Api-Services/Index'
 
 
@@ -109,5 +112,35 @@ export const ApiServices = {
    * 
    */
   Post_Canvas_Content : Post_New_Canvas_Note_ApiFunc,
+
+
+  /**
+   * @description Api function to get all the clients of a user
+   * @param {*} dispatch - redux toolkit dispatch function to dispatch the data to the reducer , as hook useDispatch is not available in services and we are not using class based components so we have to pass dispatch function from the component to the service
+   * @param {*} OnLoadingAction - Action to update the state of the reducer when request is loading
+   * @param {*} OnSuccessAction - Action to update the state of the reducer when request is successful
+   * @param {*} onError - Action to update the state of the reducer when request is failed
+   */
+  Get_User_All_Client : Get_User_All_Client_ApiFunc,
+
+  /**
+   * @description Api function to get all the sessions of a client
+   * @param {*} dispatch - redux toolkit dispatch function to dispatch the data to the reducer , as hook useDispatch is not available in services and we are not using class based components so we have to pass dispatch function from the component to the service
+   * @param {*} OnLoadingAction - Action to update the state of the reducer when request is loading
+   * @param {*} OnSuccessAction - Action to update the state of the reducer when request is successful
+   * @param {*} onError - Action to update the state of the reducer when request is failed
+   * @param {*} Client_Id - Client Id of the client
+   */
+  Get_User_Client_All_Session : Get_User_Client_All_Session_ApiFunc,
+  /**
+   * @description Api function to get session info of a session
+   * @param {*} Client_Id - Client Id of the client
+   * @param {*} Session_Id - Session Id of the session
+   * @returns {Object} - Session Info
+   * 
+   */
+
+  Get_User_Session_Info : Get_User_Session_Info_ApiFunc,
+
 
 };

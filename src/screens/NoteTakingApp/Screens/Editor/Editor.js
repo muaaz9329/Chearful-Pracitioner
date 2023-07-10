@@ -31,6 +31,7 @@ import {
 import DeleteModel from "@models/DeleteModel";
 
 import { SafeAreaView } from "react-native-safe-area-context";
+import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 const Editor = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote } =
     route.params;
@@ -43,6 +44,7 @@ const Editor = ({ route, navigation }) => {
   const [model, setModel] = useState(false);
   const richText = React.useRef();
   const ref = React.useRef();
+  const LoadingRef = useRef();
 
   // This function is used to open the image picker and choose an image.
   const PutImage = () => {
@@ -87,6 +89,7 @@ const Editor = ({ route, navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
+      <LoadingScreen type={"loader"} ref={LoadingRef} />
       <SafeAreaView
         style={{
           flex: 1,
@@ -112,6 +115,7 @@ const Editor = ({ route, navigation }) => {
           Content={Content}
           keyboardDismiss={keyboardDismiss}
           IntailContent={IntailContent}
+          LoadingRef={LoadingRef}
         />
         <ScrollView>
          

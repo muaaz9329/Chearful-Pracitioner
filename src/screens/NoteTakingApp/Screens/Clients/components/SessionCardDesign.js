@@ -9,22 +9,39 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
 import NotesType from "@models/NotesType";
-const SessionCardDesign = ({navigation,data}) => {
+import { calculateEndTime } from "@app/helper/customFunction";
+function convertDateFormat(dateString) {
+  const months = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  const [year, month, day] = dateString.split("-");
+  const formattedMonth = months[Number(month) - 1];
+
+  return {
+    Date: Number(day),
+    Month: formattedMonth,
+    Year: String(year).slice(2)
+  };
+}
+const SessionCardDesign = ({navigation,data,CardData}) => {
   const [model,Setmodel] = useState(false)
+  const {EndTime,StartTime} = calculateEndTime(CardData.appointment_time,CardData.time_duration)
   return (
     <View style={styles.cardCont}>
       <NotesType navigation={navigation} visible={model} setVisible={Setmodel} data={data} /> 
       <View style={styles.CardContet}> 
         <View style={styles.Cont1}>
           <View style={styles.Datebox}>
-            <Text style={styles.date}>25</Text>
-            <Text style={styles.date}>Feb</Text>
+            <Text style={styles.date}>{convertDateFormat(CardData.appointment_date).Date}</Text>
+            <Text style={styles.date}>{convertDateFormat(CardData.appointment_date).Month}</Text>
           </View>
         </View>
         <View style={styles.CardTextCont}>
-          <Text style={styles.Name}>Marriage Conceling</Text>
+          <Text style={styles.Name}>{CardData.service_name}</Text>
           <View style={styles.LastVisitCont}>
-            <Text style={[styles.Name, { opacity: 0.7 }]}>9:45AM - 3:30PM</Text>
+            <Text style={[styles.Name, { opacity: 0.7 }]}>{`${StartTime} - ${EndTime}`}</Text>
           </View>
         </View>
       </View>

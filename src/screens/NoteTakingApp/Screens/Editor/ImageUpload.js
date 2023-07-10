@@ -1,15 +1,17 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { DocIcon } from "@app/screens/NoteTakingApp/Images/Doc-Icons";
 import { Wp } from '@app/helper/CustomResponsive';
 import { Mulish } from '@app/helper/FontWeight';
 import Header from './Components/Header';
 import DocumentPicker from 'react-native-document-picker';
+import LoadingScreen from '@app/common/Module/Loading-Screen/LoadingScreen';
 
 const ImageUpload = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote } =
     route.params;
+  const LoadingRef = useRef();
 
     const [singleFile, setSingleFile] =useState(null);
     const UploadImage = async () => {
@@ -38,6 +40,7 @@ const ImageUpload = ({ route, navigation }) => {
     }
   return (
    <SafeAreaView style={styles.Container}>
+        <LoadingScreen type={'loader'} ref={LoadingRef}/>
      <Header
           navigation={navigation}
           mode={mode}
@@ -46,6 +49,7 @@ const ImageUpload = ({ route, navigation }) => {
           ComingFor={ComingFor}
           TypeOfNote={TypeOfNote}
           Content={content}
+          LoadingRef={LoadingRef}
         />
       <Pressable style={styles.Cont} onPress={UploadImage} >
         <View style={styles.ImgIcon}>

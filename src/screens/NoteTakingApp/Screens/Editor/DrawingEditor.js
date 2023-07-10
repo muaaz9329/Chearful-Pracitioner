@@ -12,6 +12,7 @@ import { RefFunctions } from "@helper/CanvasFunction";
 import HeaderWithFunc from "./Components/HeaderWithFunc";
 import { useDispatch } from "react-redux";
 import { UpdateHasSaved } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
+import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 LogBox.ignoreLogs(["Warning:..."]); // Ignore log notification by message
 const DrawingEditor = ({ navigation, route }) => {
   const { mode, content, ClientData, NoteId, ComingFor } = route.params;
@@ -22,6 +23,7 @@ const DrawingEditor = ({ navigation, route }) => {
   const [model, setModel] = useState(false);
   const DrawicRef = useRef();
   const CanvasFunc = new RefFunctions(DrawicRef); // Consists of all the Required Function to work with the Drawic Component
+  const LoadingRef = useRef();
   const dispatch = useDispatch();
   useEffect(() => {
     CanvasFunc.Reset_Canvas();
@@ -44,6 +46,7 @@ const DrawingEditor = ({ navigation, route }) => {
   };
   return (
     <SafeAreaView edges={["top"]} style={styles.Continer}>
+      <LoadingScreen ref={LoadingRef} type={'loader'}/>
       <HeaderWithFunc
         data={ClientData}
         mode={Mode}
@@ -56,6 +59,7 @@ const DrawingEditor = ({ navigation, route }) => {
         File={file}
         IntialContent={IntialContent}
         CanvasFunc={CanvasFunc}
+        LoadingRef={LoadingRef}
       />
       <DeleteModel
         navigation={navigation}

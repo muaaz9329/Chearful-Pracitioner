@@ -17,6 +17,15 @@ import SessionCardDesign from "./components/SessionCardDesign";
 import NotesCard from "./components/NotesCard";
 import { DateConstrctor } from "@helper/customFunction";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ApiServices } from "@app/services/Apiservice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  SetError,
+  SetLoading,
+  SetSessions,
+} from "@app/features/Client-AllSessions/AllSessionReducers";
+import { ActivityIndicator } from "react-native-paper";
+import NotAvil from "@app/common/components/NotAvil";
 
 const UserSelection = ({ SetState }) => {
   const user = ["mySelf", "someoneElse"];
@@ -98,47 +107,100 @@ const UserSelection = ({ SetState }) => {
   );
 };
 
-const ClientDetail = ({navigation,route}) => {
+const ClientDetail = ({ navigation, route }) => {
   const [Option, SetOption] = useState({
     Session: true,
     Notes: false,
   });
-  const [routeData, SetRouteData]=useState(route.params.ClientDetail)
-  console.log(routeData)
+  const { loading, Sessions, error, Success, isEmpty, haveError, clientInfo } =
+    useSelector((state) => state.ClientSessionReducer); // this state is used to get the client session states from  the reducer
+
+  const { ClientDetail } = route.params;
+  const dispatch = useDispatch();
+  const [routeData, SetRouteData] = useState(route.params.ClientDetail);
+  console.log(routeData);
   let newArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-  return (
-    <SafeAreaView style={styles.body} edges={['top','right','left']}>
-      <ScrollView stickyHeaderIndices={[2]} showsVerticalScrollIndicator={false}>
-        <View style={styles.HeaderStyle}>
-          <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}></Header>
-        </View>
-        <View style={styles.ProfileCont}>
-          <Image
-            source={routeData.Picture}
-            style={styles.userImg}
-          />
-          <Text style={styles.MainText}>{routeData.Name}</Text>
-          <Text style={styles.ProfileSub}>24 Years Old</Text>
-          <Text style={styles.ProfileSub}>Last Visit on {DateConstrctor(new Date(routeData.LastVisitDate)).Date}</Text>
-        </View>
-        <View>
-          <UserSelection SetState={SetOption} />
-        </View>
+  useEffect(() => {
+    ApiServices.Get_User_Client_All_Session(
+      dispatch,
+      SetLoading,
+      SetSessions,
+      SetError,
+      ClientDetail.id
+    );
+  }, []);
 
-        {Option.Session && (
-          <View style={{ marginTop: Wp(20) }}>
-            {newArr.map((item, index) => {
-              return <SessionCardDesign key={index} navigation={navigation} data={routeData} />;
-            })}
+  useEffect(()=>{
+    if(Success){
+      console.log('Session:',Sessions[0])
+    }
+  },[Success])
+  return (
+    <SafeAreaView style={styles.body} edges={["top", "right", "left"]}>
+      {loading ? (
+        haveError ? (
+          <NotAvil Title={"Something Went Wrong"} />
+        ) : (
+          <View style={styles.ActivityCont}>
+            <ActivityIndicator
+              animating={loading}
+              color={NoteAppcolor}
+              size={"large"}
+            />
           </View>
-        )}
-        {Option.Notes && (
-          <View style={{ marginTop: Wp(20) }}>
-            <NotesCard Arr={newArr} navigation={navigation}  data={routeData}/>
-          </View>
-        )}
-      </ScrollView>
+        )
+      ) : (
+        Success &&
+        (isEmpty ? (
+          <NotAvil Title={"No Session & Notes"} />
+        ) : (
+          <ScrollView
+            stickyHeaderIndices={[2]}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.HeaderStyle}>
+              <Header
+                Icon={ChevronLeft}
+                navigation={navigation}
+                pram={"back"}
+              ></Header>
+            </View>
+            <View style={styles.ProfileCont}>
+              <Image
+                source={{ uri: ClientDetail.avatar }}
+                style={styles.userImg}
+              />
+              <Text style={styles.MainText}>{ClientDetail.full_name}</Text>
+              <Text style={styles.ProfileSub}>24 Years Old</Text>
+              <Text style={styles.ProfileSub}>Last Visit on </Text>
+            </View>
+            <View>
+              <UserSelection SetState={SetOption} />
+            </View>
+
+            {Option.Session && (
+              <View style={{ marginTop: Wp(20) }}>
+            {Sessions.map((item, index) => {
+                  return (
+                    <SessionCardDesign
+                      key={index}
+                      navigation={navigation}
+                      data={routeData}
+                      CardData={item}
+                    />
+                  );
+                })}
+              </View>
+            )}
+            {Option.Notes && (
+              <View style={{ marginTop: Wp(20) }}>
+                {/* <NotesCard Arr={newArr} navigation={navigation} data={routeData} /> */}
+              </View>
+            )}
+          </ScrollView>
+        ))
+      )}
     </SafeAreaView>
   );
 };
@@ -150,7 +212,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: NoteAppcolor.White,
     paddingHorizontal: Wp(16),
-    paddingTop: Platform.OS=='android' ? Wp(20) : Wp(10),
+    paddingTop: Platform.OS == "android" ? Wp(20) : Wp(10),
   },
   HeaderStyle: {
     position: "absolute",
@@ -198,7 +260,12 @@ const styles = StyleSheet.create({
     borderColor: "#E6E7E6",
   },
   btnText: {
-    fontSize:  Platform.OS =='android' ? Wp(14) : Wp(16) ,
+    fontSize: Platform.OS == "android" ? Wp(14) : Wp(16),
     fontFamily: Mulish(700),
+  },
+  ActivityCont: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

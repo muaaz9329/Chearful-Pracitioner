@@ -7,7 +7,7 @@ import {
   Animated,
   Platform,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import Header from "@CommonComponents/Header";
@@ -18,10 +18,206 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import CardDesign from "./components/CardDesign";
-import ClientData from "../../Data/ClientData";
 import RBSheet from "react-native-raw-bottom-sheet";
 import AnimatedFlatList from "@constants/AnimatedFlatList";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ApiServices } from "@app/services/Apiservice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  SetLoading,
+  SetClients,
+  SetError,
+} from "@app/features/Client-AllClients/ClientReducers";
+import { ActivityIndicator } from "react-native-paper";
+import NotAvil from "@app/common/components/NotAvil";
+const Client = ({ navigation }) => {
+  const [ClientInfo, SetClientInfo] = useState([]);
+  const [OldData, SetOldData] = useState([]);
+  const dispatch = useDispatch();
+  const { loading, Clients, error, Success, isEmpty, haveError } = useSelector(
+    (state) => state.ClientReducer
+  ); // Getting the state from the store
+
+  useEffect(() => {
+    ApiServices.Get_User_All_Client(dispatch, SetLoading, SetClients, SetError);
+  }, []);
+
+  useEffect(() => {
+    if (haveError) {
+      console.log("Broooo ya error aya ha: ", error);
+    }
+  }, [haveError]); // use To check if there is any error or not
+
+  useEffect(() => {
+    if (Success) {
+      SetClientInfo(Clients);
+      SetOldData(Clients);
+    }
+  }, [Success]); // After getting the data from the api, we will update the state with the new data
+
+  // This function receives a string 'Text' as input and filters the data based on it
+  //* used For Search Bar
+  const HandleFilter = (Text) => {
+    // If the input is empty or null, reset the client info data to its original data
+    if (Text === "" || Text === null) {
+      SetClientInfo(OldData);
+    } else {
+      // Otherwise, filter the 'OldData' array based on the name of each item that contains the input text
+      let filteredData = OldData.filter(
+        (item) => item.full_name.toLowerCase().indexOf(Text.toLowerCase()) > -1
+      );
+      // Update the state with the filtered data
+      SetClientInfo(filteredData);
+    }
+  };
+
+  //* this is ref for bottom sheet to control its opening and closing
+
+  const refRBSheet = useRef();
+
+  // This function takes an argument to sort the OldData array in different ways and updates the ClientInfo state accordingly.
+
+  const SortList = (arg) => {
+    // If the argument is "Ascending", sort the array in ascending order of Name property.
+    if (arg === "Ascending") {
+      let TempList = OldData.sort((a, b) =>
+        a.first_name > b.first_name ? 1 : -1
+      );
+      SetClientInfo(TempList); // Update the state with the sorted array.
+    }
+    // If the argument is "Descending", sort the array in descending order of Name property.
+    else if (arg === "Descending") {
+      // let TempList = OldData.sort((a, b) => (a.first_name < b.first_name ? 1 : -1));
+      // SetClientInfo(TempList); // Update the state with the sorted array.
+      const newArr = [...OldData];
+      SetClientInfo(newArr.reverse());
+    }
+    // If the argument is "Last Visit", sort the array in descending order of LastVisitDate property.
+    else if (arg == "Last Visit") {
+      let TempList = OldData.sort(function (a, b) {
+        // Convert the LastVisitDate string properties to Date objects and compare them to sort.
+        return new Date(b.LastVisitDate) - new Date(a.LastVisitDate);
+      });
+      SetClientInfo(TempList); // Update the state with the sorted array.
+    }
+  };
+
+  //* function to Close the Bottom Sheet
+  const bottomSheetClose = (sortBy) => {
+    SortList(sortBy);
+    setTimeout(() => {
+      refRBSheet.current.close();
+    }, 500);
+  };
+  const selectedDesign = {
+    display: "flex",
+  };
+  const UnselectedDesign = {
+    display: "none",
+  };
+
+  //* function to Open the Bottom Sheet
+  const bottomSheetOpen = () => {
+    refRBSheet.current.open();
+  };
+
+  const [displayTick, setDisplayTick] = useState([
+    UnselectedDesign,
+    UnselectedDesign,
+    UnselectedDesign,
+  ]);
+
+  return (
+    <SafeAreaView style={styles.Body} edges={["top", "left", "right"]}>
+      {loading ? (
+        haveError ? (
+          <View style={styles.activityIndicator}>
+            <NotAvil Title={"Something Went Wrong"} />
+          </View>
+        ) : (
+          <View style={styles.activityIndicator}>
+            <ActivityIndicator size="large" color={NoteAppcolor.Primary} />
+          </View>
+        )
+      ) : (
+        <>
+          {Success &&
+            (isEmpty ? (
+              <View style={styles.activityIndicator}>
+                <NotAvil Title={"No Clients"} />
+              </View>
+            ) : (
+              <>
+                <Header
+                  Icon={ChevronLeft}
+                  navigation={navigation}
+                  pram={"back"}
+                >
+                  <Text style={styles.Text}>Clients</Text>
+                </Header>
+                <SearchBox
+                  state={ClientInfo}
+                  setState={SetClientInfo}
+                  HandleFunction={HandleFilter}
+                  OpenSheet={bottomSheetOpen}
+                />
+                <AnimatedFlatList
+                  data={ClientInfo}
+                  renderItem={({ item, index }) => (
+                    <Pressable
+                      onPress={() => {
+                        navigation.push("Prac_ClientDetail", {
+                          ClientDetail: item,
+                        });
+                      }}
+                      key={index}
+                    >
+                      <CardDesign Data={item} />
+                    </Pressable>
+                  )}
+                  contentContainerStyle={{
+                    paddingTop: Wp(10),
+                    alignItems: "center",
+                  }}
+                  showsVerticalScrollIndicator={false}
+                />
+              </>
+            ))}
+        </>
+      )}
+
+      {/***
+       * //*this is the Bottom Sheet that opens to sort the items
+       */}
+      <RBSheet
+        ref={refRBSheet}
+        height={hp(32)}
+        closeOnDragDown={false}
+        closeOnPressMask={true}
+        customStyles={{
+          container: {
+            borderTopLeftRadius: hp(4),
+            borderTopRightRadius: hp(4),
+          },
+          wrapper: {
+            backgroundColor: "rgba(0,0,0,.6)",
+          },
+          draggableIcon: {
+            backgroundColor: "#000",
+          },
+        }}
+      >
+        <BottomSheet
+          HandleFunction={bottomSheetClose}
+          displayTick={displayTick}
+          setDisplayTick={setDisplayTick}
+          selectedDesign={selectedDesign}
+          UnselectedDesign={UnselectedDesign}
+        />
+      </RBSheet>
+    </SafeAreaView>
+  );
+};
 function SearchBox({ HandleFunction, OpenSheet }) {
   const refInput = useRef();
 
@@ -146,141 +342,6 @@ const BottomSheet = ({
     </View>
   );
 };
-
-const Client = ({ navigation }) => {
-  const [ClientInfo, SetClientInfo] = useState(ClientData);
-  const [OldData, SetOldData] = useState(ClientData);
-
-  // This function receives a string 'Text' as input and filters the data based on it
-  //* used For Search Bar
-  const HandleFilter = (Text) => {
-    // If the input is empty or null, reset the client info data to its original data
-    if (Text === "" || Text === null) {
-      SetClientInfo(OldData);
-    } else {
-      // Otherwise, filter the 'OldData' array based on the name of each item that contains the input text
-      let filteredData = OldData.filter(
-        (item) => item.Name.toLowerCase().indexOf(Text.toLowerCase()) > -1
-      );
-      // Update the state with the filtered data
-      SetClientInfo(filteredData);
-    }
-  };
-
-  //* this is ref for bottom sheet to control its opening and closing
-
-  const refRBSheet = useRef();
-
-  // This function takes an argument to sort the OldData array in different ways and updates the ClientInfo state accordingly.
-
-  const SortList = (arg) => {
-    // If the argument is "Ascending", sort the array in ascending order of Name property.
-    if (arg === "Ascending") {
-      let TempList = OldData.sort((a, b) => (a.Name > b.Name ? 1 : -1));
-      SetClientInfo(TempList); // Update the state with the sorted array.
-    }
-    // If the argument is "Descending", sort the array in descending order of Name property.
-    else if (arg === "Descending") {
-      let TempList = OldData.sort((a, b) => (a.Name < b.Name ? 1 : -1));
-      SetClientInfo(TempList); // Update the state with the sorted array.
-    }
-    // If the argument is "Last Visit", sort the array in descending order of LastVisitDate property.
-    else if (arg == "Last Visit") {
-      let TempList = OldData.sort(function (a, b) {
-        // Convert the LastVisitDate string properties to Date objects and compare them to sort.
-        return new Date(b.LastVisitDate) - new Date(a.LastVisitDate);
-      });
-      SetClientInfo(TempList); // Update the state with the sorted array.
-    }
-  };
-
-  //* function to Close the Bottom Sheet
-  const bottomSheetClose = (sortBy) => {
-    SortList(sortBy);
-    setTimeout(() => {
-      refRBSheet.current.close();
-    }, 500);
-  };
-  const selectedDesign = {
-    display: "flex",
-  };
-  const UnselectedDesign = {
-    display: "none",
-  };
-
-  //* function to Open the Bottom Sheet
-  const bottomSheetOpen = () => {
-    refRBSheet.current.open();
-  };
-
-  const [displayTick, setDisplayTick] = useState([
-    UnselectedDesign,
-    UnselectedDesign,
-    UnselectedDesign,
-  ]);
-
-  return (
-    <SafeAreaView style={styles.Body} edges={['top','left','right']}>
-      <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
-        <Text style={styles.Text}>Clients</Text>
-      </Header>
-      <SearchBox
-        state={ClientInfo}
-        setState={SetClientInfo}
-        HandleFunction={HandleFilter}
-        OpenSheet={bottomSheetOpen}
-      />
-      <AnimatedFlatList
-        data={ClientInfo}
-        renderItem={({ item, index }) => (
-          <Pressable
-            onPress={() => {
-              navigation.push("Prac_ClientDetail", { ClientDetail: item });
-            }}
-          >
-            <CardDesign Data={item} key={index} />
-          </Pressable>
-        )}
-        contentContainerStyle={{
-          paddingTop: Wp(10),
-          alignItems: "center",
-        }}
-        showsVerticalScrollIndicator={false}
-      />
-
-      {/***
-       * //*this is the Bottom Sheet that opens to sort the items
-       */}
-      <RBSheet
-        ref={refRBSheet}
-        height={hp(32)}
-        closeOnDragDown={false}
-        closeOnPressMask={true}
-        customStyles={{
-          container: {
-            borderTopLeftRadius: hp(4),
-            borderTopRightRadius: hp(4),
-          },
-          wrapper: {
-            backgroundColor: "rgba(0,0,0,.6)",
-          },
-          draggableIcon: {
-            backgroundColor: "#000",
-          },
-        }}
-      >
-        <BottomSheet
-          HandleFunction={bottomSheetClose}
-          displayTick={displayTick}
-          setDisplayTick={setDisplayTick}
-          selectedDesign={selectedDesign}
-          UnselectedDesign={UnselectedDesign}
-        />
-      </RBSheet>
-    </SafeAreaView>
-  );
-};
-
 export default Client;
 
 const styles = StyleSheet.create({
@@ -288,7 +349,7 @@ const styles = StyleSheet.create({
     backgroundColor: NoteAppcolor.White,
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingTop: Platform.OS =='android'? Wp(20) : Wp(10) ,
+    paddingTop: Platform.OS == "android" ? Wp(20) : Wp(10),
   },
   Text: {
     fontFamily: Mulish(700),
@@ -349,5 +410,10 @@ const styles = StyleSheet.create({
     fontFamily: Nunito("700"),
     fontSize: Wp(18),
     textAlign: "center",
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

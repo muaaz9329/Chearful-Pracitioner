@@ -21,7 +21,8 @@ import DeleteModel from "@app/common/Models/DeleteModel";
 import { useSelector } from "react-redux";
 import { DateConstrctor } from "@app/helper/customFunction";
 import { IconTrash } from "tabler-icons-react-native";
-const HeaderWithDeleteBtn = ({ navigation, mode, data , NoteId }) => {
+import HeaderInfo from "./HeaderInfo";
+const HeaderWithDeleteBtn = ({ navigation, mode, data , NoteId , LoadingRef }) => {
   const { SessionInfo } = useSelector((state) => state.SessionNotes);
 
   const [model, setModel] = useState(false);
@@ -51,30 +52,7 @@ const HeaderWithDeleteBtn = ({ navigation, mode, data , NoteId }) => {
           color={NoteAppcolor.btnColor}
         />
       </Pressable>
-      <View>
-        <View style={styles.CardContet}>
-          <View style={styles.Cont1}>
-            <Image
-              source={{ uri: data.Client_image }}
-              style={styles.ClientImage}
-            />
-          </View>
-          <View style={styles.CardTextCont}>
-            <Text style={styles.Name}>{data.Client_fullName} </Text>
-            <View style={styles.LastVisitCont}>
-              <Text style={styles.LastVisitText}>{data.appointment.date}</Text>
-              <View style={styles.DotMargin}>
-                <Dot
-                  width={Wp(4)}
-                  height={Wp(4)}
-                  color={NoteAppcolor.Primary}
-                />
-              </View>
-              <Text style={styles.LastVisitText}>{data.appointment.time}</Text>
-            </View>
-          </View>
-        </View>
-      </View>
+      <HeaderInfo data={data} LoadingRef={LoadingRef} />
 
       {mode === "view" && (
         <Pressable

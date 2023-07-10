@@ -8,21 +8,24 @@ import {
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { DateConstrctor } from "@helper/customFunction";
+//! <Image source={Data.Picture} style={styles.ClientImage} />
+//! Last Visit on {DateConstrctor(new Date(Data.LastVisitDate)).Date}
+
 const CardDesign = ({ Data }) => {
   return (
     <View style={styles.cardCont}>
       <View style={styles.CardContet}>
         <View style={styles.Cont1}>
-          <Image source={Data.Picture} style={styles.ClientImage} />
+        <Image source={{uri: Data.avatar}} style={styles.ClientImage} />
         </View>
         <View style={styles.CardTextCont}>
           <Text style={styles.Name}>
-            {Data.Name.length > 14 ? Data.Name.slice(0, 14) + ".." : Data.Name}
+            {Data.full_name}
           </Text>
 
           <View style={styles.LastVisitCont}>
             <Text style={styles.LastVisitText}>
-              Last Visit on {DateConstrctor(new Date(Data.LastVisitDate)).Date}
+            Last Visit on {DateConstrctor(new Date(Data.latest_session_date)).Date}
             </Text>
           </View>
         </View>

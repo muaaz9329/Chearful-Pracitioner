@@ -195,7 +195,13 @@ export const DateConstrctor = (date: Date): any => {
   ReturnedObj.Time = strTime;
 
   ReturnedObj.Date = `${day} ${month}, ${year}`;
-  ReturnedObj.ApiDateQuery = date.toISOString().split('T')[0] // Returns the date in YYYY-MM-DD format
+  try{
+    ReturnedObj.ApiDateQuery = date.toISOString().split('T')[0] // Returns the date in YYYY-MM-DD format
+//! dont remove this from try catch , as it only works in try catch for some reason
+  }
+  catch(err){
+    return ReturnedObj;
+  }
   return ReturnedObj;
 };
 
@@ -248,4 +254,57 @@ export function isValidEmail(email:string) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
   return emailPattern.test(email);
+}
+
+/**
+ * @description converts date format from YYYY-MM-DD to DD MMM,YY
+ * @param dateString string in YYYY-MM-DD format
+ * @returns 
+ */
+
+export function convertDateFormat_YMD_DMY(dateString:string):string {
+  const months = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  const [year, month, day] = dateString.split("-");
+  const formattedMonth = months[Number(month) - 1];
+
+  return `${Number(day)} ${formattedMonth},${String(year).slice(2)}`;
+}
+
+/**
+ * @description converts time and add Duration returns object with StartTime and EndTime
+ * @param startTime string in HH:MM:SS format
+ * @param duration number in minutes like 30, 60, 90
+ * @returns Object with StartTime and EndTime
+ */
+
+export function calculateEndTime(startTime:string, duration:number) {
+  const [startHour, startMinute] = startTime.split(":").map(Number);
+
+  const startDate = new Date();
+  startDate.setHours(startHour);
+  startDate.setMinutes(startMinute);
+
+  const endDate = new Date(startDate.getTime() + duration * 60000);
+
+  const formattedStartTime = formatTime(startDate);
+  const formattedEndTime = formatTime(endDate);
+
+  return {
+    StartTime: formattedStartTime,
+    EndTime: formattedEndTime
+  };
+}
+
+function formatTime(date:Date) {
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const period = hour >= 12 ? "PM" : "AM";
+  const formattedHour = hour % 12 || 12;
+  const formattedMinute = String(minute).padStart(2, "0");
+
+  return `${formattedHour}:${formattedMinute} ${period}`;
 }

@@ -21,6 +21,7 @@ import {
   import { useDispatch, useSelector } from "react-redux";
   import { DateConstrctor } from "@app/helper/customFunction";
 import { UpdateHasDrawn } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
+import HeaderInfo from "./HeaderInfo";
   const HeaderWithFunc = ({
     navigation,
     mode,
@@ -33,6 +34,7 @@ import { UpdateHasDrawn } from "@app/Library/Drawic/utils/features/Brush-Control
     File,
     IntialContent,
     CanvasFunc,
+    LoadingRef
   }) => {
 
     const {hasSaved} = useSelector((state) => state.BrushControl);
@@ -78,30 +80,7 @@ import { UpdateHasDrawn } from "@app/Library/Drawic/utils/features/Brush-Control
             color={NoteAppcolor.btnColor}
           />
         </Pressable>
-        <View>
-          <View style={styles.CardContet}>
-            <View style={styles.Cont1}>
-              <Image
-                source={{ uri: data.Client_image }}
-                style={styles.ClientImage}
-              />
-            </View>
-            <View style={styles.CardTextCont}>
-              <Text style={styles.Name}>{data.Client_fullName} </Text>
-              <View style={styles.LastVisitCont}>
-                <Text style={styles.LastVisitText}>{data.appointment.date}</Text>
-                <View style={styles.DotMargin}>
-                  <Dot
-                    width={Wp(4)}
-                    height={Wp(4)}
-                    color={NoteAppcolor.Primary}
-                  />
-                </View>
-                <Text style={styles.LastVisitText}>{data.appointment.time}</Text>
-              </View>
-            </View>
-          </View>
-        </View>
+        <HeaderInfo data={data} LoadingRef={LoadingRef} />
   
         {mode === "edit" && (
           <Pressable

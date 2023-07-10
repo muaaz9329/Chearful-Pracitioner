@@ -11,11 +11,13 @@ import Header from "./Components/Header";
 import WebView from "react-native-webview";
 import HeaderWithDeleteBtn from "./Components/HeaderWithDeleteBtn";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
+import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 
 const DocsEditor = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId } = route.params;
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(true);
+  const LoadingRef = React.useRef();
   const SetUrl = () => {
     if (Platform.OS === "android") {
       setUrl("https://docs.google.com/gview?embedded=true&url=" + content);
@@ -30,23 +32,25 @@ const DocsEditor = ({ route, navigation }) => {
 
   return (
     <>
-      {loading ? (
-        <ActivityIndicator size={"large"} color={NoteAppcolor.Primary}  />
-      ) : (
-        <SafeAreaView style={styles.Body}>
-          <HeaderWithDeleteBtn
-            navigation={navigation}
-            mode={mode}
-            data={ClientData}
-            NoteId={NoteId}
-          />
+      <LoadingScreen type={"loader"} ref={LoadingRef} />
+      <SafeAreaView style={styles.Body}>
+        <HeaderWithDeleteBtn
+          navigation={navigation}
+          mode={mode}
+          data={ClientData}
+          NoteId={NoteId}
+          LoadingRef={LoadingRef}
+        />
+        {loading ? (
+          <ActivityIndicator size={"small"} color={NoteAppcolor.Primary} />
+        ) : (
           <WebView
             source={{ uri: url }}
             style={{ flex: 1 }}
             onLoadEnd={() => setLoading(false)}
           />
-        </SafeAreaView>
-      )}
+        )}
+      </SafeAreaView>
     </>
   );
 };

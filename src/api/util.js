@@ -1,9 +1,20 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BASE_URL } from "./endpoints"
 
+
+/**
+ * TO get the url with base url
+ * @param {string} endPoint 
+ * @returns 
+ */
 export const UrlMaker = (endPoint) => {
     return `${BASE_URL}${endPoint}`
 }
+
+/**
+ * Function to get the access token from async storage
+ * @returns String Toked
+ */
 
 export const GetAccessToken =  async () => {
     const token = await AsyncStorage.getItem('USER_accessToken');
