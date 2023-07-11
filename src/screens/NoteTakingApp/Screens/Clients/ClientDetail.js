@@ -20,6 +20,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ApiServices } from "@app/services/Apiservice";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  ResetSession,
   SetError,
   SetLoading,
   SetSessions,
@@ -112,14 +113,20 @@ const ClientDetail = ({ navigation, route }) => {
     Session: true,
     Notes: false,
   });
-  const { loading, Sessions, error, Success, isEmpty, haveError, clientInfo } =
-    useSelector((state) => state.ClientSessionReducer); // this state is used to get the client session states from  the reducer
+  const {
+    loading,
+    Sessions,
+    error,
+    Success,
+    isEmpty,
+    haveError,
+    clientInfo,
+    Notes,
+  } = useSelector((state) => state.ClientSessionReducer); // this state is used to get the client session states from  the reducer
 
   const { ClientDetail } = route.params;
   const dispatch = useDispatch();
   const [routeData, SetRouteData] = useState(route.params.ClientDetail);
-  console.log(routeData);
-  let newArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   useEffect(() => {
     ApiServices.Get_User_Client_All_Session(
@@ -127,80 +134,80 @@ const ClientDetail = ({ navigation, route }) => {
       SetLoading,
       SetSessions,
       SetError,
+      ResetSession,
       ClientDetail.id
     );
   }, []);
-
-  useEffect(()=>{
-    if(Success){
-      console.log('Session:',Sessions[0])
+  console.log("isEmpyty:", isEmpty);
+  useEffect(() => {
+    if (Success) {
+      console.log("Session:", Sessions);
+      console.log("Notes:", Notes);
     }
-  },[Success])
+  }, [Success]);
   return (
     <SafeAreaView style={styles.body} edges={["top", "right", "left"]}>
-      {loading ? (
-        haveError ? (
-          <NotAvil Title={"Something Went Wrong"} />
-        ) : (
-          <View style={styles.ActivityCont}>
-            <ActivityIndicator
-              animating={loading}
-              color={NoteAppcolor}
-              size={"large"}
-            />
-          </View>
-        )
-      ) : (
-        Success &&
-        (isEmpty ? (
-          <NotAvil Title={"No Session & Notes"} />
-        ) : (
-          <ScrollView
-            stickyHeaderIndices={[2]}
-            showsVerticalScrollIndicator={false}
-          >
-            <View style={styles.HeaderStyle}>
-              <Header
-                Icon={ChevronLeft}
-                navigation={navigation}
-                pram={"back"}
-              ></Header>
-            </View>
-            <View style={styles.ProfileCont}>
-              <Image
-                source={{ uri: ClientDetail.avatar }}
-                style={styles.userImg}
+      <ScrollView
+        stickyHeaderIndices={[2]}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.HeaderStyle}>
+          <Header Icon={ChevronLeft} navigation={navigation} pram={"back"} />
+        </View>
+        <View style={styles.ProfileCont}>
+          <Image source={{ uri: ClientDetail.avatar }} style={styles.userImg} />
+          <Text style={styles.MainText}>{ClientDetail.full_name}</Text>
+          <Text style={styles.ProfileSub}>24 Years Old</Text>
+          <Text style={styles.ProfileSub}>
+            Last visit on{" "}
+            {DateConstrctor(new Date(ClientDetail.latest_session_date)).Date}
+          </Text>
+        </View>
+        <View>
+          <UserSelection SetState={SetOption} />
+        </View>
+        {loading ? (
+          haveError ? (
+            <NotAvil Title={"Something Went Wrong"} />
+          ) : (
+            <View style={styles.ActivityCont}>
+              <ActivityIndicator
+                animating={loading}
+                color={NoteAppcolor}
+                size="large"
               />
-              <Text style={styles.MainText}>{ClientDetail.full_name}</Text>
-              <Text style={styles.ProfileSub}>24 Years Old</Text>
-              <Text style={styles.ProfileSub}>Last Visit on </Text>
             </View>
-            <View>
-              <UserSelection SetState={SetOption} />
-            </View>
-
-            {Option.Session && (
-              <View style={{ marginTop: Wp(20) }}>
-            {Sessions.map((item, index) => {
-                  return (
+          )
+        ) : (
+          Success &&
+          (isEmpty ? (
+            <NotAvil Title={"No Session & Notes"} />
+          ) : (
+            <>
+              {Option.Session && (
+                <View style={{ marginTop: Wp(20) }}>
+                  {Sessions.map((item, index) => (
                     <SessionCardDesign
                       key={index}
                       navigation={navigation}
-                      data={routeData}
                       CardData={item}
                     />
-                  );
-                })}
-              </View>
-            )}
-            {Option.Notes && (
-              <View style={{ marginTop: Wp(20) }}>
-                {/* <NotesCard Arr={newArr} navigation={navigation} data={routeData} /> */}
-              </View>
-            )}
-          </ScrollView>
-        ))
-      )}
+                  ))}
+                </View>
+              )}
+              {Option.Notes && (
+                <View style={{ marginTop: Wp(20) }}>
+                  <NotesCard
+                    Arr={Notes}
+                    navigation={navigation}
+                    data={routeData}
+                  />
+                </View>
+              )}
+            </>
+          ))
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };

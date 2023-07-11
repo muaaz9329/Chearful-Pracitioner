@@ -1,3 +1,4 @@
+import useSessionNote from "@app/adapters/useSessionNote";
 import { createSlice } from "@reduxjs/toolkit";
 
 const AllSessionReducers = createSlice({
@@ -9,7 +10,8 @@ const AllSessionReducers = createSlice({
         Success: false,
         isEmpty: false,
         haveError: false,
-        clientInfo:{}
+        clientInfo:{},
+        Notes:[]
     },
     reducers: {
         SetSessions: (state, action) => {
@@ -17,10 +19,11 @@ const AllSessionReducers = createSlice({
             state.loading = false;
             state.error = null;
             state.Success = true;
-            if (action.payload.length == 0) {
+            if (action.payload.sessions.length == 0) {
                 state.isEmpty = true;
             }
             state.clientInfo = action.payload.client;
+            state.Notes = useSessionNote(action.payload.notes);
         },
         SetLoading: (state, action) => {
             state.loading = true;
@@ -32,6 +35,16 @@ const AllSessionReducers = createSlice({
             state.error = action.payload;
             state.Success = false;
             state.haveError = true;
+        },
+        ResetSession : (state,action) => {
+            state.Sessions = [];
+            state.loading = false;
+            state.error = null;
+            state.Success = false;
+            state.isEmpty = false;
+            state.haveError = false;
+            state.clientInfo = {};
+            state.Notes = [];
         }
     }
 
@@ -39,4 +52,4 @@ const AllSessionReducers = createSlice({
 })
 
 export default AllSessionReducers.reducer;
-export const { SetSessions, SetLoading, SetError } = AllSessionReducers.actions;
+export const { SetSessions, SetLoading, SetError ,ResetSession } = AllSessionReducers.actions;

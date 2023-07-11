@@ -25,7 +25,7 @@ const CardDesign = ({ Data }) => {
 
           <View style={styles.LastVisitCont}>
             <Text style={styles.LastVisitText}>
-            Last Visit on {DateConstrctor(new Date(Data.latest_session_date)).Date}
+            Last visit on {DateConstrctor(new Date(Data.latest_session_date)).Date}
             </Text>
           </View>
         </View>

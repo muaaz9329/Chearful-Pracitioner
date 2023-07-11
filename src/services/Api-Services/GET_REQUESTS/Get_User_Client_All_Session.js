@@ -5,8 +5,10 @@ const Get_User_Client_All_Session_func = async (
   onLoading,
   onSuccess,
   onError,
+  ResetSession,
   Client_ID
 ) => {
+  dispatch(ResetSession());
   dispatch(onLoading(true));
   const url = Url_With_Prams(Get_User_Client_All_Session, {
     client_id: Client_ID,
@@ -20,6 +22,7 @@ const Get_User_Client_All_Session_func = async (
       },
     });
     const data = await response.json();
+
     
       dispatch(onSuccess(data.data));
     

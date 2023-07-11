@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View ,Pressable} from "react-native";
+import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 import React, { useState } from "react";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import {
@@ -10,10 +10,22 @@ import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
 import NotesType from "@models/NotesType";
 import { calculateEndTime } from "@app/helper/customFunction";
+import { SessionCardAdapterFunction } from "./adapters/SessionCardAdapter";
+import TypeOfNote from "@app/common/Models/TypeOfNote";
 function convertDateFormat(dateString) {
   const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   const [year, month, day] = dateString.split("-");
@@ -22,38 +34,60 @@ function convertDateFormat(dateString) {
   return {
     Date: Number(day),
     Month: formattedMonth,
-    Year: String(year).slice(2)
+    Year: String(year).slice(2),
   };
 }
-const SessionCardDesign = ({navigation,data,CardData}) => {
-  const [model,Setmodel] = useState(false)
-  const {EndTime,StartTime} = calculateEndTime(CardData.appointment_time,CardData.time_duration)
+const SessionCardDesign = ({ navigation, CardData }) => {
+  console.log("Adapter :", SessionCardAdapterFunction(CardData)); // converts Raw card data to Required Format for Preview and adding Screen
+  const [model, Setmodel] = useState(false);
+  const { EndTime, StartTime } = calculateEndTime(
+    CardData.appointment_time,
+    CardData.time_duration
+  );
   return (
     <View style={styles.cardCont}>
-      <NotesType navigation={navigation} visible={model} setVisible={Setmodel} data={data} /> 
-      <View style={styles.CardContet}> 
+      <TypeOfNote
+      data={SessionCardAdapterFunction(CardData)}
+      visible={model}
+      setVisible={Setmodel}
+      navigation={navigation}
+      
+      />
+      <View style={styles.CardContet}>
         <View style={styles.Cont1}>
           <View style={styles.Datebox}>
-            <Text style={styles.date}>{convertDateFormat(CardData.appointment_date).Date}</Text>
-            <Text style={styles.date}>{convertDateFormat(CardData.appointment_date).Month}</Text>
+            <Text style={styles.date}>
+              {convertDateFormat(CardData.appointment_date).Date}
+            </Text>
+            <Text style={styles.date}>
+              {convertDateFormat(CardData.appointment_date).Month}
+            </Text>
           </View>
         </View>
         <View style={styles.CardTextCont}>
           <Text style={styles.Name}>{CardData.service_name}</Text>
           <View style={styles.LastVisitCont}>
-            <Text style={[styles.Name, { opacity: 0.7 }]}>{`${StartTime} - ${EndTime}`}</Text>
+            <Text
+              style={[styles.Name, { opacity: 0.7 }]}
+            >{`${StartTime} - ${EndTime}`}</Text>
           </View>
         </View>
       </View>
       <View style={styles.CardsButton}>
-        <Pressable style={styles.btnDesign} onPress={()=>{
-          Setmodel(!model)
-        }} >
+        <Pressable
+          style={styles.btnDesign}
+          onPress={() => {
+            Setmodel(!model);
+          }}
+        >
           <Plus width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />
         </Pressable>
-        <Pressable style={styles.btnDesign} onPress={()=>{
-          navigation.push("Prac_NotesPreview",{ClientData:data})
-        }}>
+        <Pressable
+          style={styles.btnDesign}
+          onPress={() => {
+            navigation.push("Prac_NotesPreview", { ClientData: SessionCardAdapterFunction(CardData) });
+          }}
+        >
           <Eye width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />
         </Pressable>
       </View>

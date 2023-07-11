@@ -23,6 +23,7 @@ const useSessionNote = (newObj) => {
 
       } else {
         FilterObj[i].Apptype = "img";
+        
       
 
       }

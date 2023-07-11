@@ -19,6 +19,7 @@ import {
   IconSquareRoundedArrowRight,
 } from "tabler-icons-react-native";
 const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
+  // data is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
   const NotesTypeData = [
     {
       name: "Pdf",
@@ -54,23 +55,20 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
 
   const [text, setText] = useState("Pdf");
   const MODE = "edit";
-  const hideModal = () =>{ 
-    setVisible(false)
-    setText("Pdf")
+  const hideModal = () => {
+    setVisible(false);
+    setText("Pdf");
   };
-  console.log('data in NoteType : ',data)
-
 
   const CoursalRef = useRef(null);
 
-  const HandleCoursalMovement= (direction) => {
-    if(direction == "left"){
+  const HandleCoursalMovement = (direction) => {
+    if (direction == "left") {
       CoursalRef.current.prev();
-    }
-    else{
+    } else {
       CoursalRef.current.next();
     }
-  }
+  };
 
   const HandleNavigation = (name) => {
     console.log(name);
@@ -105,10 +103,11 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
           <Text style={styles.title}>Choose Note Type</Text>
         </View>
 
-        <View
-          style={[styles.Coursal,  styles.BtnCont]}
-        >
-          <Pressable style={styles.btn} onPress={()=>HandleCoursalMovement("left")}>
+        <View style={[styles.Coursal, styles.BtnCont]}>
+          <Pressable
+            style={styles.btn}
+            onPress={() => HandleCoursalMovement("left")}
+          >
             <IconSquareRoundedArrowLeft
               size={Wp(30)}
               color={NoteAppcolor.Primary}
@@ -116,7 +115,7 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
           </Pressable>
           <Carousel
             loop
-            width={ Wp(250)}
+            width={Wp(250)}
             height={Wp(200)}
             data={NotesTypeData}
             onSnapToItem={(index) => setText(NotesTypeData[index].name)}
@@ -135,7 +134,10 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
               </View>
             )}
           />
-        <Pressable style={styles.btn} onPress={()=>HandleCoursalMovement("right")}>
+          <Pressable
+            style={styles.btn}
+            onPress={() => HandleCoursalMovement("right")}
+          >
             <IconSquareRoundedArrowRight
               size={Wp(30)}
               color={NoteAppcolor.Primary}
@@ -207,7 +209,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: Wp(10),
-
   },
   icon: {
     width: Wp(160),

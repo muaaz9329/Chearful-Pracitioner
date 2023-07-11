@@ -16,15 +16,16 @@ import { DateConstrctor } from "@app/helper/customFunction";
 import { IconClockHour3 } from "tabler-icons-react-native";
 import { ClockIcon } from "@app/svgs/Index";
 import FileIconGenrator from "@app/screens/NoteTakingApp/Screens/Session/components/FileIconGenrator";
+import { NotesCardAdapterFunction } from "./adapters/NotesCardAdapter";
 
-const NotesCard = ({ Arr=[1,2,4,5,6,7,8,9,5] , navigation, ClientData }) => {
-  /* //! Have to change this ARR  */
+const NotesCard = ({ Arr , navigation, ClientData }) => {
   const VIEW_MODE = "view";
   const EDIT_MODE = "edit";
 
+
   const HandleNavigation = (item) => {
     const Pram = new User_Session_Notes_Editor_Pram_object(
-      ClientData,
+      NotesCardAdapterFunction(item),
       item,
       item.Apptype,
       VIEW_MODE
@@ -86,15 +87,14 @@ const NotesCard = ({ Arr=[1,2,4,5,6,7,8,9,5] , navigation, ClientData }) => {
             <View style={styles.cont}>
               <View style={styles.ImageCont}>
                 <Image
-                  source={FileIconGenrator("pdf")}
+                  source={FileIconGenrator(item.Apptype)}
                   style={styles.DocIconSize}
                 />
               </View>
               <View style={styles.Content}>
                 <View style={styles.TopText}>
                   <Text style={styles.Date}>
-                    {/* {DateConstrctor(new Date(item.created_at)).Date} */
-                    `12 Dec,2020`/* //! Have to change this  */}
+                    {DateConstrctor(new Date(item.created_at)).Date} 
                   </Text>
                   {!(item.created_at === item.updated_at) && (
                     <View style={styles.TimeCont}>
@@ -115,10 +115,10 @@ const NotesCard = ({ Arr=[1,2,4,5,6,7,8,9,5] , navigation, ClientData }) => {
                 </View>
                 <View style={styles.BottomCont}>
                   <Text style={styles.Time}>
-                    {/* {`Last Edit ${
+                    {`Last Edit ${
                       DateConstrctor(new Date(item.updated_at)).Time
-                    }, ${DateConstrctor(new Date(item.updated_at)).Date}`} */
-                    `Last Edit 12:00 PM, 12 Dec,2020` /* //! Have to change this  */}
+                    }, ${DateConstrctor(new Date(item.updated_at)).Date}`} 
+                    
                   </Text>
                 </View>
               </View>

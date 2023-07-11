@@ -33,12 +33,15 @@ import TypeOfNote from "@app/common/Models/TypeOfNote";
 import HeaderInfo from "../Editor/Components/HeaderInfo";
 
 const NotesPreview = ({ navigation, route }) => {
-  const { ClientData } = route.params; // Api Prams such as Client Id , Session Id  
+  const { ClientData } = route.params;
+    // ClientData is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
+
   const dispatch = useDispatch();
   const LoadingRef = useRef(); // used to control the Loading Screen
   const LoadingRef2 = useRef(); // used to control the Loading Screen
-  const { SessionNotes, SessionNotesSuccess, HasNotes, refresh } =
-    useSelector((state) => state.SessionNotes); // states from Redux store
+  const { SessionNotes, SessionNotesSuccess, HasNotes, refresh } = useSelector(
+    (state) => state.SessionNotes
+  ); // states from Redux store
 
   const [model, setmodel] = useState(false);
   const HandleApi = () => {
@@ -47,7 +50,8 @@ const NotesPreview = ({ navigation, route }) => {
       ClientData.Session_ID,
       dispatch,
       ResetSessionNotes,
-      SetSessionNotes
+      SetSessionNotes,
+      
     );
   };
   useEffect(() => {

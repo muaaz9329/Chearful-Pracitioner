@@ -37,9 +37,11 @@ const Client = ({ navigation }) => {
   const { loading, Clients, error, Success, isEmpty, haveError } = useSelector(
     (state) => state.ClientReducer
   ); // Getting the state from the store
+  
 
   useEffect(() => {
     ApiServices.Get_User_All_Client(dispatch, SetLoading, SetClients, SetError);
+    dispatch
   }, []);
 
   useEffect(() => {
@@ -96,7 +98,7 @@ const Client = ({ navigation }) => {
     else if (arg == "Last Visit") {
       let TempList = OldData.sort(function (a, b) {
         // Convert the LastVisitDate string properties to Date objects and compare them to sort.
-        return new Date(b.LastVisitDate) - new Date(a.LastVisitDate);
+        return new Date(b.latest_session_date) - new Date(a.latest_session_date);
       });
       SetClientInfo(TempList); // Update the state with the sorted array.
     }
@@ -168,7 +170,8 @@ const Client = ({ navigation }) => {
                       onPress={() => {
                         navigation.push("Prac_ClientDetail", {
                           ClientDetail: item,
-                        });
+                        })
+                        ;
                       }}
                       key={index}
                     >
