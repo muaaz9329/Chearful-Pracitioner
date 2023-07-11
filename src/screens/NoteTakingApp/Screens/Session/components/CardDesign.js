@@ -21,6 +21,7 @@ const CardDesign = ({ Data, navigation }) => {
         setVisible={setmodel}
         data={new User_Session_notes_pram_object(Data)}
         navigation={navigation}
+        routeLoc={"Prac_Session"}
       />
 
       <View style={styles.CardContet}>
@@ -55,7 +56,7 @@ const CardDesign = ({ Data, navigation }) => {
         <Pressable
           style={styles.btnDesign}
           onPress={() => {
-            navigation.push("Prac_NotesPreview",{ClientData:new User_Session_notes_pram_object(Data)});
+            navigation.navigate("Prac_NotesPreview",{ClientData:new User_Session_notes_pram_object(Data),routeLoc:"Prac_Session"});
           }}
         >
           <Eye width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />

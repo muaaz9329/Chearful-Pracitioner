@@ -18,7 +18,7 @@ import {
   IconSquareRoundedArrowLeft,
   IconSquareRoundedArrowRight,
 } from "tabler-icons-react-native";
-const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
+const TypeOfNote = ({ visible = true, setVisible, navigation, data , routeLoc }) => {
   // data is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
   const NotesTypeData = [
     {
@@ -81,7 +81,8 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data }) => {
             MODE,
             data,
             item.type,
-            "upload"
+            "upload",
+            routeLoc
           )
         );
       }

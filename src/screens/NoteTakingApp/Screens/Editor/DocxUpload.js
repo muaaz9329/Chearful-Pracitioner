@@ -8,7 +8,7 @@ import Header from './Components/Header';
 import DocumentPicker from 'react-native-document-picker';
 import LoadingScreen from '@app/common/Module/Loading-Screen/LoadingScreen';
 const DocxUpload = ({ route, navigation }) => {
-  const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote } =
+  const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote , routeLoc } =
     route.params;
   const LoadingRef = useRef();
     const [singleFile, setSingleFile] =useState(null);
@@ -47,6 +47,7 @@ const DocxUpload = ({ route, navigation }) => {
           TypeOfNote={TypeOfNote}
           Content={content}
           LoadingRef={LoadingRef}
+          routeLoc={routeLoc}
         />
       <Pressable style={styles.Cont} onPress={UploadDocs} >
         <View style={styles.ImgIcon}>

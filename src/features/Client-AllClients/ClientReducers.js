@@ -8,7 +8,8 @@ const ClientReducer = createSlice({
         error: null,
         Success: false,
         isEmpty: false,
-        haveError: false
+        haveError: false,
+        SelectedClientDetail:null
 
     }
     ,
@@ -32,9 +33,12 @@ const ClientReducer = createSlice({
             state.error = action.payload;
             state.Success = false;
             state.haveError = true;
+        },
+        SetSelectedClientDetail: (state, action) => {
+            state.SelectedClientDetail = action.payload;
         }
     }
 })
 
 export default ClientReducer.reducer;
-export const { SetClients, SetLoading ,SetError } = ClientReducer.actions;
+export const { SetClients, SetLoading ,SetError , SetSelectedClientDetail} = ClientReducer.actions;

@@ -33,9 +33,10 @@ import TypeOfNote from "@app/common/Models/TypeOfNote";
 import HeaderInfo from "../Editor/Components/HeaderInfo";
 
 const NotesPreview = ({ navigation, route }) => {
-  const { ClientData } = route.params;
+  const { ClientData ,routeLoc } = route.params;
+  console.log(routeLoc)
     // ClientData is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
-
+  const [Route,setRoute] = useState()
   const dispatch = useDispatch();
   const LoadingRef = useRef(); // used to control the Loading Screen
   const LoadingRef2 = useRef(); // used to control the Loading Screen
@@ -56,6 +57,12 @@ const NotesPreview = ({ navigation, route }) => {
   };
   useEffect(() => {
     HandleApi();
+    if(routeLoc===undefined){
+      setRoute('back')
+    } // if loc not given in navigation route pram then set it to back
+    else{
+      setRoute(routeLoc) // else set it to the given loc
+    }
   }, []); // Api Calling from Here to Get Session notes
 
   useEffect(() => {
@@ -88,11 +95,12 @@ const NotesPreview = ({ navigation, route }) => {
           setVisible={setmodel}
           data={ClientData}
           navigation={navigation}
+          routeLoc={Route}
         />
         <Header
           Icon={ChevronLeft}
           navigation={navigation}
-          pram={"Prac_Session"}
+          pram={Route}
         >
           <HeaderInfo data={ClientData} LoadingRef={LoadingRef2} />
         </Header>

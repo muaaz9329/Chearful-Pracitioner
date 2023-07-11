@@ -51,6 +51,7 @@ const SessionCardDesign = ({ navigation, CardData }) => {
       visible={model}
       setVisible={Setmodel}
       navigation={navigation}
+      routeLoc={"Prac_ClientDetail"}
       
       />
       <View style={styles.CardContet}>
@@ -85,7 +86,7 @@ const SessionCardDesign = ({ navigation, CardData }) => {
         <Pressable
           style={styles.btnDesign}
           onPress={() => {
-            navigation.push("Prac_NotesPreview", { ClientData: SessionCardAdapterFunction(CardData) });
+            navigation.navigate("Prac_NotesPreview", { ClientData: SessionCardAdapterFunction(CardData), routeLoc: "Prac_ClientDetail" });
           }}
         >
           <Eye width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />

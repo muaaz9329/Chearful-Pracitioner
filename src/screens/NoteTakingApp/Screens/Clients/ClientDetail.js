@@ -124,10 +124,13 @@ const ClientDetail = ({ navigation, route }) => {
     Notes,
   } = useSelector((state) => state.ClientSessionReducer); // this state is used to get the client session states from  the reducer
 
-  const { ClientDetail } = route.params;
+  
+  const {SelectedClientDetail} = useSelector(
+    (state) => state.ClientReducer
+  ); // Getting the state from the store Client Screen
   const dispatch = useDispatch();
-  const [routeData, SetRouteData] = useState(route.params.ClientDetail);
-
+  const [routeData, SetRouteData] = useState(SelectedClientDetail);
+  console.log("routeData:", routeData);
   useEffect(() => {
     ApiServices.Get_User_Client_All_Session(
       dispatch,
@@ -135,7 +138,7 @@ const ClientDetail = ({ navigation, route }) => {
       SetSessions,
       SetError,
       ResetSession,
-      ClientDetail.id
+      routeData.id
     );
   }, []);
   console.log("isEmpyty:", isEmpty);
@@ -155,12 +158,12 @@ const ClientDetail = ({ navigation, route }) => {
           <Header Icon={ChevronLeft} navigation={navigation} pram={"back"} />
         </View>
         <View style={styles.ProfileCont}>
-          <Image source={{ uri: ClientDetail.avatar }} style={styles.userImg} />
-          <Text style={styles.MainText}>{ClientDetail.full_name}</Text>
+          <Image source={{ uri: SelectedClientDetail.avatar }} style={styles.userImg} />
+          <Text style={styles.MainText}>{SelectedClientDetail.full_name}</Text>
           <Text style={styles.ProfileSub}>24 Years Old</Text>
           <Text style={styles.ProfileSub}>
             Last visit on{" "}
-            {DateConstrctor(new Date(ClientDetail.latest_session_date)).Date}
+            {DateConstrctor(new Date(SelectedClientDetail.latest_session_date)).Date}
           </Text>
         </View>
         <View>

@@ -35,7 +35,8 @@ import HeaderInfo from "./HeaderInfo";
     File,
     IntialContent,
     CanvasFunc,
-    LoadingRef
+    LoadingRef,
+    routeLoc
   }) => {
 
     const {hasSaved} = useSelector((state) => state.BrushControl);
@@ -61,6 +62,7 @@ import HeaderInfo from "./HeaderInfo";
           NoteId={NoteId}
           Content={Content}
           File={File}
+          routeLoc={routeLoc}
         />
         <Pressable
           style={styles.Listbtn}

@@ -27,6 +27,7 @@ import {
   SetLoading,
   SetClients,
   SetError,
+  SetSelectedClientDetail,
 } from "@app/features/Client-AllClients/ClientReducers";
 import { ActivityIndicator } from "react-native-paper";
 import NotAvil from "@app/common/components/NotAvil";
@@ -168,9 +169,10 @@ const Client = ({ navigation }) => {
                   renderItem={({ item, index }) => (
                     <Pressable
                       onPress={() => {
-                        navigation.push("Prac_ClientDetail", {
+                        navigation.navigate("Prac_ClientDetail", {
                           ClientDetail: item,
                         })
+                        dispatch(SetSelectedClientDetail(item))
                         ;
                       }}
                       key={index}

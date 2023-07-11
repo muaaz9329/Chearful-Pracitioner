@@ -9,7 +9,7 @@ import DocumentPicker from 'react-native-document-picker';
 import LoadingScreen from '@app/common/Module/Loading-Screen/LoadingScreen';
 
 const PdfUpload = ({ route, navigation }) => {
-  const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote } =
+  const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote ,routeLoc} =
     route.params;
 
   const LoadingRef = useRef();
@@ -51,6 +51,7 @@ const PdfUpload = ({ route, navigation }) => {
           TypeOfNote={TypeOfNote}
           Content={content}
           LoadingRef={LoadingRef}
+          routeLoc={routeLoc}
         />
       <View style={styles.Cont} >
         <Pressable style={styles.ImgIcon} onPress={selectOneFile}>

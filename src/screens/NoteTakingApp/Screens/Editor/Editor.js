@@ -33,11 +33,12 @@ import DeleteModel from "@models/DeleteModel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 const Editor = ({ route, navigation }) => {
-  const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote } =
+  const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote , routeLoc } =
     route.params;
   // mode = edit or view , content = content of the note ,
   // ClientData = Data of the client coming from ./Session/Components/CardsDesign.js ->
   // ../NotesPreview.js -> ./Components/NotesCard.js -> Editor.js
+  console.log("RouteLoc:",routeLoc)
   const [Mode, setmode] = useState(mode);
   const [Content, setContent] = useState(content);
   const IntailContent = useRef(content);
@@ -117,6 +118,7 @@ const Editor = ({ route, navigation }) => {
           keyboardDismiss={keyboardDismiss}
           IntailContent={IntailContent}
           LoadingRef={LoadingRef}
+          routeLoc={routeLoc}
         />
         <ScrollView>
          

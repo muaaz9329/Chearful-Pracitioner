@@ -15,7 +15,7 @@ import { UpdateHasSaved } from "@app/Library/Drawic/utils/features/Brush-Control
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 LogBox.ignoreLogs(["Warning:..."]); // Ignore log notification by message
 const DrawingEditor = ({ navigation, route }) => {
-  const { mode, content, ClientData, NoteId, ComingFor } = route.params;
+  const { mode, content, ClientData, NoteId, ComingFor , routeLoc} = route.params;
   const [Content, setContent] = useState();
   const IntialContent = useRef(content);
   const [file, setFile] = useState();
@@ -60,6 +60,7 @@ const DrawingEditor = ({ navigation, route }) => {
         IntialContent={IntialContent}
         CanvasFunc={CanvasFunc}
         LoadingRef={LoadingRef}
+        routeLoc={routeLoc}
       />
       <DeleteModel
         navigation={navigation}

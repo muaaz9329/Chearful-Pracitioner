@@ -37,6 +37,7 @@ const Header = ({
   keyboardDismiss,
   IntailContent,
   LoadingRef,
+  routeLoc
 }) => {
   const [model, setModel] = useState(false);
   const [model2, setmodel2] = useState(false);
@@ -59,6 +60,7 @@ const Header = ({
         NoteId={NoteId}
         Content={Content}
         IntailContent={IntailContent} // passing so if the content changes and get saved then the back button will work as normal without showing the model
+        routeLoc={routeLoc}
       />
 
       <Pressable
