@@ -22,7 +22,7 @@ const SaveModel = ({
   File,
   Content,
   IntailContent,
-  routeLoc
+  routeLoc,
 }) => {
   const hideModal = () => setVisible(false);
   const [Loading, setLoading] = useState(false);
@@ -49,7 +49,10 @@ const SaveModel = ({
         setTimeout(() => {
           setLoading(false);
           hideModal();
-          navigation.navigate("Prac_NotesPreview", { ClientData: ClientData,routeLoc:routeLoc });
+          navigation.navigate("Prac_NotesPreview", {
+            ClientData: ClientData,
+            routeLoc: routeLoc,
+          });
         }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
         IntailContent.current = Content; // setting the intial content to the current content so that if the user presses the back button then the model will not be shown
       }
@@ -114,9 +117,36 @@ const SaveModel = ({
         setTimeout(() => {
           setLoading(false);
           hideModal();
-          navigation.navigate("Prac_NotesPreview", { ClientData: ClientData ,routeLoc:routeLoc});
+          navigation.navigate("Prac_NotesPreview", {
+            ClientData: ClientData,
+            routeLoc: routeLoc,
+          });
         }, 1000);
       }
+    } else if (
+      ComingFor.toLowerCase() === "upload" &&
+      TypeOfNote.toLowerCase() === "img"
+    ) {
+     const response = await ApiServices.Post_New_File_Note(
+        ClientData.Client_ID,
+        ClientData.Session_ID,
+        `data:${Content.fileType};base64,${Content.base64}`,
+        "image",
+        Content.fileName
+      );
+      if(response){
+        AnimationControl.current.LoadingEnds();
+        Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
+        setTimeout(() => {
+          setLoading(false);
+          hideModal();
+          navigation.navigate("Prac_NotesPreview", {
+            ClientData: ClientData,
+            routeLoc: routeLoc,
+          });
+        }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
+      }
+
     }
   };
   return (

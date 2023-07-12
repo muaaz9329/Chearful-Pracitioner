@@ -10,7 +10,8 @@ Update_Canvas_Content_ApiFunc,
 Post_New_Canvas_Note_ApiFunc,
 Get_User_All_Client_ApiFunc,
 Get_User_Client_All_Session_ApiFunc,
-Get_User_Session_Info_ApiFunc
+Get_User_Session_Info_ApiFunc,
+Post_New_Session_File_Notes_ApiFunc
 } from './Api-Services/Index'
 
 
@@ -141,6 +142,14 @@ export const ApiServices = {
    */
 
   Get_User_Session_Info : Get_User_Session_Info_ApiFunc,
-
-
+  /**
+   * @description Api function to Post new Session note of Type file (image , odf , docx)
+   * @param {*} Client_Id - Client Id of the client
+   * @param {*} Session_Id - Session Id of the session
+   * @param {*} Base64File - Base64 File of the file
+   * @param {*} fileType - Type of the file like image , pdf , docx
+   * @param {*} fileName - Name of the file
+   * 
+   */
+  Post_New_File_Note : Post_New_Session_File_Notes_ApiFunc,
 };

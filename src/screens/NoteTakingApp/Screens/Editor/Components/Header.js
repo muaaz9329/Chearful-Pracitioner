@@ -23,13 +23,10 @@ import { ApiServices } from "@app/services/Apiservice";
 import { ClientDataObj } from "@app/adapters/ClientDataObj";
 import HeaderInfo from "./HeaderInfo";
 
-
-
 const Header = ({
   navigation,
   mode,
-  data // this Consist  of the client id and Session id
-  ,
+  data, // this Consist  of the client id and Session id
   NoteId,
   ComingFor,
   TypeOfNote = "",
@@ -37,12 +34,11 @@ const Header = ({
   keyboardDismiss,
   IntailContent,
   LoadingRef,
-  routeLoc
+  routeLoc,
 }) => {
   const [model, setModel] = useState(false);
   const [model2, setmodel2] = useState(false);
 
-  
   return (
     <View style={styles.header}>
       <BackStopModel
@@ -94,8 +90,17 @@ const Header = ({
         <Pressable
           style={[styles.Listbtn]}
           onPress={() => {
-            setmodel2(!model2);
-            keyboardDismiss();
+            if (
+              TypeOfNote.toLowerCase() === "img" | "pdf" | "docx" &&
+              Content === null 
+            ) {
+              alert("Please Select a file in order to save the note");
+            } else {
+              setmodel2(!model2);
+              if (TypeOfNote.toLowerCase() === "text") {
+                keyboardDismiss();
+              }
+            }
           }}
         >
           <SaveBtn

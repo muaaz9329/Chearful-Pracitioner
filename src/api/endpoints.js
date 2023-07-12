@@ -17,6 +17,7 @@ export const Delete_Session_Note = "/practitioner/delete-note"
 export const Update_Session_Note_Text = "/practitioner/note/update"
 export const Update_Session_Canvas_content = "/practitioner/update-uploaded-notes-for-mobile"
 export const Post_User_Session_Canvas_Note = "/practitioner/upload-notes-for-mobile"
+export const Post_User_Session_File_Note = "/practitioner/upload-notes-file"
 
 
 

@@ -3,6 +3,7 @@
  * -> {1.0.0} -
  */
 
+import RNFS from 'react-native-fs'
 
 
 
@@ -308,3 +309,14 @@ function formatTime(date:Date) {
 
   return `${formattedHour}:${formattedMinute} ${period}`;
 }
+
+
+export const convertFileToBase64 = async (filePath:string) => {
+  try {
+    const fileContents = await RNFS.readFile(filePath, 'base64');
+    return fileContents;
+  } catch (error) {
+    console.error('Error converting file to Base64:', error);
+    throw error;
+  }
+};
