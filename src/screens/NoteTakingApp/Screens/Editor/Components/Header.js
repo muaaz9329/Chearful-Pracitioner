@@ -91,8 +91,10 @@ const Header = ({
           style={[styles.Listbtn]}
           onPress={() => {
             if (
-              TypeOfNote.toLowerCase() === "img" | "pdf" | "docx" &&
-              Content === null 
+             ( TypeOfNote.toLowerCase() === "img" ||
+              TypeOfNote.toLowerCase() === "pdf" ||
+              TypeOfNote.toLowerCase() === "docx") 
+              && Content === null
             ) {
               alert("Please Select a file in order to save the note");
             } else {

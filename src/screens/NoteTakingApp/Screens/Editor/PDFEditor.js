@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -18,7 +18,7 @@ const PDFEditor = ({ navigation, route }) => {
   };
   return (
     <>
-      <LoadingScreen ref={LoadingRef} type={'loader'} />
+      <LoadingScreen ref={LoadingRef} type={"loader"} />
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <HeaderWithDeleteBtn
           navigation={navigation}
@@ -27,16 +27,17 @@ const PDFEditor = ({ navigation, route }) => {
           NoteId={NoteId}
           LoadingRef={LoadingRef}
         />
-        {loading ? (
-          <ActivityIndicator size={"small"} color={NoteAppcolor.Primary} />
-        ) : (
-          <Pdf
-            source={{ uri: content }}
-            style={{ flex: 1 }}
-            onLoadComplete={() => LoadingComplete()}
-            trustAllCerts={false}
-          />
+        {loading && (
+          <View style={styles.ActivityIndicator}>
+            <ActivityIndicator size={"small"} color={NoteAppcolor.Primary} />
+          </View>
         )}
+        <Pdf
+          source={{ uri: content }}
+          style={{ flex: 1 }}
+          onLoadComplete={() => LoadingComplete()}
+          trustAllCerts={false}
+        />
       </SafeAreaView>
     </>
   );
@@ -44,4 +45,12 @@ const PDFEditor = ({ navigation, route }) => {
 
 export default PDFEditor;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  ActivityIndicator: {
+    position: "absolute",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+  },
+});

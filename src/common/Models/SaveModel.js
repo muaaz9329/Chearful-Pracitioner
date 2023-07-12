@@ -127,14 +127,15 @@ const SaveModel = ({
       ComingFor.toLowerCase() === "upload" &&
       TypeOfNote.toLowerCase() === "img"
     ) {
-     const response = await ApiServices.Post_New_File_Note(
+      //* upload image note
+      const response = await ApiServices.Post_New_File_Note(
         ClientData.Client_ID,
         ClientData.Session_ID,
         `data:${Content.fileType};base64,${Content.base64}`,
         "image",
         Content.fileName
       );
-      if(response){
+      if (response) {
         AnimationControl.current.LoadingEnds();
         Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
         setTimeout(() => {
@@ -146,7 +147,29 @@ const SaveModel = ({
           });
         }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
       }
-
+    } else if (
+      TypeOfNote.toLowerCase() === "pdf" &&
+      ComingFor.toLowerCase() === "upload"
+    ) {
+      const response = await ApiServices.Post_New_File_Note(
+        ClientData.Client_ID,
+        ClientData.Session_ID,
+        `data:${Content.fileType};base64,${Content.base64}`,
+        "pdf",
+        Content.fileName
+      );
+      if (response) {
+        AnimationControl.current.LoadingEnds();
+        Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
+        setTimeout(() => {
+          setLoading(false);
+          hideModal();
+          navigation.navigate("Prac_NotesPreview", {
+            ClientData: ClientData,
+            routeLoc: routeLoc,
+          });
+        }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
+      }
     }
   };
   return (

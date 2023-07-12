@@ -8,6 +8,7 @@ import Header from "./Components/Header";
 import DocumentPicker from "react-native-document-picker";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import { convertFileToBase64 } from "@app/helper/customFunction";
+import FileUploadObj from "./Components/adapter/FileUploadObj";
 const ImageUpload = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote, routeLoc } =
     route.params;
@@ -35,19 +36,9 @@ const ImageUpload = ({ route, navigation }) => {
     }
   };
 
-  const ObjMaker = async (singleFile) => {
-    const base64 = await convertFileToBase64(singleFile.uri);
-    let obj = {
-      fileName: singleFile.name,
-      fileType: singleFile.type,
-      base64: base64,
-    };
-    return obj;
-  };
-
   useEffect(() => {
     if (singleFile !== null) {
-      ObjMaker(singleFile)
+      FileUploadObj(singleFile)
         .then((res) => {
           setContent(res);
         })
@@ -57,9 +48,7 @@ const ImageUpload = ({ route, navigation }) => {
     }
   }, [singleFile]);
 
-  useEffect(() => {
-    console.log("Content", Content);
-  }, [Content]);
+
   return (
     <SafeAreaView style={styles.Container}>
       <LoadingScreen type={"loader"} ref={LoadingRef} />
