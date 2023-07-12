@@ -173,11 +173,12 @@ const SaveModel = ({
     }
     else if ( TypeOfNote.toLowerCase() === "docx" &&
     ComingFor.toLowerCase() === "upload"){
+      //* upload docx & doc note
       const response = await ApiServices.Post_New_File_Note(
         ClientData.Client_ID,
         ClientData.Session_ID,
         `data:${Content.fileType};base64,${Content.base64}`,
-        "docx",
+        Content.fileExtension,
         Content.fileName
       );
       if (response) {

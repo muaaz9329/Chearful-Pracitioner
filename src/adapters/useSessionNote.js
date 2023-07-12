@@ -12,7 +12,7 @@ const useSessionNote = (newObj) => {
     if (FilterObj[i].type === "file") {
       if (FilterObj[i].filename.includes("pdf")) {
         FilterObj[i].Apptype = "pdf";
-      } else if (FilterObj[i].filename.includes("docx")) {
+      } else if (FilterObj[i].filename.includes("docx") || FilterObj[i].filename.includes("doc")) {
         FilterObj[i].Apptype = "docx";
       } else {
         FilterObj[i].Apptype = "img";

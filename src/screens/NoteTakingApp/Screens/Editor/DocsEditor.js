@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   Body: {
     flex: 1,
     backgroundColor: "white",
+    position: "relative",
   },
   ActivityIndicator: {
     position: "absolute",
@@ -72,5 +73,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     zIndex: 10,
+    backgroundColor: "white",
   }
 });

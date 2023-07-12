@@ -20,10 +20,10 @@ const LoadingScreen =forwardRef( ({type='logo'}, ref) => {
 
   useImperativeHandle(ref, () => ({
     LoadingEnds(){
-      Animationref.current.fadeOut(800)
+      Animationref.current.fadeOut(500)
       setTimeout(()=>{
         SetZ_INDEX(-100)
-      },800)
+      },500)
     }
   }));
 

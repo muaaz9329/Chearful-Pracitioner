@@ -17,7 +17,7 @@ const DocxUpload = ({ route, navigation }) => {
   const UploadDocs = async () => {
     try {
       const res = await DocumentPicker.pickSingle({
-        type: [DocumentPicker.types.docx],
+        type: [DocumentPicker.types.docx , DocumentPicker.types.doc],
       });
 
       setSingleFile(res);

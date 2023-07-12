@@ -40,7 +40,7 @@ function UserInfo(props) {
   }
   
 
-const HeaderInfo = ({data  , LoadingRef}) => {
+const HeaderInfo = ({data  , LoadingRef=null}) => {
     const [ClientData, setClientData] = useState(null); // for storing the data of the header
     const HandleApi = async () => {
         const res = await ApiServices.Get_User_Session_Info(
@@ -57,7 +57,10 @@ const HeaderInfo = ({data  , LoadingRef}) => {
       };
       useEffect(() => {
         HandleApi();
-        LoadingRef.current?.LoadingEnds();
+        if(LoadingRef!==null){
+          LoadingRef.current?.LoadingEnds();
+
+        }
       }, []);
   return (
   (ClientData && <UserInfo ClientData={ClientData}/>)

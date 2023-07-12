@@ -82,13 +82,13 @@ const NotesPreview = ({ navigation, route }) => {
     if (SessionNotesSuccess) {
       setTimeout(() => {
         LoadingRef.current?.LoadingEnds();
-      });
+      },300);
     }
   }, [SessionNotesSuccess]); // used to control the Loading Screen
 
   return (
     <>
-      <LoadingScreen ref={LoadingRef2} type={"logo"} />
+      <LoadingScreen ref={LoadingRef} type={"loader"} />
       <SafeAreaView style={styles.Body}>
         <TypeOfNote
           visible={model}
@@ -102,9 +102,9 @@ const NotesPreview = ({ navigation, route }) => {
           navigation={navigation}
           pram={Route}
         >
-          <HeaderInfo data={ClientData} LoadingRef={LoadingRef2} />
+          <HeaderInfo data={ClientData} />
         </Header>
-        <LoadingScreen ref={LoadingRef} type={"loader"} />
+        
 
         <ScrollView
           style={{ marginTop: Wp(20) }}
