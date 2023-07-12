@@ -13,16 +13,16 @@ const CardDesign = ({ Data }) => {
     <View style={styles.cardCont}>
       <View style={styles.CardContet}>
         <View style={styles.Cont1}>
-          <Image source={Data.Picture} style={styles.ClientImage} resizeMethod={'scale'} />
+        <Image source={{uri: Data.avatar}} style={styles.ClientImage} />
         </View>
         <View style={styles.CardTextCont}>
           <Text style={styles.Name}>
-            {Data.Name.length > 14 ? Data.Name.slice(0, 14) + ".." : Data.Name}
+            {Data.full_name}
           </Text>
 
           <View style={styles.LastVisitCont}>
             <Text style={styles.LastVisitText}>
-              Last Visit on {DateConstrctor(new Date(Data.LastVisitDate)).Date}
+            Last visit on {DateConstrctor(new Date(Data.latest_session_date)).Date}
             </Text>
           </View>
         </View>

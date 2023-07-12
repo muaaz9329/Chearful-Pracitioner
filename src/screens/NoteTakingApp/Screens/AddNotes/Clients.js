@@ -5,18 +5,12 @@ import {
   TextInput,
   Pressable,
   Platform,
-
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import Header from "@CommonComponents/Header";
-import {
-  ChevronLeft,
-  FilterIcon,
-  SearchIcon,
-  Tick,
-} from "@svg";
+import { ChevronLeft, FilterIcon, SearchIcon, Tick } from "@svg";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import {
   widthPercentageToDP as wp,
@@ -27,6 +21,16 @@ import AddNewNote from "../../Data/AddNewNote";
 import RBSheet from "react-native-raw-bottom-sheet";
 import AnimatedFlatList from "@constants/AnimatedFlatList";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ApiServices } from "@app/services/Apiservice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  SetClients,
+  SetError,
+  SetLoading,
+  SetSelectedClientDetail,
+} from "@app/features/Client-AllClients/ClientReducers";
+import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
+import NotAvil from "@app/common/components/NotAvil";
 function SearchBox({ HandleFunction, OpenSheet }) {
   const refInput = useRef();
 
@@ -68,17 +72,43 @@ function SearchBox({ HandleFunction, OpenSheet }) {
 }
 
 const Client = ({ navigation }) => {
-  const [ClientInfo, SetClientInfo] = useState(AddNewNote);
-  const [OldData, SetOldData] = useState(AddNewNote);
+  const [ClientInfo, SetClientInfo] = useState([]);
+  const [OldData, SetOldData] = useState([]);
+  const Dispatch = useDispatch();
+  const LoadingRef = useRef();
 
+  const { loading, Clients, error, Success, isEmpty, haveError } = useSelector(
+    (state) => state.ClientReducer
+  ); // Getting the state from the store
 
+  const HandleApi = async () => {
+    ApiServices.Get_User_All_Client(Dispatch, SetLoading, SetClients, SetError);
+  };
+
+  useEffect(() => {
+    HandleApi();
+  }, []);
+
+  useEffect(() => {
+    if (haveError) {
+      console.log("Broooo ya error aya ha: ", error);
+    }
+  }, [haveError]); // use To check if there is any error or not
+
+  useEffect(() => {
+    if (Success) {
+      SetClientInfo(Clients);
+      SetOldData(Clients);
+      LoadingRef.current.LoadingEnds();
+    }
+  }, [Success]);
 
   const HandleFilter = (Text) => {
     if (Text == "" || Text == null) {
       SetClientInfo(OldData);
     } else {
       let filteredData = OldData.filter(
-        (item) => item.Name.toLowerCase().indexOf(Text.toLowerCase()) > -1
+        (item) => item.full_name.toLowerCase().indexOf(Text.toLowerCase()) > -1
       );
       SetClientInfo(filteredData);
     }
@@ -87,19 +117,29 @@ const Client = ({ navigation }) => {
   const refRBSheet = useRef();
 
   const SortList = (arg) => {
+    // If the argument is "Ascending", sort the array in ascending order of Name property.
     if (arg === "Ascending") {
-      let TempList = OldData.sort((a, b) => (a.Name > b.Name ? 1 : -1));
-      SetClientInfo(TempList);
-    } else if (arg === "Descending") {
-      let TempList = OldData.sort((a, b) => (a.Name < b.Name ? 1 : -1));
-      SetClientInfo(TempList);
-    } else if (arg == "Last Visit") {
+      let TempList = OldData.sort((a, b) =>
+        a.first_name > b.first_name ? 1 : -1
+      );
+      SetClientInfo(TempList); // Update the state with the sorted array.
+    }
+    // If the argument is "Descending", sort the array in descending order of Name property.
+    else if (arg === "Descending") {
+      // let TempList = OldData.sort((a, b) => (a.first_name < b.first_name ? 1 : -1));
+      // SetClientInfo(TempList); // Update the state with the sorted array.
+      const newArr = [...OldData];
+      SetClientInfo(newArr.reverse());
+    }
+    // If the argument is "Last Visit", sort the array in descending order of LastVisitDate property.
+    else if (arg == "Last Visit") {
       let TempList = OldData.sort(function (a, b) {
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
-        return new Date(b.LastVisitDate) - new Date(a.LastVisitDate);
+        // Convert the LastVisitDate string properties to Date objects and compare them to sort.
+        return (
+          new Date(b.latest_session_date) - new Date(a.latest_session_date)
+        );
       });
-      SetClientInfo(TempList);
+      SetClientInfo(TempList); // Update the state with the sorted array.
     }
   };
 
@@ -127,61 +167,71 @@ const Client = ({ navigation }) => {
   ]);
 
   return (
-    <SafeAreaView style={styles.Body} edges={['top','left','right']}>
-      <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
-        <Text style={styles.Text}>Clients</Text>
-      </Header>
-      <SearchBox
-        state={ClientInfo}
-        setState={SetClientInfo}
-        HandleFunction={HandleFilter}
-        OpenSheet={bottomSheetOpen}
-      />
-      <AnimatedFlatList
-        data={ClientInfo}
-        renderItem={({ item, index }) => (
-          <Pressable
-            onPress={() => {
-              navigation.push("Prac_AddNoteSession", { ClientDetail: item });
-            }}
-          >
-            <CardDesign Data={item} key={index} />
-          </Pressable>
-        )}
-        contentContainerStyle={{
-          paddingTop: Wp(10),
-          alignItems: "center",
-        }}
-        showsVerticalScrollIndicator={false}
-      />
-
-      <RBSheet
-        ref={refRBSheet}
-        height={hp(32)}
-        closeOnDragDown={false}
-        closeOnPressMask={true}
-        customStyles={{
-          container: {
-            borderTopLeftRadius: hp(4),
-            borderTopRightRadius: hp(4),
-          },
-          wrapper: {
-            backgroundColor: "rgba(0,0,0,.6)",
-          },
-          draggableIcon: {
-            backgroundColor: "#000",
-          },
-        }}
-      >
-        <BottomSheet
-          HandleFunction={bottomSheetClose}
-          displayTick={displayTick}
-          setDisplayTick={setDisplayTick}
-          selectedDesign={selectedDesign}
-          UnselectedDesign={UnselectedDesign}
+    <>
+      <LoadingScreen type={"loader"} ref={LoadingRef} />
+      <SafeAreaView style={styles.Body} edges={["top", "left", "right"]}>
+        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
+          <Text style={styles.Text}>Clients</Text>
+        </Header>
+        <SearchBox
+          state={ClientInfo}
+          setState={SetClientInfo}
+          HandleFunction={HandleFilter}
+          OpenSheet={bottomSheetOpen}
         />
-      </RBSheet>
-    </SafeAreaView>
+        {ClientInfo.length === 0 ? (
+          <NotAvil Title={`No Clients Available`} />
+        ) : (
+          <AnimatedFlatList
+            data={ClientInfo}
+            renderItem={({ item, index }) => (
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("Prac_AddNoteSession", {
+                    ClientDetail: item,
+                  });
+                  Dispatch(SetSelectedClientDetail(item));
+                }}
+              >
+                <CardDesign Data={item} key={index} />
+              </Pressable>
+            )}
+            contentContainerStyle={{
+              paddingTop: Wp(10),
+              alignItems: "center",
+            }}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+
+        <RBSheet
+          ref={refRBSheet}
+          height={hp(32)}
+          closeOnDragDown={false}
+          closeOnPressMask={true}
+          customStyles={{
+            container: {
+              borderTopLeftRadius: hp(4),
+              borderTopRightRadius: hp(4),
+            },
+            wrapper: {
+              backgroundColor: "rgba(0,0,0,.6)",
+            },
+            draggableIcon: {
+              backgroundColor: "#000",
+            },
+          }}
+        >
+          <BottomSheet
+            HandleFunction={bottomSheetClose}
+            displayTick={displayTick}
+            setDisplayTick={setDisplayTick}
+            selectedDesign={selectedDesign}
+            UnselectedDesign={UnselectedDesign}
+          />
+        </RBSheet>
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -283,7 +333,7 @@ const styles = StyleSheet.create({
     backgroundColor: NoteAppcolor.White,
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingTop: Platform.OS =='android'? Wp(20):Wp(10),
+    paddingTop: Platform.OS == "android" ? Wp(20) : Wp(10),
   },
   Text: {
     fontFamily: Mulish(700),

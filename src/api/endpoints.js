@@ -1,12 +1,13 @@
 export const BASE_URL = "https://dev.chearful.com/api/v2"
 
 // GET REQUESTS
-export const Get_User_Info = "/get-user"
-export const Get_Doctor_Sessions = "/practitioner/sessions/all"
-export const Get_User_Session_Notes = "/practitioner/load-session-notes"
-export const Get_User_All_Client ="/practitioner/get-clients"
-export const Get_User_Client_All_Session = '/practitioner/get-client-all-sessions'
-export const Get_User_Session_Info = "/practitioner/load-session-info"
+export const Get_User_Info = "/get-user" // this is the route to get the user info
+export const Get_Doctor_Sessions = "/practitioner/sessions/all" // this is the route to get all the sessions of a practitioner
+export const Get_User_Session_Notes = "/practitioner/load-session-notes" // this is the route to get all the notes of the Required Client & session
+export const Get_User_All_Client ="/practitioner/get-clients" // this is the route to get all the clients of a practitioner
+export const Get_User_Client_All_Session = '/practitioner/get-client-all-sessions' // this is the route to get all the sessions & Notes of a client
+export const Get_User_Session_Info = "/practitioner/load-session-info" // this is the route to get required Session Info
+export const Get_User_Client_Session_Only = '/practitioner/get-client-all-sessions-only'
 
 
 // POST REQUESTS

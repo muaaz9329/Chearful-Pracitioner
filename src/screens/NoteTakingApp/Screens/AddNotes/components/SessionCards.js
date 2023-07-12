@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View ,Pressable} from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import {
   widthPercentageToDP as wp,
@@ -9,20 +9,13 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { DateConstrctor } from "@helper/customFunction";
 import NotesType from "@models/NotesType";
+import TypeOfNote from "@app/common/Models/TypeOfNote";
+import { SessionCardAdapterFunction } from "./adapter/SessionCard";
 
-const SessionCard = ({ Data,navigation,ClientData }) => {
+const SessionCard = ({ SessionData,navigation, }) => {
   const [model,setmodel] = useState(false)
 
-  const ObjectMaker = ()=>{
-    const obj ={
-      Name:ClientData.Name,
-      Picture:ClientData.Picture,
-      ...Data
-    }
-    return obj
-  }
-
-
+  
   return (
     <Pressable onPress={()=>{
       setmodel(!model)
@@ -30,22 +23,22 @@ const SessionCard = ({ Data,navigation,ClientData }) => {
 
    
     <View style={styles.cardCont}>
-      <NotesType data={ObjectMaker()} setVisible={setmodel} visible={model} navigation={navigation} />
+     <TypeOfNote visible={model} setVisible={setmodel} data={SessionCardAdapterFunction(SessionData)} navigation={navigation} routeLoc={"Prac_AddNoteSession"} />
       <View style={styles.CardContet}>
         <View style={styles.Cont1}>
         <View style={styles.Datebox}>
-            <Text style={styles.date}>{DateConstrctor(new Date(Data.LastVisitDate)).Date.slice(0,2)}</Text>
-            <Text style={styles.date}>{DateConstrctor(new Date(Data.LastVisitDate)).Date.slice(3,6)}</Text>
+            <Text style={styles.date}>{DateConstrctor(new Date(SessionData.appointment_date)).Date.slice(0,2)}</Text>
+            <Text style={styles.date}>{DateConstrctor(new Date(SessionData.appointment_date)).Date.slice(3,6)}</Text>
           </View>
         </View>
         <View style={styles.CardTextCont}>
           <Text style={styles.Name}>
-            { Data.Service}
+            { SessionData.service_name}
           </Text>
 
           <View style={styles.LastVisitCont}>
             <Text style={styles.LastVisitText}>
-              {DateConstrctor(new Date(Data.LastVisitDate)).Day} at {DateConstrctor(new Date(Data.LastVisitDate)).Time}
+              {DateConstrctor(new Date(SessionData.appointment_date)).Day} at {DateConstrctor(new Date(SessionData.appointment_date_time)).Time}
             </Text>
           </View>
         </View>

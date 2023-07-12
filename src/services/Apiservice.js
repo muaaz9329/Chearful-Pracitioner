@@ -11,7 +11,8 @@ Post_New_Canvas_Note_ApiFunc,
 Get_User_All_Client_ApiFunc,
 Get_User_Client_All_Session_ApiFunc,
 Get_User_Session_Info_ApiFunc,
-Post_New_Session_File_Notes_ApiFunc
+Post_New_Session_File_Notes_ApiFunc,
+Get_User_Client_Session_Only_ApiFunc
 } from './Api-Services/Index'
 
 
@@ -152,4 +153,9 @@ export const ApiServices = {
    * 
    */
   Post_New_File_Note : Post_New_Session_File_Notes_ApiFunc,
+  /**
+   * @description Api function to get all the Session (Only) of Client 
+   * @param {*} ClientId - Client Id of the client
+   */
+  Get_User_Client_Session_Only  :  Get_User_Client_Session_Only_ApiFunc,
 };

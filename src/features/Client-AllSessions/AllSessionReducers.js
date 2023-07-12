@@ -25,6 +25,15 @@ const AllSessionReducers = createSlice({
             state.clientInfo = action.payload.client;
             state.Notes = useSessionNote(action.payload.notes);
         },
+        SetSessionOnly:(state,action) => {
+            state.Sessions = action.payload.sessions;
+            state.loading = false;
+            state.error = null;
+            state.Success = true;
+            if (action.payload.sessions.length == 0) {
+                state.isEmpty = true;
+            }
+        },
         SetLoading: (state, action) => {
             state.loading = true;
             state.error = null;
@@ -52,4 +61,4 @@ const AllSessionReducers = createSlice({
 })
 
 export default AllSessionReducers.reducer;
-export const { SetSessions, SetLoading, SetError ,ResetSession } = AllSessionReducers.actions;
+export const { SetSessions, SetLoading, SetError ,ResetSession , SetSessionOnly } = AllSessionReducers.actions;
