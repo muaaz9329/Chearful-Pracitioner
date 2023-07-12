@@ -7,8 +7,8 @@ import { Mulish } from "@app/helper/FontWeight";
 import Header from "./Components/Header";
 import DocumentPicker from "react-native-document-picker";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
-import { convertFileToBase64 } from "@app/helper/customFunction";
 import FileUploadObj from "./Components/adapter/FileUploadObj";
+import { launchImageLibrary } from "react-native-image-picker";
 const ImageUpload = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote, routeLoc } =
     route.params;
@@ -18,22 +18,29 @@ const ImageUpload = ({ route, navigation }) => {
   const [singleFile, setSingleFile] = useState(null);
   const [Content, setContent] = useState(null);
   const UploadImage = async () => {
-    try {
-      const res = await DocumentPicker.pickSingle({
-        type: [DocumentPicker.types.images],
-      });
+    // try {
+    //   const res = await DocumentPicker.pickSingle({
+    //     type: [DocumentPicker.types.images],
+    //   });
 
-      setSingleFile(res);
-    } catch (err) {
-      setSingleFile(null);
+    //   setSingleFile(res);
+    // } catch (err) {
+    //   setSingleFile(null);
 
-      if (DocumentPicker.isCancel(err)) {
-        alert("You have not selected any file");
-      } else {
-        alert("Unknown Error: " + JSON.stringify(err));
-        throw err;
-      }
-    }
+    //   if (DocumentPicker.isCancel(err)) {
+    //     alert("You have not selected any file");
+    //   } else {
+    //     alert("Unknown Error: " + JSON.stringify(err));
+    //     throw err;
+    //   }
+    // }
+    const res = await launchImageLibrary({ mediaType: "photo" });
+    const obj = {
+      uri: res.assets[0].uri,
+      name: res.assets[0].fileName,
+      type: res.assets[0].type,
+    };
+    setSingleFile(obj);
   };
 
   useEffect(() => {
@@ -48,6 +55,9 @@ const ImageUpload = ({ route, navigation }) => {
     }
   }, [singleFile]);
 
+  useEffect(() => {
+    console.log("Content", Content);
+  }, [Content]);
 
   return (
     <SafeAreaView style={styles.Container}>

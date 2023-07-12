@@ -1,8 +1,6 @@
 import { convertFileToBase64 } from "@app/helper/customFunction";
 
 interface IFileUploadObj {
-  size: number;
-  fileCopyUri: null;
   name: string;
   uri: string;
   type: string;
