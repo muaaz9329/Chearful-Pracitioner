@@ -27,6 +27,7 @@ export const Post_New_Session_File_Note = async (
         },
       }
     );
+    console.log(response.status);
     if (response.status == 200) {
       return true;
     }

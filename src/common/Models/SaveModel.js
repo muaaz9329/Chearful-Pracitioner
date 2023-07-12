@@ -171,6 +171,29 @@ const SaveModel = ({
         }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
       }
     }
+    else if ( TypeOfNote.toLowerCase() === "docx" &&
+    ComingFor.toLowerCase() === "upload"){
+      const response = await ApiServices.Post_New_File_Note(
+        ClientData.Client_ID,
+        ClientData.Session_ID,
+        `data:${Content.fileType};base64,${Content.base64}`,
+        "docx",
+        Content.fileName
+      );
+      if (response) {
+        AnimationControl.current.LoadingEnds();
+        Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
+        setTimeout(() => {
+          setLoading(false);
+          hideModal();
+          navigation.navigate("Prac_NotesPreview", {
+            ClientData: ClientData,
+            routeLoc: routeLoc,
+          });
+        }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
+      }
+      
+    }
   };
   return (
     <Portal>

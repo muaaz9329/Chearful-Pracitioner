@@ -25,11 +25,8 @@ const LogoutModel = ({navigation,visible,setVisible}) => {
     const RemoveToken = async () => {
       await AsyncStorage.removeItem("USER_accessToken");
       Dispatch(logout())
-      const resetAction = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'Auth' })], // Replace 'LoginStack' with the name of your stack
-      });
-      navigation.dispatch(resetAction);
+      const resetAction = StackActions.replace('Auth');
+    navigation.dispatch(resetAction);
     }
   
     return (

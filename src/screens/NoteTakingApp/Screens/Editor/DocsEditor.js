@@ -1,5 +1,5 @@
 import {
-  ActivityIndicator,
+
   Platform,
   StyleSheet,
   Text,
@@ -12,6 +12,7 @@ import WebView from "react-native-webview";
 import HeaderWithDeleteBtn from "./Components/HeaderWithDeleteBtn";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
+import { ActivityIndicator } from "react-native-paper";
 
 const DocsEditor = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId } = route.params;
@@ -41,15 +42,18 @@ const DocsEditor = ({ route, navigation }) => {
           NoteId={NoteId}
           LoadingRef={LoadingRef}
         />
-        {loading ? (
-          <ActivityIndicator size={"small"} color={NoteAppcolor.Primary} />
-        ) : (
+        {loading && (
+          <View style={styles.ActivityIndicator}>
+            <ActivityIndicator size={"small"} color={NoteAppcolor.Primary} />
+          </View>
+          
+        ) }
           <WebView
             source={{ uri: url }}
             style={{ flex: 1 }}
             onLoadEnd={() => setLoading(false)}
           />
-        )}
+       
       </SafeAreaView>
     </>
   );
@@ -62,4 +66,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
+  ActivityIndicator: {
+    position: "absolute",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+  }
 });
