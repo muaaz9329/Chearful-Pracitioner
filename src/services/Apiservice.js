@@ -12,7 +12,8 @@ Get_User_All_Client_ApiFunc,
 Get_User_Client_All_Session_ApiFunc,
 Get_User_Session_Info_ApiFunc,
 Post_New_Session_File_Notes_ApiFunc,
-Get_User_Client_Session_Only_ApiFunc
+Get_User_Client_Session_Only_ApiFunc,
+Get_User_All_Notes_ApiFunc
 } from './Api-Services/Index'
 
 
@@ -155,7 +156,23 @@ export const ApiServices = {
   Post_New_File_Note : Post_New_Session_File_Notes_ApiFunc,
   /**
    * @description Api function to get all the Session (Only) of Client 
+   * @param {*} dispatch - redux toolkit dispatch function to dispatch the data to the reducer , as hook useDispatch is not available in services and we are not using class based components so we have to pass dispatch function from the component to the service
+   * @param {*} OnLoadingAction - Action to update the state of the reducer when request is loading
+   * @param {*} OnSuccessAction - Action to update the state of the reducer when request is successful
+   * @param {*} onError - Action to update the state of the reducer when request is failed
+   * @param {*} ResetAction - Action to reset the state of the reducer
    * @param {*} ClientId - Client Id of the client
+   * 
    */
   Get_User_Client_Session_Only  :  Get_User_Client_Session_Only_ApiFunc,
+  /**
+   * @description Api function to get all the Notes of Practitioner
+   * @param {*} dispatch - redux toolkit dispatch function to dispatch the data to the reducer , as hook useDispatch is not available in services and we are not using class based components so we have to pass dispatch function from the component to the service
+   * @param {*} OnLoadingAction - Action to update the state of the reducer when request is loading
+   * @param {*} OnSuccessAction - Action to update the state of the reducer when request is successful
+   * @param {*} onError - Action to update the state of the reducer when request is failed
+   * @param {*} ResetAction - Action to reset the state of the reducer
+   * 
+   */
+  Get_User_All_Notes : Get_User_All_Notes_ApiFunc,
 };

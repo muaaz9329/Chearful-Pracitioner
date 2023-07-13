@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, TextInput, ScrollView, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  ScrollView,
+  Platform,
+} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
@@ -15,13 +22,15 @@ import PractitionerNotes from "../../Data/PractitionerNotes";
 import NotesCard from "./Components/NotesCard";
 import { IconPlus } from "tabler-icons-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-function SearchBox({ HandleFunction, OpenSheet  }) {
+import { ApiServices } from "@app/services/Apiservice";
+import { useDispatch, useSelector } from "react-redux";
+import { ResetAllNotes, SetError, SetLoading, SetSuccess } from "@app/features/Prac-AllNotes/AllNotesReducers";
+import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
+function SearchBox({ HandleFunction, OpenSheet }) {
   const refInput = useRef();
   return (
     <View style={[styles.InputCont, styles.Cont]}>
-      <Pressable
-        onPress={() => refInput.current.focus()}
-      >
+      <Pressable onPress={() => refInput.current.focus()}>
         <View style={styles.InputBoxIcon}>
           <SearchIcon
             width={wp(2.5 * 2)}
@@ -147,9 +156,20 @@ const BottomSheet = ({
   );
 };
 
-const Client = ({navigation}) => {
+const Client = ({ navigation }) => {
   const [NotesInfo, SetNotesInfo] = useState(PractitionerNotes);
   const [OldData, SetOldData] = useState(PractitionerNotes);
+  const disptch = useDispatch();
+  const { AllNotes, Loading, Error, Success, isEmpty, haveError } = useSelector(
+    (state) => state.AllNotesReducers
+  ); // AllNotesReducers states
+  const loadingRef = useRef(null);
+
+
+
+
+
+
 
   const HandleFilter = (Text) => {
     if (Text == "" || Text == null) {
@@ -163,7 +183,7 @@ const Client = ({navigation}) => {
   };
 
   const refRBSheet = useRef();
- 
+
   const SortList = (arg) => {
     if (arg === "Ascending") {
       let TempList = OldData.sort((a, b) => (a.Name > b.Name ? 1 : -1));
@@ -180,6 +200,30 @@ const Client = ({navigation}) => {
       SetNotesInfo(TempList);
     }
   };
+
+  const HandleApi = async () => {
+    ApiServices.Get_User_All_Notes(
+      disptch,
+      SetSuccess,
+      SetLoading,
+      SetError,
+      ResetAllNotes
+    );
+  };
+
+
+
+  useEffect(()=>{
+    HandleApi();
+  },[])
+
+  useEffect(() => {
+    if (Success) {
+      SetNotesInfo(AllNotes);
+      SetOldData(AllNotes);
+      loadingRef.current.LoadingEnds();
+    }
+  },[Success])
 
   const bottomSheetClose = (sortBy) => {
     SortList(sortBy);
@@ -205,10 +249,15 @@ const Client = ({navigation}) => {
   ]);
 
   return (
-    <SafeAreaView edges={['top','left','right']} style={styles.Body}>
-      <Pressable style={styles.Addbtn} onPress={()=>{
-        navigation.push("Prac_AddNoteClient")
-      }}>
+    <>
+    <LoadingScreen type="loader" ref={loadingRef}/>
+    <SafeAreaView edges={["top", "left", "right"]} style={styles.Body}>
+      <Pressable
+        style={styles.Addbtn}
+        onPress={() => {
+          navigation.push("Prac_AddNoteClient");
+        }}
+      >
         <IconPlus size={Wp(25)} color={"white"} />
       </Pressable>
       <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
@@ -220,8 +269,11 @@ const Client = ({navigation}) => {
         HandleFunction={HandleFilter}
         OpenSheet={bottomSheetOpen}
       />
-      <ScrollView style={{ marginTop: Wp(20) }} showsVerticalScrollIndicator={false}>
-        <NotesCard Arr={NotesInfo} navigation={navigation}  />
+      <ScrollView
+        style={{ marginTop: Wp(20) }}
+        showsVerticalScrollIndicator={false}
+      >
+        <NotesCard Arr={NotesInfo} navigation={navigation} />
       </ScrollView>
       <RBSheet
         ref={refRBSheet}
@@ -250,6 +302,7 @@ const Client = ({navigation}) => {
         />
       </RBSheet>
     </SafeAreaView>
+    </>
   );
 };
 
@@ -260,7 +313,7 @@ const styles = StyleSheet.create({
     backgroundColor: NoteAppcolor.White,
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingTop: Platform.OS=='android'?  Wp(20) :Wp(10),
+    paddingTop: Platform.OS == "android" ? Wp(20) : Wp(10),
   },
   Text: {
     fontFamily: Mulish(700),
@@ -322,16 +375,16 @@ const styles = StyleSheet.create({
     fontSize: Wp(18),
     textAlign: "center",
   },
-  Addbtn:{
-    width:Wp(50),
-    height:Wp(50),
-    backgroundColor:NoteAppcolor.Primary,
-    justifyContent:"center",
+  Addbtn: {
+    width: Wp(50),
+    height: Wp(50),
+    backgroundColor: NoteAppcolor.Primary,
+    justifyContent: "center",
     alignItems: "center",
-    borderRadius:Wp(25),
-    position:"absolute",
+    borderRadius: Wp(25),
+    position: "absolute",
     zIndex: 10,
-    bottom:Wp(25),
-    right:Wp(25)
-  }
+    bottom: Wp(25),
+    right: Wp(25),
+  },
 });

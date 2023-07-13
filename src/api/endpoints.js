@@ -7,7 +7,8 @@ export const Get_User_Session_Notes = "/practitioner/load-session-notes" // this
 export const Get_User_All_Client ="/practitioner/get-clients" // this is the route to get all the clients of a practitioner
 export const Get_User_Client_All_Session = '/practitioner/get-client-all-sessions' // this is the route to get all the sessions & Notes of a client
 export const Get_User_Session_Info = "/practitioner/load-session-info" // this is the route to get required Session Info
-export const Get_User_Client_Session_Only = '/practitioner/get-client-all-sessions-only'
+export const Get_User_Client_Session_Only = '/practitioner/get-client-all-sessions-only' // this is the route to get all the sessions (only) of a client
+export const Get_User_All_Notes = '/practitioner/load-client-notes'
 
 
 // POST REQUESTS

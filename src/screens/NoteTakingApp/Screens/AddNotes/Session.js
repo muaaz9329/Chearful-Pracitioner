@@ -130,7 +130,7 @@ const Session = ({ navigation, route }) => {
         {data.length == 0 ? (
           Sessions.length === 0 ? (
             <NotAvil
-              Title={`${SelectedClientDetail.full_name} does not have any at all session on any date`}
+              Title={`${SelectedClientDetail.full_name} does not have any sessions at all on any date`}
             />
           ) : (
             <NotAvil

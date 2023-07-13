@@ -7,6 +7,7 @@ export {default as Get_User_All_Client_ApiFunc} from "./GET_REQUESTS/Get_User_Al
 export {default as Get_User_Client_All_Session_ApiFunc} from "./GET_REQUESTS/Get_User_Client_All_Session"
 export {default as Get_User_Session_Info_ApiFunc} from "./GET_REQUESTS/Get_User_Session_info"
 export {default as Get_User_Client_Session_Only_ApiFunc} from "./GET_REQUESTS/Get_Client_Session_Only_ApiFunc"
+export {default as Get_User_All_Notes_ApiFunc} from "./GET_REQUESTS/Get_User_All_Notes_ApiFunc"
 
 
 //* POST REQUESTS

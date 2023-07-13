@@ -9,7 +9,8 @@ import {
    authReducer,
    SessionNotesReducer,
    ClientReducer,
-   ClientSessionReducer
+   ClientSessionReducer,
+   AllNotesReducers
 } from '@app/features'
 export const store = configureStore({
     reducer:{
@@ -26,7 +27,8 @@ export const store = configureStore({
         Session : SessionReducer,
         SessionNotes: SessionNotesReducer, 
         ClientReducer: ClientReducer,
-        ClientSessionReducer: ClientSessionReducer
+        ClientSessionReducer: ClientSessionReducer,
+        AllNotesReducers : AllNotesReducers
         
     }
 })

@@ -6,37 +6,67 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { DateConstrctor } from "@helper/customFunction";
 import FileIconGenrator from "@app/screens/NoteTakingApp/Screens/Session/components/FileIconGenrator";
+import User_Session_Notes_Editor_Pram_object from "@app/adapters/User_Session_Notes_Editor_Pram_object";
+import { NotesCardAdapterFunction } from "./adapter/NotesCardFunction";
 
 const NotesCard = ({ Arr , navigation}) => {
+  const VIEW_MODE = "view";
+  const EDIT_MODE = "edit";
+
+ 
+  
+  const HandleNavigation = (item) => {
+    const ClientData = NotesCardAdapterFunction(item)
+    const Pram = new User_Session_Notes_Editor_Pram_object(
+      ClientData,
+      item,
+      item.Apptype,
+      VIEW_MODE
+    );
+
+    switch (item.Apptype) {
+      case "text":
+        navigation.push("Prac_NotesEditor", Pram);
+        break;
+      case "img":
+        navigation.push("Prac_ImageViewer", Pram);
+        break;
+      case "canvas":
+        navigation.push("Prac_WrittenEditor", Pram);
+        break;
+      case "pdf":
+        navigation.push("Prac_PDFEditor", Pram);
+        break;
+      case "docx":
+        navigation.push("Prac_DocsEditor", Pram);
+    }
+  };
+
   return (
     <View style={styles.Parent}>
       {Arr.map((item, index) => {
         return (
           <Pressable onPress={()=>{
-            if(index%2===0){
-              navigation.push("Prac_NotesEditor",{ mode:"view", content:"" ,ClientData:item }) //! Need to change this later
-            }
-            else
-            {
-              navigation.push("Prac_WrittenEditor",{ mode:"view", content:[] ,ClientData:item }) //! Need to change this later
-            }
-          }}>
+            HandleNavigation(item)
+          }}
+          key={index}
+          >
           <ImageBackground style={styles.cardCont} key={index}>
             <View style={styles.UpperCont}>
-              <Image style={styles.IconImg} source={FileIconGenrator('pdf')} />
+              <Image style={styles.IconImg} source={FileIconGenrator(item.Apptype)} />
             </View>
             <View style={styles.DateCard}>
               {/* <Text style={styles.cardDate}>{DateConstrctor(new Date(item.NoteDate)).Date}</Text> */}
-              <Image style={styles.UserImg} source={item.Picture} />
+              <Image style={styles.UserImg}  />
               <View style={styles.TextCont}>
-                <Text style={styles.cardDate}>{item.Name}</Text>
+                <Text style={styles.cardDate}>{`Client Name`}</Text>
                 <View style={styles.LastVisitCont}>
                   <Text style={styles.LastVisitText}>
-                    {DateConstrctor(new Date(item.LastVisitDate)).Date}
+                    {DateConstrctor(new Date(item.created_at)).Date}
                   </Text>
                 </View>
                 <Text style={styles.LastVisitText}>
-                  {DateConstrctor(new Date(item.LastVisitDate)).Time}
+                  {DateConstrctor(new Date(item.created_at)).Time}
                 </Text>
               </View>
             </View>

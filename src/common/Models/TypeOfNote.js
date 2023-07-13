@@ -18,7 +18,13 @@ import {
   IconSquareRoundedArrowLeft,
   IconSquareRoundedArrowRight,
 } from "tabler-icons-react-native";
-const TypeOfNote = ({ visible = true, setVisible, navigation, data , routeLoc }) => {
+const TypeOfNote = ({
+  visible = true,
+  setVisible,
+  navigation,
+  data,
+  routeLoc,
+}) => {
   // data is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
   const NotesTypeData = [
     {
@@ -122,7 +128,8 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data , routeLoc })
             onSnapToItem={(index) => setText(NotesTypeData[index].name)}
             autoPlay={false}
             enabled={true}
-            scrollAnimationDuration={1000}
+            scrollAnimationDuration={500}
+            mode={"parallax"}
             ref={CoursalRef}
             renderItem={({ item, index }) => (
               <View
@@ -150,7 +157,9 @@ const TypeOfNote = ({ visible = true, setVisible, navigation, data , routeLoc })
           <Pressable
             style={styles.btnStyles}
             onPress={() => {
-              HandleNavigation(text);
+              setTimeout(() => {
+                HandleNavigation(text);
+              }, 300);
             }}
           >
             <Text style={styles.btnText}>{text.toUpperCase()}</Text>
