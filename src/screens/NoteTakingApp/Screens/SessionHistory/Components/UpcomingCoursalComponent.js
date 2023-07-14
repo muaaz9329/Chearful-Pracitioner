@@ -1,12 +1,11 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { PractitionerData } from '../../../Data/PractitonerData'
 import UpcomingCardDesign from './UpcomingCardDesign'
 import { Wp } from '@app/helper/CustomResponsive'
-const UpcomingCoursalComponent = () => {
+const UpcomingCoursalComponent = ({Data}) => {
   return (
    <FlatList
-   data={PractitionerData}
+   data={Data}
     renderItem={({ item, index }) => {
         return(
             <UpcomingCardDesign data={item} key={index} />

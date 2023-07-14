@@ -15,7 +15,7 @@ import {
     TickIcon,
   } from "@svg";
   
-  import { StringWithDots } from "@helper/customFunction";
+  import { DateConstrctor, StringWithDots, calculateEndTime } from "@helper/customFunction";
   import {
     widthPercentageToDP as wp,
   } from "react-native-responsive-screen";
@@ -25,24 +25,27 @@ import {
 
   
     const FirstCont = ({ data }) => {
+      
+      
       return (
         <View style={[styles.firstCont,{justifyContent:"center" ,}]}>
           <View style={styles.userImgCont}>
-            <Image source={data.img} style={styles.userImg} />
+            <Image source={{uri:data.client_image}} style={styles.userImg} />
           </View>
           
         </View>
       );
     };
     const SecondCont = ({ data }) => {
+      const {EndTime,StartTime} = calculateEndTime(data.appointment_date_time.slice(11), data.time_duration );
       return (
         <View style={styles.SecondCont}>
           <View style={[styles.firstRow, styles.row]}>
             <View style={styles.ProfileName}>
               <Text style={styles.ProfileNameStyle}>
-                {data.name.length > 14
-                  ? data.name.slice(0, 14) + ".."
-                  : data.name}
+                {data.client_full_name.length > 14
+                  ? data.client_full_name.slice(0, 14) + ".."
+                  : data.client_full_name}
               </Text>
             </View>
             
@@ -50,22 +53,14 @@ import {
           <View style={[styles.secondRow, styles.row]}>
             <View style={styles.DealsWithCont}>
               <Text style={styles.DealwithText}>
-                {StringWithDots(data.DealsWith, 3).shownElements.toString()
-                  .length > 24
-                  ? StringWithDots(data.DealsWith, 3)
-                      .shownElements.toString()
-                      .replaceAll(",", ", ")
-                      .slice(0, 24) + "..."
-                  : StringWithDots(data.DealsWith, 3)
-                      .toString()
-                      .replaceAll(",", ", ")}
+                status : {data.status}
               </Text>
             </View>
           </View>
           <View style={[styles.fourthRow, styles.row, styles.secondRow]}>
             <View style={styles.DealsWithCont}>
               <Text style={styles.DealwithText2}>
-                24 years old
+                {data.appointment_date}
               </Text>
             </View>
           </View>
@@ -73,7 +68,7 @@ import {
             <View style={[styles.row, styles.firstCont, { marginTop: Wp(5) }]}>
               
               <Text style={[styles.SessionText,{textDecorationLine:"line-through" , textDecorationStyle:"solid"}]}>
-                9:00 AM - 10:00 AM Friday
+               {`${StartTime} - ${EndTime} ${DateConstrctor(new Date(data.appointment_date_time.slice(0,10))).Day}`}
                 
               </Text>
             </View>

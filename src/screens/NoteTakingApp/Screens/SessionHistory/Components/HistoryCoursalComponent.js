@@ -1,12 +1,11 @@
 import { FlatList, StyleSheet,ScrollView } from 'react-native'
 import React from 'react'
-import { PractitionerData } from '../../../Data/PractitonerData'
 import HistoryCardDesign from './HistoryCardDesign'
 import { Wp } from '@app/helper/CustomResponsive'
-const HistoryCoursalComponent = () => {
+const HistoryCoursalComponent = ({Data}) => {
   return (
    <FlatList
-   data={PractitionerData}
+   data={Data}
     renderItem={({ item, index }) => {
         return(
             <HistoryCardDesign data={item} key={index} />

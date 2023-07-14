@@ -8,7 +8,7 @@ import { Mulish, Nunito } from "@helper/FontWeight";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { DateConstrctor } from "@app/helper/customFunction";
 
-const DateAndFilter = ({ApiQueryDate}) => {
+const DateAndFilter = ({ApiQueryDate=null , ShowPicker=true}) => {
   const [open, setOpen] = useState(false);
   const [dayAndDate, setDayAndDate] = useState({
     Date: "",
@@ -21,7 +21,10 @@ const DateAndFilter = ({ApiQueryDate}) => {
   useEffect(()=>{
 let obj = DateConstrctor(value)
 setDayAndDate(obj)
-ApiQueryDate(obj.ApiDateQuery)
+if(ApiQueryDate!==null){
+  ApiQueryDate(obj.ApiDateQuery)
+}
+
   },[value])
 
   return (
@@ -31,30 +34,30 @@ ApiQueryDate(obj.ApiDateQuery)
           <Text style={styles.textTitle}>{dayAndDate.Day}</Text>
           <Text style={styles.textSubtitle}>{dayAndDate.Date}</Text>
         </View>
-        <Pressable
-          style={styles.PractitionerFilterButton}
-          onPress={() => setOpen(true)}
-        >
-          <CalenderIcon
-            width={Wp(20)}
-            height={Wp(20)}
-            color={NoteAppcolor.Primary}
-          />
-          <DatePicker
-            mode="date"
-            modal
-            open={open}
-            date={new Date()}
-            onConfirm={(date) => {
-              setOpen(false);
-              setValue(date)
-            }}
-            onCancel={() => {
-              setOpen(false);
-            }}
-            androidVariant={"iosClone"}
-          />
-        </Pressable>
+      {ShowPicker && <Pressable
+        style={styles.PractitionerFilterButton}
+        onPress={() => setOpen(true)}
+      >
+        <CalenderIcon
+          width={Wp(20)}
+          height={Wp(20)}
+          color={NoteAppcolor.Primary}
+        />
+        <DatePicker
+          mode="date"
+          modal
+          open={open}
+          date={new Date()}
+          onConfirm={(date) => {
+            setOpen(false);
+            setValue(date)
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+          androidVariant={"iosClone"}
+        />
+      </Pressable>}
       </View>
     </View>
   );

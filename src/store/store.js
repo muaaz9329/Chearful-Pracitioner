@@ -10,7 +10,8 @@ import {
    SessionNotesReducer,
    ClientReducer,
    ClientSessionReducer,
-   AllNotesReducers
+   AllNotesReducers,
+   SessionHistory
 } from '@app/features'
 export const store = configureStore({
     reducer:{
@@ -28,7 +29,8 @@ export const store = configureStore({
         SessionNotes: SessionNotesReducer, 
         ClientReducer: ClientReducer,
         ClientSessionReducer: ClientSessionReducer,
-        AllNotesReducers : AllNotesReducers
+        AllNotesReducers : AllNotesReducers,
+        SessionHistory: SessionHistory
         
     }
 })

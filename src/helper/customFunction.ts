@@ -320,3 +320,37 @@ export const convertFileToBase64 = async (filePath:string) => {
     throw error;
   }
 };
+
+
+export function formatDateWithdaySuffix(currentDate:Date) {
+ 
+  const day = currentDate.getDate();
+  const month = currentDate.toLocaleString('default', { month: 'long' });
+  
+  let daySuffix;
+  if (day >= 11 && day <= 13) {
+    daySuffix = 'th';
+  } else {
+    const lastDigit = day % 10;
+    switch (lastDigit) {
+      case 1:
+        daySuffix = 'st';
+        break;
+      case 2:
+        daySuffix = 'nd';
+        break;
+      case 3:
+        daySuffix = 'rd';
+        break;
+      default:
+        daySuffix = 'th';
+    }
+  }
+  
+  const formattedDay = day + daySuffix;
+  
+  return {
+    day: formattedDay,
+    month: month
+  };
+}

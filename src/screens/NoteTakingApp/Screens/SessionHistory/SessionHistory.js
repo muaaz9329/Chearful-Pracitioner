@@ -20,11 +20,33 @@ import Carousel from "react-native-reanimated-carousel";
 import UpcomingCoursalComponent from "./Components/UpcomingCoursalComponent";
 import HistoryCoursalComponent from "./Components/HistoryCoursalComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DateAndFilter from "../Session/components/DateAndFilter";
+import { ApiServices } from "@app/services/Apiservice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ResetSessionHistory,
+  SetSessionHistory,
+} from "@app/features/SessionHistory/SessionHistoryReducers";
+import NotAvil from "@app/common/components/NotAvil";
+import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 
-const SessionHistory = ({navigation}) => {
+const SessionHistory = ({ navigation }) => {
   const btnRef = useRef([]);
   const CarousalRef = React.useRef(null);
   const { width } = useWindowDimensions();
+  const loadingRef = useRef()
+  const dispatch = useDispatch();
+  const {
+    session,
+    Loading,
+    Error,
+    Success,
+    UpcomingSessions,
+    HistorySession,
+    NoOfUpcomingSession,
+    NoOfHistorySession,
+  } = useSelector((state) => state.SessionHistory);
+
   const HandleOption = (index, ShouldMove) => {
     for (let i = 0; i < 2; i++) {
       if (i === index) {
@@ -53,14 +75,35 @@ const SessionHistory = ({navigation}) => {
   useEffect(() => {
     HandleOption(0);
   }, []);
+
+  const HandleApi = async () => {
+    await ApiServices.Get_User_Session_by_Date(
+      SetSessionHistory,
+      ResetSessionHistory,
+      dispatch
+    );
+  };
+
+  useEffect(() => {
+    HandleApi();
+  }, []);
+
+  useEffect(() => {
+    if (Success) {
+      loadingRef.current?.LoadingEnds();
+    }
+  }, [Success]);
+
   return (
-    <SafeAreaView edges={['top']} style={styles.body}>
+    <>
+    <LoadingScreen type={'loader'} ref={loadingRef} />
+    <SafeAreaView edges={["top"]} style={styles.body}>
       <View style={styles.Body}>
-        <Header Icon={ChevronLeft} navigation={navigation} pram={'back'}>
+        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
           <Text style={styles.HeaderTitle}>Sessions History</Text>
         </Header>
         <View>
-          <Calender DateData={DateData} />
+          <DateAndFilter ShowPicker={false} />
         </View>
         <View style={styles.CoursalOptionCont}>
           <Pressable
@@ -74,7 +117,7 @@ const SessionHistory = ({navigation}) => {
           >
             <Text style={styles.CoursalOptionText}>Upcoming</Text>
             <View style={styles.NoOfSessionCont}>
-              <Text style={styles.NoOfSessionText}>5</Text>
+              <Text style={styles.NoOfSessionText}>{NoOfUpcomingSession}</Text>
             </View>
           </Pressable>
           <Pressable
@@ -101,13 +144,30 @@ const SessionHistory = ({navigation}) => {
         onSnapToItem={(index) => HandleOption(index, false)}
         renderItem={({ index }) => {
           if (index === 0) {
-            return <UpcomingCoursalComponent />;
+            return (
+              <View style={{ flex: 1 }}>
+                {NoOfUpcomingSession > 0 ? (
+                  <UpcomingCoursalComponent Data={UpcomingSessions} />
+                ) : (
+                  <NotAvil Title={"No Upcoming Sessions"} />
+                )}
+              </View>
+            );
           } else {
-            return <HistoryCoursalComponent />;
+            return (
+              <View style={{ flex: 1 }}>
+                {NoOfHistorySession > 0 ? (
+                  <HistoryCoursalComponent Data={HistorySession} />
+                ) : (
+                  <NotAvil Title={"No History Sessions"} />
+                )}
+              </View>
+            );
           }
         }}
       />
     </SafeAreaView>
+    </>
   );
 };
 
@@ -121,7 +181,7 @@ const styles = StyleSheet.create({
   },
   Body: {
     paddingHorizontal: Wp(16),
-    paddingTop: Platform.OS=='ios'? Wp(10): Wp(20),
+    paddingTop: Platform.OS == "ios" ? Wp(10) : Wp(20),
   },
   body: {
     flex: 1,

@@ -35,10 +35,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetUserInfo, SetUserData } from "@app/features/HomeReducer/HomeReducer";
 import { ActivityIndicator } from "react-native-paper";
 import { ApiServices } from "@app/services/Apiservice";
+import { formatDateWithdaySuffix } from "@app/helper/customFunction";
 const Home = ({ navigation }) => {
   const [model, setModel] = useState(false);
   const { Success, UserInfo } = useSelector((state) => state.Home);
   const dispatch = useDispatch();
+  const {day,month} = formatDateWithdaySuffix(new Date());
 
   useEffect(() => {
     ApiServices.GetUserInfo(SetUserData , dispatch)
@@ -175,7 +177,7 @@ const Home = ({ navigation }) => {
                 </View>
                 <View style={styles.DateCont}>
                   <Text style={styles.dateStyle}>
-                    24th<Text style={styles.MonthStyle}> January</Text>{" "}
+                    {day}<Text style={styles.MonthStyle}> {month}</Text>{" "}
                   </Text>
                 </View>
                 <View style={styles.TodayInfoCont}>
