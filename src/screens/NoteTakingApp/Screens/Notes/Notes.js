@@ -26,6 +26,7 @@ import { ApiServices } from "@app/services/Apiservice";
 import { useDispatch, useSelector } from "react-redux";
 import { ResetAllNotes, SetError, SetLoading, SetSuccess } from "@app/features/Prac-AllNotes/AllNotesReducers";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
+import { setRefresh } from "@app/features/utils-States/utilsReducers";
 function SearchBox({ HandleFunction, OpenSheet }) {
   const refInput = useRef();
   return (
@@ -164,6 +165,8 @@ const Client = ({ navigation }) => {
     (state) => state.AllNotesReducers
   ); // AllNotesReducers states
   const loadingRef = useRef(null);
+  const {refresh}  = useSelector((state)=>state.utils)
+
 
 
 
@@ -224,6 +227,14 @@ const Client = ({ navigation }) => {
       loadingRef.current.LoadingEnds();
     }
   },[Success])
+
+  useEffect(() => {
+    if(refresh){
+      loadingRef.current.LoadingStarts();
+      HandleApi();
+      disptch(setRefresh(false))
+    }
+  })
 
   const bottomSheetClose = (sortBy) => {
     SortList(sortBy);

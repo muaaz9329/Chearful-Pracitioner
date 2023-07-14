@@ -27,6 +27,7 @@ import {
 } from "@app/features/Client-AllSessions/AllSessionReducers";
 import { ActivityIndicator } from "react-native-paper";
 import NotAvil from "@app/common/components/NotAvil";
+import { setRefresh } from "@app/features/utils-States/utilsReducers";
 
 const UserSelection = ({ SetState }) => {
   const user = ["mySelf", "someoneElse"];
@@ -124,15 +125,15 @@ const ClientDetail = ({ navigation, route }) => {
     Notes,
   } = useSelector((state) => state.ClientSessionReducer); // this state is used to get the client session states from  the reducer
 
-  
-  const {SelectedClientDetail} = useSelector(
-    (state) => state.ClientReducer
-  ); // Getting the state from the store Client Screen
+  const { SelectedClientDetail } = useSelector((state) => state.ClientReducer); // Getting the state from the store Client Screen
+
+  const {refresh}  = useSelector((state)=>state.utils)
   const dispatch = useDispatch();
   const [routeData, SetRouteData] = useState(SelectedClientDetail);
   console.log("routeData:", routeData);
-  useEffect(() => {
-    ApiServices.Get_User_Client_All_Session(
+
+  const handleApi = async () => {
+    await ApiServices.Get_User_Client_All_Session(
       dispatch,
       SetLoading,
       SetSessions,
@@ -140,8 +141,19 @@ const ClientDetail = ({ navigation, route }) => {
       ResetSession,
       routeData.id
     );
+  };
+
+  useEffect(() => {
+    handleApi();
   }, []);
-  console.log("isEmpyty:", isEmpty);
+
+  useEffect(() => {
+    if(refresh){
+      handleApi()
+      dispatch(setRefresh(false))
+    }
+  },[refresh])
+
   useEffect(() => {
     if (Success) {
       console.log("Session:", Sessions);
@@ -158,12 +170,18 @@ const ClientDetail = ({ navigation, route }) => {
           <Header Icon={ChevronLeft} navigation={navigation} pram={"back"} />
         </View>
         <View style={styles.ProfileCont}>
-          <Image source={{ uri: SelectedClientDetail.avatar }} style={styles.userImg} />
+          <Image
+            source={{ uri: SelectedClientDetail.avatar }}
+            style={styles.userImg}
+          />
           <Text style={styles.MainText}>{SelectedClientDetail.full_name}</Text>
           <Text style={styles.ProfileSub}>24 Years Old</Text>
           <Text style={styles.ProfileSub}>
             Last visit on{" "}
-            {DateConstrctor(new Date(SelectedClientDetail.latest_session_date)).Date}
+            {
+              DateConstrctor(new Date(SelectedClientDetail.latest_session_date))
+                .Date
+            }
           </Text>
         </View>
         <View>

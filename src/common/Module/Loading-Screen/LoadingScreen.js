@@ -24,6 +24,10 @@ const LoadingScreen =forwardRef( ({type='logo'}, ref) => {
       setTimeout(()=>{
         SetZ_INDEX(-100)
       },500)
+    },
+    LoadingStarts(){
+      SetZ_INDEX(100)
+      Animationref.current.fadeIn(100)
     }
   }));
 

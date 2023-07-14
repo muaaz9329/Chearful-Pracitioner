@@ -150,7 +150,7 @@ const SaveModel = ({
     } else if (
       TypeOfNote.toLowerCase() === "pdf" &&
       ComingFor.toLowerCase() === "upload"
-    ) {
+    ) {//* upload pdf note
       const response = await ApiServices.Post_New_File_Note(
         ClientData.Client_ID,
         ClientData.Session_ID,
@@ -170,6 +170,8 @@ const SaveModel = ({
           });
         }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
       }
+
+   
     }
     else if ( TypeOfNote.toLowerCase() === "docx" &&
     ComingFor.toLowerCase() === "upload"){

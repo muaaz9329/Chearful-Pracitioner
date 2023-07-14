@@ -10,6 +10,7 @@ import { ApiServices } from "@app/services/Apiservice";
 import LoadingAndSuccess from "../animatedComponents/Success/LoadingAndSuccess";
 import { useDispatch } from "react-redux";
 import { RefreshSessionNotes } from "@app/features/SessionNotes/SessionNotes";
+import { setRefresh } from "@app/features/utils-States/utilsReducers";
 const DeleteModel = ({ navigation, visible, setVisible, NoteId }) => {
   const Dispatch = useDispatch();
   
@@ -21,6 +22,7 @@ const DeleteModel = ({ navigation, visible, setVisible, NoteId }) => {
     if (response) {
       animationControl.current.LoadingEnds();
       Dispatch(RefreshSessionNotes(true)) // State to make THe Session Screen Refresh
+      Dispatch(setRefresh(true)) // util state to control Refresh on Client details screen as well as on Screen where refresh Required
       setTimeout(() => {
         setLoading(false);
         hideModal();
