@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    refresh: false
+    refresh: false,
+    logOut:false
 }
 
 
@@ -11,9 +12,12 @@ const utilsSlice = createSlice({
     reducers:{
         setRefresh:(state,action)=>{
             state.refresh = action.payload
+        },
+        setLogOut:(state,action)=>{
+            state.logOut = action.payload
         }
     }
 })
 
-export const { setRefresh } = utilsSlice.actions
+export const { setRefresh , setLogOut } = utilsSlice.actions
 export default utilsSlice.reducer

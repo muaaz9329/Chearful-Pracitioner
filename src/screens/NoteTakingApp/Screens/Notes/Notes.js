@@ -18,7 +18,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import RBSheet from "react-native-raw-bottom-sheet";
-import PractitionerNotes from "../../Data/PractitionerNotes";
 import NotesCard from "./Components/NotesCard";
 import { IconPlus } from "tabler-icons-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -158,8 +157,8 @@ const BottomSheet = ({
 };
 
 const Client = ({ navigation }) => {
-  const [NotesInfo, SetNotesInfo] = useState(PractitionerNotes);
-  const [OldData, SetOldData] = useState(PractitionerNotes);
+  const [NotesInfo, SetNotesInfo] = useState(null);
+  const [OldData, SetOldData] = useState(null);
   const disptch = useDispatch();
   const { AllNotes, Loading, Error, Success, isEmpty, haveError } = useSelector(
     (state) => state.AllNotesReducers
@@ -179,7 +178,7 @@ const Client = ({ navigation }) => {
       SetNotesInfo(OldData);
     } else {
       let filteredData = OldData.filter(
-        (item) => item.Name.toLowerCase().indexOf(Text.toLowerCase()) > -1
+        (item) => item.fullname.toLowerCase().indexOf(Text.toLowerCase()) > -1
       );
       SetNotesInfo(filteredData);
     }
@@ -188,17 +187,19 @@ const Client = ({ navigation }) => {
   const refRBSheet = useRef();
 
   const SortList = (arg) => {
+    const newList = [...OldData];
     if (arg === "Ascending") {
-      let TempList = OldData.sort((a, b) => (a.Name > b.Name ? 1 : -1));
+      let TempList = newList.sort((a, b) => (a.fullname > b.fullname ? 1 : -1));
       SetNotesInfo(TempList);
     } else if (arg === "Descending") {
-      let TempList = OldData.sort((a, b) => (a.Name < b.Name ? 1 : -1));
+      let TempList = newList.sort((a, b) => (a.fullname < b.fullname ? 1 : -1));
       SetNotesInfo(TempList);
     } else if (arg == "Dates") {
-      let TempList = OldData.sort(function (a, b) {
+     
+      let TempList = newList.sort(function (a, b) {
         // Turn your strings into dates, and then subtract them
         // to get a value that is either negative, positive, or zero.
-        return new Date(b.LastVisitDate) - new Date(a.LastVisitDate);
+        return new Date(b.created_at) - new Date(a.created_at);
       });
       SetNotesInfo(TempList);
     }
@@ -284,7 +285,7 @@ const Client = ({ navigation }) => {
         style={{ marginTop: Wp(20) }}
         showsVerticalScrollIndicator={false}
       >
-        <NotesCard Arr={NotesInfo} navigation={navigation} />
+       {NotesInfo && <NotesCard Arr={NotesInfo} navigation={navigation} />}
       </ScrollView>
       <RBSheet
         ref={refRBSheet}

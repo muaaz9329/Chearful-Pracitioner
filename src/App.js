@@ -5,14 +5,17 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { AuthStack, PracStack } from "./routes/index";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setLogOut } from "./features/utils-States/utilsReducers";
 
 const Stack = createStackNavigator();
 const App = () => {
   const [IsLogedIn, SetLogin] = React.useState(null);
   const { accessToken } = useSelector((state) => state.auth);
+  const { logOut } = useSelector((state) => state.utils);
+  const dispatch = useDispatch();
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -20,6 +23,13 @@ const App = () => {
   useEffect(() => {
     checkLogin()
   }, [accessToken]);
+
+  useEffect(()=>{
+    if(logOut){
+      checkLogOut()
+      dispatch(setLogOut(false))
+    }
+  },[logOut])
 
   const checkLogin = async () => {
     const GetToken = await AsyncStorage.getItem("USER_accessToken");
@@ -29,6 +39,11 @@ const App = () => {
       SetLogin(false);
     }
   };
+
+
+  const checkLogOut = async () => {
+    SetLogin(false);
+  }
 
 
   return (

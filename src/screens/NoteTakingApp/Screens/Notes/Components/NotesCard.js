@@ -44,7 +44,7 @@ const NotesCard = ({ Arr , navigation}) => {
 
   return (
     <View style={styles.Parent}>
-      {Arr.map((item, index) => {
+      { Arr.map((item, index) => {
         return (
           <Pressable onPress={()=>{
             HandleNavigation(item)
@@ -57,9 +57,9 @@ const NotesCard = ({ Arr , navigation}) => {
             </View>
             <View style={styles.DateCard}>
               {/* <Text style={styles.cardDate}>{DateConstrctor(new Date(item.NoteDate)).Date}</Text> */}
-              <Image style={styles.UserImg}  />
+              <Image style={styles.UserImg} source={{uri:item.avatar}}  />
               <View style={styles.TextCont}>
-                <Text style={styles.cardDate}>{`Client Name`}</Text>
+                <Text style={styles.cardDate}>{item.fullname.length >  10  ? item.fullname.slice(0,10)+"..." : item.fullname}</Text>
                 <View style={styles.LastVisitCont}>
                   <Text style={styles.LastVisitText}>
                     {DateConstrctor(new Date(item.created_at)).Date}

@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import { logout } from "@app/features/authReducer/authReducer";
 import { StackActions , NavigationAction } from "@react-navigation/native";
+import { setLogOut } from "@app/features/utils-States/utilsReducers";
 /**
  * 
  * @param {navigation} react navigation props that is used to navigate between screens
@@ -25,8 +26,7 @@ const LogoutModel = ({navigation,visible,setVisible}) => {
     const RemoveToken = async () => {
       await AsyncStorage.removeItem("USER_accessToken");
       Dispatch(logout())
-      const resetAction = StackActions.replace('Auth');
-    navigation.dispatch(resetAction);
+      Dispatch(setLogOut(true))
     }
   
     return (
