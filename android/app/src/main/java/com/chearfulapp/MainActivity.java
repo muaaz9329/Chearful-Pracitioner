@@ -20,7 +20,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "chearfulApp";
+    return "Chearful Practitioner App";
   }
 
   /**
