@@ -15,12 +15,10 @@ import { FontSize, Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import NotesCard from "./components/NotesCard";
-import notesCardData from "../../Data/NotesCardData";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import { ApiServices } from "@app/services/Apiservice";
 import { useDispatch, useSelector } from "react-redux";
-import useSessionNote from "@adapters/useSessionNote";
 import {
   ResetSessionNotes,
   SetSessionNotes,
@@ -28,7 +26,6 @@ import {
 } from "@app/features/SessionNotes/SessionNotes";
 import NotAvil from "@app/common/components/NotAvil";
 import { IconPlus } from "tabler-icons-react-native";
-import NotesType from "@app/common/Models/NotesType";
 import TypeOfNote from "@app/common/Models/TypeOfNote";
 import HeaderInfo from "../Editor/Components/HeaderInfo";
 

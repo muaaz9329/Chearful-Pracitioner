@@ -28,6 +28,18 @@ const TypeOfNote = ({
   // data is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
   const NotesTypeData = [
     {
+      name: "Written",
+      icon: DocIcon.canvas,
+      type: "canvas",
+      Loc: "Prac_WrittenEditor",
+    },
+    {
+      name: "Text",
+      icon: DocIcon.text,
+      type: "text",
+      Loc: "Prac_NotesEditor",
+    },
+    {
       name: "Pdf",
       icon: DocIcon.pdf,
       type: "pdf",
@@ -45,25 +57,14 @@ const TypeOfNote = ({
       type: "img",
       Loc: "Prac_ImageUpload",
     },
-    {
-      name: "Text",
-      icon: DocIcon.text,
-      type: "text",
-      Loc: "Prac_NotesEditor",
-    },
-    {
-      name: "Written",
-      icon: DocIcon.canvas,
-      type: "canvas",
-      Loc: "Prac_WrittenEditor",
-    },
+    
   ];
 
-  const [text, setText] = useState("Pdf");
+  const [text, setText] = useState("Written");
   const MODE = "edit";
   const hideModal = () => {
     setVisible(false);
-    setText("Pdf");
+    setText("Written");
   };
 
   const CoursalRef = useRef(null);
@@ -96,7 +97,7 @@ const TypeOfNote = ({
 
     hideModal();
     setTimeout(() => {
-      setText("Pdf");
+      setText("Written");
     }, 1000);
   };
   return (

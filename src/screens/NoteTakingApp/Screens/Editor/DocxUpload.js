@@ -8,6 +8,7 @@ import Header from "./Components/Header";
 import DocumentPicker from "react-native-document-picker";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import FileUploadObj from "./Components/adapter/FileUploadObj";
+import Toast from "react-native-toast-message";
 const DocxUpload = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote, routeLoc } =
     route.params;
@@ -25,10 +26,16 @@ const DocxUpload = ({ route, navigation }) => {
       setSingleFile(null);
 
       if (DocumentPicker.isCancel(err)) {
-        alert("You have not selected any file");
+       Toast.show({
+          type: "ErrorToast",
+          text1:"No File Selected",
+       })
       } else {
-        alert("Unknown Error: " + JSON.stringify(err));
-        throw err;
+        Toast.show({
+          type: "ErrorToast",
+          text1:"Some Problem Occured , Please Try Again Later",
+          text2:'Error Code : Pr-01'
+        })
       }
     }
   };

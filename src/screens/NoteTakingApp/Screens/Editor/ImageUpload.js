@@ -9,6 +9,7 @@ import DocumentPicker from "react-native-document-picker";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import FileUploadObj from "./Components/adapter/FileUploadObj";
 import { launchImageLibrary } from "react-native-image-picker";
+import Toast from "react-native-toast-message";
 const ImageUpload = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote, routeLoc } =
     route.params;
@@ -34,13 +35,22 @@ const ImageUpload = ({ route, navigation }) => {
     //     throw err;
     //   }
     // }
-    const res = await launchImageLibrary({ mediaType: "photo" });
+    try{
+      const res = await launchImageLibrary({ mediaType: "photo" });
     const obj = {
       uri: res.assets[0].uri,
       name: res.assets[0].fileName,
       type: res.assets[0].type,
     };
     setSingleFile(obj);
+    }
+    catch(err){
+      Toast.show({
+        type: "ErrorToast",
+        text1:"Some Problem Occured , Please Try Again Later",
+        text2:'Error Code : Pr-02'
+      })
+    }
   };
 
   useEffect(() => {

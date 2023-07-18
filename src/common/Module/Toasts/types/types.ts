@@ -11,7 +11,7 @@ export interface ToastType{
 
 export interface ToastComponentProps {
     LeftIcon: TablerIcon;
-    Title: string;
+    Title: string ;
     SubText?: string;
     ContainerBg: string;
     TitleColor: string;

@@ -8,7 +8,6 @@ import {
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
-import NotesType from "@models/NotesType";
 import { calculateEndTime } from "@app/helper/customFunction";
 import { SessionCardAdapterFunction } from "./adapters/SessionCardAdapter";
 import TypeOfNote from "@app/common/Models/TypeOfNote";

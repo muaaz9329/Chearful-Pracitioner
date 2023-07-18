@@ -1,6 +1,4 @@
-import { View , Text , Pressable } from 'react-native';
 import Toast, {ToastConfig, ToastProps} from 'react-native-toast-message'
-import { ToastType } from './types/types';
 import ToastComponent from './Components/ToastComponent';
 import { NoteAppcolor } from '@app/constants/NoteAppcolor';
 import { IconAlertCircle, IconAlertTriangle, IconCircleCheck } from 'tabler-icons-react-native';
@@ -13,7 +11,7 @@ const HideToast = ()=>{
 const Config : ToastConfig  = {
     SuccessToast: ({ text1 }) => (
         <ToastComponent 
-        Title={text1}
+        Title={text1 as string}
         TitleColor={NoteAppcolor.Primary}
         ContainerBg={'#BDD79D'}
         Hidefunc={HideToast}
@@ -22,7 +20,7 @@ const Config : ToastConfig  = {
       ),
       ErrorToast: ({ text1 , text2 }) => (
         <ToastComponent
-        Title={text1}
+        Title={text1 as string}
         TitleColor={'white'}
         ContainerBg={'tomato'}
         SubText={text2}
@@ -34,7 +32,7 @@ const Config : ToastConfig  = {
       ),
       WarningToast:( { text1 , text2 }) => (
         <ToastComponent
-        Title={text1}
+        Title={text1 as string}
         TitleColor={'white'}
         ContainerBg={'#F4A417'}
         SubText={text2}
