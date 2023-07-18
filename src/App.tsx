@@ -2,52 +2,54 @@ import { StatusBar } from "react-native";
 import React, { useEffect } from "react";
 import SplashScreen from "react-native-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
-
 import { AuthStack, PracStack } from "./routes/index";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useDispatch, useSelector , TypedUseSelectorHook } from "react-redux";
+import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setLogOut } from "./features/utils-States/utilsReducers";
 import Toast, { ToastConfig } from "react-native-toast-message";
-import toastDesigns from "./toastDesigns";
 import Config from "./common/Module/Toasts/ToastConfig";
 
 const Stack = createStackNavigator();
 const App = () => {
-
-  const [IsLogedIn, SetLogin] = React.useState<Boolean|null>();
-  const { accessToken } = useSelector((state : any) => state.auth);
-  const { logOut } = useSelector((state : any) => state.utils);
+  const [IsLogedIn, SetLogin] = React.useState<Boolean | null>();
+  const { accessToken } = useSelector((state: any) => state.auth);
+  const { logOut } = useSelector((state: any) => state.utils);
   const dispatch = useDispatch();
   useEffect(() => {
     SplashScreen.hide();
-  }, []);
+  }, []); // hides the splash screen
 
   useEffect(() => {
-    checkLogin()
-  }, [accessToken]);
+    checkLogin();
+  }, [accessToken]); // watching :- accessToken state
 
-  useEffect(()=>{
-    if(logOut){
-      checkLogOut()
-      dispatch(setLogOut(false))
+  useEffect(() => {
+    if (logOut) {
+      checkLogOut();
+      dispatch(setLogOut(false));
     }
-  },[logOut])
+  }, [logOut]); // watching :- logOut state
 
-  const checkLogin = async () : Promise<void> => {
+  
+
+  const checkLogin = async (): Promise<void> => {
     const GetToken = await AsyncStorage.getItem("USER_accessToken");
     if (GetToken != null) {
       SetLogin(true);
     } else {
       SetLogin(false);
     }
-  };
+  }; // checks weather user is logged in or not
 
-
-  const checkLogOut = async ():Promise<void> => {
+  const checkLogOut = async (): Promise<void> => {
     SetLogin(false);
-  }
+  }; // logs the user out
+
+  
+
+
 
 
   return (
@@ -64,9 +66,8 @@ const App = () => {
           </Stack.Navigator>
         )}
       </NavigationContainer>
-      <Toast config={Config as ToastConfig}/>
+      <Toast config={Config as ToastConfig} />
     </>
-
   );
 };
 

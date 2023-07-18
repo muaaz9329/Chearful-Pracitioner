@@ -37,6 +37,7 @@ import { ApiServices } from "@app/services/Apiservice";
 import { formatDateWithdaySuffix } from "@app/helper/customFunction";
 import { NavigationHelpers, NavigationProp } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import NetInfo from '@react-native-community/netinfo';
 
 interface HomeProps {
   navigation: NavigationHelpers<any, any>;
@@ -51,6 +52,19 @@ const Home : React.FC<HomeProps> = ({ navigation }) => {
   useEffect(() => {
     ApiServices.GetUserInfo(SetUserData , dispatch)
   }, []);
+
+  useEffect(() => {
+    NetInfo.fetch().then((state) => {
+      if((state.isConnected===false || null)|| (state.isInternetReachable===false || null)){
+        Toast.show({
+          type: "ErrorToast",
+          text1: "No Internet",
+          text2: "Please check your internet connection",
+        })
+      }
+     
+    })
+  },[]) // use to check internet connection
 
   
 // console.log(UserInfo)
