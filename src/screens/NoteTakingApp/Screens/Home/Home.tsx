@@ -30,15 +30,21 @@ import { Mulish, Nunito } from "@helper/FontWeight";
 
 import LogoutModel from "@models/LogoutModel";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from "react-redux";
-import { GetUserInfo, SetUserData } from "@app/features/HomeReducer/HomeReducer";
+import {  SetUserData } from "@app/features/HomeReducer/HomeReducer";
 import { ActivityIndicator } from "react-native-paper";
 import { ApiServices } from "@app/services/Apiservice";
 import { formatDateWithdaySuffix } from "@app/helper/customFunction";
-const Home = ({ navigation }) => {
-  const [model, setModel] = useState(false);
-  const { Success, UserInfo } = useSelector((state) => state.Home);
+import { NavigationHelpers, NavigationProp } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
+
+interface HomeProps {
+  navigation: NavigationHelpers<any, any>;
+}
+
+const Home : React.FC<HomeProps> = ({ navigation }) => {
+  const [model, setModel] = useState<boolean>(false);
+  const { Success, UserInfo } = useSelector((state:any) => state.Home);
   const dispatch = useDispatch();
   const {day,month} = formatDateWithdaySuffix(new Date());
 
@@ -46,6 +52,7 @@ const Home = ({ navigation }) => {
     ApiServices.GetUserInfo(SetUserData , dispatch)
   }, []);
 
+  
 // console.log(UserInfo)
   return (
     <SafeAreaView style={styles.Body} edges={['top']}>
@@ -88,7 +95,7 @@ const Home = ({ navigation }) => {
               easing="ease-in-out"
               duration={1500}
             >
-              <View style={styles.GreatingTextCont}>
+              <View>
                 <Text style={styles.GoodMessage}>Good morning,</Text>
                 <Text style={styles.UserName}>{UserInfo.first_name}</Text>
               </View>
@@ -106,7 +113,7 @@ const Home = ({ navigation }) => {
                 easing="ease-in-out"
                 duration={1500}
               >
-                <Pressable onPress={() => navigation.push("Prac_Session")}>
+                <Pressable onPress={() => navigation.navigate("Prac_Session")}>
                   <View style={[styles.RectangleCont, styles.SessionCont]}>
                     <Text style={styles.MenuText}>Sessions</Text>
                     <View style={styles.MenuImage}>
@@ -117,7 +124,7 @@ const Home = ({ navigation }) => {
                     </View>
                   </View>
                 </Pressable>
-                <Pressable onPress={() => navigation.push("Prac_NoteScreen")}>
+                <Pressable onPress={() => navigation.navigate("Prac_NoteScreen")}>
                   <View style={[styles.SquareCont, styles.NotesCont]}>
                     <Text style={styles.MenuText}>Notes</Text>
                     <View style={styles.MenuImage}>
@@ -135,7 +142,7 @@ const Home = ({ navigation }) => {
                 easing="ease-in-out"
                 duration={1500}
               >
-                <Pressable onPress={() => navigation.push("Prac_Client")}>
+                <Pressable onPress={() => navigation.navigate("Prac_Client")}>
                   <View style={[styles.SquareCont, styles.ClientCont]}>
                     <Text style={styles.MenuText}>Clients</Text>
                     <View style={styles.MenuImage}>
@@ -147,7 +154,7 @@ const Home = ({ navigation }) => {
                   </View>
                 </Pressable>
                 <Pressable
-                  onPress={() => navigation.push("Prac_AddNoteClient")}
+                  onPress={() => navigation.navigate("Prac_AddNoteClient")}
                 >
                   <View style={[styles.RectangleCont, styles.AddNotes]}>
                     <Text style={styles.MenuText}>Add Notes</Text>
@@ -162,7 +169,7 @@ const Home = ({ navigation }) => {
                 </Pressable>
               </Animatable.View>
             </View>
-            <Pressable onPress={() => navigation.push("Prac_SessionHistory")}>
+            <Pressable onPress={() => navigation.navigate("Prac_SessionHistory")}>
               <Animatable.View
                 style={styles.infoCont}
                 animation="slideInUp"
@@ -175,7 +182,7 @@ const Home = ({ navigation }) => {
                     height={hp(1.5 * 10.115)}
                   />
                 </View>
-                <View style={styles.DateCont}>
+                <View>
                   <Text style={styles.dateStyle}>
                     {day}<Text style={styles.MonthStyle}> {month}</Text>{" "}
                   </Text>

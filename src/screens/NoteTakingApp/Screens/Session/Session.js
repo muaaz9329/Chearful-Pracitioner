@@ -55,7 +55,7 @@ const Session = ({ navigation }) => {
 
   return (
     <>
-      <LoadingScreen ref={LoadingRef} />
+      <LoadingScreen ref={LoadingRef} type={'loader'} />
       <SafeAreaView
         style={{ backgroundColor: NoteAppcolor.White, flex: 1 }}
         edges={["top", "right", "left"]}

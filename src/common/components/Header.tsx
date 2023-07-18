@@ -1,13 +1,24 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { ReactComponentElement, ReactNode } from "react";
 import { Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { ChearfulLogo } from "@svg";
+import { NavigationProp } from "@react-navigation/native";
+interface HeaderProps {
+  Icon:IconComponent,
+  children ?:ReactNode,
+  navigation ?: any,
+  pram :string,
+  setVisible:(State:boolean)=>void,
+  visible:boolean,
+  RightIcon?:any,
+  ShowRightIcon ?:boolean
+}
 
-const Header = ({ Icon, children,navigation , pram ,setVisible , visible , RightIcon , ShowRightIcon=false}) => {
+const Header = ({ Icon, children,navigation , pram ,setVisible , visible , RightIcon , ShowRightIcon=false}:HeaderProps) => {
   return (
     <View style={styles.HeaderCont}>
-      <View style={styles.HeaderIcon}>
+      <View>
         <Pressable style={styles.HeaderIconStyles} onPress={()=>{
           if(pram==="back"){
             navigation.goBack()
@@ -23,7 +34,7 @@ const Header = ({ Icon, children,navigation , pram ,setVisible , visible , Right
         </Pressable>
       </View>
 
-      <View style={styles.content}>
+      <View >
         {children}
       </View>
         {

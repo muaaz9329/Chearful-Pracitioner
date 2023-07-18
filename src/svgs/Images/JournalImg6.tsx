@@ -1,9 +1,10 @@
 
 import React from 'react'
 import {Svg , Path ,G ,Rect ,ClipPath , Defs} from 'react-native-svg'
-const JournalImg6= ({height,width,color}) => {
+import IProps from '../types'
+const JournalImg6 : React.FC<IProps> = ({height,width}) => {
   return (
-    <Svg width={width} height={height} viewBox="0 0 140 121" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Svg width={width} height={height} viewBox="0 0 140 121" fill="none">
 <Path d="M169.861 102.942H90.2134C89.9142 102.942 89.6709 102.699 89.6709 102.4C89.6709 102.1 89.9142 101.858 90.2134 101.858H169.861C170.16 101.858 170.404 102.1 170.404 102.4C170.404 102.699 170.16 102.942 169.861 102.942Z" fill="black"/>
 <Path d="M86.6538 102.942H29.9349C29.6354 102.942 29.3926 102.699 29.3926 102.4C29.3926 102.1 29.6354 101.858 29.9349 101.858H86.6538C86.953 101.858 87.1963 102.1 87.1963 102.4C87.1963 102.699 86.953 102.942 86.6538 102.942Z" fill="black"/>
 <Path d="M121.49 105.923L118.856 105.344C118.856 105.344 119.403 108.501 120.538 108.206C121.674 107.91 121.49 105.923 121.49 105.923Z" fill="black"/>

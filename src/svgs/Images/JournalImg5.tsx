@@ -1,10 +1,11 @@
 
 import React from 'react'
 import {Svg , Path ,G ,Rect ,ClipPath , Defs} from 'react-native-svg'
-const JournalImg5 = ({height,width,color}) => {
+import IProps from '../types'
+const JournalImg5: React.FC<IProps> = ({height,width}) => {
   return (
 
-    <Svg width={width} height={height} viewBox="0 0 138 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Svg width={width} height={height} viewBox="0 0 138 120" fill="none" >
 <G clip-Path="url(#clip0_6496_100493)">
 <Path fill-rule="evenodd" clip-rule="evenodd" d="M37.8752 68.35C23.2489 68.35 11.3496 56.3303 11.3496 41.556C11.3496 26.7817 23.2489 14.7621 37.8752 14.7621C52.5008 14.7621 64.4 26.7817 64.4 41.556C64.4 56.3303 52.5008 68.35 37.8752 68.35Z" fill="white"/>
 <Path fill-rule="evenodd" clip-rule="evenodd" d="M37.8754 15.1165C23.4424 15.1165 11.7006 26.9772 11.7006 41.556C11.7006 56.1349 23.4424 67.996 37.8754 67.996C52.3078 67.996 64.0496 56.1349 64.0496 41.556C64.0496 26.9772 52.3078 15.1165 37.8754 15.1165ZM37.8754 68.7042C23.0556 68.7042 10.999 56.5256 10.999 41.556C10.999 26.5864 23.0556 14.4078 37.8754 14.4078C52.6951 14.4078 64.7517 26.5864 64.7517 41.556C64.7517 56.5256 52.6951 68.7042 37.8754 68.7042Z" fill="black"/>

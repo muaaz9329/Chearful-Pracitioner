@@ -5,16 +5,20 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { AuthStack, PracStack } from "./routes/index";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector , TypedUseSelectorHook } from "react-redux";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setLogOut } from "./features/utils-States/utilsReducers";
+import Toast, { ToastConfig } from "react-native-toast-message";
+import toastDesigns from "./toastDesigns";
+import Config from "./common/Module/Toasts/ToastConfig";
 
 const Stack = createStackNavigator();
 const App = () => {
-  const [IsLogedIn, SetLogin] = React.useState(null);
-  const { accessToken } = useSelector((state) => state.auth);
-  const { logOut } = useSelector((state) => state.utils);
+
+  const [IsLogedIn, SetLogin] = React.useState<Boolean|null>();
+  const { accessToken } = useSelector((state : any) => state.auth);
+  const { logOut } = useSelector((state : any) => state.utils);
   const dispatch = useDispatch();
   useEffect(() => {
     SplashScreen.hide();
@@ -31,7 +35,7 @@ const App = () => {
     }
   },[logOut])
 
-  const checkLogin = async () => {
+  const checkLogin = async () : Promise<void> => {
     const GetToken = await AsyncStorage.getItem("USER_accessToken");
     if (GetToken != null) {
       SetLogin(true);
@@ -41,7 +45,7 @@ const App = () => {
   };
 
 
-  const checkLogOut = async () => {
+  const checkLogOut = async ():Promise<void> => {
     SetLogin(false);
   }
 
@@ -60,7 +64,9 @@ const App = () => {
           </Stack.Navigator>
         )}
       </NavigationContainer>
+      <Toast config={Config as ToastConfig}/>
     </>
+
   );
 };
 
