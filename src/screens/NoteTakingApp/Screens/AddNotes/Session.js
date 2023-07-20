@@ -134,7 +134,7 @@ const Session = ({ navigation, route }) => {
             />
           ) : (
             <NotAvil
-              Title={`${SelectedClientDetail.full_name} does not have any session on date ${value}`}
+              Title={`${SelectedClientDetail.full_name} does not have any session on this date`}
             />
           )
         ) : (

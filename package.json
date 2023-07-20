@@ -6,7 +6,11 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": " react-native start",
-    "ios BuildTest": "react-native run-ios --configuration Release",
+    "release:ios": "react-native run-ios --configuration Release",
+    "clean:android": "cd android && ./gradlew clean && cd ../",
+    "clean:ios": "cd ios && xcodebuild clean && cd ../", 
+    "release:android": "cd android && ./gradlew assembleRelease && cd ../",
+    
     "test": "jest",
     "lint": "eslint ."
   },

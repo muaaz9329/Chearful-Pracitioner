@@ -116,29 +116,20 @@ const Client = ({ navigation }) => {
   const refRBSheet = useRef();
 
   const SortList = (arg) => {
-    // If the argument is "Ascending", sort the array in ascending order of Name property.
+    var oldData = [...OldData];
+    
     if (arg === "Ascending") {
-      let TempList = OldData.sort((a, b) =>
-        a.first_name > b.first_name ? 1 : -1
-      );
-      SetClientInfo(TempList); // Update the state with the sorted array.
-    }
-    // If the argument is "Descending", sort the array in descending order of Name property.
-    else if (arg === "Descending") {
-      // let TempList = OldData.sort((a, b) => (a.first_name < b.first_name ? 1 : -1));
-      // SetClientInfo(TempList); // Update the state with the sorted array.
-      const newArr = [...OldData];
-      SetClientInfo(newArr.reverse());
-    }
-    // If the argument is "Last Visit", sort the array in descending order of LastVisitDate property.
-    else if (arg == "Last Visit") {
-      let TempList = OldData.sort(function (a, b) {
-        // Convert the LastVisitDate string properties to Date objects and compare them to sort.
-        return (
-          new Date(b.latest_session_date) - new Date(a.latest_session_date)
-        );
-      });
-      SetClientInfo(TempList); // Update the state with the sorted array.
+      let TempList = oldData.sort((a, b) => (a.first_name > b.first_name ? 1 : -1));
+      SetClientInfo(TempList);
+    } else if (arg === "Descending") {
+      let TempList = oldData.sort((a, b) => (a.first_name < b.first_name ? 1 : -1));
+      SetClientInfo(TempList);
+    } else if (arg === "Last Visit") {
+      let TempList = oldData.sort((a, b) => new Date(b.latest_session_date) - new Date(a.latest_session_date));
+    SetClientInfo(TempList);
+    } else {
+      // Handle the case when the argument is not recognized
+      console.error("Invalid argument for sorting:", arg);
     }
   };
 

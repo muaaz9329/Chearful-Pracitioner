@@ -89,7 +89,7 @@ const SessionHistory = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (Success) {
+    if (Success && loadingRef !=null) {
       loadingRef.current?.LoadingEnds();
     }
   }, [Success]);

@@ -117,7 +117,6 @@ const NotesPreview = ({ navigation, route }) => {
             />
           ) : (
             <NotAvil
-              Title={"No Notes"}
               Content={"No Particular Notes Available for this Session"}
             />
           )}

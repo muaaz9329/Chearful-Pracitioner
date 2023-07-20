@@ -8,7 +8,7 @@ import {
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
-import { calculateEndTime } from "@app/helper/customFunction";
+import { calculateEndTime, capitalizeFirstLetter } from "@app/helper/customFunction";
 import { SessionCardAdapterFunction } from "./adapters/SessionCardAdapter";
 import TypeOfNote from "@app/common/Models/TypeOfNote";
 function convertDateFormat(dateString) {
@@ -68,9 +68,10 @@ const SessionCardDesign = ({ navigation, CardData }) => {
           <Text style={styles.Name}>{CardData.service_name}</Text>
           <View style={styles.LastVisitCont}>
             <Text
-              style={[styles.Name, { opacity: 0.7 }]}
+              style={[styles.Time, { opacity: 0.7 }]}
             >{`${StartTime} - ${EndTime}`}</Text>
           </View>
+          <Text style={styles.StatusText}>{`status :- ${capitalizeFirstLetter(CardData.status)}`}</Text>
         </View>
       </View>
       <View style={styles.CardsButton}>
@@ -107,8 +108,8 @@ const styles = StyleSheet.create({
   CardContet: {
     width: wp(74),
 
-    paddingHorizontal: Wp(24),
-    paddingVertical: Wp(17),
+    paddingHorizontal: Wp(20),
+    paddingVertical: Wp(12),
     borderRadius: Wp(30),
     backgroundColor: NoteAppcolor.Secondary,
     flexDirection: "row",
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
   Name: {
     fontFamily: Nunito(700),
     color: NoteAppcolor.Primary,
-    fontSize: FontSize(15),
+    fontSize: FontSize(14),
   },
   LastVisitText: {
     fontFamily: Mulish(600),
@@ -150,8 +151,8 @@ const styles = StyleSheet.create({
     marginHorizontal: Wp(5),
   },
   Datebox: {
-    width: Wp(62),
-    height: Wp(62),
+    width: Wp(65),
+    height: Wp(65),
     backgroundColor: NoteAppcolor.White,
     borderRadius: Wp(10),
     marginEnd: Wp(10),
@@ -163,4 +164,14 @@ const styles = StyleSheet.create({
     fontSize: FontSize(16),
     color: NoteAppcolor.Primary,
   },
+  Time:{
+    fontFamily: Mulish(700),
+    fontSize: FontSize(12),
+    color: NoteAppcolor.Primary,
+  },
+  StatusText:{
+    fontFamily: Mulish(700),
+    fontSize: FontSize(12),
+    color: NoteAppcolor.Primary,
+  }
 });

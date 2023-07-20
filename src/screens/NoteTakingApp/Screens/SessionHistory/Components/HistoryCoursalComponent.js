@@ -23,4 +23,3 @@ const HistoryCoursalComponent = ({Data}) => {
 
 export default HistoryCoursalComponent
 
-const styles = StyleSheet.create({})

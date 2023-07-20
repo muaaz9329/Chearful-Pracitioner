@@ -67,7 +67,7 @@ import {
           <View>
             <View style={[styles.row, styles.firstCont, { marginTop: Wp(5) }]}>
               
-              <Text style={[styles.SessionText,{textDecorationLine:"line-through" , textDecorationStyle:"solid"}]}>
+              <Text style={[styles.SessionText]}>
                {`${StartTime} - ${EndTime} ${DateConstrctor(new Date(data.appointment_date_time.slice(0,10))).Day}`}
                 
               </Text>

@@ -43,7 +43,7 @@ const Session = ({ navigation }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (Success) {
+      if (Success && LoadingRef.current) {
         LoadingRef.current.LoadingEnds();
       }
     }, 1000);

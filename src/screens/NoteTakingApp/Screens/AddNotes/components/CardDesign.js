@@ -17,7 +17,7 @@ const CardDesign = ({ Data }) => {
         </View>
         <View style={styles.CardTextCont}>
           <Text style={styles.Name}>
-            {Data.full_name}
+          {Data.full_name.length > 15 ? Data.full_name.slice(0, 15) + "..." : Data.full_name}
           </Text>
 
           <View style={styles.LastVisitCont}>
@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
   Name: {
     fontFamily: Nunito(700),
     color: NoteAppcolor.Primary,
-    fontSize: FontSize(24),
+    fontSize: FontSize(16),
   },
   LastVisitText: {
     fontFamily: Mulish(600),
-    fontSize: FontSize(14),
+    fontSize: FontSize(12),
     color: NoteAppcolor.Primary,
     opacity: 0.7,
   },

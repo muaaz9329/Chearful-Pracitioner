@@ -7,13 +7,16 @@ import {
 } from "react-native-responsive-screen";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
-import { DateConstrctor } from "@helper/customFunction";
+import { DateConstrctor, calculateEndTime, capitalizeFirstLetter } from "@helper/customFunction";
 import TypeOfNote from "@app/common/Models/TypeOfNote";
 import { SessionCardAdapterFunction } from "./adapter/SessionCard";
 
 const SessionCard = ({ SessionData,navigation, }) => {
   const [model,setmodel] = useState(false)
-
+  const { EndTime, StartTime } = calculateEndTime(
+    SessionData.appointment_time,
+    SessionData.time_duration
+  );
   
   return (
     <Pressable onPress={()=>{
@@ -31,15 +34,13 @@ const SessionCard = ({ SessionData,navigation, }) => {
           </View>
         </View>
         <View style={styles.CardTextCont}>
-          <Text style={styles.Name}>
-            { SessionData.service_name}
-          </Text>
-
+          <Text style={styles.Name}>{SessionData.service_name}</Text>
           <View style={styles.LastVisitCont}>
-            <Text style={styles.LastVisitText}>
-              {DateConstrctor(new Date(SessionData.appointment_date)).Day} at {DateConstrctor(new Date(SessionData.appointment_date_time)).Time}
-            </Text>
+            <Text
+              style={[styles.LastVisitText, { opacity: 0.7 }]}
+            >{`${StartTime} - ${EndTime}`}</Text>
           </View>
+          <Text style={styles.StatusText}>{`status :- ${capitalizeFirstLetter(SessionData.status)}`}</Text>
         </View>
       </View>
     </View>
@@ -82,11 +83,11 @@ const styles = StyleSheet.create({
   Name: {
     fontFamily: Nunito(700),
     color: NoteAppcolor.Primary,
-    fontSize: FontSize(24),
+    fontSize: FontSize(14),
   },
   LastVisitText: {
-    fontFamily: Mulish(600),
-    fontSize: FontSize(14),
+    fontFamily: Mulish(400),
+    fontSize: FontSize(12),
     color: NoteAppcolor.Primary,
     opacity: 0.7,
   },
@@ -109,8 +110,8 @@ const styles = StyleSheet.create({
     marginHorizontal: Wp(5),
   },
   Datebox: {
-    width: Wp(62),
-    height: Wp(62),
+    width: Wp(65),
+    height: Wp(65),
     backgroundColor: NoteAppcolor.White,
     borderRadius: Wp(10),
     marginEnd: Wp(10),
@@ -119,7 +120,12 @@ const styles = StyleSheet.create({
   },
   date: {
     fontFamily: Nunito(700),
-    fontSize: FontSize(20),
+    fontSize: FontSize(16),
     color: NoteAppcolor.Primary,
   },
+  StatusText:{
+    fontFamily: Mulish(700),
+    fontSize: FontSize(12),
+    color: NoteAppcolor.Primary,
+  }
 });

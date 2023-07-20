@@ -1,3 +1,4 @@
+import useSessionFilter from "@app/hooks/useSessionFilter";
 import { createSlice } from "@reduxjs/toolkit";
 
 const SessionReducer = createSlice({
@@ -11,11 +12,11 @@ const SessionReducer = createSlice({
   },
   reducers: {
     SetSessionData: (state, action) => {
-      state.Data = action.payload.data;
+      state.Data = useSessionFilter(action.payload.data);
       state.loading = false;
       state.error = null;
       state.Success = true;
-      if (action.payload.data.length > 0) {
+      if (state.Data.length > 0) {
         state.HasSession = true;
       } else {
         state.HasSession = false;
