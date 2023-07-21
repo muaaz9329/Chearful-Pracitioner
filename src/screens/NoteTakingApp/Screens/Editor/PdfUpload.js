@@ -32,7 +32,7 @@ const PdfUpload = ({ route, navigation }) => {
       if (DocumentPicker.isCancel(err)) {
         Toast.show({
           type: "ErrorToast",
-          text1:"Some Problem Occured , Please Try Again Later",
+          text1:"No File Selected",
           text2:'Error Code : Pr-01'
         })
       } else {

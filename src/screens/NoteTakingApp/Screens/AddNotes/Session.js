@@ -23,44 +23,19 @@ import {
 } from "@app/features/Client-AllSessions/AllSessionReducers";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import NotAvil from "@app/common/components/NotAvil";
-const Session = ({ navigation, route }) => {
-  const [data, setData] = useState([]); //* Api data will be saved in this state
-
-  const [value, setValue] = useState(); // this state consists of new  date
-  const [open, setOpen] = useState(false);
-  const [day, setDay] = useState(null);
-
+const Session = ({ navigation }) => {
   const disptch = useDispatch();
   const LoadingRef = useRef(null);
 
   const { SelectedClientDetail } = useSelector((state) => state.ClientReducer); // Getting the state from the store Client Screen
 
-  const { loading, Sessions, error, Success, isEmpty, haveError } = useSelector(
+  const { Sessions, Success, isEmpty } = useSelector(
     (state) => state.ClientSessionReducer
   );
 
-  const filterData = (date) => {
-    if (Sessions.length > 0) {
-      let FilteredArr = Sessions.filter((item) => {
-        if (DateConstrctor(new Date(item.appointment_date)).Date === date) {
-          return item;
-        }
-      });
-
-      setData(FilteredArr);
-    } else {
-      setData([]);
-    }
-  };
-
   useEffect(() => {
     if (Success) {
-      let obj = DateConstrctor(new Date());
-      filterData(obj.Date);
-      setDay(obj.Day);
-      setValue(obj.Date);
-
-      LoadingRef.current?.LoadingEnds();
+      LoadingRef.current.LoadingEnds();
     }
   }, [Success]);
 
@@ -79,73 +54,28 @@ const Session = ({ navigation, route }) => {
     HandleApi();
   }, []);
 
-  const FilterDate = (date) => {
-    let obj = DateConstrctor(date);
-    setDay(obj.Day);
-    setValue(obj.Date);
-    filterData(obj.Date);
-  };
-
   return (
     <>
       <LoadingScreen ref={LoadingRef} type={"loader"} />
       <SafeAreaView style={styles.Body} edges={["top", "left", "right"]}>
-        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
-          <Text style={styles.Text}>Sessions</Text>
-        </Header>
-
-        <View style={{ paddingBottom: Wp(10) }}>
-          <View style={styles.PractitionerHead}>
-            <View style={styles.PractitionerHeadCont}>
-              <Text style={styles.textTitle}>{day}</Text>
-              <Text style={styles.textSubtitle}>{value}</Text>
-            </View>
-            <Pressable
-              style={styles.PractitionerFilterButton}
-              onPress={() => setOpen(true)}
-            >
-              <CalenderIcon
-                width={Wp(20)}
-                height={Wp(20)}
-                color={NoteAppcolor.Primary}
-              />
-              <DatePicker
-                mode="date"
-                modal
-                open={open}
-                date={new Date()}
-                onConfirm={(date) => {
-                  setOpen(false);
-                  FilterDate(date);
-                }}
-                onCancel={() => {
-                  setOpen(false);
-                }}
-                androidVariant={"iosClone"}
-              />
-            </Pressable>
-          </View>
+        <View style={{ marginBottom: Wp(20) }}>
+          <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
+            <Text style={styles.Text}>Sessions</Text>
+          </Header>
         </View>
 
-        {data.length == 0 ? (
-          Sessions.length === 0 ? (
-            <NotAvil
-              Title={`${SelectedClientDetail.full_name} does not have any sessions at all on any date`}
-            />
-          ) : (
-            <NotAvil
-              Title={`${SelectedClientDetail.full_name} does not have any session on this date`}
-            />
-          )
+        {isEmpty ? (
+          <NotAvil
+            Title={`${SelectedClientDetail.full_name} does not have any sessions at all on any date`}
+          />
         ) : (
           <AnimatedFlatList
-            data={data}
+            data={Sessions}
             renderItem={({ item, index }) => (
               <SessionCard
                 SessionData={item}
-                key={index}
+                key={item.id}
                 navigation={navigation}
-                
               />
             )}
             contentContainerStyle={{
@@ -174,29 +104,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize(23),
     color: NoteAppcolor.Primary,
   },
-  PractitionerHead: {
-    marginTop: Hp(30),
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  PractitionerFilterButton: {
-    paddingVertical: Wp(10),
-    paddingHorizontal: Wp(10),
-    backgroundColor: "#EFF3F2",
-    alignSelf: "flex-start",
-    borderRadius: Wp(8),
-  },
-  textTitle: {
-    color: NoteAppcolor.Primary,
-    fontFamily: Nunito("700"),
-    fontSize: FontSize(16),
-  },
-  textSubtitle: {
-    color: NoteAppcolor.Primary,
-    opacity: 0.7,
-    fontFamily: Mulish("600"),
-    fontSize: FontSize(13),
-  },
+ 
   cardCont: {
     marginTop: Wp(15),
   },

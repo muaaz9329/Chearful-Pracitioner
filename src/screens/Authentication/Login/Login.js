@@ -22,9 +22,14 @@ import { login } from "@app/features/authReducer/authReducer";
 import LoginBtn from "./components/LoginBtn";
 
 const Login = ({ navigation }) => {
-  const { Success , error } = useSelector((state) => state.auth); // consist of State that tells Weather the user is logged in or not , True means logged in , False means not logged in
-  const [InputBoxBorders, setInputBoxBorders] = useState('#EFF3F2')
+  const { Success, error } = useSelector((state) => state.auth); // consist of State that tells Weather the user is logged in or not , True means logged in , False means not logged in
+  const [InputBoxBorders, setInputBoxBorders] = useState("#EFF3F2");
+  const [validation, setValidation] = useState({
+    state: false,
+    error: "",
+  });
   const Dispatch = useDispatch();
+
   const [pass, SetPass] = useState({
     Pass: true,
     icon: "eye",
@@ -47,7 +52,27 @@ const Login = ({ navigation }) => {
   const [User, setUser] = useState({ email: "", password: "" });
 
   const HandleLogin = async () => {
-    Dispatch(login(User));
+    //* Validation of User is Happening here
+    if (User.email == "" && User.password == "") {
+      setValidation({
+        state: true,
+        error: "Please Enter Email and Password",
+      });
+    } else if (User.email == "") {
+      setValidation({
+        state: true,
+        error: "Please Enter Your Email Address",
+      });
+    } else if (User.password == "") {
+      setValidation({
+        state: true,
+        error: "Please Enter Your Password",
+      });
+    } else {
+      //* Authentication of user is happening here
+      Dispatch(login(User));
+    }
+
     // email and Password is Dispatched to Thunk Function that makes a request to the server and returns a response
     // you can save the response in a variable other wise it Updates the State of the Reducer name AuthReducer
     // Authreducer will Save the Data in Async Storage and will update the State of Success to True
@@ -61,18 +86,18 @@ const Login = ({ navigation }) => {
     }
   }, [Success]); // if Success is True then it will navigate to the Practitioner Home Screen
 
-
-
-  useEffect(()=>{
-    if(error.status){
-      setInputBoxBorders(NoteAppcolor.Error)
-      console.log(error)
-
+  useEffect(() => {
+    if (error.status) {
+      setInputBoxBorders(NoteAppcolor.Error);
+      setValidation({
+        state: false,
+        error: "",
+      });
+      console.log(error);
+    } else {
+      setInputBoxBorders("#EFF3F2");
     }
-    else{
-      setInputBoxBorders('#EFF3F2')
-    }
-  },[error]) // use to control the style of input box border when error occurs
+  }, [error]); // use to control the style of input box border when error occurs
 
   return (
     <View style={styles.Container}>
@@ -102,8 +127,15 @@ const Login = ({ navigation }) => {
             </Text>
           </View>
           <View style={styles.Errorbox}>
-            { error.status && <Text style={styles.Errortext}>Please Enter Correct Email or Password</Text>}
-          </View> 
+            {error.status && (
+              <Text style={styles.Errortext}>
+                Please Enter Correct Email or Password
+              </Text>
+            )}
+            {validation.state && (
+              <Text style={styles.Errortext}>{validation.error}</Text>
+            )}
+          </View>
           <View style={{ alignItems: "center" }}>
             <View
               style={[
@@ -128,10 +160,9 @@ const Login = ({ navigation }) => {
                   backgroundColor: "#EFF3F2",
                   height: Hp(40),
                   fontSize: Wp(14),
-                  
                 }}
                 underlineStyle={{ borderRadius: Wp(18) }}
-                outlineStyle={{ borderRadius: Wp(18)}}
+                outlineStyle={{ borderRadius: Wp(18) }}
                 onChangeText={(text) => setUser({ ...User, email: text })}
               />
             </View>
@@ -145,7 +176,6 @@ const Login = ({ navigation }) => {
                   marginVertical: Wp(10),
                   borderColor: InputBoxBorders,
                   borderWidth: 2,
-                 
                 },
               ]}
             >
@@ -158,21 +188,20 @@ const Login = ({ navigation }) => {
                   backgroundColor: "#EFF3F2",
                   height: Hp(40),
                   fontSize: Wp(14),
-                  
                 }}
                 underlineStyle={{ borderRadius: Wp(18) }}
-                outlineStyle={{ borderRadius: Wp(18)  }}
+                outlineStyle={{ borderRadius: Wp(18) }}
                 secureTextEntry={pass.Pass}
                 right={<TextInput.Icon icon={pass.icon} onPress={showPass} />}
                 onChangeText={(text) => setUser({ ...User, password: text })}
               />
             </View>
-            <LoginBtn HandleLogin={HandleLogin} />
+            <LoginBtn HandleLogin={HandleLogin} Validation={validation} />
 
             <Text
               style={styles.ForgetPassCont}
               onPress={() => {
-                navigation.navigate("Auth_ResetPass")
+                navigation.navigate("Auth_ResetPass");
               }}
             >
               Forget Password?
@@ -237,22 +266,17 @@ const styles = StyleSheet.create({
   MainTextCont: {
     marginBottom: Wp(20),
   },
-  Errorbox:{
-    height:Hp(10),  
-    alignItems:'center',
-    justifyContent:'center',
-
+  Errorbox: {
+    height: Hp(10),
+    alignItems: "center",
+    justifyContent: "center",
   },
-  Errortext:{
-    color:NoteAppcolor.Error,
-    fontFamily:Nunito(700),
-    fontSize:FontSize(10),
-    textAlign:'center'
-
-  }
+  Errortext: {
+    color: NoteAppcolor.Error,
+    fontFamily: Nunito(700),
+    fontSize: FontSize(10),
+    textAlign: "center",
+  },
 });
 
-// import React from 'react';
-// import { Canvas } from '@benjeau/react-native-draw';
 
-// export default () => <Canvas />;

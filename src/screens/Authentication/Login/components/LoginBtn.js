@@ -7,7 +7,7 @@ import { Nunito } from "@app/helper/FontWeight";
 import { ActivityIndicator } from "react-native-paper";
 import { useSelector } from "react-redux";
 
-const LoginBtn = ({ HandleLogin }) => {
+const LoginBtn = ({ HandleLogin , Validation }) => {
 
     
 
@@ -48,11 +48,11 @@ const LoginBtn = ({ HandleLogin }) => {
 
     useEffect(() => {
  
-        if(Success==false && loading==false && error.status==true){
+        if(Success==false && loading==false && error.status==true || Validation.state==true){
             Not_Able_To_Login()
         }
 
-    },[Success , loading , error])
+    },[Success , loading , error , Validation])
 
 
 
