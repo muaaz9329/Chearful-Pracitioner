@@ -137,7 +137,7 @@ const Client = ({ navigation }) => {
     SortList(sortBy);
     setTimeout(() => {
       refRBSheet.current.close();
-    }, 500);
+    }, 100);
   };
   const selectedDesign = {
     display: "flex",

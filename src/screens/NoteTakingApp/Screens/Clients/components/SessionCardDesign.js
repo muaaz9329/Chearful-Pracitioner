@@ -71,7 +71,7 @@ const SessionCardDesign = ({ navigation, CardData }) => {
               style={[styles.Time, { opacity: 0.7 }]}
             >{`${StartTime} - ${EndTime}`}</Text>
           </View>
-          <Text style={styles.StatusText}>{`status :- ${capitalizeFirstLetter(CardData.status)}`}</Text>
+          <Text style={styles.StatusText}>{`Status: ${capitalizeFirstLetter(CardData.status)}`}</Text>
         </View>
       </View>
       <View style={styles.CardsButton}>

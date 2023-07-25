@@ -99,7 +99,7 @@ const SessionHistory = ({ navigation }) => {
     <LoadingScreen type={'loader'} ref={loadingRef} />
     <SafeAreaView edges={["top"]} style={styles.body}>
       <View style={styles.Body}>
-        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
+        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"} >
           <Text style={styles.HeaderTitle}>Sessions History</Text>
         </Header>
         <View>

@@ -66,7 +66,7 @@ const Session = ({ navigation }) => {
 
         {isEmpty ? (
           <NotAvil
-            Title={`${SelectedClientDetail.full_name} does not have any sessions at all on any date`}
+            Title={`There are no past or upcoming sessions with this client.`}
           />
         ) : (
           <AnimatedFlatList

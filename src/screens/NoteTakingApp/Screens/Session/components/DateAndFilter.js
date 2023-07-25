@@ -67,7 +67,7 @@ export default DateAndFilter;
 
 const styles = StyleSheet.create({
   PractitionerHead: {
-    marginTop: Hp(30),
+    marginTop: Hp(10),
     flexDirection: "row",
     justifyContent: "space-between",
   },

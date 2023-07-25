@@ -40,7 +40,7 @@ const SessionCard = ({ SessionData,navigation, }) => {
               style={[styles.LastVisitText, { opacity: 0.7 }]}
             >{`${StartTime} - ${EndTime}`}</Text>
           </View>
-          <Text style={styles.StatusText}>{`status :- ${capitalizeFirstLetter(SessionData.status)}`}</Text>
+          <Text style={styles.StatusText}>{`Status: ${capitalizeFirstLetter(SessionData.status)}`}</Text>
         </View>
       </View>
     </View>

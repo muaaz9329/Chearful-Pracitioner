@@ -12,12 +12,13 @@ interface HeaderProps {
   setVisible:(State:boolean)=>void,
   visible:boolean,
   RightIcon?:any,
-  ShowRightIcon ?:boolean
+  ShowRightIcon ?:boolean,
+  justifyContent?:"space-between"|"center"|"flex-start"|"flex-end"|"space-around"|"space-evenly",
 }
 
-const Header = ({ Icon, children,navigation , pram ,setVisible , visible , RightIcon , ShowRightIcon=false}:HeaderProps) => {
+const Header = ({ Icon, children,navigation , pram ,setVisible , visible , RightIcon , ShowRightIcon=false ,justifyContent='space-between' }:HeaderProps) => {
   return (
-    <View style={styles.HeaderCont}>
+    <View style={[styles.HeaderCont,{justifyContent:justifyContent}]}>
       <View>
         <Pressable style={styles.HeaderIconStyles} onPress={()=>{
           if(pram==="back"){

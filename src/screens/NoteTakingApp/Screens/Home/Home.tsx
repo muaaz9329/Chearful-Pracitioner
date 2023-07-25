@@ -69,7 +69,7 @@ const Home : React.FC<HomeProps> = ({ navigation }) => {
   
 // console.log(UserInfo)
   return (
-    <SafeAreaView style={styles.Body} edges={['top']}>
+    <SafeAreaView edges={['top']} style={{backgroundColor:"#fff", flex:1}}>
       {Success ? (
         <ScrollView showsVerticalScrollIndicator={false}>
           <LogoutModel
@@ -77,7 +77,7 @@ const Home : React.FC<HomeProps> = ({ navigation }) => {
             visible={model}
             setVisible={setModel}
           />
-          <View>
+          <View style={styles.Body}>
             <Animatable.View
               animation="slideInDown"
               easing="ease-in-out"
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     backgroundColor: NoteAppcolor.White,
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingVertical: Platform.OS == "android" ? Wp(20) : Wp(10),
+    paddingVertical: Wp(20),
   },
   GreatingCont: {
     marginTop: Hp(30),
