@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   View,
   Linking,
+  Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -20,6 +21,7 @@ import { ChearfulLogo } from "@svg";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@app/features/authReducer/authReducer";
 import LoginBtn from "./components/LoginBtn";
+import { ColorWithopacity } from "@app/helper/customFunction";
 
 const Login = ({ navigation }) => {
   const { Success, error } = useSelector((state) => state.auth); // consist of State that tells Weather the user is logged in or not , True means logged in , False means not logged in
@@ -32,19 +34,19 @@ const Login = ({ navigation }) => {
 
   const [pass, SetPass] = useState({
     Pass: true,
-    icon: "eye",
+    icon: "eye-off",
   });
 
   const showPass = () => {
     if (pass.Pass) {
       SetPass({
         Pass: false,
-        icon: "eye-off",
+        icon: "eye",
       });
     } else {
       SetPass({
         Pass: true,
-        icon: "eye",
+        icon: "eye-off",
       });
     }
   };
@@ -123,7 +125,7 @@ const Login = ({ navigation }) => {
           <View style={styles.MainTextCont}>
             <Text style={styles.MainTitle}>Welcome to Chearful!</Text>
             <Text style={styles.MainSubtitle}>
-              Mental Health, Built Around You
+              Mental Health Built Around You
             </Text>
           </View>
           <View style={styles.Errorbox}>
@@ -155,10 +157,11 @@ const Login = ({ navigation }) => {
                 mode="flat"
                 label="Email"
                 placeholder="Enter Your Email Address"
+                placeholderTextColor={ColorWithopacity(NoteAppcolor.Primary, 0.6)}
                 underlineColor={"#EFF3F2"}
                 style={{
                   backgroundColor: "#EFF3F2",
-                  height: Hp(40),
+                  height: Platform.OS == "ios" ? Hp(45) : Hp(50),
                   fontSize: Wp(14),
                 }}
                 underlineStyle={{ borderRadius: Wp(18) }}
@@ -184,9 +187,10 @@ const Login = ({ navigation }) => {
                 label="Password"
                 placeholder="Enter Your Password"
                 underlineColor={"#EFF3F2"}
+                placeholderTextColor={ColorWithopacity(NoteAppcolor.Primary, 0.6)}
                 style={{
                   backgroundColor: "#EFF3F2",
-                  height: Hp(40),
+                  height: Platform.OS == "ios" ? Hp(45) : Hp(50),
                   fontSize: Wp(14),
                 }}
                 underlineStyle={{ borderRadius: Wp(18) }}
@@ -204,7 +208,7 @@ const Login = ({ navigation }) => {
                 navigation.navigate("Auth_ResetPass");
               }}
             >
-              Forget Password?
+              Forgot Password?
             </Text>
           </View>
         </View>

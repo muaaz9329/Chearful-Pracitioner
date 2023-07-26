@@ -14,6 +14,7 @@ import Resetbtn from "./Components/Resetbtn";
 import ActionSheet from "react-native-actions-sheet";
 import AndroidUpperControl from "./Components/AndroidUpperControl";
 import AndroidColorControl from "./Components/AndroidColorControl";
+import { UpdateOpacity, UpdateStrokeWidth } from "../utils/features/Brush-Control/BrushControl";
 const CanvasControl = ({ DismissRef, CanvasRef }) => {
   const [open, setOpen] = useState({
     style: { display: "none" },
@@ -37,6 +38,18 @@ const CanvasControl = ({ DismissRef, CanvasRef }) => {
       setOpen2({ style: { display: "none" }, isOpen: false });
     }
   }, [HideModel]);
+
+
+  //! Only for Android Due to some stupid GLitch of dancing slider
+  useEffect(()=>{
+    if(Platform.OS === "android"){
+        Dispatch(UpdateStrokeWidth(20))
+        Dispatch(UpdateOpacity(1))
+    }
+  },[])
+
+
+
 
   /**
    * @description this function is used to open and close the upper control component

@@ -28,7 +28,7 @@ const TypeOfNote = ({
   // data is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
   const NotesTypeData = [
     {
-      name: "Written",
+      name: "Write",
       icon: DocIcon.canvas,
       type: "canvas",
       Loc: "Prac_WrittenEditor",
@@ -60,11 +60,11 @@ const TypeOfNote = ({
     
   ];
 
-  const [text, setText] = useState("Written");
+  const [text, setText] = useState("Write");
   const MODE = "edit";
   const hideModal = () => {
     setVisible(false);
-    setText("Written");
+    setText("Write");
   };
 
   const CoursalRef = useRef(null);
@@ -97,7 +97,7 @@ const TypeOfNote = ({
 
     hideModal();
     setTimeout(() => {
-      setText("Written");
+      setText("Write");
     }, 1000);
   };
   return (
