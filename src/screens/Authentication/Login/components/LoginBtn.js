@@ -19,10 +19,10 @@ const LoginBtn = ({ HandleLogin, Validation }) => {
 
   // this is whole animation of the Login Button
   const LoginTextAnimation = useRef(new Animated.Value(0)).current;
-  const LoginIndicator = useRef(new Animated.Value(200)).current;
+  const LoginIndicator = useRef(new Animated.Value(Wp(200))).current;
   const LoginAnimation = () => {
     Animated.timing(LoginTextAnimation, {
-      toValue: -200,
+      toValue: Wp(-200),
       duration: 700,
 
       useNativeDriver: false,
@@ -35,12 +35,12 @@ const LoginBtn = ({ HandleLogin, Validation }) => {
   }; // this function will be called when the user is logged in and the Login Button will be animated
   const Not_Able_To_Login = () => {
     Animated.timing(LoginTextAnimation, {
-      toValue: 0,
+      toValue:Wp(0),
       duration: 700,
       useNativeDriver: false,
     }).start();
     Animated.timing(LoginIndicator, {
-      toValue: 200,
+      toValue: Wp(200),
       duration: 700,
       useNativeDriver: false,
     }).start();

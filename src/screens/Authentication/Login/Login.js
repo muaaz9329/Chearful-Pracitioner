@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "@app/features/authReducer/authReducer";
 import LoginBtn from "./components/LoginBtn";
 import { ColorWithopacity } from "@app/helper/customFunction";
+import Toast from "react-native-toast-message";
 
 const Login = ({ navigation }) => {
   const { Success, error } = useSelector((state) => state.auth); // consist of State that tells Weather the user is logged in or not , True means logged in , False means not logged in
@@ -101,6 +102,23 @@ const Login = ({ navigation }) => {
     }
   }, [error]); // use to control the style of input box border when error occurs
 
+
+  useEffect(()=>{
+    if(validation.state){
+      Toast.show({
+        type: "ErrorToast",
+        text1: validation.error,
+      })
+    }
+    else if(error.status){
+      Toast.show({
+        type: "ErrorToast",
+        text1: "Please Enter Correct Email or Password",
+      })
+    }
+      
+  },[validation,error])
+
   return (
     <View style={styles.Container}>
       <KeyboardAwareScrollView enableOnAndroid={true}>
@@ -128,7 +146,7 @@ const Login = ({ navigation }) => {
               Mental Health Built Around You
             </Text>
           </View>
-          <View style={styles.Errorbox}>
+          {/* <View style={styles.Errorbox}>
             {error.status && (
               <Text style={styles.Errortext}>
                 Please Enter Correct Email or Password
@@ -137,7 +155,7 @@ const Login = ({ navigation }) => {
             {validation.state && (
               <Text style={styles.Errortext}>{validation.error}</Text>
             )}
-          </View>
+          </View> */}
           <View style={{ alignItems: "center" }}>
             <View
               style={[
