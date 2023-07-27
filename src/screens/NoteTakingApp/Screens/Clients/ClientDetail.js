@@ -177,7 +177,7 @@ const ClientDetail = ({ navigation, route }) => {
           <Text style={styles.MainText}>{SelectedClientDetail.full_name}</Text>
           <Text style={styles.ProfileSub}>24 Years Old</Text>
           <Text style={styles.ProfileSub}>
-            Last visit on{" "}
+            Last Session :{" "}
             {
               DateConstrctor(new Date(SelectedClientDetail.latest_session_date))
                 .Date

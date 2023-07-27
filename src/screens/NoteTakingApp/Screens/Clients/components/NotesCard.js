@@ -18,10 +18,9 @@ import { ClockIcon } from "@app/svgs/Index";
 import FileIconGenrator from "@app/screens/NoteTakingApp/Screens/Session/components/FileIconGenrator";
 import { NotesCardAdapterFunction } from "./adapters/NotesCardAdapter";
 
-const NotesCard = ({ Arr , navigation, ClientData }) => {
+const NotesCard = ({ Arr, navigation, ClientData }) => {
   const VIEW_MODE = "view";
   const EDIT_MODE = "edit";
-
 
   const HandleNavigation = (item) => {
     const Pram = new User_Session_Notes_Editor_Pram_object(
@@ -94,7 +93,7 @@ const NotesCard = ({ Arr , navigation, ClientData }) => {
               <View style={styles.Content}>
                 <View style={styles.TopText}>
                   <Text style={styles.Date}>
-                    {DateConstrctor(new Date(item.created_at)).Date} 
+                    {DateConstrctor(new Date(item.created_at)).Date}
                   </Text>
                   {!(item.created_at === item.updated_at) && (
                     <View style={styles.TimeCont}>
@@ -115,10 +114,14 @@ const NotesCard = ({ Arr , navigation, ClientData }) => {
                 </View>
                 <View style={styles.BottomCont}>
                   <Text style={styles.Time}>
-                    {`Last Edit ${
+                    {`Last Edited : ${
                       DateConstrctor(new Date(item.updated_at)).Time
-                    }, ${DateConstrctor(new Date(item.updated_at)).Date}`} 
-                    
+                    } ${
+                      DateConstrctor(new Date(item.updated_at)).Date ===
+                      DateConstrctor(new Date(item.created_at)).Date
+                        ? ""
+                        : ", " + DateConstrctor(new Date(item.updated_at)).Date
+                    }`}
                   </Text>
                 </View>
               </View>
@@ -203,13 +206,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: Wp(3),
   },
   Date: {
-    fontSize: Wp(14.5),
+    fontSize: Wp(14),
     fontFamily: Nunito(800),
     color: NoteAppcolor.Primary,
   },
   Time: {
     fontFamily: Nunito(500),
-    fontSize: Wp(13),
+    fontSize: Wp(12),
     color: NoteAppcolor.Primary,
   },
   IconText: {

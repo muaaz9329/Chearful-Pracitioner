@@ -56,6 +56,7 @@ if(ApiQueryDate!==null){
             setOpen(false);
           }}
           androidVariant={"iosClone"}
+          
         />
       </Pressable>}
       </View>
@@ -87,6 +88,6 @@ const styles = StyleSheet.create({
     color: NoteAppcolor.Primary,
     opacity: 0.7,
     fontFamily: Mulish("600"),
-    fontSize: FontSize(13),
+    fontSize: FontSize(12),
   },
 });

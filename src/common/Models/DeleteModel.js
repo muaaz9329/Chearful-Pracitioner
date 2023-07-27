@@ -54,7 +54,7 @@ const DeleteModel = ({ navigation, visible, setVisible, NoteId }) => {
 
         <View style={styles.content}>
           <Text style={styles.contentText}>
-            Are You Sure You Want To Delete This Document?
+            Are You Sure You Want To Delete This Note?
           </Text>
           <View style={styles.btnCont}>
             <TouchableOpacity

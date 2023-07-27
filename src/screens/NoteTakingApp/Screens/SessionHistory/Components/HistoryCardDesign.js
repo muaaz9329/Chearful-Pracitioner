@@ -53,7 +53,7 @@ import {
           <View style={[styles.secondRow, styles.row]}>
             <View style={styles.DealsWithCont}>
               <Text style={styles.DealwithText}>
-                status : {data.status}
+                Status : {data.status}
               </Text>
             </View>
           </View>
@@ -135,7 +135,7 @@ import {
     },
     DealwithText: {
       fontSize: Wp(10),
-      fontWeight: Mulish(600),
+      fontWeight: Mulish(800),
       color: Colors.Primary,
       lineHeight: Wp(12),
       opacity: 1,
@@ -143,7 +143,7 @@ import {
     },
     DealwithText2: {
       fontSize: Wp(10),
-      fontWeight: Mulish(600),
+      fontWeight: Mulish(700),
       color: Colors.textColor,
       lineHeight: Wp(12),
       opacity: 0.7,

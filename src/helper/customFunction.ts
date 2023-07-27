@@ -184,18 +184,18 @@ export const DateConstrctor = (date: Date): any => {
   const month = String(date).slice(4, 7).toLowerCase();
   
   const day = String(date).slice(8, 10);
-  const year = String(date).slice(13, 15); // change this to 11 , 15 for 2023 date
+  const year = String(date).slice(11, 15); // change this to 11 , 15 for 2023 date
 
   var hours = date.getHours();
   var minutes: number | string = date.getMinutes();
-  var ampm = hours >= 12 ? "pm" : "am";
+  var ampm = hours >= 12 ? "PM" : "AM";
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = minutes < 10 ? "0" + minutes : minutes;
   var strTime = hours + ":" + minutes + " " + ampm;
   ReturnedObj.Time = strTime;
 
-  ReturnedObj.Date = `${day} ${month}, ${year}`;
+  ReturnedObj.Date = `${day} ${capitalizeFirstLetter(month)}, ${year}`;
   try{
     ReturnedObj.ApiDateQuery = date.toISOString().split('T')[0] // Returns the date in YYYY-MM-DD format
 //! dont remove this from try catch , as it only works in try catch for some reason
@@ -311,6 +311,12 @@ function formatTime(date:Date) {
 }
 
 
+/**
+ * @description converts file to base64
+ * @param filePath : string , which is path of file
+ * @returns base64 string
+ */
+
 export const convertFileToBase64 = async (filePath:string) => {
   try {
     const fileContents = await RNFS.readFile(filePath, 'base64');
@@ -321,6 +327,11 @@ export const convertFileToBase64 = async (filePath:string) => {
   }
 };
 
+/**
+ * @description format date with suffix of st nd rd th
+ * @param currentDate : Date , which is current date
+ * @returns returns object with day and month
+ */
 
 export function formatDateWithdaySuffix(currentDate:Date) {
  

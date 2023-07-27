@@ -219,7 +219,7 @@ const SaveModel = ({
 
         <View style={styles.content}>
           <Text style={styles.contentText}>
-            Are You Sure You Want To Save This Document?
+            Are You Sure You Want To Save This Note?
           </Text>
           <View style={styles.btnCont}>
             <TouchableOpacity

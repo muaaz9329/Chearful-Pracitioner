@@ -200,13 +200,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: Wp(3),
   },
   Date: {
-    fontSize: Wp(14.5),
+    fontSize: Wp(14),
     fontFamily: Nunito(800),
     color: NoteAppcolor.Primary,
   },
   Time: {
     fontFamily: Nunito(500),
-    fontSize: Wp(13),
+    fontSize: Wp(12),
     color: NoteAppcolor.Primary,
   },
   IconText: {
