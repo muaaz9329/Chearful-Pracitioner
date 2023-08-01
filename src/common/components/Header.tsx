@@ -4,6 +4,7 @@ import { Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { ChearfulLogo } from "@svg";
 import { NavigationProp } from "@react-navigation/native";
+import { IconComponent } from "@app/types";
 interface HeaderProps {
   Icon:IconComponent,
   children ?:ReactNode,

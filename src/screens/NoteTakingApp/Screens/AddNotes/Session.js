@@ -59,8 +59,11 @@ const Session = ({ navigation }) => {
       <LoadingScreen ref={LoadingRef} type={"loader"} />
       <SafeAreaView style={styles.Body} edges={["top", "left", "right"]}>
         <View style={{ marginBottom: Wp(20) }}>
-          <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
-            <Text style={styles.Text}>Sessions</Text>
+          <Header Icon={ChevronLeft} navigation={navigation} pram={"back"} justifyContent="flex-start">
+          <View style={styles.HeaderCont}>
+            <Text style={styles.HeaderTitle}>Session</Text>
+            <Text style={styles.SubHeaderTitle}>Select the Session to Add Notes</Text>
+          </View>
           </Header>
         </View>
 
@@ -108,4 +111,19 @@ const styles = StyleSheet.create({
   cardCont: {
     marginTop: Wp(15),
   },
+  HeaderTitle:{
+    fontFamily: Mulish(700),
+    fontSize: FontSize(16),
+    color: NoteAppcolor.Primary,
+
+  },
+  SubHeaderTitle:{
+    fontFamily: Mulish(400),
+    fontSize: FontSize(13),
+    color: NoteAppcolor.Primary,
+    opacity:0.7
+  },
+  HeaderCont:{
+    marginStart:Wp(10)
+  }
 });

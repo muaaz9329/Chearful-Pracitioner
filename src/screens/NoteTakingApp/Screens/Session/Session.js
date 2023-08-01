@@ -3,12 +3,9 @@ import React, { useEffect, useReducer, useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
-import { ChevronLeft } from "@svg";
-import Header from "@CommonComponents/Header";
 import CardDesign from "./components/CardDesign";
 import SessionData from "../../Data/SessionData.js";
 import AnimatedFlatList from "@constants/AnimatedFlatList";
-import DateAndFilter from "./components/DateAndFilter";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -20,6 +17,7 @@ import {
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import { ActivityIndicator } from "react-native-paper";
 import NotAvil from "@app/common/components/NotAvil";
+import SessionScreenHeader from "./components/SessionScreenHeader";
 
 const Session = ({ navigation }) => {
   const [data, setData] = useState(SessionData);
@@ -53,40 +51,43 @@ const Session = ({ navigation }) => {
     setData(Data);
   }, [Data]); // To assign the data from the API to the data State to be used in the FlatList
 
+  const NotAvailString = () => {
+    if (ApiQueryDate === new Date().toISOString().split("T")[0]) {
+      return " No Sessions today! ";
+    } else {
+      return " No Sessions on this day! ";
+    }
+  };
+
   return (
     <>
-      <LoadingScreen ref={LoadingRef} type={'loader'} />
+      <LoadingScreen ref={LoadingRef} type={"loader"} />
       <SafeAreaView
         style={{ backgroundColor: NoteAppcolor.White, flex: 1 }}
         edges={["top", "right", "left"]}
       >
         <View style={styles.Body}>
-          <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
-            <Text style={styles.Text}>Sessions</Text>
-          </Header>
-          <DateAndFilter ApiQueryDate={setApiQueryDate} />
+          <SessionScreenHeader ApiQueryDate={setApiQueryDate} navigation={navigation} />
         </View>
 
         {loading ? (
           <View style={styles.activityIndicator}>
             <ActivityIndicator size={"small"} color={NoteAppcolor.Primary} />
           </View>
+        ) : HasSession ? (
+          <AnimatedFlatList
+            data={data}
+            renderItem={({ item, index }) => (
+              <CardDesign Data={item} key={index} navigation={navigation} />
+            )}
+            contentContainerStyle={{
+              paddingTop: Wp(10),
+              alignItems: "center",
+            }}
+            showsVerticalScrollIndicator={false}
+          />
         ) : (
-          HasSession ? (
-            <AnimatedFlatList
-              data={data}
-              renderItem={({ item, index }) => (
-                <CardDesign Data={item} key={index} navigation={navigation} />
-              )}
-              contentContainerStyle={{
-                paddingTop: Wp(10),
-                alignItems: "center",
-              }}
-              showsVerticalScrollIndicator={false}
-            />
-          ) : (
-            <NotAvil Title={"No Sessions on this day"} />
-          )
+          <NotAvil Title={NotAvailString()} />
         )}
       </SafeAreaView>
     </>

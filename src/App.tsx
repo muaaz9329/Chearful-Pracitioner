@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setLogOut } from "./features/utils-States/utilsReducers";
 import Toast, { ToastConfig } from "react-native-toast-message";
 import Config from "./common/Module/Toasts/ToastConfig";
+import SessionScreenHeader from "./screens/NoteTakingApp/Screens/Session/components/SessionScreenHeader";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -68,6 +69,7 @@ const App = () => {
       </NavigationContainer>
       <Toast config={Config as ToastConfig} />
     </>
+    
   );
 };
 

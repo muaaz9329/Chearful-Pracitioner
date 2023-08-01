@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
   DealwithText: {
     fontSize: Wp(10),
-    fontWeight: Mulish(600),
+    fontFamily: Mulish(600),
     color: Colors.textColor,
     lineHeight: Wp(12),
     opacity: 0.7,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
   DealwithText2: {
     fontSize: Wp(10),
-    fontWeight: Mulish(600),
+    fontFamily: Mulish(600),
     color: Colors.textColor,
     lineHeight: Wp(12),
     opacity: 0.7,

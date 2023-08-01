@@ -160,8 +160,11 @@ const Client = ({ navigation }) => {
     <>
       <LoadingScreen type={"loader"} ref={LoadingRef} />
       <SafeAreaView style={styles.Body} edges={["top", "left", "right"]}>
-        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
-          <Text style={styles.Text}>Clients</Text>
+        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"} justifyContent="flex-start">
+          <View style={styles.HeaderCont}>
+            <Text style={styles.HeaderTitle}>Clients</Text>
+            <Text style={styles.SubHeaderTitle}>Select the Client to get Sessions</Text>
+          </View>
         </Header>
         <SearchBox
           state={ClientInfo}
@@ -385,4 +388,19 @@ const styles = StyleSheet.create({
     fontSize: Wp(18),
     textAlign: "center",
   },
+  HeaderTitle:{
+    fontFamily: Mulish(700),
+    fontSize: FontSize(16),
+    color: NoteAppcolor.Primary,
+
+  },
+  SubHeaderTitle:{
+    fontFamily: Mulish(400),
+    fontSize: FontSize(13),
+    color: NoteAppcolor.Primary,
+    opacity:0.7
+  },
+  HeaderCont:{
+    marginStart:Wp(10)
+  }
 });

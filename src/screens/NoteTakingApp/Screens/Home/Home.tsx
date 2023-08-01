@@ -31,45 +31,64 @@ import { Mulish, Nunito } from "@helper/FontWeight";
 import LogoutModel from "@models/LogoutModel";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
-import {  SetUserData } from "@app/features/HomeReducer/HomeReducer";
+import { SetUserData } from "@app/features/HomeReducer/HomeReducer";
 import { ActivityIndicator } from "react-native-paper";
 import { ApiServices } from "@app/services/Apiservice";
 import { formatDateWithdaySuffix } from "@app/helper/customFunction";
-import { NavigationHelpers, NavigationProp } from "@react-navigation/native";
+import { NavigationHelpers,} from "@react-navigation/native";
 import Toast from "react-native-toast-message";
-import NetInfo from '@react-native-community/netinfo';
+import NetInfo from "@react-native-community/netinfo";
+
+const getGreeting = (): string => {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+
+  if (currentHour >= 5 && currentHour < 12) {
+    return "Good Morning";
+  } else if (currentHour >= 12 && currentHour < 17) {
+    return "Good Afternoon";
+  } else if (currentHour >= 17 && currentHour < 21) {
+    return "Good Evening";
+  } else {
+    return "Good Night";
+  }
+};
 
 interface HomeProps {
   navigation: NavigationHelpers<any, any>;
 }
 
-const Home : React.FC<HomeProps> = ({ navigation }) => {
+const Home: React.FC<HomeProps> = ({ navigation }) => {
   const [model, setModel] = useState<boolean>(false);
-  const { Success, UserInfo } = useSelector((state:any) => state.Home);
+  const { Success, UserInfo } = useSelector((state: any) => state.Home);
   const dispatch = useDispatch();
-  const {day,month} = formatDateWithdaySuffix(new Date());
+  const { day, month } = formatDateWithdaySuffix(new Date());
 
   useEffect(() => {
-    ApiServices.GetUserInfo(SetUserData , dispatch)
+    ApiServices.GetUserInfo(SetUserData, dispatch);
   }, []);
+  const greeting = getGreeting();
 
   useEffect(() => {
     NetInfo.fetch().then((state) => {
-      if((state.isConnected===false || null)|| (state.isInternetReachable===false || null)){
+      if (
+        state.isConnected === false ||
+        null ||
+        state.isInternetReachable === false ||
+        null
+      ) {
         Toast.show({
           type: "ErrorToast",
           text1: "No Internet",
           text2: "Please check your internet connection",
-        })
+        });
       }
-     
-    })
-  },[]) // use to check internet connection
+    });
+  }, []); // use to check internet connection
 
-  
-// console.log(UserInfo)
+  // console.log(UserInfo)
   return (
-    <SafeAreaView edges={['top']} style={{backgroundColor:"#fff", flex:1}}>
+    <SafeAreaView edges={["top"]} style={{ backgroundColor: "#fff", flex: 1 }}>
       {Success ? (
         <ScrollView showsVerticalScrollIndicator={false}>
           <LogoutModel
@@ -110,12 +129,12 @@ const Home : React.FC<HomeProps> = ({ navigation }) => {
               duration={1500}
             >
               <View>
-                <Text style={styles.GoodMessage}>Good morning,</Text>
+                <Text style={styles.GoodMessage}>{greeting},</Text>
                 <Text style={styles.UserName}>{UserInfo.first_name}</Text>
               </View>
               <View>
                 <Image
-                  source={{ uri: UserInfo.profile_image}}
+                  source={{ uri: UserInfo.profile_image }}
                   style={styles.UserImage}
                 />
               </View>
@@ -138,8 +157,11 @@ const Home : React.FC<HomeProps> = ({ navigation }) => {
                     </View>
                   </View>
                 </Pressable>
-                <Pressable onPress={() => navigation.navigate("Prac_NoteScreen")}>
+                <Pressable
+                  onPress={() => navigation.navigate("Prac_NoteScreen")}
+                >
                   <View style={[styles.SquareCont, styles.NotesCont]}>
+                    <Text style={styles.MenuText}>Recent</Text>
                     <Text style={styles.MenuText}>Notes</Text>
                     <View style={styles.MenuImage}>
                       <JournalImg11
@@ -183,7 +205,7 @@ const Home : React.FC<HomeProps> = ({ navigation }) => {
                 </Pressable>
               </Animatable.View>
             </View>
-            <Pressable onPress={() => navigation.navigate("Prac_SessionHistory")}>
+            <Pressable>
               <Animatable.View
                 style={styles.infoCont}
                 animation="slideInUp"
@@ -192,24 +214,22 @@ const Home : React.FC<HomeProps> = ({ navigation }) => {
               >
                 <View style={styles.infoContImg}>
                   <JournalImg5
-                    width={wp(2.5 * 9.031)}
-                    height={hp(1.5 * 10.115)}
+                    width={wp(2.5 * 13.031)}
+                    height={hp(1.5 * 14.115)}
                   />
                 </View>
                 <View>
                   <Text style={styles.dateStyle}>
-                    {day}<Text style={styles.MonthStyle}> {month}</Text>{" "}
+                    {day}
+                    <Text style={styles.MonthStyle}> {month}</Text>{" "}
                   </Text>
                 </View>
                 <View style={styles.TodayInfoCont}>
                   <View>
-                    <Text style={styles.nmbrStyle}>5</Text>
-                    <Text style={styles.nmbrOfStyle}>Sessions</Text>
-                  </View>
-
-                  <View>
-                    <Text style={styles.nmbrStyle}>3</Text>
-                    <Text style={styles.nmbrOfStyle}>Clients</Text>
+                    <Text style={styles.nmbrStyle}>
+                      {UserInfo.No_Of_Upcoming_Session_Today}
+                    </Text>
+                    <Text style={styles.nmbrOfStyle}>{UserInfo.No_Of_Upcoming_Session_Today ===1 ? "Session" : "Sessions"}</Text>
                   </View>
                 </View>
               </Animatable.View>
@@ -378,9 +398,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 999,
 
-    alignSelf: "center",
+    alignSelf: "flex-end",
     justifyContent: "flex-end",
     height: Wp(164),
+    paddingRight: Wp(20),
   },
   ActivityIndicatorCont: {
     flex: 1,

@@ -16,7 +16,7 @@ const Get_User_Session_Notes_ApiFunc = async (
     //   session_id: session_id,
     // });
 
-    const URL = `https://dev.chearful.com/api/v2/practitioner/load-session-notes?client_id=${client_id}&session_id=${session_id}`
+    const URL = `https://chearful.com/api/v2/practitioner/load-session-notes?client_id=${client_id}&session_id=${session_id}`
     const Token = await GetAccessToken();
     console.log(Token);
     const response = await axios.get(URL, {
