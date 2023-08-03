@@ -1,4 +1,9 @@
-export const BASE_URL = "https://chearful.com/api/v2"
+
+const Prod_Base_URL="https://chearful.com/api/v2"
+const Dev_Base_URL="https://dev.chearful.com/api/v2"
+
+export const BASE_URL =Prod_Base_URL
+
 
 // GET REQUESTS
 export const Get_User_Info = "/get-user" // this is the route to get the user info

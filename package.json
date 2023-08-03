@@ -1,6 +1,6 @@
 {
   "name": "chearfulpractitionerapp",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -10,6 +10,8 @@
     "clean:android": "cd android && ./gradlew clean && cd ../",
     "clean:ios": "cd ios && xcodebuild clean && cd ../",
     "release:android": "cd android && ./gradlew assembleRelease && cd ../",
+    "install:ios": "cd ios && pod install && cd ../",
+    "version":"react-native-version --never-amend",
     "test": "jest",
     "lint": "eslint ."
   },
