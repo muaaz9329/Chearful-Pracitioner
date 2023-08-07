@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setLogOut } from "./features/utils-States/utilsReducers";
 import Toast, { ToastConfig } from "react-native-toast-message";
 import Config from "./common/Module/Toasts/ToastConfig";
+import DeviceTypeProvider from "./context/Device-Type/DeviceTypeProvider";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -32,8 +33,6 @@ const App = () => {
     }
   }, [logOut]); // watching :- logOut state
 
-  
-
   const checkLogin = async (): Promise<void> => {
     const GetToken = await AsyncStorage.getItem("USER_accessToken");
     if (GetToken != null) {
@@ -47,13 +46,8 @@ const App = () => {
     SetLogin(false);
   }; // logs the user out
 
-  
-
-
-
-
   return (
-    <>
+    <DeviceTypeProvider>
       <StatusBar barStyle={"dark-content"} />
       <NavigationContainer>
         {IsLogedIn !== null && (
@@ -67,8 +61,7 @@ const App = () => {
         )}
       </NavigationContainer>
       <Toast config={Config as ToastConfig} />
-    </>
-    
+    </DeviceTypeProvider>
   );
 };
 

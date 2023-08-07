@@ -8,7 +8,7 @@ import {
   Linking,
   Platform,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import * as Animatable from "react-native-animatable";
 import {
   widthPercentageToDP as wp,
@@ -35,9 +35,10 @@ import { SetUserData } from "@app/features/HomeReducer/HomeReducer";
 import { ActivityIndicator } from "react-native-paper";
 import { ApiServices } from "@app/services/Apiservice";
 import { formatDateWithdaySuffix } from "@app/helper/customFunction";
-import { NavigationHelpers,} from "@react-navigation/native";
+import { NavigationHelpers } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import NetInfo from "@react-native-community/netinfo";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
 const getGreeting = (): string => {
   const currentTime = new Date();
@@ -60,14 +61,20 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ navigation }) => {
   const [model, setModel] = useState<boolean>(false);
+
+  //* Redux
   const { Success, UserInfo } = useSelector((state: any) => state.Home);
   const dispatch = useDispatch();
+
+  //* Some Const for Date
   const { day, month } = formatDateWithdaySuffix(new Date());
+  const greeting = getGreeting();
+
+  const { deviceType } = useContext(DeviceContext);
 
   useEffect(() => {
     ApiServices.GetUserInfo(SetUserData, dispatch);
-  }, []);
-  const greeting = getGreeting();
+  }, []); // Api service use to get user info
 
   useEffect(() => {
     NetInfo.fetch().then((state) => {
@@ -86,7 +93,6 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     });
   }, []); // use to check internet connection
 
-  // console.log(UserInfo)
   return (
     <SafeAreaView edges={["top"]} style={{ backgroundColor: "#fff", flex: 1 }}>
       {Success ? (
@@ -128,9 +134,29 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
               easing="ease-in-out"
               duration={1500}
             >
-              <View>
-                <Text style={styles.GoodMessage}>{greeting},</Text>
-                <Text style={styles.UserName}>{UserInfo.first_name}</Text>
+              <View
+                style={{
+                  flexDirection: deviceType === "tablet" ? "row" : "column",
+                  alignItems: deviceType === "tablet" ? "center" : "flex-start",
+                  justifyContent:
+                    deviceType === "tablet" ? "space-between" : "flex-start",
+                }}
+              >
+                <Text
+                  style={[
+                    styles.GoodMessage,
+                    deviceType === "tablet" && 
+                    {
+                      fontSize: FontSize(14),
+                      marginRight: Wp(5),
+                    },
+                  ]}
+                >
+                  {greeting},
+                </Text>
+                <Text style={[styles.UserName, deviceType === "tablet" &&  { fontSize: FontSize(14) }]}>
+                  {UserInfo.first_name}
+                </Text>
               </View>
               <View>
                 <Image
@@ -229,7 +255,11 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
                     <Text style={styles.nmbrStyle}>
                       {UserInfo.No_Of_Upcoming_Session_Today}
                     </Text>
-                    <Text style={styles.nmbrOfStyle}>{UserInfo.No_Of_Upcoming_Session_Today ===1 ? "Session" : "Sessions"}</Text>
+                    <Text style={styles.nmbrOfStyle}>
+                      {UserInfo.No_Of_Upcoming_Session_Today === 1
+                        ? "Session"
+                        : "Sessions"}
+                    </Text>
                   </View>
                 </View>
               </Animatable.View>
