@@ -6,17 +6,25 @@ import {
   Animated,
   Easing,
 } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
-import { FontSize, Wp } from "@app/helper/CustomResponsive";
+import { FontSize, Hp, Wp } from "@app/helper/CustomResponsive";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { Nunito } from "@app/helper/FontWeight";
 import { ActivityIndicator } from "react-native-paper";
 import { useSelector } from "react-redux";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
-const LoginBtn = ({ HandleLogin, Validation }) => {
-  const { loading, Success, error } = useSelector((state) => state.auth); // consist of State that tells Weather the user is logged in or not , have a loading state and a error state and a success state
+interface Props {
+  HandleLogin: () => void;
+  Validation: { state: boolean; error: string };
+}
 
+const LoginBtn = ({ HandleLogin, Validation }:Props) => {
+  //TODO:  State Types Redux needed to be added
+  const { loading, Success, error } = useSelector((state:any) => state.auth); // consist of State that tells Weather the user is logged in or not , have a loading state and a error state and a success state
+
+  const {deviceType} = useContext(DeviceContext) // tells the device type of the user like mobile or tablet
   // this is whole animation of the Login Button
   const LoginTextAnimation = useRef(new Animated.Value(0)).current;
   const LoginIndicator = useRef(new Animated.Value(Wp(200))).current;
@@ -64,7 +72,12 @@ const LoginBtn = ({ HandleLogin, Validation }) => {
         }, 1000);
       }}
     >
-      <View style={styles.btn}>
+      <View style={[styles.btn,
+      deviceType ==='tablet' &&{
+        width: widthPercentageToDP(70),
+        height: Hp(38),
+        borderRadius: Wp(10),
+      }]}>
         <View style={styles.btnCont}>
           <Animated.Text
             style={[
@@ -73,6 +86,9 @@ const LoginBtn = ({ HandleLogin, Validation }) => {
                 transform: [{ translateX: LoginTextAnimation }],
                 position: "absolute",
               },
+              deviceType ==='tablet' &&{
+                fontSize: FontSize(12),
+              }
             ]}
           >
             Login
@@ -80,7 +96,7 @@ const LoginBtn = ({ HandleLogin, Validation }) => {
           <Animated.View
             style={{ transform: [{ translateX: LoginIndicator }] }}
           >
-            <ActivityIndicator color="#fff" size="small" />
+            <ActivityIndicator color="#fff" size={deviceType ==='mobile' ? "small" : "large"} />
           </Animated.View>
         </View>
       </View>
