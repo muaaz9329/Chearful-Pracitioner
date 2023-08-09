@@ -5,6 +5,7 @@ import {
   View,
   Linking,
   Platform,
+  Pressable,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -286,6 +287,17 @@ const Login = ({ navigation }: props) => {
           </View>
         </View>
       </KeyboardAwareScrollView>
+      <View style={styles.signupCont}>
+        <Pressable style={[styles.Signupbtn,deviceType==='tablet'&& styles.SignupbtnTablet ]}
+        onPress={()=>{
+          Linking.openURL('https://chearful.com/practitioner-signup')
+        }}
+        >
+          <Text style={[styles.btnText , deviceType==='tablet'&& styles.btnText_tablet]}>
+          Don’t have account? Sign Up
+          </Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -293,6 +305,29 @@ const Login = ({ navigation }: props) => {
 export default Login;
 
 const styles = StyleSheet.create({
+  signupCont: {
+    alignSelf:"center",
+
+    
+    position:'absolute',
+    bottom:Wp(35)
+  },
+  Signupbtn:{
+    backgroundColor: NoteAppcolor.OffWhiteCont,
+    width: wp(85),
+    paddingVertical: Wp(15),
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: Wp(16),
+    marginTop: Wp(20),
+
+    height: Wp(56),
+  },
+  btnText:{
+    fontFamily: Nunito(400),
+    fontSize: Wp(16),
+    color: NoteAppcolor.Primary,
+  },
   Container: {
     flex: 1,
     backgroundColor: "#ffffff",
@@ -354,4 +389,15 @@ const styles = StyleSheet.create({
     fontSize: FontSize(10),
     textAlign: "center",
   },
+  SignupbtnTablet:{
+    width: wp(70),
+        height: Hp(45),
+        borderRadius: Wp(10),
+        paddingVertical: Wp(0),
+  },
+  btnText_tablet:{
+    fontSize: FontSize(10),
+    
+    
+  }
 });

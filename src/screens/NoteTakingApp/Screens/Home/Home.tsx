@@ -201,8 +201,8 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
                   navigation={navigation}
                   Doodle={
                     <JournalImg12
-                      width={wp((deviceType === "tablet" ? 1.5 : 2.5) * 12.9)}
-                      height={wp((deviceType === "tablet" ? 1.5 : 2.5) * 14.1)}
+                      width={wp((deviceType === "tablet" ? 1.3 : 2.5) * 12.9)}
+                      height={wp((deviceType === "tablet" ? 1.3 : 2.5) * 14.1)}
                     />
                   }
                 />
@@ -217,8 +217,16 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
                   location={"Prac_NoteScreen"}
                   navigation={navigation}
                   style={{ marginTop: Hp(12) }}
+                  doodleStyle={[
+                    deviceType === "mobile" && {
+                      top: Wp(-25),
+                    },
+                  ]}
                   Doodle={
-                    <JournalImg11 width={wp(2.5 * 10)} height={hp(1.5 * 9.8)} />
+                    <JournalImg11
+                      width={wp((deviceType === "tablet" ? 1.5 : 2.5) * 10)}
+                      height={wp((deviceType === "tablet" ? 1.8 : 2.5) * 9.8)}
+                    />
                   }
                 />
               </Animatable.View>
@@ -230,7 +238,10 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
               >
                 <Container
                   Doodle={
-                    <JournalImg8 width={wp(2.5 * 9)} height={wp(2.5 * 11.8)} />
+                    <JournalImg8
+                      width={wp((deviceType === "tablet" ? 1.5 : 2.5) * 9)}
+                      height={wp((deviceType === "tablet" ? 1.5 : 2.2) * 11.8)}
+                    />
                   }
                   Title={"Clients"}
                   SubTitle={
@@ -245,7 +256,10 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
 
                 <Container
                   Doodle={
-                    <JournalImg6 width={wp(2.5 * 14)} height={wp(2.5 * 14.1)} />
+                    <JournalImg6
+                      width={wp((deviceType === "tablet" ? 1.3 : 2.5) * 14)}
+                      height={wp((deviceType === "tablet" ? 1.3 : 2.5) * 14.1)}
+                    />
                   }
                   Title={"Add Notes"}
                   SubTitle={
@@ -260,29 +274,60 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
             </View>
             <Pressable>
               <Animatable.View
-                style={styles.infoCont}
+                style={[
+                  styles.infoCont,
+                  deviceType === "tablet" && styles.infoCont_Tablet,
+                ]}
                 animation="slideInUp"
                 easing="ease-in-out"
                 duration={1500}
               >
-                <View style={styles.infoContImg}>
+                <View
+                  style={[
+                    styles.infoContImg,
+                    deviceType == "tablet" && styles.infoContImg_Tablet,
+                  ]}
+                >
                   <JournalImg5
-                    width={wp(2.5 * 13.031)}
-                    height={hp(1.5 * 14.115)}
+                    width={wp((deviceType === "tablet" ? 1.3 : 2.5) * 13.031)}
+                    height={hp((deviceType === "tablet" ? 1 : 1.5) * 14.115)}
                   />
                 </View>
                 <View>
-                  <Text style={styles.dateStyle}>
+                  <Text
+                    style={[
+                      styles.dateStyle,
+                      deviceType === "tablet" && styles.dateStyle_tablet,
+                    ]}
+                  >
                     {day}
-                    <Text style={styles.MonthStyle}> {month}</Text>{" "}
+                    <Text
+                      style={[
+                        styles.MonthStyle,
+                        deviceType === "tablet" && styles.monthStyle_tablet,
+                      ]}
+                    >
+                      {" "}
+                      {month}
+                    </Text>{" "}
                   </Text>
                 </View>
                 <View style={styles.TodayInfoCont}>
                   <View>
-                    <Text style={styles.nmbrStyle}>
+                    <Text
+                      style={[
+                        styles.nmbrStyle,
+                        deviceType === "tablet" && styles.nmbrStyle_tablet,
+                      ]}
+                    >
                       {UserInfo.No_Of_Upcoming_Session_Today}
                     </Text>
-                    <Text style={styles.nmbrOfStyle}>
+                    <Text
+                      style={[
+                        styles.nmbrOfStyle,
+                        deviceType === "tablet" && styles.numberofStyle_tablet,
+                      ]}
+                    >
                       {UserInfo.No_Of_Upcoming_Session_Today === 1
                         ? "Session"
                         : "Sessions"}
@@ -399,6 +444,7 @@ const styles = StyleSheet.create({
     height: Wp(164),
     paddingRight: Wp(20),
   },
+
   ActivityIndicatorCont: {
     flex: 1,
     justifyContent: "center",
@@ -437,5 +483,30 @@ const styles = StyleSheet.create({
   },
   cont1_Tablet: {
     marginBottom: Wp(10),
+  },
+  infoCont_Tablet: {
+    alignSelf: "center",
+    width: wp(70),
+    height: Wp(75),
+    borderRadius: Wp(14),
+    paddingTop: Wp(10),
+  },
+  infoContImg_Tablet: {
+    position: "absolute",
+    zIndex: 999,
+    bottom: 0,
+    right: -30,
+  },
+  numberofStyle_tablet: {
+    fontSize: FontSize(8),
+  },
+  nmbrStyle_tablet: {
+    fontSize: FontSize(18),
+  },
+  monthStyle_tablet: {
+    fontSize: FontSize(10),
+  },
+  dateStyle_tablet: {
+    fontSize: FontSize(14),
   },
 });

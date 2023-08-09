@@ -23,6 +23,7 @@ interface Props {
   SubTitle?: string;
   backgroundColor: string;
   style?: StyleProp<ViewStyle>;
+  doodleStyle?: StyleProp<ViewStyle>;
 }
 
 const Container = ({
@@ -34,6 +35,7 @@ const Container = ({
   backgroundColor,
   location,
   style,
+  doodleStyle
 }: Props) => {
   const { deviceType } = useContext(DeviceContext);
   return (
@@ -51,7 +53,7 @@ const Container = ({
           style={[
             styles.MenuText,
             deviceType === "tablet" && {
-              fontSize: FontSize(15),
+              fontSize: FontSize(10),
             },
           ]}
         >
@@ -63,7 +65,8 @@ const Container = ({
 
         <View
           style={
-            deviceType === "tablet" ? styles.MenuImage_Tablet : styles.MenuImage
+            [deviceType === "tablet" ? styles.MenuImage_Tablet : styles.MenuImage,
+            doodleStyle]
           }
         >
           {Doodle}
@@ -92,8 +95,9 @@ const styles = StyleSheet.create({
   },
   RectangleCont_Tablet: {
     width: wp(70),
-    height: Wp(100),
-    borderRadius: Wp(20),
+    height: Wp(60),
+    borderRadius: Wp(14),
+    paddingTop: Wp(10),
   },
   MenuText: {
     fontSize: FontSize(20),
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
     color: "#1D1A0E",
   },
   MenuTextSub_Tablet: {
-    fontSize: Wp(10),
+    fontSize: FontSize(8),
     fontFamily: Nunito(400),
     color: "#1D1A0E",
     opacity: 0.7,
@@ -113,7 +117,8 @@ const styles = StyleSheet.create({
   MenuImage_Tablet: {
     position: "absolute",
     alignSelf: "flex-end",
-    marginTop: Wp(20),
+    bottom: Wp(-10)
+    
   },
   SquareCont: {
     height: wp(40.5),
