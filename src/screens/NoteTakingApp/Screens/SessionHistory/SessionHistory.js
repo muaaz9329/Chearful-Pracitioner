@@ -13,7 +13,6 @@ import { Mulish } from "@app/helper/FontWeight";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 import { FontSize, Wp } from "@app/helper/CustomResponsive";
 import Calender from "./Components/Calender";
-import DateData from "../../Data/DateData";
 import { useRef } from "react";
 import { useEffect } from "react";
 import Carousel from "react-native-reanimated-carousel";

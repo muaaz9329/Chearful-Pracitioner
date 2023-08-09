@@ -4,7 +4,6 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
 import CardDesign from "./components/CardDesign";
-import SessionData from "../../Data/SessionData.js";
 import AnimatedFlatList from "@constants/AnimatedFlatList";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +19,7 @@ import NotAvil from "@app/common/components/NotAvil";
 import SessionScreenHeader from "./components/SessionScreenHeader";
 
 const Session = ({ navigation }) => {
-  const [data, setData] = useState(SessionData);
+  const [data, setData] = useState();
   const Dispatch = useDispatch();
   const LoadingRef = useRef(); // Ref used to control the Loading Screen
   const { HasSession, Success, Data, loading, error } = useSelector(
