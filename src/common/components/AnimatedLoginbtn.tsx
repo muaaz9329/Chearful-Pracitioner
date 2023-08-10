@@ -35,7 +35,7 @@ const AnimatedLoginBtn = ({ HandleFunc, ReducerAction, Text }: Props) => {
     (state: any) => state[ReducerAction]
   ); // consist of State that tells Weather the user is logged in or not , have a loading state and a error state and a success state
 
-  const {deviceType} = useContext(DeviceContext)
+  const { deviceType } = useContext(DeviceContext);
 
   // this is whole animation of the Login Button
   const LoginTextAnimation = useRef(new Animated.Value(0)).current;
@@ -55,7 +55,7 @@ const AnimatedLoginBtn = ({ HandleFunc, ReducerAction, Text }: Props) => {
   }; // this function will be called when the user is logged in and the Login Button will be animated
   const Not_Able_To_Login = () => {
     Animated.timing(LoginTextAnimation, {
-      toValue:Wp(0),
+      toValue: Wp(0),
       duration: 700,
       useNativeDriver: false,
     }).start();
@@ -81,14 +81,18 @@ const AnimatedLoginBtn = ({ HandleFunc, ReducerAction, Text }: Props) => {
         }, 1000);
       }}
     >
-      <View style={[styles.btn,
-        deviceType ==='tablet' &&{
-          width: widthPercentageToDP(70),
-          height: Hp(38),
-          borderRadius: Wp(10),
-        }]}>
-        <View style={[styles.btnCont,
-      ]}>
+      <View
+        style={[
+          styles.btn,
+          deviceType === "tablet" && {
+            width: widthPercentageToDP(70),
+            height: Hp(38),
+            borderRadius: Wp(10),
+            marginVertical: Wp(5),
+          },
+        ]}
+      >
+        <View style={[styles.btnCont]}>
           <Animated.Text
             style={[
               styles.btnText,
@@ -96,9 +100,9 @@ const AnimatedLoginBtn = ({ HandleFunc, ReducerAction, Text }: Props) => {
                 transform: [{ translateX: LoginTextAnimation }],
                 position: "absolute",
               },
-              deviceType ==='tablet' &&{
+              deviceType === "tablet" && {
                 fontSize: FontSize(12),
-              }
+              },
             ]}
           >
             {Text}
@@ -106,7 +110,10 @@ const AnimatedLoginBtn = ({ HandleFunc, ReducerAction, Text }: Props) => {
           <Animated.View
             style={{ transform: [{ translateX: LoginIndicator }] }}
           >
-            <ActivityIndicator color="#fff" size={deviceType ==="tablet"?'large':'small'}/>
+            <ActivityIndicator
+              color="#fff"
+              size={deviceType === "tablet" ? "large" : "small"}
+            />
           </Animated.View>
         </View>
       </View>
@@ -118,7 +125,7 @@ export default AnimatedLoginBtn;
 
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: NoteAppcolor.btnColor,
+    backgroundColor: NoteAppcolor.Primary,
     width: widthPercentageToDP(85),
     paddingVertical: Wp(15),
     justifyContent: "center",
@@ -126,6 +133,7 @@ const styles = StyleSheet.create({
     borderRadius: Wp(12),
 
     height: Wp(43),
+    marginVertical: Wp(20),
   },
   btnText: {
     color: "#fff",

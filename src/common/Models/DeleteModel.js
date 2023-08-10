@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal, Portal } from "react-native-paper";
 import Lottie from "lottie-react-native";
 
@@ -11,9 +11,11 @@ import LoadingAndSuccess from "../animatedComponents/Success/LoadingAndSuccess";
 import { useDispatch } from "react-redux";
 import { RefreshSessionNotes } from "@app/features/SessionNotes/SessionNotes";
 import { setRefresh } from "@app/features/utils-States/utilsReducers";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const DeleteModel = ({ navigation, visible, setVisible, NoteId }) => {
   const Dispatch = useDispatch();
-  
+  const { deviceType } = useContext(DeviceContext);
+
   const [loading, setLoading] = useState(false);
   const animationControl = React.useRef();
   const HandleApi = async () => {
@@ -21,8 +23,8 @@ const DeleteModel = ({ navigation, visible, setVisible, NoteId }) => {
     const response = await ApiServices.Delete_Session_Note(NoteId);
     if (response) {
       animationControl.current.LoadingEnds();
-      Dispatch(RefreshSessionNotes(true)) // State to make THe Session Screen Refresh
-      Dispatch(setRefresh(true)) // util state to control Refresh on Client details screen as well as on Screen where refresh Required
+      Dispatch(RefreshSessionNotes(true)); // State to make THe Session Screen Refresh
+      Dispatch(setRefresh(true)); // util state to control Refresh on Client details screen as well as on Screen where refresh Required
       setTimeout(() => {
         setLoading(false);
         hideModal();
@@ -38,40 +40,83 @@ const DeleteModel = ({ navigation, visible, setVisible, NoteId }) => {
       <Modal
         visible={visible}
         onDismiss={hideModal}
-        contentContainerStyle={styles.containerStyle}
+        contentContainerStyle={[
+          styles.containerStyle,
+          deviceType === "tablet" && styles.containerStyle_Tablet,
+        ]}
       >
         <View style={styles.animationCont}>
           {loading ? (
-            <LoadingAndSuccess ref={animationControl} />
+            <LoadingAndSuccess
+              ref={animationControl}
+              TypeOfDevice={deviceType}
+            />
           ) : (
             <Lottie
               source={require("./animation/Delete2.json")}
               autoPlay
-              style={[styles.animationSize]}
+              style={[
+                styles.animationSize,
+                deviceType === "tablet" && styles.animationSize_tablet,
+              ]}
             />
           )}
         </View>
 
         <View style={styles.content}>
-          <Text style={styles.contentText}>
+          <Text
+            style={[
+              styles.contentText,
+              deviceType === "tablet" && {
+                fontSize: FontSize(12),
+              },
+            ]}
+          >
             Are You Sure You Want To Delete This Note?
           </Text>
           <View style={styles.btnCont}>
             <TouchableOpacity
-              style={[styles.btnStyles, styles.DeleteBtn]}
+              style={[
+                styles.btnStyles,
+                styles.DeleteBtn,
+                deviceType === "tablet" && styles.btnStyle_tablet,
+              ]}
               onPress={() => {
                 HandleApi();
               }}
             >
-              <Text style={styles.btnText}>Delete</Text>
+              <Text
+                style={[
+                  styles.btnText,
+                  deviceType === "tablet" && {
+                    fontSize: FontSize(10),
+                  },
+                ]}
+              >
+                Delete
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.btnStyles, styles.btnCancel]}
+              style={[
+                styles.btnStyles,
+                styles.btnCancel,
+                deviceType === "tablet" && styles.btnStyle_tablet,
+              ]}
               onPress={() => {
                 hideModal();
               }}
             >
-              <Text style={[styles.btnText, styles.cancelText]}>Cancel</Text>
+              <Text
+                style={[
+                  styles.btnText,
+                  styles.cancelText,
+                  deviceType === "tablet" && {
+                    fontSize: FontSize(10),
+                  },
+                ]}
+              >
+                Cancel
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -137,6 +182,26 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: Wp(15),
+  },
+
+  containerStyle_Tablet: {
+    width: Wp(220),
+    alignSelf: "center",
+    backgroundColor: "white",
+    height: Wp(220),
+    justifyContent: "space-between",
+    paddingVertical: Wp(8),
+    borderRadius: Wp(18),
+    paddingHorizontal: Wp(5),
+  },
+  animationSize_tablet: {
+    width: Wp(80),
+    height: Wp(80),
+  },
+  btnStyle_tablet: {
+    width: Wp(70),
+    height: Wp(35),
+    borderRadius: Wp(8),
   },
 });
 // hideModal()

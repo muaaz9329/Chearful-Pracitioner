@@ -1,11 +1,14 @@
 import { Button, StyleSheet, Text, View } from "react-native";
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
 import AnimatedLottieView from "lottie-react-native";
 import { Wp } from "@app/helper/CustomResponsive";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
 const LoadingAndSuccess = forwardRef((props , ref) => {
   const animationRef = useRef();
   const [animation, setAnimation] = useState(true);
+  const {deviceType} = useContext(DeviceContext)
+  console.log(props.TypeOfDevice)
   useEffect(() => {
     animationRef.current?.play(0, 60);
   }, []);
@@ -26,7 +29,11 @@ const LoadingAndSuccess = forwardRef((props , ref) => {
       source={require("./animation/Success.json")}
       autoPlay
       loop={animation}
-      style={styles.AnimatedView}
+      style={[{
+        width: props.TypeOfDevice==='mobile' ? Wp(160): Wp(80),
+        height: props.TypeOfDevice==='mobile' ? Wp(160): Wp(80),
+        alignSelf: "center",}]
+      }
     />
   );
 })
@@ -39,4 +46,8 @@ const styles = StyleSheet.create({
     height: Wp(160),
     alignSelf: "center",
   },
+  AnimatedView_tablet:{
+    width: Wp(80),
+    height: Wp(80),
+  }
 });

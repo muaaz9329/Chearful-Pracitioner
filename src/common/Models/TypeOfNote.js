@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { FontSize, Wp } from "@app/helper/CustomResponsive";
 import { Mulish } from "@app/helper/FontWeight";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
@@ -20,6 +20,7 @@ import {
 } from "tabler-icons-react-native";
 
 import PagerView from "react-native-pager-view";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const TypeOfNote = ({
   visible = true,
   setVisible,
@@ -28,6 +29,7 @@ const TypeOfNote = ({
   routeLoc,
 }) => {
   // data is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
+  const { deviceType } = useContext(DeviceContext);
   const NotesTypeData = [
     {
       name: "Write",
@@ -79,7 +81,7 @@ const TypeOfNote = ({
     }
   };
 
-  // logic for handling navigation based on name 
+  // logic for handling navigation based on name
 
   const HandleNavigation = (name) => {
     console.log(name);
@@ -133,15 +135,33 @@ const TypeOfNote = ({
       <Modal
         visible={visible}
         onDismiss={hideModal}
-        contentContainerStyle={styles.containerStyle}
+        contentContainerStyle={[
+          styles.containerStyle,
+          deviceType === "tablet" && styles.containerStyle_Tablet,
+        ]}
       >
         <View style={styles.TitleCont}>
-          <Text style={styles.title}>Choose Note Type</Text>
+          <Text
+            style={[
+              styles.title,
+              deviceType === "tablet" && {
+                fontSize: FontSize(12),
+              },
+            ]}
+          >
+            Choose Note Type
+          </Text>
         </View>
 
         <View style={[styles.Coursal, styles.BtnCont]}>
           <Pressable
-            style={[styles.btn,{opacity:Platform.OS=="ios"?1:currentPageIndex==0?0.5:1}]} // opacity logic for android
+            style={[
+              styles.btn,
+              {
+                opacity:
+                  Platform.OS == "ios" ? 1 : currentPageIndex == 0 ? 0.5 : 1,
+              },
+            ]} // opacity logic for android
             onPress={() => {
               if (Platform.OS == "ios") {
                 HandleCoursalMovement("left");
@@ -151,15 +171,15 @@ const TypeOfNote = ({
             }}
           >
             <IconSquareRoundedArrowLeft
-              size={Wp(30)}
+              size={deviceType === "mobile" ? Wp(30) : Wp(20)}
               color={NoteAppcolor.Primary}
             />
           </Pressable>
           {Platform.OS == "ios" ? (
             <Carousel
               loop
-              width={Wp(250)}
-              height={Wp(200)}
+              width={deviceType === "mobile" ? Wp(250) : Wp(150)}
+              height={deviceType === "mobile" ? Wp(200) : Wp(100)}
               data={NotesTypeData}
               onSnapToItem={(index) => setText(NotesTypeData[index].name)}
               autoPlay={false}
@@ -174,15 +194,21 @@ const TypeOfNote = ({
                     alignItems: "center",
                   }}
                 >
-                  <Image source={item.icon} style={styles.icon} />
+                  <Image
+                    source={item.icon}
+                    style={[
+                      styles.icon,
+                      deviceType === "tablet" && styles.icon_tablet,
+                    ]}
+                  />
                 </View>
               )}
             />
           ) : (
             <PagerView
               style={{
-                width: Wp(250),
-                height: Wp(200),
+                width: deviceType === "mobile" ? Wp(250) : Wp(150),
+                height: deviceType === "mobile" ? Wp(200) : Wp(100),
                 borderWidth: 1,
                 borderColor: "#000",
               }}
@@ -208,7 +234,13 @@ const TypeOfNote = ({
           )}
 
           <Pressable
-            style={[styles.btn,{opacity:Platform.OS=="ios"?1:currentPageIndex==4?0.5:1}]} // opacity logic for android
+            style={[
+              styles.btn,
+              {
+                opacity:
+                  Platform.OS == "ios" ? 1 : currentPageIndex == 4 ? 0.5 : 1,
+              },
+            ]} // opacity logic for android
             onPress={() => {
               if (Platform.OS == "ios") {
                 HandleCoursalMovement("right");
@@ -218,7 +250,7 @@ const TypeOfNote = ({
             }}
           >
             <IconSquareRoundedArrowRight
-              size={Wp(30)}
+              size={deviceType === "mobile" ? Wp(30) : Wp(20)}
               color={NoteAppcolor.Primary}
             />
           </Pressable>
@@ -226,14 +258,26 @@ const TypeOfNote = ({
 
         <View style={{ alignSelf: "center" }}>
           <Pressable
-            style={styles.btnStyles}
+            style={[
+              styles.btnStyles,
+              deviceType === "tablet" && styles.btnStyles_Tablet,
+            ]}
             onPress={() => {
               setTimeout(() => {
                 HandleNavigation(text);
               }, 300);
             }}
           >
-            <Text style={styles.btnText}>{text.toUpperCase()}</Text>
+            <Text
+              style={[
+                styles.btnText,
+                deviceType === "tablet" && {
+                  fontSize: FontSize(10),
+                },
+              ]}
+            >
+              {text.toUpperCase()}
+            </Text>
           </Pressable>
         </View>
       </Modal>
@@ -244,6 +288,25 @@ const TypeOfNote = ({
 export default TypeOfNote;
 
 const styles = StyleSheet.create({
+  btnStyles_Tablet: {
+    width: Wp(78),
+    height: Wp(38),
+    borderRadius: Wp(6),
+  },
+  icon_tablet: {
+    width: Wp(100),
+    height: Wp(110),
+  },
+  containerStyle_Tablet: {
+    width: Wp(220),
+    alignSelf: "center",
+    backgroundColor: "white",
+    height: Wp(220),
+    justifyContent: "space-between",
+    paddingVertical: Wp(8),
+    borderRadius: Wp(18),
+    paddingHorizontal: Wp(5),
+  },
   containerStyle: {
     width: Wp(363),
     alignSelf: "center",
