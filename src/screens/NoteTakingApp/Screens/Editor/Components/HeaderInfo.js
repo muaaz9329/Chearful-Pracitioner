@@ -1,5 +1,5 @@
 import { Platform, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ApiServices } from '@app/services/Apiservice';
 import { Image } from 'react-native-animatable';
 import { Dot } from '@app/svgs/Index';
@@ -7,8 +7,9 @@ import { FontSize, Wp } from '@app/helper/CustomResponsive';
 import { Mulish, Nunito } from '@app/helper/FontWeight';
 import { NoteAppcolor } from '@app/constants/NoteAppcolor';
 import { ClientDataObj } from '@app/adapters/ClientDataObj';
+import { DeviceContext } from '@app/context/Device-Type/DeviceTypeProvider';
 function UserInfo(props) {
-
+  const {deviceType} = useContext(DeviceContext)
     return (
       <View>
         <View style={styles.CardContet}>
@@ -17,7 +18,12 @@ function UserInfo(props) {
               source={{
                 uri: props.ClientData.Client_image,
               }}
-              style={styles.ClientImage}
+              style={[styles.ClientImage,deviceType==='tablet'&&{
+                width: Wp(23),
+                height: Wp(23),
+                borderRadius: Wp(12), 
+                marginEnd: Wp(4),
+              }]}
             />
           </View>
           <View style={styles.CardTextCont}>

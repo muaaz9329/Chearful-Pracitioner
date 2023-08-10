@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IconChevronLeft, IconChevronRight } from "tabler-icons-react-native";
 import { FontSize, Hp, Wp } from "@app/helper/CustomResponsive";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
@@ -7,6 +7,7 @@ import DatePicker from "react-native-date-picker";
 import { CalenderIcon } from "@app/svgs/Index";
 import { Mulish, Nunito } from "@app/helper/FontWeight";
 import { DateConstrctor } from "@app/helper/customFunction";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
 const SessionScreenHeader = ({ navigation, ApiQueryDate = null }) => {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,8 @@ const SessionScreenHeader = ({ navigation, ApiQueryDate = null }) => {
   });
   const [value, setValue] = useState(new Date());
 
+  const { deviceType } = useContext(DeviceContext);
+
   useEffect(() => {
     let obj = DateConstrctor(value);
     setDayAndDate(obj);
@@ -26,35 +29,58 @@ const SessionScreenHeader = ({ navigation, ApiQueryDate = null }) => {
     }
   }, [value]);
   return (
-    <View style={{ justifyContent: "center", marginBottom:Wp(10) }}>
-      <View style={[styles.HeaderCont]}>
+    <View style={{ justifyContent: "center", marginBottom: Wp(10) }}>
+      <View style={[[styles.HeaderCont]]}>
         <View>
           <Pressable
-            style={styles.HeaderIconStyles}
+            style={[
+              styles.HeaderIconStyles,
+              deviceType === "tablet" && {
+                padding: Wp(10),
+                borderRadius: Wp(10),
+              },
+            ]}
             onPress={() => {
               navigation.goBack();
             }}
           >
             <IconChevronLeft
-              width={Wp(20)}
-              height={Wp(20)}
+              width={deviceType === "tablet" ? Wp(15) : Wp(20)}
+              height={deviceType === "tablet" ? Wp(15) : Wp(20)}
               color={NoteAppcolor.Primary}
             />
           </Pressable>
         </View>
 
         <View>
-          <Text style={styles.Text}>Sessions</Text>
+          <Text
+            style={[
+              styles.Text,
+              { textAlign: "center" },
+              deviceType === "tablet" && {
+                fontSize: FontSize(13),
+              },
+            ]}
+          >
+            Sessions
+          </Text>
         </View>
 
-        <View style={styles.HeaderIconStyle2}>
+        <View
+          style={[
+            styles.HeaderIconStyle2,
+            deviceType === "tablet" && {
+              padding: Wp(2),
+            },
+          ]}
+        >
           <Pressable
-            style={styles.PractitionerFilterButton}
+            style={[styles.PractitionerFilterButton]}
             onPress={() => setOpen(true)}
           >
             <CalenderIcon
-              width={Wp(20)}
-              height={Wp(20)}
+              width={deviceType === "tablet" ? Wp(15) : Wp(20)}
+              height={deviceType === "tablet" ? Wp(15) : Wp(20)}
               color={NoteAppcolor.Primary}
             />
             <DatePicker
@@ -74,11 +100,25 @@ const SessionScreenHeader = ({ navigation, ApiQueryDate = null }) => {
           </Pressable>
         </View>
       </View>
-      <Text style={[styles.textTitle, { textAlign: "center" }]}>
+      <Text
+        style={[
+          styles.textTitle,
+          { textAlign: "center" },
+          deviceType === "tablet" && {
+            fontSize: FontSize(10),
+          },
+        ]}
+      >
         {dayAndDate.Day}
       </Text>
       <Text
-        style={[styles.textSubtitle, { textAlign: "center", marginTop: Wp(5) }]}
+        style={[
+          styles.textSubtitle,
+          { textAlign: "center", marginTop: Wp(5) },
+          deviceType === "tablet" && {
+            fontSize: FontSize(8),
+          },
+        ]}
       >
         {dayAndDate.Date}
       </Text>
@@ -100,7 +140,7 @@ const styles = StyleSheet.create({
     borderRadius: Wp(14),
   },
   HeaderIconStyle2: {
-    padding: Wp(14),
+    padding: Wp(6),
   },
   box: {
     width: Wp(20),

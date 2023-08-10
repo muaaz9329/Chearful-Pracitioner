@@ -1,5 +1,5 @@
 import { Platform, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useContext, useEffect,  useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
@@ -17,6 +17,8 @@ import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import { ActivityIndicator } from "react-native-paper";
 import NotAvil from "@app/common/components/NotAvil";
 import SessionScreenHeader from "./components/SessionScreenHeader";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 const Session = ({ navigation }) => {
   const [data, setData] = useState();
@@ -26,6 +28,8 @@ const Session = ({ navigation }) => {
     (state) => state.Session
   ); // States from the store
   const [ApiQueryDate, setApiQueryDate] = useState(""); // Consists of Date in YYYY-MM-DD format
+
+  const {deviceType} = useContext(DeviceContext)
 
   useEffect(() => {
     if (ApiQueryDate !== "" || null || undefined) {
@@ -79,10 +83,12 @@ const Session = ({ navigation }) => {
             renderItem={({ item, index }) => (
               <CardDesign Data={item} key={index} navigation={navigation} />
             )}
-            contentContainerStyle={{
+            contentContainerStyle={[{
               paddingTop: Wp(10),
               alignItems: "center",
-            }}
+              
+              
+            } , deviceType === "tablet" && styles.CardCont_tablet]}
             showsVerticalScrollIndicator={false}
           />
         ) : (
@@ -96,6 +102,12 @@ const Session = ({ navigation }) => {
 export default Session;
 
 const styles = StyleSheet.create({
+  CardCont_tablet: {
+    width: wp(100),
+    alignSelf: "center",
+
+  
+  },
   Body: {
     paddingHorizontal: Wp(16),
     paddingTop: Platform.OS == "android" ? Wp(20) : Wp(10),

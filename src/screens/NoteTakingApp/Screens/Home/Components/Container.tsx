@@ -35,7 +35,7 @@ const Container = ({
   backgroundColor,
   location,
   style,
-  doodleStyle
+  doodleStyle,
 }: Props) => {
   const { deviceType } = useContext(DeviceContext);
   return (
@@ -64,10 +64,12 @@ const Container = ({
         </Text>
 
         <View
-          style={
-            [deviceType === "tablet" ? styles.MenuImage_Tablet : styles.MenuImage,
-            doodleStyle]
-          }
+          style={[
+            deviceType === "tablet"
+              ? styles.MenuImage_Tablet
+              : styles.MenuImage,
+            doodleStyle,
+          ]}
         >
           {Doodle}
         </View>
@@ -117,8 +119,7 @@ const styles = StyleSheet.create({
   MenuImage_Tablet: {
     position: "absolute",
     alignSelf: "flex-end",
-    bottom: Wp(-10)
-    
+    bottom: Wp(-10),
   },
   SquareCont: {
     height: wp(40.5),

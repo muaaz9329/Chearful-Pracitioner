@@ -6,7 +6,7 @@ import {
   Pressable,
   Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import {
   widthPercentageToDP as wp,
@@ -18,12 +18,22 @@ import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
 import { User_Session_notes_pram_object } from "@app/adapters/User_Session_notes_pram_object";
 import TypeOfNote from "@app/common/Models/TypeOfNote";
-import { DateConstrctor } from "@app/helper/customFunction";
+import {
+  DateConstrctor,
+  capitalizeFirstLetter,
+} from "@app/helper/customFunction";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const CardDesign = ({ Data, navigation }) => {
   const [model, setmodel] = useState(false);
-  console.log(Data);
+
+  const { deviceType } = useContext(DeviceContext);
   return (
-    <View style={styles.cardCont}>
+    <View
+      style={[
+        styles.cardCont,
+        deviceType === "tablet" && styles.cardCont_Tablet,
+      ]}
+    >
       <TypeOfNote
         visible={model}
         setVisible={setmodel}
@@ -32,44 +42,114 @@ const CardDesign = ({ Data, navigation }) => {
         routeLoc={"Prac_Session"}
       />
 
-      <View style={styles.CardContet}>
+      <View
+        style={[
+          styles.CardContet,
+          deviceType === "tablet" && styles.cardContent_tablet,
+        ]}
+      >
         <View style={styles.Cont1}>
           <Image
             source={{ uri: Data.client_image }}
-            style={styles.ClientImage}
+            style={[
+              styles.ClientImage,
+              deviceType === "tablet" && styles.ClientImage_tablet,
+            ]}
           />
         </View>
         <View style={styles.CardTextCont}>
-          <Text style={styles.Name}>
-            {String(Data.client_full_name).length > 14
-              ? String(Data.client_full_name).slice(0, 14) + ".."
+          <Text
+            style={[
+              styles.Name,
+              deviceType === "tablet" && {
+                fontSize: FontSize(8),
+              },
+            ]}
+          >
+            {deviceType === "mobile"
+              ? String(Data.client_full_name).length > 14
+                ? String(Data.client_full_name).slice(0, 14) + ".."
+                : String(Data.client_full_name)
+              : String(Data.client_full_name).length > 20
+              ? String(Data.client_full_name).slice(0, 20) + ".."
               : String(Data.client_full_name)}
           </Text>
-          <View style={styles.LastVisitCont}>
-            <Text style={styles.LastVisitText}>{Data.appointment_date}</Text>
-            <View style={styles.DotMargin}>
-              <Dot width={Wp(4)} height={Wp(4)} color={NoteAppcolor.Primary} />
+          <View
+            style={[
+              styles.LastVisitCont,
+              deviceType === "tablet" && styles.LastVisitCont_tablet
+            ]}
+          >
+            <Text
+              style={[
+                styles.LastVisitText,
+                deviceType === "tablet" && {
+                  fontSize: FontSize(6),
+                },
+              ]}
+            >
+              {Data.appointment_date}
+            </Text>
+            <View
+              style={[
+                styles.DotMargin,
+                deviceType === "tablet" && {
+                  marginHorizontal: Wp(3),
+                },
+              ]}
+            >
+              <Dot
+                width={deviceType === "mobile" ? Wp(4) : Wp(2)}
+                height={deviceType === "mobile" ? Wp(4) : Wp(2)}
+                color={NoteAppcolor.Primary}
+              />
             </View>
-            <Text style={styles.LastVisitText}>
+            <Text
+              style={[
+                styles.LastVisitText,
+                deviceType === "tablet" && {
+                  fontSize: FontSize(6),
+                },
+              ]}
+            >
               {DateConstrctor(new Date(Data.appointment_date_time)).Time}
             </Text>
           </View>
           <View>
-            <Text style={styles.ServiceTaken}>{Data.service_name}</Text>
+            <Text
+              style={[
+                styles.ServiceTaken,
+                deviceType === "tablet" && {
+                  fontSize: FontSize(6),
+                },
+              ]}
+            >
+              {Data.service_name}
+            </Text>
           </View>
         </View>
       </View>
       <View style={styles.CardsButton}>
         <Pressable
-          style={styles.btnDesign}
+          style={[
+            styles.btnDesign,
+            deviceType === "tablet" && styles.btnDesign_Tablet,
+          ]}
           onPress={() => {
             setmodel(!model);
           }}
         >
-          <Plus width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />
+          <Plus
+            width={deviceType === "mobile" ? Wp(24) : Wp(12)}
+            height={deviceType === "mobile" ? Wp(24) : Wp(12)}
+            color={NoteAppcolor.Primary}
+          />
         </Pressable>
         <Pressable
-          style={styles.btnDesign}
+          style={[
+            styles.btnDesign,
+            deviceType === "tablet" && styles.btnDesign_Tablet,
+          ]}
           onPress={() => {
             navigation.navigate("Prac_NotesPreview", {
               ClientData: new User_Session_notes_pram_object(Data),
@@ -77,7 +157,11 @@ const CardDesign = ({ Data, navigation }) => {
             });
           }}
         >
-          <Eye width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />
+          <Eye
+            width={deviceType === "mobile" ? Wp(24) : Wp(12)}
+            height={deviceType === "mobile" ? Wp(24) : Wp(12)}
+            color={NoteAppcolor.Primary}
+          />
         </Pressable>
       </View>
     </View>
@@ -87,6 +171,33 @@ const CardDesign = ({ Data, navigation }) => {
 export default CardDesign;
 
 const styles = StyleSheet.create({
+  btnDesign_Tablet: {
+    paddingHorizontal: Wp(5),
+    paddingVertical: Wp(4),
+    borderRadius: Wp(6),
+    alignSelf: "flex-start",
+  },
+  LastVisitCont_tablet: {
+    marginVertical: Wp(2),
+    justifyContent: "flex-start",
+  },
+  ClientImage_tablet: {
+    width: Wp(38),
+    height: Wp(38),
+    borderRadius: Wp(19),
+    resizeMode: "cover",
+    marginEnd: Wp(5),
+  },
+  cardContent_tablet: {
+    width: wp(38),
+    paddingHorizontal: Wp(8),
+    paddingVertical: Wp(5),
+    borderRadius: Wp(15),
+  },
+  cardCont_Tablet: {
+    width: wp(48),
+    marginBottom: Wp(10),
+  },
   cardCont: {
     flexDirection: "row",
     width: wp(91.0),
