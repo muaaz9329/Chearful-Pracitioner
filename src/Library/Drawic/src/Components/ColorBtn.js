@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Wp } from "@app/helper/CustomResponsive";
 import { useSelector } from "react-redux";
 
-const ColorBtn = ({ OpenControlFunc, CanvasRef }) => {
+const ColorBtn = ({ OpenControlFunc, CanvasRef , deviceType }) => {
   const { Color } = useSelector((state) => state.BrushControl);
   const { BoxOpacity, CanBeTouched } = useSelector(
     (state) => state.ChooseEraser
@@ -20,6 +20,11 @@ const ColorBtn = ({ OpenControlFunc, CanvasRef }) => {
         style={[
           styles.colorSwatch,
           { backgroundColor: Color, opacity: BoxOpacity },
+          deviceType==='tablet'&&{
+            width: Wp(22),
+    height: Wp(22),
+    borderRadius: Wp(22),
+          }
         ]}
       ></View>
     </Pressable>

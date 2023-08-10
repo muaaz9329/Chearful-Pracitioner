@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable, Platform } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Wp } from "@app/helper/CustomResponsive";
 import BrushBtn from "./Components/BrushBtn";
 import UpperControl from "./Components/UpperControl";
@@ -15,6 +15,7 @@ import ActionSheet from "react-native-actions-sheet";
 import AndroidUpperControl from "./Components/AndroidUpperControl";
 import AndroidColorControl from "./Components/AndroidColorControl";
 import { UpdateOpacity, UpdateStrokeWidth } from "../utils/features/Brush-Control/BrushControl";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const CanvasControl = ({ DismissRef, CanvasRef }) => {
   const [open, setOpen] = useState({
     style: { display: "none" },
@@ -27,6 +28,7 @@ const CanvasControl = ({ DismissRef, CanvasRef }) => {
   });
   // state to control the upper control component
 
+  const {deviceType}=useContext(DeviceContext)
   const SheetRef = React.useRef();
   const SheetRef2 = React.useRef();
 
@@ -86,12 +88,12 @@ const CanvasControl = ({ DismissRef, CanvasRef }) => {
   };
   return (
     <>
-      <View style={styles.Container}>
-        <Undobtn CanvasRef={CanvasRef} />
-        <Resetbtn CanvasRef={CanvasRef} />
-        <BrushAndEraserComponent CanvasRef={CanvasRef} />
-        <BrushBtn OpenControlFunc={OpenControl} CanvesRef={CanvasRef} />
-        <ColorBtn OpenControlFunc={OpenColorControl} CanvasRef={CanvasRef} />
+      <View style={[styles.Container,deviceType==='tablet'&&styles.Container_tablet]}>
+        <Undobtn CanvasRef={CanvasRef} deviceType={deviceType} />
+        <Resetbtn CanvasRef={CanvasRef} deviceType={deviceType}/>
+        <BrushAndEraserComponent CanvasRef={CanvasRef} deviceType={deviceType}/>
+        <BrushBtn OpenControlFunc={OpenControl} CanvesRef={CanvasRef} deviceType={deviceType}/>
+        <ColorBtn OpenControlFunc={OpenColorControl} CanvasRef={CanvasRef} deviceType={deviceType}/>
       </View>
       <View style={[styles.upperControlCont, open.style]} ref={DismissRef}>
         <UpperControl DismissRef={DismissRef} />
@@ -127,6 +129,11 @@ const CanvasControl = ({ DismissRef, CanvasRef }) => {
 export default CanvasControl;
 
 const styles = StyleSheet.create({
+  Container_tablet: {
+    width: Wp(180),
+    height: Wp(30),
+    borderRadius: Wp(18),
+  },
   Container: {
     borderWidth: 1,
     position: "absolute",
