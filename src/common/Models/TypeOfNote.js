@@ -225,7 +225,8 @@ const TypeOfNote = ({
                   >
                     <Image
                       source={item.icon}
-                      style={[styles.icon, { marginLeft: Wp(8) }]}
+                      style={[styles.icon, { marginLeft: Wp(8) }, deviceType==='tablet'&& {width: Wp(80),
+                        height: Wp(100), marginLeft:Wp(0)}]}
                     />
                   </View>
                 );
@@ -290,12 +291,12 @@ export default TypeOfNote;
 const styles = StyleSheet.create({
   btnStyles_Tablet: {
     width: Wp(78),
-    height: Wp(38),
+    height: Wp(32),
     borderRadius: Wp(6),
   },
   icon_tablet: {
-    width: Wp(100),
-    height: Wp(110),
+    width: Wp(80),
+    height: Wp(100),
   },
   containerStyle_Tablet: {
     width: Wp(220),

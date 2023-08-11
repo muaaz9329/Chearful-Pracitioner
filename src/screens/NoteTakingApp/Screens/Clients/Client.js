@@ -7,7 +7,7 @@ import {
   Animated,
   Platform,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import Header from "@CommonComponents/Header";
@@ -31,6 +31,7 @@ import {
 } from "@app/features/Client-AllClients/ClientReducers";
 import { ActivityIndicator } from "react-native-paper";
 import NotAvil from "@app/common/components/NotAvil";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const Client = ({ navigation }) => {
   const [ClientInfo, SetClientInfo] = useState([]);
   const [OldData, SetOldData] = useState([]);
@@ -38,11 +39,11 @@ const Client = ({ navigation }) => {
   const { loading, Clients, error, Success, isEmpty, haveError } = useSelector(
     (state) => state.ClientReducer
   ); // Getting the state from the store
-  
+  const { deviceType } = useContext(DeviceContext);
 
   useEffect(() => {
     ApiServices.Get_User_All_Client(dispatch, SetLoading, SetClients, SetError);
-    dispatch
+    dispatch;
   }, []);
 
   useEffect(() => {
@@ -55,7 +56,6 @@ const Client = ({ navigation }) => {
     if (Success) {
       SetClientInfo(Clients);
       SetOldData(Clients);
-      console.log("Broooo ya data ha: ", Clients)
     }
   }, [Success]); // After getting the data from the api, we will update the state with the new data
 
@@ -83,16 +83,23 @@ const Client = ({ navigation }) => {
 
   const SortList = (arg) => {
     var oldData = [...OldData];
-    
+
     if (arg === "Ascending") {
-      let TempList = oldData.sort((a, b) => (a.first_name > b.first_name ? 1 : -1));
+      let TempList = oldData.sort((a, b) =>
+        a.first_name > b.first_name ? 1 : -1
+      );
       SetClientInfo(TempList);
     } else if (arg === "Descending") {
-      let TempList = oldData.sort((a, b) => (a.first_name < b.first_name ? 1 : -1));
+      let TempList = oldData.sort((a, b) =>
+        a.first_name < b.first_name ? 1 : -1
+      );
       SetClientInfo(TempList);
     } else if (arg === "Last Visit") {
-      let TempList = oldData.sort((a, b) => new Date(b.latest_session_date) - new Date(a.latest_session_date));
-    SetClientInfo(TempList);
+      let TempList = oldData.sort(
+        (a, b) =>
+          new Date(b.latest_session_date) - new Date(a.latest_session_date)
+      );
+      SetClientInfo(TempList);
     } else {
       // Handle the case when the argument is not recognized
       console.error("Invalid argument for sorting:", arg);
@@ -150,34 +157,52 @@ const Client = ({ navigation }) => {
                   navigation={navigation}
                   pram={"back"}
                 >
-                  <Text style={styles.Text}>Clients</Text>
+                  <Text
+                    style={[
+                      styles.Text,
+                      deviceType === "tablet" && {
+                        fontSize: FontSize(14),
+                      },
+                    ]}
+                  >
+                    Clients
+                  </Text>
                 </Header>
                 <SearchBox
                   state={ClientInfo}
                   setState={SetClientInfo}
                   HandleFunction={HandleFilter}
                   OpenSheet={bottomSheetOpen}
+                  deviceType={deviceType}
                 />
                 <AnimatedFlatList
                   data={ClientInfo}
+                  Item_size={
+                    deviceType === "tablet" ? wp(13) : Wp(76 + 16 + 20)
+                  }
                   renderItem={({ item, index }) => (
                     <Pressable
                       onPress={() => {
                         navigation.navigate("Prac_ClientDetail", {
                           ClientDetail: item,
-                        })
-                        dispatch(SetSelectedClientDetail(item))
-                        ;
+                        });
+                        dispatch(SetSelectedClientDetail(item));
                       }}
                       key={index}
                     >
                       <CardDesign Data={item} />
                     </Pressable>
                   )}
-                  contentContainerStyle={{
-                    paddingTop: Wp(10),
-                    alignItems: "center",
-                  }}
+                  contentContainerStyle={[
+                    {
+                      paddingTop: Wp(10),
+                      alignItems: "center",
+                    },
+                    deviceType === "tablet" && {
+                      width: wp(60),
+                      alignSelf: "center",
+                    },
+                  ]}
                   showsVerticalScrollIndicator={false}
                 />
               </>
@@ -190,7 +215,7 @@ const Client = ({ navigation }) => {
        */}
       <RBSheet
         ref={refRBSheet}
-        height={hp(32)}
+        height={deviceType === "tablet" ? wp(50) : hp(32)}
         closeOnDragDown={false}
         closeOnPressMask={true}
         customStyles={{
@@ -217,7 +242,7 @@ const Client = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-function SearchBox({ HandleFunction, OpenSheet }) {
+function SearchBox({ HandleFunction, OpenSheet, deviceType }) {
   const refInput = useRef();
 
   return (
@@ -225,8 +250,8 @@ function SearchBox({ HandleFunction, OpenSheet }) {
       <Pressable onPress={() => refInput.current.focus()}>
         <View style={styles.InputBoxIcon}>
           <SearchIcon
-            width={wp(2.5 * 2)}
-            height={wp(2.5 * 2)}
+            width={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
+            height={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
             color={NoteAppcolor.Primary}
           />
         </View>
@@ -234,7 +259,13 @@ function SearchBox({ HandleFunction, OpenSheet }) {
       <View>
         <TextInput
           placeholder={"Search Client"}
-          style={styles.InputBox}
+          style={[
+            styles.InputBox,
+            deviceType === "tablet" && {
+              fontSize: Wp(8),
+              width: wp(70),
+            },
+          ]}
           placeholderTextColor={"rgba(30, 85, 66, 0.5)"}
           onChangeText={(text) => {
             HandleFunction(text);
@@ -245,10 +276,15 @@ function SearchBox({ HandleFunction, OpenSheet }) {
       </View>
 
       <Pressable onPress={() => OpenSheet()}>
-        <View style={styles.FilterBtn}>
+        <View
+          style={[
+            styles.FilterBtn,
+            deviceType === "tablet" && styles.FilterBtn_tablet,
+          ]}
+        >
           <FilterIcon
-            width={wp(2.5 * 2)}
-            height={wp(2.5 * 2)}
+            width={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
+            height={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
             color={NoteAppcolor.Primary}
           />
         </View>
@@ -414,5 +450,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  FilterBtn_tablet: {
+    padding: wp(1.2),
+    margin: wp(2.5 * 0.5),
+    backgroundColor: "#FFFFFF",
+    borderRadius: Wp(5),
   },
 });

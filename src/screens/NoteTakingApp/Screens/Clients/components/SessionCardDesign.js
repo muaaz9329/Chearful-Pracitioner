@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import {
   widthPercentageToDP as wp,
@@ -8,9 +8,13 @@ import {
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
-import { calculateEndTime, capitalizeFirstLetter } from "@app/helper/customFunction";
+import {
+  calculateEndTime,
+  capitalizeFirstLetter,
+} from "@app/helper/customFunction";
 import { SessionCardAdapterFunction } from "./adapters/SessionCardAdapter";
 import TypeOfNote from "@app/common/Models/TypeOfNote";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 function convertDateFormat(dateString) {
   const months = [
     "Jan",
@@ -43,53 +47,142 @@ const SessionCardDesign = ({ navigation, CardData }) => {
     CardData.appointment_time,
     CardData.time_duration
   );
+  const { deviceType } = useContext(DeviceContext);
   return (
-    <View style={styles.cardCont}>
+    <View
+      style={[
+        styles.cardCont,
+        deviceType === "tablet" && {
+          width: wp(58),
+
+          marginBottom: Wp(10),
+        },
+      ]}
+    >
       <TypeOfNote
-      data={SessionCardAdapterFunction(CardData)}
-      visible={model}
-      setVisible={Setmodel}
-      navigation={navigation}
-      routeLoc={"Prac_ClientDetail"}
-      
+        data={SessionCardAdapterFunction(CardData)}
+        visible={model}
+        setVisible={Setmodel}
+        navigation={navigation}
+        routeLoc={"Prac_ClientDetail"}
       />
-      <View style={styles.CardContet}>
+      <View
+        style={[
+          styles.CardContet,
+          deviceType === "tablet" && {
+            width: wp(50),
+            paddingHorizontal: Wp(12),
+            paddingVertical: Wp(6),
+            borderRadius: Wp(15),
+          },
+        ]}
+      >
         <View style={styles.Cont1}>
-          <View style={styles.Datebox}>
-            <Text style={styles.date}>
+          <View
+            style={[
+              styles.Datebox,
+              deviceType === "tablet" && {
+                width: Wp(35),
+                height: Wp(35),
+                borderRadius: Wp(7),
+                marginEnd: Wp(10),
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.date,
+                deviceType === "tablet" && {
+                  fontSize: FontSize(10),
+                },
+              ]}
+            >
               {convertDateFormat(CardData.appointment_date).Date}
             </Text>
-            <Text style={styles.date}>
+            <Text
+              style={[
+                styles.date,
+                deviceType === "tablet" && {
+                  fontSize: FontSize(10),
+                },
+              ]}
+            >
               {convertDateFormat(CardData.appointment_date).Month}
             </Text>
           </View>
         </View>
         <View style={styles.CardTextCont}>
-          <Text style={styles.Name}>{CardData.service_name}</Text>
-          <View style={styles.LastVisitCont}>
+          <Text
+            style={[
+              styles.Name,
+              deviceType === "tablet" && {
+                fontSize: FontSize(10),
+              },
+            ]}
+          >
+            {CardData.service_name}
+          </Text>
+          <View
+            style={[
+              styles.LastVisitCont,
+              deviceType === "tablet" && {
+                marginVertical: Wp(3),
+              },
+            ]}
+          >
             <Text
-              style={[styles.Time, { opacity: 0.7 }]}
+              style={[
+                styles.Time,
+                { opacity: 0.7 },
+                deviceType === "tablet" && {
+                  fontSize: FontSize(8),
+                },
+              ]}
             >{`${StartTime} - ${EndTime}`}</Text>
           </View>
-          <Text style={styles.StatusText}>{`Status: ${capitalizeFirstLetter(CardData.status)}`}</Text>
+          <Text
+            style={[
+              styles.StatusText,
+              deviceType === "tablet" && {
+                fontSize: FontSize(8),
+              },
+            ]}
+          >{`Status: ${capitalizeFirstLetter(CardData.status)}`}</Text>
         </View>
       </View>
       <View style={styles.CardsButton}>
         <Pressable
-          style={styles.btnDesign}
+          style={[
+            styles.btnDesign,
+            deviceType === "tablet" && styles.btnDesign_Tablet,
+          ]}
           onPress={() => {
             Setmodel(!model);
           }}
         >
-          <Plus width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />
+          <Plus
+            width={deviceType === "mobile" ? Wp(24) : Wp(12)}
+            height={deviceType === "mobile" ? Wp(24) : Wp(12)}
+            color={NoteAppcolor.Primary}
+          />
         </Pressable>
         <Pressable
-          style={styles.btnDesign}
+          style={[
+            styles.btnDesign,
+            deviceType === "tablet" && styles.btnDesign_Tablet,
+          ]}
           onPress={() => {
-            navigation.navigate("Prac_NotesPreview", { ClientData: SessionCardAdapterFunction(CardData), routeLoc: "Prac_ClientDetail" });
+            navigation.navigate("Prac_NotesPreview", {
+              ClientData: SessionCardAdapterFunction(CardData),
+              routeLoc: "Prac_ClientDetail",
+            });
           }}
         >
-          <Eye width={Wp(24)} height={Wp(24)} color={NoteAppcolor.Primary} />
+          <Eye
+            width={deviceType === "mobile" ? Wp(24) : Wp(12)}
+            height={deviceType === "mobile" ? Wp(24) : Wp(12)}
+            color={NoteAppcolor.Primary}
+          />
         </Pressable>
       </View>
     </View>
@@ -164,14 +257,20 @@ const styles = StyleSheet.create({
     fontSize: FontSize(16),
     color: NoteAppcolor.Primary,
   },
-  Time:{
+  Time: {
     fontFamily: Mulish(700),
     fontSize: FontSize(12),
     color: NoteAppcolor.Primary,
   },
-  StatusText:{
+  StatusText: {
     fontFamily: Mulish(700),
     fontSize: FontSize(12),
     color: NoteAppcolor.Primary,
-  }
+  },
+  btnDesign_Tablet: {
+    paddingHorizontal: Wp(5),
+    paddingVertical: Wp(4),
+    borderRadius: Wp(6),
+    alignSelf: "flex-start",
+  },
 });

@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import { Mulish, Nunito } from "@helper/FontWeight";
@@ -23,10 +23,11 @@ import {
 } from "@app/features/Client-AllSessions/AllSessionReducers";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import NotAvil from "@app/common/components/NotAvil";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const Session = ({ navigation }) => {
   const disptch = useDispatch();
   const LoadingRef = useRef(null);
-
+  const {deviceType}= useContext(DeviceContext)
   const { SelectedClientDetail } = useSelector((state) => state.ClientReducer); // Getting the state from the store Client Screen
 
   const { Sessions, Success, isEmpty } = useSelector(
@@ -61,8 +62,12 @@ const Session = ({ navigation }) => {
         <View style={{ marginBottom: Wp(20) }}>
           <Header Icon={ChevronLeft} navigation={navigation} pram={"back"} justifyContent="flex-start">
           <View style={styles.HeaderCont}>
-            <Text style={styles.HeaderTitle}>Session</Text>
-            <Text style={styles.SubHeaderTitle}>Select the Session to Add Notes</Text>
+            <Text style={[styles.HeaderTitle, deviceType==='tablet'&& {
+               fontSize: FontSize(10)
+            }]}>Session</Text>
+            <Text style={[styles.SubHeaderTitle,deviceType==='tablet'&&{
+              fontSize:FontSize(8)
+            }]}>Select the Session to Add Notes</Text>
           </View>
           </Header>
         </View>

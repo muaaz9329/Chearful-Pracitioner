@@ -6,7 +6,7 @@ import {
   Pressable,
   Image,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
@@ -17,10 +17,12 @@ import { IconClockHour3 } from "tabler-icons-react-native";
 import { ClockIcon } from "@app/svgs/Index";
 import FileIconGenrator from "@app/screens/NoteTakingApp/Screens/Session/components/FileIconGenrator";
 import { NotesCardAdapterFunction } from "./adapters/NotesCardAdapter";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
 const NotesCard = ({ Arr, navigation, ClientData }) => {
   const VIEW_MODE = "view";
   const EDIT_MODE = "edit";
+  const {deviceType} = useContext(DeviceContext)
 
   const HandleNavigation = (item) => {
     const Pram = new User_Session_Notes_Editor_Pram_object(
@@ -48,126 +50,108 @@ const NotesCard = ({ Arr, navigation, ClientData }) => {
     }
   };
 
-  // return (
-  //   <View style={styles.Parent}>
-  //     {Arr.map((item, index) => {
-  //       return (
-  //         <Pressable onPress={() => {
-  //           HandleNavigation(item)
-  //           console.log(item.Apptype)
-  //           }} key={index}>
-  //           <ImageBackground
-  //             style={styles.cardCont}
-  //             key={index}
-  //             resizeMode={"cover"}
-  //             source={{ uri: item.img }}
-  //           >
-  //             <View style={styles.DateCard}>
-  //               <Text style={styles.cardDate}>{DateConstrctor(new Date(item.created_at)).Date}</Text>
-  //             </View>
-  //           </ImageBackground>
-  //         </Pressable>
-  //       );
-  //     })}
-  //   </View>
-  // );
-  // * Old Card
+  
 
   return (
-    <View style={styles.Parent}>
-      {Arr.map((item, index) => {
-        return (
-          <Pressable
-            onPress={() => {
-              HandleNavigation(item);
-            }}
-            key={index}
+    <View
+    style={[styles.Parent, deviceType === "tablet" && styles.Parent_tablet]}
+  >
+    {Arr.map((item, index) => {
+      return (
+        <Pressable
+          onPress={() => {
+            HandleNavigation(item);
+          }}
+          key={index}
+        >
+          <View
+            style={[
+              styles.cont,
+              deviceType === "tablet" && styles.cont_Tablet,
+            ]}
           >
-            <View style={styles.cont}>
-              <View style={styles.ImageCont}>
-                <Image
-                  source={FileIconGenrator(item.Apptype)}
-                  style={styles.DocIconSize}
-                />
-              </View>
-              <View style={styles.Content}>
-                <View style={styles.TopText}>
-                  <Text style={styles.Date}>
-                    {DateConstrctor(new Date(item.created_at)).Date}
-                  </Text>
-                  {!(item.created_at === item.updated_at) && (
-                    <View style={styles.TimeCont}>
-                      <View style={styles.iconCont}>
-                        <ClockIcon
-                          color={"#90A3A7"}
-                          width={Wp(15)}
-                          height={Wp(15)}
-                        />
-                      </View>
-                      <View style={styles.IconText}>
-                        <Text style={styles.Time}>
-                          {DateConstrctor(new Date(item.created_at)).Time}
-                        </Text>
-                      </View>
+            <View
+              style={[
+                styles.ImageCont,
+                deviceType === "tablet" && {
+                  width: Wp(32),
+                  height: Wp(32),
+
+                  borderRadius: Wp(3),
+                },
+              ]}
+            >
+              <Image
+                source={FileIconGenrator(item.Apptype)}
+                style={[
+                  styles.DocIconSize,
+                  deviceType === "tablet" && {
+                    width: Wp(19),
+                    height: Wp(24),
+                  },
+                ]}
+              />
+            </View>
+            <View
+              style={[
+                styles.Content,
+                deviceType === "tablet" && {
+                  width: Wp(140),
+                  paddingVertical: Wp(4),
+                  justifyContent: "space-between",
+                  paddingHorizontal: Wp(1),
+                  
+                },
+              ]}
+            >
+              <View style={styles.TopText}>
+                <Text style={[styles.Date,deviceType==='tablet'&&{
+                  fontSize:Wp(8)
+                }]}>
+                  {DateConstrctor(new Date(item.created_at)).Date}
+                </Text>
+                {!(item.created_at === item.updated_at) && (
+                  <View style={styles.TimeCont}>
+                    <View style={styles.iconCont}>
+                      <ClockIcon
+                        color={"#90A3A7"}
+                        width={deviceType==='mobile'?Wp(15):Wp(7)}
+                        height={deviceType==='mobile'?Wp(15):Wp(7)}
+                      />
                     </View>
-                  )}
-                </View>
-                <View style={styles.BottomCont}>
-                  <Text style={styles.Time}>
-                    {`Last Edited : ${
-                      DateConstrctor(new Date(item.updated_at)).Time
-                    } ${
-                      DateConstrctor(new Date(item.updated_at)).Date ===
-                      DateConstrctor(new Date(item.created_at)).Date
-                        ? ""
-                        : ", " + DateConstrctor(new Date(item.updated_at)).Date
-                    }`}
-                  </Text>
-                </View>
+                    <View style={[styles.IconText, deviceType==='tablet'&&{
+                       width: Wp(33)
+                    }]}>
+                      <Text style={[styles.Time,deviceType==='tablet'&&{
+                        fontSize:Wp(7)
+                      }]}>
+                        {DateConstrctor(new Date(item.created_at)).Time}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+              </View>
+              <View style={styles.BottomCont}>
+                <Text style={[styles.Time,deviceType==='tablet'&&{
+                  fontSize:Wp(8)
+                }]}>
+                  {`Last Edit ${
+                    DateConstrctor(new Date(item.updated_at)).Time
+                  }, ${DateConstrctor(new Date(item.updated_at)).Date}`}
+                </Text>
               </View>
             </View>
-          </Pressable>
-        );
-      })}
-    </View>
+          </View>
+        </Pressable>
+      );
+    })}
+  </View>
   );
 };
 
 export default NotesCard;
 
-// const styles = StyleSheet.create({
-//   cardCont: {
-//     borderWidth: 1,
-//     borderColor: NoteAppcolor.Primary,
-//     width: wp(40),
-//     height: Wp(150),
-//     borderRadius: Wp(30),
-//     overflow: "hidden",
-//     justifyContent: "flex-end",
-//     marginBottom: Wp(20),
-//     resizeMode: "contain",
-//   },
-//   DateCard: {
-//     width: wp(40),
-//     height: Wp(45),
-//     flexDirection: "row",
-//     justifyContent: "center",
-//     backgroundColor: NoteAppcolor.Secondary,
-//   },
-//   cardDate: {
-//     fontFamily: Nunito(700),
-//     fontSize: FontSize(16),
-//     marginTop: Wp(5),
-//     color: NoteAppcolor.Primary,
-//   },
-//   Parent: {
-//     flex: 1,
-//     flexWrap: "wrap",
-//     flexDirection: "row",
-//     justifyContent: "space-around",
-//   },
-// });
-//* Old Card StyleSheet
+
 
 const styles = StyleSheet.create({
   cont: {
@@ -224,5 +208,16 @@ const styles = StyleSheet.create({
   DocIconSize: {
     width: Wp(38),
     height: Wp(48),
+  },
+  Parent_tablet: {
+    width: wp(48),
+    alignSelf: "center",
+  },  
+  cont_Tablet: {
+    height: Wp(41),
+    paddingVertical: Wp(3),
+    paddingHorizontal: Wp(5),
+    borderRadius: Wp(8),
+    marginVertical: Wp(4),
   },
 });

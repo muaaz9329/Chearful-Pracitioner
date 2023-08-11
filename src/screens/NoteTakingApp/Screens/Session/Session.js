@@ -79,6 +79,7 @@ const Session = ({ navigation }) => {
           </View>
         ) : HasSession ? (
           <AnimatedFlatList
+          Item_size={deviceType==='tablet'?wp(12):Wp(76 + 16 + 20)}
             data={data}
             renderItem={({ item, index }) => (
               <CardDesign Data={item} key={index} navigation={navigation} />
