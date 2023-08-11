@@ -175,6 +175,9 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
                 />
               </View>
             </Animatable.View>
+            <View style={[{flex:1}, deviceType==='tablet'&&{
+              flexDirection:'column-reverse'
+            }]}>
             <View
               style={[
                 styles.menuCont,
@@ -336,6 +339,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
                 </View>
               </Animatable.View>
             </Pressable>
+            </View>
           </View>
         </ScrollView>
       ) : (
