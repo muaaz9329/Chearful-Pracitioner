@@ -4,7 +4,7 @@ import SplashScreen from "react-native-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthStack, PracStack } from "./routes/index";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setLogOut } from "./features/utils-States/utilsReducers";
