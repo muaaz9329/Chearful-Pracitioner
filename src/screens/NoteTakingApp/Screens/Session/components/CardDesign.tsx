@@ -23,8 +23,36 @@ import {
   capitalizeFirstLetter,
 } from "@app/helper/customFunction";
 import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
-const CardDesign = ({ Data, navigation }) => {
+import { NavigationHelpers } from "@react-navigation/native";
+interface Props {
+  Data: {
+    appointment_date: string;
+    appointment_date_time: string;
+    appointment_time: string;
+    booked_by: string;
+    charges: number;
+    client_full_name: string;
+    client_image: string;
+    created_at: string;
+    id: number;
+    paid: string;
+    patient_id: number;
+    patient_name: string | null;
+    relation: string | null;
+    rescheduled_by: string | null;
+    service_id: number;
+    service_name: string;
+    status: string;
+    time_duration: string;
+    type: string;
+    updated_at: string;
+    user_id: number;
+  };
+  navigation: NavigationHelpers<any, any>;
+}
+const CardDesign = ({ Data, navigation }: Props) => {
   const [model, setmodel] = useState(false);
+  console.log(Data);
 
   const { deviceType } = useContext(DeviceContext);
   return (
@@ -48,7 +76,7 @@ const CardDesign = ({ Data, navigation }) => {
           deviceType === "tablet" && styles.cardContent_tablet,
         ]}
       >
-        <View style={styles.Cont1}>
+        <View>
           <Image
             source={{ uri: Data.client_image }}
             style={[
@@ -57,7 +85,7 @@ const CardDesign = ({ Data, navigation }) => {
             ]}
           />
         </View>
-        <View style={styles.CardTextCont}>
+        <View >
           <Text
             style={[
               styles.Name,
@@ -77,7 +105,7 @@ const CardDesign = ({ Data, navigation }) => {
           <View
             style={[
               styles.LastVisitCont,
-              deviceType === "tablet" && styles.LastVisitCont_tablet
+              deviceType === "tablet" && styles.LastVisitCont_tablet,
             ]}
           >
             <Text
