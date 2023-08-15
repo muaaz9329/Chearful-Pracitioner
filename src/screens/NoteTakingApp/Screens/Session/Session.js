@@ -1,5 +1,5 @@
 import { Platform, StyleSheet, Text, View } from "react-native";
-import React, { useContext, useEffect,  useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
@@ -8,39 +8,24 @@ import AnimatedFlatList from "@constants/AnimatedFlatList";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
-import { ApiServices } from "@app/services/Apiservice";
-import {
-  ResetSessionData,
-  SetSessionData,
-} from "@app/features/SessionReducer/SessionReducer";
+
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import { ActivityIndicator } from "react-native-paper";
 import NotAvil from "@app/common/components/NotAvil";
 import SessionScreenHeader from "./components/SessionScreenHeader";
 import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import useSessionNotes from "./Hooks/useSessionNotes";
 
 const Session = ({ navigation }) => {
-  const [data, setData] = useState();
-  const Dispatch = useDispatch();
   const LoadingRef = useRef(); // Ref used to control the Loading Screen
-  const { HasSession, Success, Data, loading, error } = useSelector(
+  const { HasSession, Success, loading } = useSelector(
     (state) => state.Session
   ); // States from the store
-  const [ApiQueryDate, setApiQueryDate] = useState(""); // Consists of Date in YYYY-MM-DD format
 
-  const {deviceType} = useContext(DeviceContext)
+  const { deviceType } = useContext(DeviceContext);
 
-  useEffect(() => {
-    if (ApiQueryDate !== "" || null || undefined) {
-      ApiServices.Get_User_Session_by_Date(
-        SetSessionData,
-        ResetSessionData,
-        Dispatch,
-        ApiQueryDate
-      );
-    }
-  }, [ApiQueryDate]); // To get Session Data from the API
+  const { data, setApiQueryDate, ApiQueryDate } = useSessionNotes(); // All api logic is here 
 
   useEffect(() => {
     setTimeout(() => {
@@ -49,10 +34,6 @@ const Session = ({ navigation }) => {
       }
     }, 1000);
   }, [Success]); // To end Loading Screen if data is Fetched from the API
-
-  useEffect(() => {
-    setData(Data);
-  }, [Data]); // To assign the data from the API to the data State to be used in the FlatList
 
   const NotAvailString = () => {
     if (ApiQueryDate === new Date().toISOString().split("T")[0]) {
@@ -70,7 +51,10 @@ const Session = ({ navigation }) => {
         edges={["top", "right", "left"]}
       >
         <View style={styles.Body}>
-          <SessionScreenHeader ApiQueryDate={setApiQueryDate} navigation={navigation} />
+          <SessionScreenHeader
+            ApiQueryDate={setApiQueryDate}
+            navigation={navigation}
+          />
         </View>
 
         {loading ? (
@@ -79,17 +63,18 @@ const Session = ({ navigation }) => {
           </View>
         ) : HasSession ? (
           <AnimatedFlatList
-          Item_size={deviceType==='tablet'?wp(12):Wp(76 + 16 + 20)}
+            Item_size={deviceType === "tablet" ? wp(12) : Wp(76 + 16 + 20)}
             data={data}
             renderItem={({ item, index }) => (
               <CardDesign Data={item} key={index} navigation={navigation} />
             )}
-            contentContainerStyle={[{
-              paddingTop: Wp(10),
-              alignItems: "center",
-              
-              
-            } , deviceType === "tablet" && styles.CardCont_tablet]}
+            contentContainerStyle={[
+              {
+                paddingTop: Wp(10),
+                alignItems: "center",
+              },
+              deviceType === "tablet" && styles.CardCont_tablet,
+            ]}
             showsVerticalScrollIndicator={false}
           />
         ) : (
@@ -106,8 +91,6 @@ const styles = StyleSheet.create({
   CardCont_tablet: {
     width: wp(100),
     alignSelf: "center",
-
-  
   },
   Body: {
     paddingHorizontal: Wp(16),

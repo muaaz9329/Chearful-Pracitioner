@@ -8,16 +8,27 @@ import { CalenderIcon } from "@app/svgs/Index";
 import { Mulish, Nunito } from "@app/helper/FontWeight";
 import { DateConstrctor } from "@app/helper/customFunction";
 import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
+import { NavigationHelpers } from "@react-navigation/native";
 
-const SessionScreenHeader = ({ navigation, ApiQueryDate = null }) => {
+interface Props {
+  navigation: NavigationHelpers<any, any>;
+  ApiQueryDate?: (date: string) => void | null;
+}
+
+const SessionScreenHeader = ({ navigation, ApiQueryDate }: Props) => {
   const [open, setOpen] = useState(false);
-  const [dayAndDate, setDayAndDate] = useState({
+  const [dayAndDate, setDayAndDate] = useState<{
+    Date: string;
+    Day: string;
+    Time: string;
+    ApiDateQuery: string;
+  }>({
     Date: "",
     Day: "",
     Time: "",
     ApiDateQuery: "",
   });
-  const [value, setValue] = useState(new Date());
+  const [value, setValue] = useState<Date>(new Date());
 
   const { deviceType } = useContext(DeviceContext);
 
@@ -25,7 +36,7 @@ const SessionScreenHeader = ({ navigation, ApiQueryDate = null }) => {
     let obj = DateConstrctor(value);
     setDayAndDate(obj);
     if (ApiQueryDate !== null) {
-      ApiQueryDate(obj.ApiDateQuery);
+      ApiQueryDate?.(obj.ApiDateQuery);
     }
   }, [value]);
   return (
@@ -35,10 +46,7 @@ const SessionScreenHeader = ({ navigation, ApiQueryDate = null }) => {
           <Pressable
             style={[
               styles.HeaderIconStyles,
-              deviceType === "tablet" && {
-                padding: Wp(10),
-                borderRadius: Wp(10),
-              },
+              deviceType === "tablet" && styles.HeaderIconStyles_Tablet,
             ]}
             onPress={() => {
               navigation.goBack();
@@ -57,9 +65,7 @@ const SessionScreenHeader = ({ navigation, ApiQueryDate = null }) => {
             style={[
               styles.Text,
               { textAlign: "center" },
-              deviceType === "tablet" && {
-                fontSize: FontSize(13),
-              },
+              deviceType === "tablet" && styles.Text_Tablet,
             ]}
           >
             Sessions
@@ -103,10 +109,8 @@ const SessionScreenHeader = ({ navigation, ApiQueryDate = null }) => {
       <Text
         style={[
           styles.textTitle,
-          { textAlign: "center" },
-          deviceType === "tablet" && {
-            fontSize: FontSize(10),
-          },
+
+          deviceType === "tablet" && styles.textTitle_Tablet,
         ]}
       >
         {dayAndDate.Day}
@@ -129,6 +133,16 @@ const SessionScreenHeader = ({ navigation, ApiQueryDate = null }) => {
 export default SessionScreenHeader;
 
 const styles = StyleSheet.create({
+  textTitle_Tablet: {
+    fontSize: FontSize(10),
+  },
+  Text_Tablet: {
+    fontSize: FontSize(13),
+  },
+  HeaderIconStyles_Tablet: {
+    padding: Wp(10),
+    borderRadius: Wp(10),
+  },
   HeaderCont: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -162,6 +176,7 @@ const styles = StyleSheet.create({
     color: NoteAppcolor.Primary,
     fontFamily: Nunito("700"),
     fontSize: FontSize(16),
+    textAlign: "center",
   },
   textSubtitle: {
     color: NoteAppcolor.Primary,
