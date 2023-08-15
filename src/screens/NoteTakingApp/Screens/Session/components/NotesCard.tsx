@@ -1,28 +1,33 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Pressable,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 import React, { useContext } from "react";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { FontSize, Wp } from "@helper/CustomResponsive";
+import { Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
-import { Mulish, Nunito } from "@helper/FontWeight";
+import { Nunito } from "@helper/FontWeight";
 import User_Session_Notes_Editor_Pram_object from "@app/adapters/User_Session_Notes_Editor_Pram_object";
 import { DateConstrctor } from "@app/helper/customFunction";
-import { IconClockHour3 } from "tabler-icons-react-native";
+
 import { ClockIcon } from "@app/svgs/Index";
 import FileIconGenrator from "./FileIconGenrator";
 import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
+import { CommonSessionNote, DocTypes } from "@app/types/Modules/Session";
+import { NavigationHelpers } from "@react-navigation/native";
+import { User_Session_notes_pram_object } from "@app/adapters/User_Session_notes_pram_object";
+interface ArrType extends CommonSessionNote {
+  Apptype: DocTypes;
+}
+interface Props {
+  Arr: ArrType[];
+  navigation: NavigationHelpers<any, any>;
+  ClientData: User_Session_notes_pram_object;
+}
 
-const NotesCard = ({ Arr, navigation, ClientData }) => {
+const NotesCard = ({ Arr, navigation, ClientData }: Props) => {
   const VIEW_MODE = "view";
-  const EDIT_MODE = "edit";
+
   const { deviceType } = useContext(DeviceContext);
-  const HandleNavigation = (item) => {
+  console.log("Arr:", Arr);
+  const HandleNavigation = (item: ArrType) => {
     const Pram = new User_Session_Notes_Editor_Pram_object(
       ClientData,
       item,
@@ -32,26 +37,24 @@ const NotesCard = ({ Arr, navigation, ClientData }) => {
 
     switch (item.Apptype) {
       case "text":
-        navigation.push("Prac_NotesEditor", Pram);
+        navigation.navigate("Prac_NotesEditor", Pram);
         break;
       case "img":
-        navigation.push("Prac_ImageViewer", Pram);
+        navigation.navigate("Prac_ImageViewer", Pram);
         break;
       case "canvas":
-        navigation.push("Prac_WrittenEditor", Pram);
+        navigation.navigate("Prac_WrittenEditor", Pram);
         break;
       case "pdf":
-        navigation.push("Prac_PDFEditor", Pram);
+        navigation.navigate("Prac_PDFEditor", Pram);
         break;
       case "docx":
-        navigation.push("Prac_DocsEditor", Pram);
+        navigation.navigate("Prac_DocsEditor", Pram);
     }
   };
 
   return (
-    <View
-      style={[styles.Parent, deviceType === "tablet" && styles.Parent_tablet]}
-    >
+    <View style={[deviceType === "tablet" && styles.Parent_tablet]}>
       {Arr.map((item, index) => {
         return (
           <Pressable
@@ -69,68 +72,72 @@ const NotesCard = ({ Arr, navigation, ClientData }) => {
               <View
                 style={[
                   styles.ImageCont,
-                  deviceType === "tablet" && {
-                    width: Wp(32),
-                    height: Wp(32),
-
-                    borderRadius: Wp(3),
-                  },
+                  deviceType === "tablet" && styles.ImageCont_tablet,
                 ]}
               >
                 <Image
                   source={FileIconGenrator(item.Apptype)}
                   style={[
                     styles.DocIconSize,
-                    deviceType === "tablet" && {
-                      width: Wp(19),
-                      height: Wp(24),
-                    },
+                    deviceType === "tablet" && styles.DocIconSize_Tablet
                   ]}
                 />
               </View>
               <View
                 style={[
                   styles.Content,
-                  deviceType === "tablet" && {
-                    width: Wp(140),
-                    paddingVertical: Wp(4),
-                    justifyContent: "space-between",
-                    paddingHorizontal: Wp(1),
-                    
-                  },
+                  deviceType === "tablet" && styles.Content_Tablet,
                 ]}
               >
                 <View style={styles.TopText}>
-                  <Text style={[styles.Date,deviceType==='tablet'&&{
-                    fontSize:Wp(8)
-                  }]}>
+                  <Text
+                    style={[
+                      styles.Date,
+                      deviceType === "tablet" && styles.Date_Tablet
+                    ]}
+                  >
                     {DateConstrctor(new Date(item.created_at)).Date}
                   </Text>
                   {!(item.created_at === item.updated_at) && (
                     <View style={styles.TimeCont}>
-                      <View style={styles.iconCont}>
+                      <View>
                         <ClockIcon
                           color={"#90A3A7"}
-                          width={deviceType==='mobile'?Wp(15):Wp(7)}
-                          height={deviceType==='mobile'?Wp(15):Wp(7)}
+                          width={deviceType === "mobile" ? Wp(15) : Wp(7)}
+                          height={deviceType === "mobile" ? Wp(15) : Wp(7)}
                         />
                       </View>
-                      <View style={[styles.IconText, deviceType==='tablet'&&{
-                         width: Wp(33)
-                      }]}>
-                        <Text style={[styles.Time,deviceType==='tablet'&&{
-                          fontSize:Wp(8)
-                        }]}>
+                      <View
+                        style={[
+                          styles.IconText,
+                          deviceType === "tablet" && {
+                            width: Wp(33),
+                          },
+                        ]}
+                      >
+                        <Text
+                          style={[
+                            styles.Time,
+                            deviceType === "tablet" && {
+                              fontSize: Wp(8),
+                            },
+                          ]}
+                        >
                           {DateConstrctor(new Date(item.created_at)).Time}
                         </Text>
                       </View>
                     </View>
                   )}
                 </View>
-                <View style={styles.BottomCont}>
-                  <Text style={[styles.Time,deviceType==='tablet'&&{
-                    fontSize:Wp(8)
-                  }]}>
+                <View>
+                  <Text
+                    style={[
+                      styles.Time,
+                      deviceType === "tablet" && {
+                        fontSize: Wp(8),
+                      },
+                    ]}
+                  >
                     {`Last Edit ${
                       DateConstrctor(new Date(item.updated_at)).Time
                     }, ${DateConstrctor(new Date(item.updated_at)).Date}`}
@@ -147,11 +154,25 @@ const NotesCard = ({ Arr, navigation, ClientData }) => {
 
 export default NotesCard;
 
-
-
-
-
 const styles = StyleSheet.create({
+  Date_Tablet: {
+    fontSize: Wp(8),
+  },
+  DocIconSize_Tablet: {
+    width: Wp(19),
+    height: Wp(24),
+  },
+  Content_Tablet: {
+    width: Wp(140),
+    paddingVertical: Wp(4),
+    justifyContent: "space-between",
+    paddingHorizontal: Wp(1),
+  },
+  ImageCont_tablet: {
+    width: Wp(32),
+    height: Wp(32),
+    borderRadius: Wp(3),
+  },
   cont: {
     height: Wp(82),
     flexDirection: "row",
@@ -178,9 +199,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  IconText: {
-    marginHorizontal: Wp(3),
-  },
+
   Content: {
     width: Wp(280),
     paddingVertical: Wp(8),
@@ -202,6 +221,7 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
     justifyContent: "center",
+    marginHorizontal: Wp(3),
   },
   DocIconSize: {
     width: Wp(38),
@@ -210,7 +230,7 @@ const styles = StyleSheet.create({
   Parent_tablet: {
     width: wp(48),
     alignSelf: "center",
-  },  
+  },
   cont_Tablet: {
     height: Wp(41),
     paddingVertical: Wp(3),

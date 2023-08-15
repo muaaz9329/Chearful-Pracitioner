@@ -19,7 +19,7 @@ import Carousel from "react-native-reanimated-carousel";
 import UpcomingCoursalComponent from "./Components/UpcomingCoursalComponent";
 import HistoryCoursalComponent from "./Components/HistoryCoursalComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DateAndFilter from "../Session/components/DateAndFilter";
+import DateAndFilter from "./Components/DateAndFilter";
 import { ApiServices } from "@app/services/Apiservice";
 import { useDispatch, useSelector } from "react-redux";
 import {

@@ -1,5 +1,8 @@
 import { DocIcon } from "@app/screens/NoteTakingApp/Images/Doc-Icons"
-const FileIconGenrator = (type) => {
+import { DocTypes } from "@app/types/Modules/Session"
+
+
+const FileIconGenrator = (type:DocTypes) => {
     if(type == "pdf"){
         return DocIcon.pdf
     }

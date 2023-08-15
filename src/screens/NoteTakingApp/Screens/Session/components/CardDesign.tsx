@@ -24,35 +24,14 @@ import {
 } from "@app/helper/customFunction";
 import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 import { NavigationHelpers } from "@react-navigation/native";
+import { SessionData } from "@app/types/Modules/Session";
 interface Props {
-  Data: {
-    appointment_date: string;
-    appointment_date_time: string;
-    appointment_time: string;
-    booked_by: string;
-    charges: number;
-    client_full_name: string;
-    client_image: string;
-    created_at: string;
-    id: number;
-    paid: string;
-    patient_id: number;
-    patient_name: string | null;
-    relation: string | null;
-    rescheduled_by: string | null;
-    service_id: number;
-    service_name: string;
-    status: string;
-    time_duration: string;
-    type: string;
-    updated_at: string;
-    user_id: number;
-  };
+  Data: SessionData
   navigation: NavigationHelpers<any, any>;
 }
 const CardDesign = ({ Data, navigation }: Props) => {
   const [model, setmodel] = useState(false);
-  console.log(Data);
+
 
   const { deviceType } = useContext(DeviceContext);
   return (
