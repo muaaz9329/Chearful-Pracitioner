@@ -1,7 +1,15 @@
 import React from 'react';
-import { Animated, FlatList } from 'react-native';
+import { Animated, FlatList, StyleProp, View } from 'react-native';
 import { Wp } from '@helper/CustomResponsive';
 import { useRef } from 'react';
+
+interface IProps{
+  data: any[],
+  renderItem: ({ item, index }: { item: any; index: number; }) => JSX.Element,
+  contentContainerStyle?: any,
+  showsVerticalScrollIndicator?: boolean,
+  Item_size: number
+}
 
 const AnimatedFlatList = ({
   data,
@@ -9,11 +17,11 @@ const AnimatedFlatList = ({
   contentContainerStyle,
   showsVerticalScrollIndicator,
   Item_size= Wp(76 + 16 + 20)
-}) => {
+}:IProps) => {
 
   const scrollY = useRef(new Animated.Value(0)).current;
 
-  const renderAnimatedItem = ({ item, index }) => {
+  const renderAnimatedItem = ({ item, index }:{item:any,index:number}) => {
     const inputRange = [-1, 0, Item_size * index, Item_size * (index + 2)];
     const scale = scrollY.interpolate({
       inputRange,

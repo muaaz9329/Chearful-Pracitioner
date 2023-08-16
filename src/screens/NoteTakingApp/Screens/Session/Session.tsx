@@ -8,7 +8,6 @@ import AnimatedFlatList from "@constants/AnimatedFlatList";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
-
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import { ActivityIndicator } from "react-native-paper";
 import NotAvil from "@app/common/components/NotAvil";
@@ -16,20 +15,27 @@ import SessionScreenHeader from "./components/SessionScreenHeader";
 import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import useSessionNotes from "./Hooks/useSessionNotes";
+import { NavigationHelpers } from "@react-navigation/native";
+import { SessionData } from '../../../../types/Modules/Session';
 
-const Session = ({ navigation }) => {
+interface IProps {
+  navigation: NavigationHelpers<any, any>;
+}
+
+const Session = ({ navigation }: IProps) => {
   const LoadingRef = useRef(); // Ref used to control the Loading Screen
   const { HasSession, Success, loading } = useSelector(
-    (state) => state.Session
+    (state: any) => state.Session
   ); // States from the store
 
   const { deviceType } = useContext(DeviceContext);
 
-  const { data, setApiQueryDate, ApiQueryDate } = useSessionNotes(); // All api logic is here 
+  const { data, setApiQueryDate, ApiQueryDate } = useSessionNotes(); // All api logic is here
 
   useEffect(() => {
     setTimeout(() => {
       if (Success && LoadingRef.current) {
+        //@ts-ignore
         LoadingRef.current.LoadingEnds();
       }
     }, 1000);
@@ -45,7 +51,7 @@ const Session = ({ navigation }) => {
 
   return (
     <>
-      <LoadingScreen ref={LoadingRef} type={"loader"} />
+      <LoadingScreen ref={LoadingRef}  />
       <SafeAreaView
         style={{ backgroundColor: NoteAppcolor.White, flex: 1 }}
         edges={["top", "right", "left"]}
@@ -64,7 +70,7 @@ const Session = ({ navigation }) => {
         ) : HasSession ? (
           <AnimatedFlatList
             Item_size={deviceType === "tablet" ? wp(12) : Wp(76 + 16 + 20)}
-            data={data}
+            data={data as SessionData[]}
             renderItem={({ item, index }) => (
               <CardDesign Data={item} key={index} navigation={navigation} />
             )}
