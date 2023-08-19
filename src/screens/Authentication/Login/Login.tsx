@@ -286,8 +286,7 @@ const Login = ({ navigation }: props) => {
             </Text>
           </View>
         </View>
-      </KeyboardAwareScrollView>
-      <View style={styles.signupCont}>
+        <View style={styles.signupCont}>
         <Pressable style={[styles.Signupbtn,deviceType==='tablet'&& styles.SignupbtnTablet ]}
         onPress={()=>{
           Linking.openURL('https://chearful.com/practitioner-signup')
@@ -298,6 +297,8 @@ const Login = ({ navigation }: props) => {
           </Text>
         </Pressable>
       </View>
+      </KeyboardAwareScrollView>
+      
     </View>
   );
 };
@@ -310,7 +311,7 @@ const styles = StyleSheet.create({
 
     
     position:'absolute',
-    bottom:Wp(35)
+    bottom:Wp(5)
   },
   Signupbtn:{
     backgroundColor: NoteAppcolor.OffWhiteCont,
