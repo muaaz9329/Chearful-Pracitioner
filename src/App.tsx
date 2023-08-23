@@ -11,6 +11,8 @@ import { setLogOut } from "./features/utils-States/utilsReducers";
 import Toast, { ToastConfig } from "react-native-toast-message";
 import Config from "./common/Module/Toasts/ToastConfig";
 import DeviceTypeProvider from "./context/Device-Type/DeviceTypeProvider";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import SignUp from "./screens/Authentication/Sign-Up/SignUp";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -49,17 +51,21 @@ const App = () => {
   return (
     <DeviceTypeProvider>
       <StatusBar barStyle={"dark-content"} />
-      <NavigationContainer>
-        {IsLogedIn !== null && (
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {IsLogedIn == false ? (
-              <Stack.Screen name="Auth" component={AuthStack} />
-            ) : (
-              <Stack.Screen name="PRACTITIONER_Home" component={PracStack} />
-            )}
-          </Stack.Navigator>
-        )}
-      </NavigationContainer>
+      <SafeAreaProvider>
+        {/* <NavigationContainer>
+          {IsLogedIn !== null && (
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {IsLogedIn == false ? (
+                <Stack.Screen name="Auth" component={AuthStack} />
+              ) : (
+                <Stack.Screen name="PRACTITIONER_Home" component={PracStack} />
+              )}
+            </Stack.Navigator>
+          )}
+        </NavigationContainer> */}
+        <SignUp/>
+      </SafeAreaProvider>
+
       <Toast config={Config as ToastConfig} />
     </DeviceTypeProvider>
   );

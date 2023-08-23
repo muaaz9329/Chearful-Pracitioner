@@ -1,6 +1,6 @@
 import React, { createContext } from "react";
 import DeviceInfo from "react-native-device-info";
-type DeviceType = "mobile" | "tablet" | null;
+export type DeviceType = "mobile" | "tablet" | null;
 
 interface DeviceContextType {
   deviceType: DeviceType;
