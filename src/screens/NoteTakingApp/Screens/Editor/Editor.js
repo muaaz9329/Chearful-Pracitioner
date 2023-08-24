@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Text,
   Platform,
@@ -32,6 +32,7 @@ import DeleteModel from "@models/DeleteModel";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const Editor = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote , routeLoc } =
     route.params;
@@ -46,6 +47,7 @@ const Editor = ({ route, navigation }) => {
   const richText = React.useRef();
   const ref = React.useRef();
   const LoadingRef = useRef();
+  const {deviceType}=useContext(DeviceContext)
   console.log("ClinetData:", ClientData);
 
   // This function is used to open the image picker and choose an image.
@@ -166,29 +168,29 @@ const Editor = ({ route, navigation }) => {
               PutImage();
             }}
             selectedIconTint={NoteAppcolor.Primary}
-            iconSize={Wp(27)}
+            iconSize={deviceType==='mobile'?Wp(27):Wp(17)}
             
            
           />
         )}
 
         {Mode === "view" && (
-          <View style={styles.editBar}>
+          <View style={[styles.editBar]}>
             <Pressable
-              style={[styles.Btn, { backgroundColor: "#FF8383" }]}
+              style={[styles.Btn, { backgroundColor: "#FF8383" }, deviceType==='tablet'&&styles.Btn_Tablet]}
               onPress={() => {
                 setModel(!model);
               }}
             >
-              <IconTrash size={Wp(30)} color={"white"} />
+              <IconTrash size={deviceType==='mobile'?Wp(30):Wp(20)} color={"white"} />
             </Pressable>
             <Pressable
-              style={[styles.Btn]}
+              style={[styles.Btn,deviceType==='tablet'&&styles.Btn_Tablet]}
               onPress={() => {
                 setmode("edit");
               }}
             >
-              <IconPencil size={Wp(30)} color={NoteAppcolor.Primary} />
+              <IconPencil size={deviceType==='mobile'?Wp(30):Wp(20)} color={NoteAppcolor.Primary} />
             </Pressable>
           </View>
         )}
@@ -219,5 +221,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: Wp(16),
     bottom: 0,
     marginBottom: Wp(15),
+  },
+  Btn_Tablet: {
+    paddingVertical: Wp(8),
+    paddingHorizontal: Wp(8),
   },
 });

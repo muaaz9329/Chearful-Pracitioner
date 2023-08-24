@@ -6,7 +6,7 @@ import {
   Pressable,
   Platform,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import Header from "@CommonComponents/Header";
@@ -30,7 +30,8 @@ import {
 } from "@app/features/Client-AllClients/ClientReducers";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import NotAvil from "@app/common/components/NotAvil";
-function SearchBox({ HandleFunction, OpenSheet }) {
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
+function SearchBox({ HandleFunction, OpenSheet , deviceType }) {
   const refInput = useRef();
 
   return (
@@ -38,8 +39,8 @@ function SearchBox({ HandleFunction, OpenSheet }) {
       <Pressable onPress={() => refInput.current.focus()}>
         <View style={styles.InputBoxIcon}>
           <SearchIcon
-            width={wp(2.5 * 2)}
-            height={wp(2.5 * 2)}
+            width={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
+            height={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
             color={NoteAppcolor.Primary}
           />
         </View>
@@ -47,7 +48,13 @@ function SearchBox({ HandleFunction, OpenSheet }) {
       <View>
         <TextInput
           placeholder={"Search Client"}
-          style={styles.InputBox}
+          style={[
+            styles.InputBox,
+            deviceType === "tablet" && {
+              fontSize: Wp(8),
+              width: wp(70),
+            },
+          ]}
           placeholderTextColor={"rgba(30, 85, 66, 0.5)"}
           onChangeText={(text) => {
             HandleFunction(text);
@@ -58,10 +65,15 @@ function SearchBox({ HandleFunction, OpenSheet }) {
       </View>
 
       <Pressable onPress={() => OpenSheet()}>
-        <View style={styles.FilterBtn}>
+        <View
+          style={[
+            styles.FilterBtn,
+            deviceType === "tablet" && styles.FilterBtn_tablet,
+          ]}
+        >
           <FilterIcon
-            width={wp(2.5 * 2)}
-            height={wp(2.5 * 2)}
+            width={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
+            height={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
             color={NoteAppcolor.Primary}
           />
         </View>
@@ -75,6 +87,7 @@ const Client = ({ navigation }) => {
   const [OldData, SetOldData] = useState([]);
   const Dispatch = useDispatch();
   const LoadingRef = useRef();
+  const {deviceType}=useContext(DeviceContext)
 
   const { loading, Clients, error, Success, isEmpty, haveError } = useSelector(
     (state) => state.ClientReducer
@@ -162,8 +175,12 @@ const Client = ({ navigation }) => {
       <SafeAreaView style={styles.Body} edges={["top", "left", "right"]}>
         <Header Icon={ChevronLeft} navigation={navigation} pram={"back"} justifyContent="flex-start">
           <View style={styles.HeaderCont}>
-            <Text style={styles.HeaderTitle}>Clients</Text>
-            <Text style={styles.SubHeaderTitle}>Select the Client to get Sessions</Text>
+            <Text style={[styles.HeaderTitle, deviceType==='tablet'&&{
+              fontSize: FontSize(10),
+            }]}>Clients</Text>
+            <Text style={[styles.SubHeaderTitle, deviceType==='tablet'&&{
+              fontSize: FontSize(8),
+            }]}>Select the Client to get Sessions</Text>
           </View>
         </Header>
         <SearchBox
@@ -171,12 +188,16 @@ const Client = ({ navigation }) => {
           setState={SetClientInfo}
           HandleFunction={HandleFilter}
           OpenSheet={bottomSheetOpen}
+          deviceType={deviceType}
         />
         {ClientInfo.length === 0 ? (
           <NotAvil Title={`No Clients Available`} />
         ) : (
           <AnimatedFlatList
             data={ClientInfo}
+            Item_size={
+              deviceType === "tablet" ? wp(13) : Wp(76 + 16 + 20)
+            }
             renderItem={({ item, index }) => (
               <Pressable
                 onPress={() => {
@@ -402,5 +423,11 @@ const styles = StyleSheet.create({
   },
   HeaderCont:{
     marginStart:Wp(10)
-  }
+  },
+  FilterBtn_tablet: {
+    padding: wp(1.2),
+    margin: wp(2.5 * 0.5),
+    backgroundColor: "#FFFFFF",
+    borderRadius: Wp(5),
+  },
 });

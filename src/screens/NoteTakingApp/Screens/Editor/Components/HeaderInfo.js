@@ -1,75 +1,117 @@
-import { Platform, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { ApiServices } from '@app/services/Apiservice';
-import { Image } from 'react-native-animatable';
-import { Dot } from '@app/svgs/Index';
-import { FontSize, Wp } from '@app/helper/CustomResponsive';
-import { Mulish, Nunito } from '@app/helper/FontWeight';
-import { NoteAppcolor } from '@app/constants/NoteAppcolor';
-import { ClientDataObj } from '@app/adapters/ClientDataObj';
+import { Platform, StyleSheet, Text, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { ApiServices } from "@app/services/Apiservice";
+import { Image } from "react-native-animatable";
+import { Dot } from "@app/svgs/Index";
+import { FontSize, Wp } from "@app/helper/CustomResponsive";
+import { Mulish, Nunito } from "@app/helper/FontWeight";
+import { NoteAppcolor } from "@app/constants/NoteAppcolor";
+import { ClientDataObj } from "@app/adapters/ClientDataObj";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 function UserInfo(props) {
-
-    return (
-      <View>
-        <View style={styles.CardContet}>
-          <View style={styles.Cont1}>
-            <Image
-              source={{
-                uri: props.ClientData.Client_image,
-              }}
-              style={styles.ClientImage}
-            />
-          </View>
-          <View style={styles.CardTextCont}>
-            <Text style={styles.Name}>{props.ClientData.Client_fullName} </Text>
-            <View style={styles.LastVisitCont}>
-              <Text style={styles.LastVisitText}>
-                {props.ClientData.appointment.date}
-              </Text>
-              <View style={styles.DotMargin}>
-                <Dot width={Wp(4)} height={Wp(4)} color={NoteAppcolor.Primary} />
-              </View>
-              <Text style={styles.LastVisitText}>
-                {props.ClientData.appointment.time}
-              </Text>
+  const { deviceType } = useContext(DeviceContext);
+  return (
+    <View>
+      <View style={styles.CardContet}>
+        <View style={styles.Cont1}>
+          <Image
+            source={{
+              uri: props.ClientData.Client_image,
+            }}
+            style={[
+              styles.ClientImage,
+              deviceType === "tablet" &&styles.ClientImage_Tablet,
+            ]}
+          />
+        </View>
+        <View style={styles.CardTextCont}>
+          <Text
+            style={[
+              styles.Name,
+              deviceType === "tablet" && {
+                fontSize: FontSize(8),
+              },
+            ]}
+          >
+            {props.ClientData.Client_fullName}{" "}
+          </Text>
+          <View
+            style={[
+              styles.LastVisitCont,
+              deviceType === "tablet" && styles.LastVisitCont_Tablet,
+            ]}
+          >
+            <Text
+              style={[
+                styles.LastVisitText,
+                deviceType === "tablet" && {
+                  fontSize: FontSize(6),
+                },
+              ]}
+            >
+              {props.ClientData.appointment.date}
+            </Text>
+            <View style={styles.DotMargin}>
+              <Dot
+                width={deviceType === "mobile" ? Wp(4) : Wp(2)}
+                height={deviceType === "mobile" ? Wp(4) : Wp(2)}
+                color={NoteAppcolor.Primary}
+              />
             </View>
+            <Text
+              style={[
+                styles.LastVisitText,
+                deviceType === "tablet" && {
+                  fontSize: FontSize(6),
+                },
+              ]}
+            >
+              {props.ClientData.appointment.time}
+            </Text>
           </View>
         </View>
       </View>
-    );
-  }
-  
-
-const HeaderInfo = ({data  , LoadingRef=null}) => {
-    const [ClientData, setClientData] = useState(null); // for storing the data of the header
-    const HandleApi = async () => {
-        const res = await ApiServices.Get_User_Session_Info(
-          data.Session_ID,
-          data.Client_ID
-        );
-    
-        if (res) {
-          console.log(res.data.session_info);
-          const Data = new ClientDataObj(res.data.session_info);
-    
-          setClientData(Data);
-        }
-      };
-      useEffect(() => {
-        HandleApi();
-        if(LoadingRef!==null){
-          LoadingRef.current?.LoadingEnds();
-
-        }
-      }, []);
-  return (
-  (ClientData && <UserInfo ClientData={ClientData}/>)
-  )
+    </View>
+  );
 }
 
-export default HeaderInfo
+const HeaderInfo = ({ data, LoadingRef = null }) => {
+  const [ClientData, setClientData] = useState(null); // for storing the data of the header
+  const HandleApi = async () => {
+    const res = await ApiServices.Get_User_Session_Info(
+      data.Session_ID,
+      data.Client_ID
+    );
+
+    if (res) {
+      console.log(res.data.session_info);
+      const Data = new ClientDataObj(res.data.session_info);
+
+      setClientData(Data);
+    }
+  }; // fetching data from api
+  useEffect(() => {
+    HandleApi();
+    if (LoadingRef !== null) {
+      LoadingRef.current?.LoadingEnds();
+    }
+  }, []); // side effect function to stop loading 
+  return ClientData && <UserInfo ClientData={ClientData} />;
+};
+
+export default HeaderInfo;
 
 const styles = StyleSheet.create({
+  LastVisitCont_Tablet: {
+    justifyContent: "flex-start",
+    marginVertical: Wp(3),
+  },
+  ClientImage_Tablet: {
+    width: Wp(23),
+    height: Wp(23),
+    borderRadius: Wp(12),
+    marginEnd: Wp(4),
+  },
   ClientImage: {
     width: Wp(43),
     height: Wp(43),
@@ -101,4 +143,4 @@ const styles = StyleSheet.create({
   DotMargin: {
     marginHorizontal: Wp(5),
   },
-})
+});

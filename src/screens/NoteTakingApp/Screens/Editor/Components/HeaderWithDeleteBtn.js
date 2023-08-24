@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -22,9 +22,9 @@ import { useSelector } from "react-redux";
 import { DateConstrctor } from "@app/helper/customFunction";
 import { IconTrash } from "tabler-icons-react-native";
 import HeaderInfo from "./HeaderInfo";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const HeaderWithDeleteBtn = ({ navigation, mode, data , NoteId , LoadingRef }) => {
-  const { SessionInfo } = useSelector((state) => state.SessionNotes);
-
+  const {deviceType} = useContext(DeviceContext)
   const [model, setModel] = useState(false);
   const [model2, setmodel2] = useState(false);
   return (
@@ -47,8 +47,8 @@ const HeaderWithDeleteBtn = ({ navigation, mode, data , NoteId , LoadingRef }) =
         }}
       >
         <ChevronLeft
-          width={wp(2.5 * 2.4)}
-          height={wp(2.5 * 2.4)}
+            width={deviceType === "mobile" ? Wp(24) : Wp(16)}
+            height={deviceType === "mobile" ? Wp(24) : Wp(18)}
           color={NoteAppcolor.btnColor}
         />
       </Pressable>
@@ -61,7 +61,7 @@ const HeaderWithDeleteBtn = ({ navigation, mode, data , NoteId , LoadingRef }) =
             setmodel2(!model2);
           }}
         >
-          <IconTrash size={wp(2.5 * 2.4)} color={"white"} />
+          <IconTrash size={deviceType==='mobile'?Wp(30):Wp(20)}  color={"white"} />
         </Pressable>
       )}
     </View>

@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import {
   widthPercentageToDP as wp,
@@ -8,21 +8,67 @@ import {
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { DateConstrctor } from "@helper/customFunction";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const CardDesign = ({ Data }) => {
+  const {deviceType}=useContext(DeviceContext)
   return (
-    <View style={styles.cardCont}>
-      <View style={styles.CardContet}>
+    <View
+      style={[
+        styles.cardCont,
+        deviceType === "tablet" && styles.cardCont_Tablet,
+      ]}
+    >
+      <View
+        style={[
+          styles.CardContet,
+          deviceType === "tablet" && styles.CardContet_tablet,
+        ]}
+      >
         <View style={styles.Cont1}>
-        <Image source={{uri: Data.avatar}} style={styles.ClientImage} />
+          <Image
+            source={{ uri: Data.avatar }}
+            style={[
+              styles.ClientImage,
+              deviceType === "tablet" && styles.ClientImage_tablet,
+            ]}
+          />
         </View>
         <View style={styles.CardTextCont}>
-          <Text style={styles.Name}>
-          {Data.full_name.length > 15 ? Data.full_name.slice(0, 15) + "..." : Data.full_name}
+          <Text
+            style={[
+              styles.Name,
+              deviceType === "tablet" && {
+                fontSize: FontSize(10),
+              },
+            ]}
+          >
+            {deviceType === "mobile"
+              ? Data.full_name.length > 15
+                ? Data.full_name.slice(0, 15) + "..."
+                : Data.full_name
+              : Data.full_name.length > 20
+              ? Data.full_name.slice(0, 20) + "..."
+              : Data.full_name}
           </Text>
 
-          <View style={styles.LastVisitCont}>
-            <Text style={styles.LastVisitText}>
-            Last visit on {DateConstrctor(new Date(Data.latest_session_date)).Date}
+          <View
+            style={[
+              styles.LastVisitCont,
+              deviceType === "tablet" && {
+                marginVertical: Wp(3),
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.LastVisitText,
+                deviceType === "tablet" && {
+                  fontSize: FontSize(8),
+                },
+              ]}
+            >
+              Last visit on{" "}
+              {DateConstrctor(new Date(Data.latest_session_date)).Date}
             </Text>
           </View>
         </View>
@@ -91,5 +137,22 @@ const styles = StyleSheet.create({
   },
   DotMargin: {
     marginHorizontal: Wp(5),
+  },
+  ClientImage_tablet: {
+    width: Wp(30),
+    height: Wp(30),
+    borderRadius: Wp(38),
+    resizeMode: "cover",
+    marginEnd: Wp(7),
+  },
+  CardContet_tablet: {
+    width: wp(54),
+    paddingHorizontal: Wp(8),
+    paddingVertical: Wp(5),
+    borderRadius: Wp(12),
+  },
+  cardCont_Tablet: {
+    width: wp(54),
+    marginBottom: Wp(10),
   },
 });

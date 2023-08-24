@@ -7,7 +7,7 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import Header from "@CommonComponents/Header";
 import { ChevronLeft } from "@svg";
@@ -28,8 +28,10 @@ import {
 import { ActivityIndicator } from "react-native-paper";
 import NotAvil from "@app/common/components/NotAvil";
 import { setRefresh } from "@app/features/utils-States/utilsReducers";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
+import { widthPercentageToDP } from "react-native-responsive-screen";
 
-const UserSelection = ({ SetState }) => {
+const UserSelection = ({ SetState , deviceType }) => {
   const user = ["mySelf", "someoneElse"];
   const SelectedDesign = {
     cont: {
@@ -86,9 +88,19 @@ const UserSelection = ({ SetState }) => {
         style={[
           styles.selecBtn,
           { backgroundColor: design[0].cont.backgroundColor },
+          deviceType==='tablet'&&{
+            width: Wp(80),
+  height: Hp(40),
+  marginHorizontal: Wp(10),
+  borderRadius: Hp(10),
+          }
         ]}
       >
-        <Text style={[styles.btnText, { color: design[0].text.color }]}>
+        <Text style={[styles.btnText, { color: design[0].text.color },
+      deviceType==='tablet'&&{
+        fontSize: Platform.OS == "android" ? Wp(10) : Wp(12),
+      }
+      ]}>
           Sessions
         </Text>
       </Pressable>
@@ -99,9 +111,17 @@ const UserSelection = ({ SetState }) => {
         style={[
           styles.selecBtn,
           { backgroundColor: design[1].cont.backgroundColor },
+          deviceType==='tablet'&&{
+            width: Wp(80),
+  height: Hp(40),
+  marginHorizontal: Wp(10),
+  borderRadius: Hp(10),
+          }
         ]}
       >
-        <Text style={[styles.btnText, { color: design[1].text.color }]}>
+        <Text style={[styles.btnText, { color: design[1].text.color },deviceType==='tablet'&&{
+        fontSize: Platform.OS == "android" ? Wp(10) : Wp(12),
+      }]}>
           Notes
         </Text>
       </Pressable>
@@ -131,7 +151,7 @@ const ClientDetail = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const [routeData, SetRouteData] = useState(SelectedClientDetail);
   console.log("routeData:", routeData);
-
+  console.log(SelectedClientDetail)
   const handleApi = async () => {
     await ApiServices.Get_User_Client_All_Session(
       dispatch,
@@ -142,6 +162,7 @@ const ClientDetail = ({ navigation, route }) => {
       routeData.id
     );
   };
+  const {deviceType}=useContext(DeviceContext)
 
   useEffect(() => {
     handleApi();
@@ -172,11 +193,23 @@ const ClientDetail = ({ navigation, route }) => {
         <View style={styles.ProfileCont}>
           <Image
             source={{ uri: SelectedClientDetail.avatar }}
-            style={styles.userImg}
+            style={[styles.userImg, deviceType==='tablet'&&{
+              width: Wp(55),
+  height: Wp(55),
+  borderRadius: Wp(28),
+ 
+  marginBottom: Hp(3),
+            }]}
           />
-          <Text style={styles.MainText}>{SelectedClientDetail.full_name}</Text>
-          <Text style={styles.ProfileSub}>24 Years Old</Text>
-          <Text style={styles.ProfileSub}>
+          <Text style={[styles.MainText,deviceType==='tablet'&&{
+            fontSize: FontSize(12),
+          }]}>{SelectedClientDetail.full_name}</Text>
+          <Text style={[styles.ProfileSub,deviceType==='tablet'&&{
+            fontSize: FontSize(10),
+          }]}>{SelectedClientDetail.age + ' years old'}</Text>
+          <Text style={[styles.ProfileSub,deviceType==='tablet'&&{
+            fontSize: FontSize(10),
+          }]}>
             Last Session :{" "}
             {
               DateConstrctor(new Date(SelectedClientDetail.latest_session_date))
@@ -185,7 +218,7 @@ const ClientDetail = ({ navigation, route }) => {
           </Text>
         </View>
         <View>
-          <UserSelection SetState={SetOption} />
+          <UserSelection SetState={SetOption}  deviceType={deviceType}/>
         </View>
         {loading ? (
           haveError ? (
@@ -206,7 +239,12 @@ const ClientDetail = ({ navigation, route }) => {
           ) : (
             <>
               {Option.Session && (
-                <View style={{ marginTop: Wp(20) }}>
+                <View style={[{ marginTop: Wp(20) ,},deviceType==='tablet'&&{
+                  width:widthPercentageToDP(60),
+                  alignSelf:'center',
+            
+                  alignItems:"center"
+                }]}>
                   {Sessions.map((item, index) => (
                     <SessionCardDesign
                       key={index}

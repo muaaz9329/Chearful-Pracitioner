@@ -8,3 +8,4 @@ export {default as ClientSessionReducer} from './Client-AllSessions/AllSessionRe
 export {default as AllNotesReducers } from './Prac-AllNotes/AllNotesReducers'
 export {default as SessionHistory} from './SessionHistory/SessionHistoryReducers'
 export {default as utils} from './utils-States/utilsReducers'
+export {default as signUp}from './sign-up/sign-up-reducers'

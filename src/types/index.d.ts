@@ -46,3 +46,11 @@ type FileUploadObjType = {
     base64: string;
     fileExtension: string;
   };
+
+interface IDoodle {
+  width: number;
+  height: number;
+  color: string;
+}
+
+type DoodleComponent = React.FC<IDoodle>;

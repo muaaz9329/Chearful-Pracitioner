@@ -1,5 +1,5 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DocIcon } from "@app/screens/NoteTakingApp/Images/Doc-Icons";
 import { Wp } from "@app/helper/CustomResponsive";
@@ -9,6 +9,7 @@ import DocumentPicker from "react-native-document-picker";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import FileUploadObj from "./Components/adapter/FileUploadObj";
 import Toast from "react-native-toast-message";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
 const PdfUpload = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote, routeLoc } =
@@ -18,6 +19,7 @@ const PdfUpload = ({ route, navigation }) => {
 
   const [singleFile, setSingleFile] = React.useState(null);
   const [Content, setContent] = React.useState(null);
+  const {deviceType}=useContext(DeviceContext)
 
   const selectOneFile = async () => {
     try {
@@ -76,9 +78,17 @@ const PdfUpload = ({ route, navigation }) => {
         routeLoc={routeLoc}
       />
       <View style={styles.Cont}>
-        <Pressable style={styles.ImgIcon} onPress={selectOneFile}>
-          <Image source={DocIcon.pdf} style={styles.Icon} />
-          <Text style={styles.UploadText}>
+        <Pressable style={[styles.ImgIcon,deviceType==='tablet'&&{
+          width: Wp(90),
+          height: Wp(100),
+        }]} onPress={selectOneFile}>
+          <Image source={DocIcon.pdf} style={[styles.Icon,deviceType==='tablet'&&{
+          width: Wp(90),
+          height: Wp(100),
+        }]} />
+          <Text style={[styles.UploadText,deviceType==='tablet'&&{
+            fontSize:Wp(8)
+          }]}>
            {
               singleFile !== null ? singleFile.name :  "Tap to effortlessly upload PDF documents"
            }

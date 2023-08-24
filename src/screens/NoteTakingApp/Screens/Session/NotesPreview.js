@@ -8,7 +8,7 @@ import {
   RefreshControl,
   Pressable,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Header from "@CommonComponents/Header";
 import { ChevronLeft, Dot } from "@svg";
 import { FontSize, Wp } from "@helper/CustomResponsive";
@@ -28,18 +28,20 @@ import NotAvil from "@app/common/components/NotAvil";
 import { IconPlus } from "tabler-icons-react-native";
 import TypeOfNote from "@app/common/Models/TypeOfNote";
 import HeaderInfo from "../Editor/Components/HeaderInfo";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
 const NotesPreview = ({ navigation, route }) => {
-  const { ClientData ,routeLoc } = route.params;
-  console.log(routeLoc)
-    // ClientData is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
-  const [Route,setRoute] = useState()
+  const { ClientData, routeLoc } = route.params;
+  console.log(routeLoc);
+  // ClientData is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
+  const [Route, setRoute] = useState();
   const dispatch = useDispatch();
   const LoadingRef = useRef(); // used to control the Loading Screen
   const LoadingRef2 = useRef(); // used to control the Loading Screen
   const { SessionNotes, SessionNotesSuccess, HasNotes, refresh } = useSelector(
     (state) => state.SessionNotes
   ); // states from Redux store
+  const { deviceType } = useContext(DeviceContext);
 
   const [model, setmodel] = useState(false);
   const HandleApi = () => {
@@ -48,17 +50,16 @@ const NotesPreview = ({ navigation, route }) => {
       ClientData.Session_ID,
       dispatch,
       ResetSessionNotes,
-      SetSessionNotes,
-      
+      SetSessionNotes
     );
   };
   useEffect(() => {
     HandleApi();
-    if(routeLoc===undefined){
-      setRoute('back')
+    if (routeLoc === undefined) {
+      setRoute("back");
     } // if loc not given in navigation route pram then set it to back
-    else{
-      setRoute(routeLoc) // else set it to the given loc
+    else {
+      setRoute(routeLoc); // else set it to the given loc
     }
   }, []); // Api Calling from Here to Get Session notes
 
@@ -79,7 +80,7 @@ const NotesPreview = ({ navigation, route }) => {
     if (SessionNotesSuccess) {
       setTimeout(() => {
         LoadingRef.current?.LoadingEnds();
-      },300);
+      }, 300);
     }
   }, [SessionNotesSuccess]); // used to control the Loading Screen
 
@@ -94,14 +95,9 @@ const NotesPreview = ({ navigation, route }) => {
           navigation={navigation}
           routeLoc={Route}
         />
-        <Header
-          Icon={ChevronLeft}
-          navigation={navigation}
-          pram={Route}
-        >
+        <Header Icon={ChevronLeft} navigation={navigation} pram={Route}>
           <HeaderInfo data={ClientData} />
         </Header>
-        
 
         <ScrollView
           style={{ marginTop: Wp(20) }}
@@ -122,12 +118,22 @@ const NotesPreview = ({ navigation, route }) => {
           )}
         </ScrollView>
         <Pressable
-          style={styles.addbtn}
+          style={[
+            styles.addbtn,
+            deviceType === "tablet" && {
+              width: Wp(25),
+              height: Wp(25),
+              borderRadius: Wp(15),
+            },
+          ]}
           onPress={() => {
             setmodel(!model);
           }}
         >
-          <IconPlus color={NoteAppcolor.White} size={Wp(25)} />
+          <IconPlus
+            color={NoteAppcolor.White}
+            size={deviceType === "tablet" ? Wp(13) : Wp(25)}
+          />
         </Pressable>
       </SafeAreaView>
     </>

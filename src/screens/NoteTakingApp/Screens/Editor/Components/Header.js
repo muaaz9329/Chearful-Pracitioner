@@ -7,7 +7,7 @@ import {
   View,
   Keyboard,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -22,6 +22,7 @@ import SaveModel from "@models/SaveModel";
 import { ApiServices } from "@app/services/Apiservice";
 import { ClientDataObj } from "@app/adapters/ClientDataObj";
 import HeaderInfo from "./HeaderInfo";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
 const Header = ({
   navigation,
@@ -38,6 +39,8 @@ const Header = ({
 }) => {
   const [model, setModel] = useState(false);
   const [model2, setmodel2] = useState(false);
+  const { deviceType } = useContext(DeviceContext);
+
 
   return (
     <View style={styles.header}>
@@ -78,8 +81,8 @@ const Header = ({
         }}
       >
         <ChevronLeft
-          width={wp(2.5 * 2.4)}
-          height={wp(2.5 * 2.4)}
+         width={deviceType === "mobile" ? Wp(24) : Wp(16)}
+         height={deviceType === "mobile" ? Wp(24) : Wp(18)}
           color={NoteAppcolor.btnColor}
         />
       </Pressable>
@@ -115,7 +118,8 @@ const Header = ({
 
       {mode === "view" && (
         <Pressable style={[styles.Listbtn, { backgroundColor: null }]}>
-          <SaveBtn width={wp(2.5 * 2.4)} height={wp(2.5 * 2.4)} color={null} />
+          <SaveBtn width={deviceType === "mobile" ? Wp(24) : Wp(16)}
+         height={deviceType === "mobile" ? Wp(24) : Wp(18)} color={null} />
         </Pressable>
       )}
     </View>
