@@ -33,6 +33,9 @@ const MobileInput = ({
   useEffect(() => {
     handleFunc(dialcode.dail_code, "countryCode");
   }, [dialcode]);
+  useEffect(() => {
+    handleFunc(dialcode.dail_code, "countryCode");
+  }, []);
 
   return (
     <>
@@ -90,7 +93,7 @@ const MobileInput = ({
                       ? widthPercentageToDP(60)
                       : widthPercentageToDP(30),
                     fontFamily:Mulish(400),
-                    fontSize:Wp(8),
+                    fontSize:deviceType==='tablet'?Wp(8):Wp(14),
                 },
               ]}
               placeholder="Enter Mobile Number"

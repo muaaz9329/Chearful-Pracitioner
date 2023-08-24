@@ -52,7 +52,7 @@ const App = () => {
     <DeviceTypeProvider>
       <StatusBar barStyle={"dark-content"} />
       <SafeAreaProvider>
-        {/* <NavigationContainer>
+        <NavigationContainer>
           {IsLogedIn !== null && (
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               {IsLogedIn == false ? (
@@ -62,8 +62,8 @@ const App = () => {
               )}
             </Stack.Navigator>
           )}
-        </NavigationContainer> */}
-        <SignUp/>
+        </NavigationContainer>
+       
       </SafeAreaProvider>
 
       <Toast config={Config as ToastConfig} />

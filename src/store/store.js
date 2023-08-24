@@ -13,6 +13,7 @@ import {
   AllNotesReducers,
   SessionHistory,
   utils,
+  signUp
 } from "@app/features";
 export const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
 
     //* App Reducers
     auth: authReducer,
+    signUp: signUp,
     ResetPass: ResetReducers,
     Home: HomeReducer,
     Session: SessionReducer,
@@ -32,5 +34,6 @@ export const store = configureStore({
     AllNotesReducers: AllNotesReducers,
     SessionHistory: SessionHistory,
     utils: utils,
+
   },
 });

@@ -8,6 +8,8 @@ import { Hp, Wp } from "@helper/CustomResponsive";
 import { Mulish } from "@helper/FontWeight";
 import { NoteAppcolor as Colors } from "@constants/NoteAppcolor";
 const CountryItem = ({ item, handerData, ShowDialCode = false , devicetype='mobile' }) => {
+
+  
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity
@@ -15,7 +17,7 @@ const CountryItem = ({ item, handerData, ShowDialCode = false , devicetype='mobi
           handerData(item);
         }}
       >
-        <View style={[styles.itemContainer,devicetype==='tablet',{
+        <View style={[styles.itemContainer,devicetype==='tablet'&&{
             paddingVertical: Wp(10),
             paddingHorizontal: Wp(7),
         }]}>

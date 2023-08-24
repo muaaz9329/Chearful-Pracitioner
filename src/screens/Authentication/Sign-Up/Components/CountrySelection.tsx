@@ -21,7 +21,7 @@ type Props = {
   deviceType?: DeviceType;
 };
 
-const CountrySelection = ({ handleForm, deviceType }: Props) => {
+const CountrySelection = ({ handleForm, deviceType='mobile' }: Props) => {
   const ActionSheetRef = useRef(null);
   const [countryFlag, setcountryFlag] = useState<ICountrySelection>(
     countries[0]

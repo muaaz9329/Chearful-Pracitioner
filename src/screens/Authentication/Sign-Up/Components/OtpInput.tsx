@@ -22,7 +22,7 @@ interface IProps {
     DeviceType?:DeviceType
 }
 
-const OtpInput = ({setOtpValue, DeviceType}:IProps) => {
+const OtpInput = ({setOtpValue, DeviceType='mobile'}:IProps) => {
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({

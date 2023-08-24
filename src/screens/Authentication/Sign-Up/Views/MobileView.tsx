@@ -22,16 +22,9 @@ import NextBtn from "../Components/NextBtn";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 import Carousel from "react-native-reanimated-carousel";
 import FormLabel from "@app/common/components/Inputs/FormLabel";
-import ActionSheet from "react-native-actions-sheet";
-import Country from "@app/common/Module/country/Country-Selection/Country";
-import { countries } from "@app/common/Module/country/countries";
 import { Mulish } from "@app/helper/FontWeight";
-import { Image } from "react-native-animatable";
 import DateInput from "../Components/DateInput";
 import GenderSelection from "../Components/GenderSelection";
-import { Checkbox } from "react-native-paper";
-import { LinkingText } from "@app/helper/customFunction";
-import BouncyCheckBox from "@app/common/components/CheckBox/Bouncy-CheckBox";
 import OtpInput from "../Components/OtpInput";
 import CountrySelection from "../Components/CountrySelection";
 import MobileInput from "../Components/MobileInput";
@@ -60,17 +53,17 @@ function FirstSlide({
           placeholder="Enter First Name"
           name="firstName"
           onChangeText={handleForm}
-          width={38}
+          width={40}
         />
         <FormInput
           showIcon={false}
           showLabel={true}
           label="Last name"
           Icon={EmailFieldIcon as IconComponent}
-          placeholder="Enter First Name"
+          placeholder="Enter Last Name"
           name="lastName"
           onChangeText={handleForm}
-          width={38}
+          width={40}
         />
       </View>
 

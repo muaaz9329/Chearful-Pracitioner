@@ -28,7 +28,7 @@ const LisenseAndAgreement = ({handleFunc , deviceType='mobile'}: {
   return (
     <BouncyCheckBox setCheck={setCheck} DeviceType={deviceType} >
         <View>
-          <Text style={[styles.AgreementText,{
+          <Text style={[styles.AgreementText,deviceType==='tablet' &&{
             fontSize: Wp(8),
             width:widthPercentageToDP(60)
           }]}>

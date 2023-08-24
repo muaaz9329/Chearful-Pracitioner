@@ -20,11 +20,16 @@ import CountryItem from "./CountryItem";
 import { Mulish } from "@helper/FontWeight";
 import { Hp, Wp } from "@helper/CustomResponsive";
 import { SearchIcon } from "@svg";
-import { NoteAppcolor as Colors} from "@app/constants/NoteAppcolor"
-const Country = ({ setFlag, sheetClose , showDialCode , deviceType}) => {
+import { NoteAppcolor as Colors } from "@app/constants/NoteAppcolor";
+const Country = ({
+  setFlag,
+  sheetClose,
+  showDialCode,
+  deviceType = "mobile",
+}) => {
   const [query, setQuery] = useState("");
   const [searchIcon, setSearchIcon] = useState(AppIcons.search);
-  
+
   const [btnShow, setBtnShow] = useState(false);
   const heandlerSearch = (text) => {
     setQuery(text);
@@ -47,49 +52,66 @@ const Country = ({ setFlag, sheetClose , showDialCode , deviceType}) => {
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
         <View style={styles.searchContainer}>
-          <View style={[styles.searchButton, deviceType==='tablet'&&{
-height:Wp(15),            width: Platform.OS === "ios" ? wp(4) : wp(3.5),
-            borderTopLeftRadius: Hp(14),
-            borderBottomLeftRadius: Hp(14),
-            paddingLeft: Wp(6),
-          }]}>
-            <SearchIcon width={deviceType==='mobile'?Wp(20):Wp(10)} height={deviceType==='mobile'?Wp(20):Wp(10)} color={Colors.Primary} />
+          <View
+            style={[
+              styles.searchButton,
+              deviceType === "tablet" && {
+                height: Wp(15),
+                width: Platform.OS === "ios" ? wp(4) : wp(3.5),
+                borderTopLeftRadius: Hp(14),
+                borderBottomLeftRadius: Hp(14),
+                paddingLeft: Wp(6),
+              },
+            ]}
+          >
+            <SearchIcon
+              width={deviceType === "mobile" ? Wp(20) : Wp(10)}
+              height={deviceType === "mobile" ? Wp(20) : Wp(10)}
+              color={Colors.Primary}
+            />
           </View>
 
           <TextInput
             value={query}
             onChangeText={(text) => heandlerSearch(text)}
             placeholder="Search"
-            style={[styles.input,
+            style={[
+              styles.input,
               deviceType === "tablet" && {
-                height:Wp(15),
+                height: Wp(15),
                 width: wp(35),
                 padding: Wp(2),
                 borderTopRightRadius: Hp(14),
                 borderBottomRightRadius: Hp(14),
                 fontFamily: Mulish(400),
                 fontSize: Wp(8),
-                paddingHorizontal:Wp(4),
-                paddingVertical:Wp(2)
-              
-              }
+                paddingHorizontal: Wp(4),
+                paddingVertical: Wp(2),
+              },
             ]}
           />
         </View>
         <View
-          style={[{
-            height: Platform.OS === "ios" ? hp(27) : hp(35),
-            marginBottom: hp(1),
-          },
-        
-          deviceType === "tablet" && {
-            height:  hp(23),
-          }]}
+          style={[
+            {
+              height: Platform.OS === "ios" ? hp(27) : hp(35),
+              marginBottom: hp(1),
+            },
+
+            deviceType === "tablet" && {
+              height: hp(23),
+            },
+          ]}
         >
           <FlatList
             data={filterdData}
             renderItem={({ item }) => (
-              <CountryItem item={item} handerData={handerCountry} ShowDialCode={showDialCode} devicetype={deviceType} />
+              <CountryItem
+                item={item}
+                handerData={handerCountry}
+                ShowDialCode={showDialCode}
+                devicetype={deviceType}
+              />
             )}
             keyExtractor={(item) => item.name}
           />
@@ -97,12 +119,26 @@ height:Wp(15),            width: Platform.OS === "ios" ? wp(4) : wp(3.5),
         {btnShow ? (
           <View>
             <TouchableOpacity onPress={() => sheetClose()}>
-              <View style={[styles.contBtn,deviceType==='tablet',{
-                padding: Wp(6),
-              }]}>
-                <Text style={[styles.btnText,deviceType==='tablet',{
-                  fontSize: Wp(8),
-                }]}>Continue</Text>
+              <View
+                style={[
+                  styles.contBtn,
+                  deviceType === "tablet"&&
+                  {
+                    padding: Wp(6),
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.btnText,
+                    deviceType === "tablet"&&
+                    {
+                      fontSize: Wp(8),
+                    },
+                  ]}
+                >
+                  Continue
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -160,6 +196,6 @@ const styles = StyleSheet.create({
   btnText: {
     color: "#fff",
     fontSize: Wp(16),
-    fontFamily: Mulish(700),  
+    fontFamily: Mulish(700),
   },
 });
