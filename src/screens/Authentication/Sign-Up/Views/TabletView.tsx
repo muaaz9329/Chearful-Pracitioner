@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../Components/Layout";
 import {
   widthPercentageToDP as wp,
@@ -21,6 +21,8 @@ import Carousel from "react-native-reanimated-carousel";
 import NextBtn from "../Components/NextBtn";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 import OtpInput from "../Components/OtpInput";
+import { useSelector } from "react-redux";
+import { SignUpState } from "@app/features/sign-up/sign-up-reducers";
 
 type Props = {
   deviceType: DeviceType;
@@ -146,6 +148,11 @@ function FirstSlide(props:Props) {
 
 const TabletView = ({ deviceType, handleForm }: Props) => {
     const CoursalRef = useRef(null);
+  const [index , setIndex] = useState<number>(0)
+  const [enable, setEnable] = useState<boolean>(true);
+  const [data , setData] = useState(false)
+    const {moveNextSlide}:SignUpState = useSelector((state: any) => state.signUp);
+
     const HandleFunction = () => {
         if (CoursalRef.current) {
           //@ts-ignore
@@ -159,18 +166,36 @@ const TabletView = ({ deviceType, handleForm }: Props) => {
         NextBtnRef.current?.onMoveNext(index);
       };
       const [otp , setOtp] = useState<string>("")
+
+       useEffect(()=>{
+    if(moveNextSlide){
+      setData(true)
+      setTimeout(()=>{
+        HandleFunction()
+      },1000)
+      
+      
+      
+    }
+    console.log('moveNextSlide:', moveNextSlide)
+  },[moveNextSlide])
     
   return (
     <Layout deviceType={"tablet"}>
       <Carousel
           width={wp(75)}
           height={hp(65)}
-          data={[1, 2]}
+          data={data? [1,2]:[1]}
           loop={false}
           autoPlay={false}
           onSnapToItem={(index) => {
             handleSlide(index);
+            setIndex(index);
+            if(index === 1){
+              setEnable(false)
+            }
           }}
+          enabled={enable}
           style={{
             alignSelf: "center",
           
@@ -189,7 +214,7 @@ const TabletView = ({ deviceType, handleForm }: Props) => {
             } else {
               return (
                 <View style={styles.Container}>
-                  <OtpInput setOtpValue={setOtp} />
+                  <OtpInput setOtpValue={setOtp} DeviceType={'tablet'} />
                 </View>
               );
             }
@@ -206,6 +231,7 @@ const TabletView = ({ deviceType, handleForm }: Props) => {
            HandleFunction={HandleFunction}
           deviceType={deviceType}
            ref={NextBtnRef}
+           index={index}
          />
       
           </View>

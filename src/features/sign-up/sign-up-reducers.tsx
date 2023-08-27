@@ -6,6 +6,7 @@ export interface SignUpState {
     token: string;
     error: string;
     loading: boolean;
+    moveNextSlide: boolean;
 }
 
 const initialState: SignUpState = {
@@ -14,6 +15,7 @@ const initialState: SignUpState = {
     token: "",
     error: "",
     loading: false,
+    moveNextSlide: false
 };
 
 
@@ -37,9 +39,12 @@ const signUpSlice = createSlice({
         },
         setSignUpDataValid: (state, action) => {
             state.isDataValid = action.payload;
+        },
+        setMoveNextSlide: (state, action) => {
+            state.moveNextSlide = action.payload;
         }
     }
 })
 
-export const { setSignUpData, setSignUpError, setSignUpLoading, setSignUpDataValid } = signUpSlice.actions
+export const { setSignUpData, setSignUpError, setSignUpLoading, setSignUpDataValid , setMoveNextSlide } = signUpSlice.actions
 export default signUpSlice.reducer

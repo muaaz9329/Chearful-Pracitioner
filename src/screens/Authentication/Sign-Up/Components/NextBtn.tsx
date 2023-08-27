@@ -12,6 +12,8 @@ import Animated,{
   useDerivedValue,
 } from "react-native-reanimated";
 import { DeviceType } from '@app/context/Device-Type/DeviceTypeProvider';
+import { useDispatch } from 'react-redux';
+import { setSignUpDataValid } from '@app/features/sign-up/sign-up-reducers';
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const NextBtn = forwardRef(({
   percentage ,
@@ -19,20 +21,22 @@ const NextBtn = forwardRef(({
   color,
   HandleFunction,
   deviceType='mobile',
-  StrokeWidth=50
+  StrokeWidth=50,
+  index
 }:{
   percentage:number,
   radius:number,
   color:string,
   HandleFunction:()=>void,
   deviceType?:DeviceType
-  StrokeWidth?:number
+  StrokeWidth?:number,
+  index?:number
  
 },ref) => {
 
 
 
-  
+    const dispatch = useDispatch()
     const  strokeWidth = Math.round(radius/13.3)
   const halfCircle = radius + strokeWidth;
   const CircleCircmference = 2 * Math.PI * radius;
@@ -50,12 +54,20 @@ const NextBtn = forwardRef(({
 
  
 
-  const onPress = useCallback(() => {
-    progress.value = withTiming(progress.value < 1 ? progress.value+ (deviceType==='mobile'?0.25:0.5) : 1, { duration: 500 });
+  const onPress = () => {
+    if(index==1 && deviceType==='mobile'){
+      dispatch(setSignUpDataValid(true))
+    }
+    if(index==0 && deviceType==='tablet'){
+      dispatch(setSignUpDataValid(true))
+    }
+    else{
+      progress.value = withTiming(progress.value < 1 ? progress.value+ (deviceType==='mobile'?0.25:0.5) : 1, { duration: 500 });
 
     HandleFunction()
+    }
     
-  }, []);
+  }
   useImperativeHandle(ref, () => ({
 
     

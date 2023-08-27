@@ -29,6 +29,8 @@ import OtpInput from "../Components/OtpInput";
 import CountrySelection from "../Components/CountrySelection";
 import MobileInput from "../Components/MobileInput";
 import LisenseAndAgreement from "../Components/LisenseAndAgreement";
+import { SignUpState } from "@app/features/sign-up/sign-up-reducers";
+import { useSelector } from "react-redux";
 
 type Props = {
   handleForm: (text: string, name: string) => void;
@@ -144,12 +146,13 @@ function SecondSlide(props: {
 function MobileView({deviceType,handleForm}: Props) {
   const CoursalRef = useRef(null);
   
-
+  const {moveNextSlide}:SignUpState = useSelector((state: any) => state.signUp);
   const [check, setCheck] = useState(false);
   const [otp, setOtp] = useState<string>("");
 
-  const [date, setDate] = useState(new Date());
-
+  const [index , setIndex] = useState<number>(0)
+  const [enable, setEnable] = useState<boolean>(true);
+  const [data , setData] = useState(false)
   const NextBtnRef = useRef(null);
  
 
@@ -159,6 +162,22 @@ function MobileView({deviceType,handleForm}: Props) {
       CoursalRef.current.next();
     }
   };
+
+
+
+
+  useEffect(()=>{
+    if(moveNextSlide){
+      setData(true)
+      setTimeout(()=>{
+        HandleFunction()
+      },1000)
+      
+      
+      
+    }
+    console.log('moveNextSlide:', moveNextSlide)
+  },[moveNextSlide])
 
  
 
@@ -176,13 +195,19 @@ function MobileView({deviceType,handleForm}: Props) {
         <Carousel
           width={wp(100)}
           height={wp(130)}
-          data={[1, 2, 3]}
+          data={data?[1,2,3]:[1,2]}
           loop={false}
           autoPlay={false}
           onSnapToItem={(index) => {
             handleSlide(index);
+            setIndex(index)
+            if(index===2){
+              setEnable(false)
+            }
+
           }}
-         
+          enabled={enable}
+     
           scrollAnimationDuration={500}
           ref={CoursalRef}
           renderItem={({ item, index }) => {
@@ -219,7 +244,7 @@ function MobileView({deviceType,handleForm}: Props) {
             radius={wp(2.45 * 4.5)}
             color={NoteAppcolor.Primary}
             HandleFunction={HandleFunction}
-  
+            index={index}
             ref={NextBtnRef}
           />
         </View>

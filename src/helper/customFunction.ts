@@ -391,3 +391,22 @@ export function calculate18YearsBefore() {
 export const LinkingText = (url:string) =>{
   Linking.openURL(url)
 }
+
+
+export function findEmptyProperties(obj:any) {
+  if (typeof obj !== 'object' || obj === null) {
+    throw new Error('Input is not a valid object');
+  }
+  
+  const emptyProperties = [];
+  
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (!obj[key] || obj[key] === '' || (Array.isArray(obj[key]) && obj[key].length === 0)) {
+        emptyProperties.push(key);
+      }
+    }
+  }
+  
+  return emptyProperties;
+}
