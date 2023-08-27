@@ -29,7 +29,7 @@ type Props = {
   handleForm: (text: string, name: string) => void;
 };
 
-function FirstSlide(props:Props) {
+function FirstSlide(props: Props) {
   return (
     <View style={styles.Container}>
       <View style={styles.FirstCont}>
@@ -147,94 +147,87 @@ function FirstSlide(props:Props) {
 }
 
 const TabletView = ({ deviceType, handleForm }: Props) => {
-    const CoursalRef = useRef(null);
-  const [index , setIndex] = useState<number>(0)
+  const CoursalRef = useRef(null);
+  const [index, setIndex] = useState<number>(0);
   const [enable, setEnable] = useState<boolean>(true);
-  const [data , setData] = useState(false)
-    const {moveNextSlide}:SignUpState = useSelector((state: any) => state.signUp);
+  const [data, setData] = useState(false);
+  const { moveNextSlide }: SignUpState = useSelector(
+    (state: any) => state.signUp
+  );
 
-    const HandleFunction = () => {
-        if (CoursalRef.current) {
-          //@ts-ignore
-          CoursalRef.current.next();
-        }
-      };
-
-      const NextBtnRef = useRef(null);
-      const handleSlide = (index: number) => {
-        //@ts-ignore
-        NextBtnRef.current?.onMoveNext(index);
-      };
-      const [otp , setOtp] = useState<string>("")
-
-       useEffect(()=>{
-    if(moveNextSlide){
-      setData(true)
-      setTimeout(()=>{
-        HandleFunction()
-      },1000)
-      
-      
-      
+  const HandleFunction = () => {
+    if (CoursalRef.current) {
+      //@ts-ignore
+      CoursalRef.current.next();
     }
-    console.log('moveNextSlide:', moveNextSlide)
-  },[moveNextSlide])
-    
+  };
+
+  const NextBtnRef = useRef(null);
+  const handleSlide = (index: number) => {
+    //@ts-ignore
+    NextBtnRef.current?.onMoveNext(index);
+  };
+  const [otp, setOtp] = useState<string>("");
+
+  useEffect(() => {
+    if (moveNextSlide) {
+      setData(true);
+      setTimeout(() => {
+        HandleFunction();
+      }, 1000);
+    }
+    console.log("moveNextSlide:", moveNextSlide);
+  }, [moveNextSlide]);
+  // Only re-run the effect if count changes
+  // using for validation and moving the screen to otp if it is valid
+
   return (
     <Layout deviceType={"tablet"}>
       <Carousel
-          width={wp(75)}
-          height={hp(65)}
-          data={data? [1,2]:[1]}
-          loop={false}
-          autoPlay={false}
-          onSnapToItem={(index) => {
-            handleSlide(index);
-            setIndex(index);
-            if(index === 1){
-              setEnable(false)
-            }
-          }}
-          enabled={enable}
-          style={{
-            alignSelf: "center",
-          
-          }}
-         
-          scrollAnimationDuration={500}
-          ref={CoursalRef}
-          renderItem={({ item, index }) => {
-            if (index === 0) {
-              return (
-                <FirstSlide
-                  deviceType={deviceType}
-                  handleForm={handleForm}
-                />
-              );
-            } else {
-              return (
-                <View style={styles.Container}>
-                  <OtpInput setOtpValue={setOtp} DeviceType={'tablet'} />
-                </View>
-              );
-            }
-          }}
-          />
+        width={wp(75)}
+        height={hp(65)}
+        data={data ? [1, 2] : [1]}
+        loop={false}
+        autoPlay={false}
+        onSnapToItem={(index) => {
+          handleSlide(index);
+          setIndex(index);
+          if (index === 1) {
+            setEnable(false);
+          }
+        }}
+        enabled={enable}
+        style={{
+          alignSelf: "center",
+        }}
+        scrollAnimationDuration={500}
+        ref={CoursalRef}
+        renderItem={({ item, index }) => {
+          if (index === 0) {
+            return (
+              <FirstSlide deviceType={deviceType} handleForm={handleForm} />
+            );
+          } else {
+            return (
+              <View style={styles.Container}>
+                <OtpInput setOtpValue={setOtp} DeviceType={"tablet"} />
+              </View>
+            );
+          }
+        }}
+      />
 
-          <View style={styles.nxtBtn}>
-
-          
-           <NextBtn
-           percentage={25}
-           radius={wp(2.45 * 2.3)}
-           color={NoteAppcolor.Primary}
-           HandleFunction={HandleFunction}
+      <View style={styles.nxtBtn}>
+        <NextBtn
+          percentage={25}
+          radius={wp(2.45 * 2.3)}
+          color={NoteAppcolor.Primary}
+          HandleFunction={HandleFunction}
           deviceType={deviceType}
-           ref={NextBtnRef}
-           index={index}
-         />
-      
-          </View>
+          ref={NextBtnRef}
+          index={index}
+        />
+      </View>
     </Layout>
   );
 };
@@ -252,11 +245,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     marginTop: Wp(10),
-    
   },
-  nxtBtn:{
-    position:"absolute",
-    bottom:Wp(15),
-    alignSelf:"center"
-  }
+  nxtBtn: {
+    position: "absolute",
+    bottom: Wp(15),
+    alignSelf: "center",
+  },
 });

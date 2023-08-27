@@ -142,10 +142,10 @@ const SignUp = () => {
           dispatch(setSignUpLoading(false));
         }, 2000); //fakeApicall
 
-        dispatch(setMoveNextSlide(true));
+        dispatch(setMoveNextSlide(true)); // telling to mopve to next slide
       }
     }
-  }, [isDataValid]);
+  }, [isDataValid]); // whole form validation is bring done here , if all the fields are filled then it will move to next slide
 
   return (
     <SafeAreaView edges={["top"]} style={styles.Body}>

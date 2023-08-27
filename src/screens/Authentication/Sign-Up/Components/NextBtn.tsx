@@ -57,15 +57,15 @@ const NextBtn = forwardRef(({
   const onPress = () => {
     if(index==1 && deviceType==='mobile'){
       dispatch(setSignUpDataValid(true))
-    }
+    } // this triggers the validation of the form for mobile view
     if(index==0 && deviceType==='tablet'){
       dispatch(setSignUpDataValid(true))
-    }
+    } // this triggers the validation of the form for tablet view
     else{
       progress.value = withTiming(progress.value < 1 ? progress.value+ (deviceType==='mobile'?0.25:0.5) : 1, { duration: 500 });
 
     HandleFunction()
-    }
+    } // this triggers the next slide for both mobile and tablet view
     
   }
   useImperativeHandle(ref, () => ({
