@@ -31,6 +31,7 @@ import MobileInput from "../Components/MobileInput";
 import LisenseAndAgreement from "../Components/LisenseAndAgreement";
 import { SignUpState } from "@app/features/sign-up/sign-up-reducers";
 import { useSelector } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type Props = {
   handleForm: (text: string, name: string) => void;
@@ -184,6 +185,7 @@ function MobileView({ deviceType, handleForm }: Props) {
 
   return (
     <Layout deviceType={deviceType}>
+      <KeyboardAwareScrollView enableOnAndroid={true}>
       <View style={styles.Cont}>
         <Carousel
           width={wp(100)}
@@ -230,9 +232,11 @@ function MobileView({ deviceType, handleForm }: Props) {
             HandleFunction={HandleFunction}
             index={index}
             ref={NextBtnRef}
+            deviceType={'mobile'}
           />
         </View>
       </View>
+      </KeyboardAwareScrollView>
     </Layout>
   );
 }
@@ -247,9 +251,9 @@ const styles = StyleSheet.create({
     height: wp(130),
   },
   btnCont: {
-    position: "absolute",
-    bottom: Wp(30),
+    
     alignSelf: "center",
+    
   },
   itemContainer: {
     flexDirection: "row",

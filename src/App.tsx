@@ -13,6 +13,8 @@ import Config from "./common/Module/Toasts/ToastConfig";
 import DeviceTypeProvider from "./context/Device-Type/DeviceTypeProvider";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import SignUp from "./screens/Authentication/Sign-Up/SignUp";
+import MainMenu from "./screens/Main-Screen/Main-Menu/Main-Menu";
+import {SoundbitesCard} from "./common/components/Cards";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -63,7 +65,7 @@ const App = () => {
             </Stack.Navigator>
           )}
         </NavigationContainer> */}
-       <SignUp/>
+       <MainMenu/>
       </SafeAreaProvider>
 
       <Toast config={Config as ToastConfig} />

@@ -32,6 +32,8 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from "react-native-responsive-screen";
+import KeyboardDismiss from "@app/common/components/KeyboardDismiss";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export type SignUpFunc = (text: string, name: string) => void;
 
@@ -165,11 +167,13 @@ const SignUp = () => {
         </View>
       )}
       <Header Icon={ChevronLeft as IconComponent} pram={"back"} />
+      
       {deviceType === "mobile" ? (
         <MobileView deviceType={deviceType} handleForm={handleForm} />
       ) : (
         <TabletView deviceType={deviceType} handleForm={handleForm} />
       )}
+      
     </SafeAreaView>
   );
 };

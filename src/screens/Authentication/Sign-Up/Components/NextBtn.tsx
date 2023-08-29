@@ -58,7 +58,7 @@ const NextBtn = forwardRef(({
     if(index==1 && deviceType==='mobile'){
       dispatch(setSignUpDataValid(true))
     } // this triggers the validation of the form for mobile view
-    if(index==0 && deviceType==='tablet'){
+    else if(index==0 && deviceType==='tablet'){
       dispatch(setSignUpDataValid(true))
     } // this triggers the validation of the form for tablet view
     else{

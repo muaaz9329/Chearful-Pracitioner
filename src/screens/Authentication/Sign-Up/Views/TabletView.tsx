@@ -23,6 +23,7 @@ import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 import OtpInput from "../Components/OtpInput";
 import { useSelector } from "react-redux";
 import { SignUpState } from "@app/features/sign-up/sign-up-reducers";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type Props = {
   deviceType: DeviceType;
@@ -182,7 +183,10 @@ const TabletView = ({ deviceType, handleForm }: Props) => {
   // using for validation and moving the screen to otp if it is valid
 
   return (
-    <Layout deviceType={"tablet"}>
+    <Layout deviceType={"tablet"} >
+      <KeyboardAwareScrollView enableOnAndroid={true} style={{
+        position:"relative",
+      }} >
       <Carousel
         width={wp(75)}
         height={hp(65)}
@@ -228,6 +232,7 @@ const TabletView = ({ deviceType, handleForm }: Props) => {
           index={index}
         />
       </View>
+      </KeyboardAwareScrollView>
     </Layout>
   );
 };
@@ -247,8 +252,12 @@ const styles = StyleSheet.create({
     marginTop: Wp(10),
   },
   nxtBtn: {
-    position: "absolute",
-    bottom: Wp(15),
-    alignSelf: "center",
+    
+    justifyContent: "center",
+    alignItems: "center",
+    
+ 
+    
+   
   },
 });
