@@ -1,3 +1,4 @@
+import { IconProps } from "@app/types";
 import { TablerIcon } from "tabler-icons-react-native";
 
 export interface ToastType{

@@ -12,6 +12,7 @@
     "clean:ios": "cd ios && xcodebuild clean && cd ../",
     "release:android": "cd android && ./gradlew bundleRelease && cd ../",
     "install:ios": "cd ios && pod install && cd ../",
+    "ios:ipad" :"react-native run-ios --simulator='iPad 2'",
     "version": "react-native-version --never-amend",
     "test": "jest",
     "lint": "eslint ."
@@ -68,6 +69,7 @@
     "react-native-toast-message": "^2.1.6",
     "react-native-webview": "12.1.0",
     "react-native-wheel-color-picker": "1.2.0",
+    "react-native-youtube-iframe": "^2.3.0",
     "react-redux": "8.0.5",
     "redux-thunk": "2.4.2",
     "tabler-icons-react-native": "2.3.1"
