@@ -10,5 +10,6 @@ export const NoteAppcolor = {
     OffWhiteCont:"#F2F2F2",
     MenuText:"#1D1A0E",
     Error:"#FF8383",
+    InputBg:"#EFF3F2",
   };
   

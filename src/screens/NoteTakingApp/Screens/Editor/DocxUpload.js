@@ -1,5 +1,5 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DocIcon } from "@app/screens/NoteTakingApp/Images/Doc-Icons";
 import { Wp } from "@app/helper/CustomResponsive";
@@ -9,19 +9,21 @@ import DocumentPicker from "react-native-document-picker";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import FileUploadObj from "./Components/adapter/FileUploadObj";
 import Toast from "react-native-toast-message";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const DocxUpload = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote, routeLoc } =
     route.params;
   const LoadingRef = useRef();
   const [singleFile, setSingleFile] = useState(null);
   const [Content, setContent] = useState(null);
+  const {deviceType} = useContext(DeviceContext)
   const UploadDocs = async () => {
     try {
       const res = await DocumentPicker.pickSingle({
         type: [DocumentPicker.types.docx , DocumentPicker.types.doc],
       });
 
-      setSingleFile(res);
+      setSingleFile(res); // setting docs file here to state
     } catch (err) {
       setSingleFile(null);
 
@@ -36,7 +38,7 @@ const DocxUpload = ({ route, navigation }) => {
           text1:"Some Problem Occured , Please Try Again Later",
           text2:'Error Code : Pr-01'
         })
-      }
+      } // if error occurs , show error
     }
   };
 
@@ -48,7 +50,7 @@ const DocxUpload = ({ route, navigation }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [singleFile]);
+  }, [singleFile]); // side effect to run promise that returns file in Uploading state
 
   useEffect(() => {
     console.log("Content", Content);
@@ -68,10 +70,18 @@ const DocxUpload = ({ route, navigation }) => {
         LoadingRef={LoadingRef}
         routeLoc={routeLoc}
       />
-      <Pressable style={styles.Cont} onPress={UploadDocs}>
-        <View style={styles.ImgIcon}>
-          <Image source={DocIcon.docx} style={styles.Icon} />
-          <Text style={styles.UploadText}>
+      <Pressable style={[styles.Cont,]} onPress={UploadDocs}>
+        <View style={[styles.ImgIcon,deviceType==='tablet'&&{
+          width: Wp(90),
+          height: Wp(100),
+        }]}>
+          <Image source={DocIcon.docx} style={[styles.Icon,deviceType==='tablet'&&{
+          width: Wp(90),
+          height: Wp(100),
+        }]} />
+          <Text style={[styles.UploadText,deviceType==='tablet'&&{
+            fontSize: Wp(8)
+          }]}>
             {singleFile!==null ? singleFile.name : "Tap to effortlessly upload Docx documents,"}
           </Text>
         </View>

@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View ,Pressable} from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontSize, Wp } from "@helper/CustomResponsive";
 import {
   widthPercentageToDP as wp,
@@ -10,6 +10,7 @@ import { Mulish, Nunito } from "@helper/FontWeight";
 import { DateConstrctor, calculateEndTime, capitalizeFirstLetter } from "@helper/customFunction";
 import TypeOfNote from "@app/common/Models/TypeOfNote";
 import { SessionCardAdapterFunction } from "./adapter/SessionCard";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
 const SessionCard = ({ SessionData,navigation, }) => {
   const [model,setmodel] = useState(false)
@@ -17,6 +18,7 @@ const SessionCard = ({ SessionData,navigation, }) => {
     SessionData.appointment_time,
     SessionData.time_duration
   );
+  const {deviceType}=useContext(DeviceContext)
   
   return (
     <Pressable onPress={()=>{
@@ -24,23 +26,49 @@ const SessionCard = ({ SessionData,navigation, }) => {
     }}>
 
    
-    <View style={styles.cardCont}>
+    <View style={[styles.cardCont,deviceType === "tablet" && {
+          width: wp(58),
+
+          marginBottom: Wp(10),
+        },]}>
      <TypeOfNote visible={model} setVisible={setmodel} data={SessionCardAdapterFunction(SessionData)} navigation={navigation} routeLoc={"Prac_AddNoteSession"} />
-      <View style={styles.CardContet}>
+      <View style={[styles.CardContet,deviceType === "tablet" && {
+            width: wp(50),
+            paddingHorizontal: Wp(12),
+            paddingVertical: Wp(6),
+            borderRadius: Wp(15),
+          },]}>
         <View style={styles.Cont1}>
-        <View style={styles.Datebox}>
-            <Text style={styles.date}>{DateConstrctor(new Date(SessionData.appointment_date)).Date.slice(0,2)}</Text>
-            <Text style={styles.date}>{DateConstrctor(new Date(SessionData.appointment_date)).Date.slice(3,6)}</Text>
+        <View style={[styles.Datebox,deviceType === "tablet" && {
+                width: Wp(35),
+                height: Wp(35),
+                borderRadius: Wp(7),
+                marginEnd: Wp(10),
+              },]}>
+            <Text style={[styles.date,deviceType === "tablet" && {
+                  fontSize: FontSize(10),
+                },]}>{DateConstrctor(new Date(SessionData.appointment_date)).Date.slice(0,2)}</Text>
+            <Text style={[styles.date,deviceType === "tablet" && {
+                  fontSize: FontSize(10),
+                },]}>{DateConstrctor(new Date(SessionData.appointment_date)).Date.slice(3,6)}</Text>
           </View>
         </View>
         <View style={styles.CardTextCont}>
-          <Text style={styles.Name}>{SessionData.service_name}</Text>
-          <View style={styles.LastVisitCont}>
+          <Text style={[styles.Name, deviceType === "tablet" && {
+                fontSize: FontSize(10),
+              }]}>{SessionData.service_name}</Text>
+          <View style={[styles.LastVisitCont,deviceType==='tablet'&&{
+            marginVertical:Wp(3)
+          }]}>
             <Text
-              style={[styles.LastVisitText, { opacity: 0.7 }]}
+              style={[styles.LastVisitText, { opacity: 0.7 },deviceType === "tablet" && {
+                fontSize: FontSize(8),
+              },]}
             >{`${StartTime} - ${EndTime}`}</Text>
           </View>
-          <Text style={styles.StatusText}>{`Status: ${capitalizeFirstLetter(SessionData.status)}`}</Text>
+          <Text style={[styles.StatusText,deviceType === "tablet" && {
+                  fontSize: FontSize(8),
+                },]}>{`Status: ${capitalizeFirstLetter(SessionData.status)}`}</Text>
         </View>
       </View>
     </View>

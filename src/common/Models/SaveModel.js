@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Modal, Portal } from "react-native-paper";
 import { FontSize, Wp } from "@helper/CustomResponsive";
@@ -11,6 +11,7 @@ import LoadingAndSuccess from "../animatedComponents/Success/LoadingAndSuccess";
 import { useDispatch } from "react-redux";
 import { RefreshSessionNotes } from "@app/features/SessionNotes/SessionNotes";
 import { UpdateHasSaved } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const SaveModel = ({
   visible,
   setVisible,
@@ -28,9 +29,12 @@ const SaveModel = ({
   const [Loading, setLoading] = useState(false);
   const AnimationControl = React.useRef();
   const Dispatch = useDispatch();
+
+  const { deviceType } = useContext(DeviceContext);
   const HandleApiCall = async () => {
     // this is the function that is called when the user presses the save button
     setLoading(true); // set loading to true to show the loading animation
+
     if (
       ComingFor.toLowerCase() == "upload" &&
       TypeOfNote.toLowerCase() == "text"
@@ -150,7 +154,8 @@ const SaveModel = ({
     } else if (
       TypeOfNote.toLowerCase() === "pdf" &&
       ComingFor.toLowerCase() === "upload"
-    ) {//* upload pdf note
+    ) {
+      //* upload pdf note
       const response = await ApiServices.Post_New_File_Note(
         ClientData.Client_ID,
         ClientData.Session_ID,
@@ -170,11 +175,10 @@ const SaveModel = ({
           });
         }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
       }
-
-   
-    }
-    else if ( TypeOfNote.toLowerCase() === "docx" &&
-    ComingFor.toLowerCase() === "upload"){
+    } else if (
+      TypeOfNote.toLowerCase() === "docx" &&
+      ComingFor.toLowerCase() === "upload"
+    ) {
       //* upload docx & doc note
       const response = await ApiServices.Post_New_File_Note(
         ClientData.Client_ID,
@@ -195,7 +199,6 @@ const SaveModel = ({
           });
         }, 1000); // this is the function that is called when Api call is successfull and the loading animation is finished
       }
-      
     }
   };
   return (
@@ -203,27 +206,48 @@ const SaveModel = ({
       <Modal
         visible={visible}
         onDismiss={hideModal}
-        contentContainerStyle={styles.containerStyle}
+        contentContainerStyle={[
+          styles.containerStyle,
+          deviceType === "tablet" && styles.containerStyle_tablet,
+        ]}
       >
         <View style={styles.animationCont}>
           {Loading ? (
-            <LoadingAndSuccess ref={AnimationControl} />
+            <LoadingAndSuccess
+              ref={AnimationControl}
+              TypeOfDevice={deviceType}
+            />
           ) : (
             <Lottie
               source={require("./animation/Save.json")}
               autoPlay
-              style={[styles.animationSize]}
+              style={[
+                [
+                  styles.animationSize,
+                  deviceType === "tablet" && styles.animationSize_tablet,
+                ],
+              ]}
             />
           )}
         </View>
 
         <View style={styles.content}>
-          <Text style={styles.contentText}>
+          <Text
+            style={[
+              styles.contentText,
+              deviceType === "tablet" && {
+                fontSize: FontSize(12),
+              },
+            ]}
+          >
             Are You Sure You Want To Save This Note?
           </Text>
           <View style={styles.btnCont}>
             <TouchableOpacity
-              style={[styles.btnStyles, styles.DeleteBtn]}
+              style={[
+                styles.btnStyles,
+                deviceType === "tablet" && styles.btnStyle_tablet,
+              ]}
               onPress={() => {
                 // hideModal();
                 // navigation.goBack("Prac_Session");
@@ -231,15 +255,38 @@ const SaveModel = ({
                 HandleApiCall();
               }}
             >
-              <Text style={styles.btnText}>Save</Text>
+              <Text
+                style={[
+                  styles.btnText,
+                  deviceType === "tablet" && {
+                    fontSize: FontSize(10),
+                  },
+                ]}
+              >
+                Save
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.btnStyles, styles.btnCancel]}
+              style={[
+                styles.btnStyles,
+                styles.btnCancel,
+                deviceType === "tablet" && styles.btnStyle_tablet,
+              ]}
               onPress={() => {
                 hideModal();
               }}
             >
-              <Text style={[styles.btnText, styles.cancelText]}>Cancel</Text>
+              <Text
+                style={[
+                  styles.btnText,
+                  styles.cancelText,
+                  deviceType === "tablet" && {
+                    fontSize: FontSize(10),
+                  },
+                ]}
+              >
+                Cancel
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -251,6 +298,25 @@ const SaveModel = ({
 export default SaveModel;
 
 const styles = StyleSheet.create({
+  btnStyle_tablet: {
+    width: Wp(70),
+    height: Wp(35),
+    borderRadius: Wp(8),
+  },
+  animationSize_tablet: {
+    width: Wp(80),
+    height: Wp(80),
+  },
+  containerStyle_tablet: {
+    width: Wp(220),
+    alignSelf: "center",
+    backgroundColor: "white",
+    height: Wp(220),
+    justifyContent: "flex-start",
+    paddingVertical: Wp(7),
+    borderRadius: Wp(14),
+    paddingHorizontal: Wp(5),
+  },
   containerStyle: {
     width: Wp(363),
     alignSelf: "center",

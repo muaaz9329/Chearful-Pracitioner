@@ -4,12 +4,17 @@ import SplashScreen from "react-native-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthStack, PracStack } from "./routes/index";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setLogOut } from "./features/utils-States/utilsReducers";
 import Toast, { ToastConfig } from "react-native-toast-message";
 import Config from "./common/Module/Toasts/ToastConfig";
+import DeviceTypeProvider from "./context/Device-Type/DeviceTypeProvider";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import SignUp from "./screens/Authentication/Sign-Up/SignUp";
+import MainMenu from "./screens/Main-Screen/Main-Menu/Main-Menu";
+import {SoundbitesCard} from "./common/components/Cards";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -32,8 +37,6 @@ const App = () => {
     }
   }, [logOut]); // watching :- logOut state
 
-  
-
   const checkLogin = async (): Promise<void> => {
     const GetToken = await AsyncStorage.getItem("USER_accessToken");
     if (GetToken != null) {
@@ -47,28 +50,26 @@ const App = () => {
     SetLogin(false);
   }; // logs the user out
 
-  
-
-
-
-
   return (
-    <>
+    <DeviceTypeProvider>
       <StatusBar barStyle={"dark-content"} />
-      <NavigationContainer>
-        {IsLogedIn !== null && (
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {IsLogedIn == false ? (
-              <Stack.Screen name="Auth" component={AuthStack} />
-            ) : (
-              <Stack.Screen name="PRACTITIONER_Home" component={PracStack} />
-            )}
-          </Stack.Navigator>
-        )}
-      </NavigationContainer>
+      <SafeAreaProvider>
+        {/* <NavigationContainer>
+          {IsLogedIn !== null && (
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {IsLogedIn == false ? (
+                <Stack.Screen name="Auth" component={AuthStack} />
+              ) : (
+                <Stack.Screen name="PRACTITIONER_Home" component={PracStack} />
+              )}
+            </Stack.Navigator>
+          )}
+        </NavigationContainer> */}
+       <MainMenu/>
+      </SafeAreaProvider>
+
       <Toast config={Config as ToastConfig} />
-    </>
-    
+    </DeviceTypeProvider>
   );
 };
 

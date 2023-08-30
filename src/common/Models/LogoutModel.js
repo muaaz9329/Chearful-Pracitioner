@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal, Portal } from "react-native-paper";
 import Lottie from "lottie-react-native";
 import { FontSize, Wp } from "@helper/CustomResponsive";
@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "@app/features/authReducer/authReducer";
 import { StackActions , NavigationAction } from "@react-navigation/native";
 import { setLogOut } from "@app/features/utils-States/utilsReducers";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 /**
  * 
  * @param {navigation} react navigation props that is used to navigate between screens
@@ -22,6 +23,7 @@ const LogoutModel = ({navigation,visible,setVisible}) => {
     
     const hideModal = () => setVisible(false);
     const Dispatch = useDispatch();
+    const {deviceType}=useContext(DeviceContext)
 
     const RemoveToken = async () => {
       await AsyncStorage.removeItem("USER_accessToken");
@@ -35,32 +37,38 @@ const LogoutModel = ({navigation,visible,setVisible}) => {
         <Modal
           visible={visible}
           onDismiss={hideModal}
-          contentContainerStyle={styles.containerStyle}
+          contentContainerStyle={[styles.containerStyle, deviceType==='tablet'&&styles.containerStyle_Tablet]}
         >
           <View style={styles.animationCont}>
             <Lottie
               source={require("./animation/Logout.json")}
               autoPlay
-              style={[styles.animationSize]}
+              style={[styles.animationSize, deviceType==='tablet'&&styles.animationSize_tablet]}
             />
           </View>
   
           <View style={styles.content}>
-            <Text style={styles.contentText}>
+            <Text style={[styles.contentText, deviceType==='tablet'&&{
+              fontSize:FontSize(12)
+            }]}>
               Are You Sure You Want To Logout?
             </Text>
             <View style={styles.btnCont}>
-              <TouchableOpacity style={[styles.btnStyles, styles.DeleteBtn]} onPress={()=>{
+              <TouchableOpacity style={[styles.btnStyles, styles.DeleteBtn , deviceType==='tablet' && styles.btnStyle_tablet]} onPress={()=>{
                 hideModal()
                 RemoveToken()
                 
               }}>
-                <Text style={styles.btnText}>Yes</Text>
+                <Text style={[styles.btnText,deviceType=='tablet'&&{
+                  fontSize:FontSize(10)
+                }]}>Yes</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.btnStyles, styles.btnCancel]} onPress={()=>{
+              <TouchableOpacity style={[styles.btnStyles, styles.btnCancel , deviceType ==='tablet'&& styles.btnStyle_tablet]} onPress={()=>{
                 hideModal()
               }}>
-                <Text style={[styles.btnText, styles.cancelText]}>Cancel</Text>
+                <Text style={[styles.btnText, styles.cancelText, deviceType==='tablet'&&{
+                  fontSize:Wp(10)
+                }]}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -124,5 +132,24 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent:"space-around",
         marginTop:Wp(15)
-      }
+      },
+      containerStyle_Tablet: {
+        width: Wp(200),
+        alignSelf: "center",
+        backgroundColor: "white",
+        height: Wp(200),
+        justifyContent: "space-between",
+        paddingVertical: Wp(8),
+        borderRadius: Wp(18),
+        paddingHorizontal: Wp(5),
+      },
+      animationSize_tablet: {
+        width: Wp(80),
+        height: Wp(80),
+      },
+      btnStyle_tablet: {
+        width: Wp(70),
+        height: Wp(35),
+        borderRadius: Wp(8),
+      },
 })

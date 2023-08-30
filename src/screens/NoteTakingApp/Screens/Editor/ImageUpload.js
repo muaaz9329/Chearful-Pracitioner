@@ -1,5 +1,5 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DocIcon } from "@app/screens/NoteTakingApp/Images/Doc-Icons";
 import { Wp } from "@app/helper/CustomResponsive";
@@ -13,6 +13,7 @@ import Toast from "react-native-toast-message";
 import ActionSheet from "react-native-actions-sheet";
 import { IconCamera, IconPhoto } from "tabler-icons-react-native";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 const ImageUpload = ({ route, navigation }) => {
   const { mode, content, ClientData, NoteId, ComingFor, TypeOfNote, routeLoc } =
     route.params;
@@ -22,6 +23,7 @@ const ImageUpload = ({ route, navigation }) => {
   const [singleFile, setSingleFile] = useState(null);
   const [Content, setContent] = useState(null);
   const ActionSheetRef = useRef(null);
+  const {deviceType}=useContext(DeviceContext)
 
   const UploadImage = async () => {
     try {
@@ -97,9 +99,17 @@ const ImageUpload = ({ route, navigation }) => {
         style={styles.Cont}
         onPress={() => ActionSheetRef.current?.show()}
       >
-        <View style={styles.ImgIcon}>
-          <Image source={DocIcon.img} style={styles.Icon} />
-          <Text style={styles.UploadText}>
+        <View style={[styles.ImgIcon,deviceType==='tablet'&&{
+          width: Wp(90),
+          height: Wp(100),
+        }]}>
+          <Image source={DocIcon.img} style={[styles.Icon,deviceType==='tablet'&&{
+          width: Wp(90),
+          height: Wp(100),
+        }]} />
+          <Text style={[styles.UploadText,deviceType==='tablet'&&{
+          fontSize:Wp(8)
+        }]}>
             {singleFile === null
               ? "Tap to effortlessly upload Image (png,jpeg) documents"
               : singleFile.name}

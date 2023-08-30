@@ -3,10 +3,8 @@
  * -> {1.0.0} -
  */
 
-import RNFS from 'react-native-fs'
-
-
-
+import { Linking } from "react-native";
+import RNFS from "react-native-fs";
 
 /**
  * This function generates the intial value for the Controling the toggle
@@ -150,7 +148,7 @@ export const DateConstrctor = (date: Date): any => {
     Date: "",
     Day: "",
     Time: "",
-    ApiDateQuery:""
+    ApiDateQuery: "",
   };
 
   //creating the date object which will help us to find the day of the week
@@ -182,7 +180,7 @@ export const DateConstrctor = (date: Date): any => {
 
   //getting month, day and year from the input date and adding it into the object.
   const month = String(date).slice(4, 7).toLowerCase();
-  
+
   const day = String(date).slice(8, 10);
   const year = String(date).slice(11, 15); // change this to 11 , 15 for 2023 date
 
@@ -196,11 +194,10 @@ export const DateConstrctor = (date: Date): any => {
   ReturnedObj.Time = strTime;
 
   ReturnedObj.Date = `${day} ${capitalizeFirstLetter(month)}, ${year}`;
-  try{
-    ReturnedObj.ApiDateQuery = date.toISOString().split('T')[0] // Returns the date in YYYY-MM-DD format
-//! dont remove this from try catch , as it only works in try catch for some reason
-  }
-  catch(err){
+  try {
+    ReturnedObj.ApiDateQuery = date.toISOString().split("T")[0]; // Returns the date in YYYY-MM-DD format
+    //! dont remove this from try catch , as it only works in try catch for some reason
+  } catch (err) {
     return ReturnedObj;
   }
   return ReturnedObj;
@@ -215,17 +212,17 @@ export function capitalizeFirstLetter(string: string): string {
 }
 
 /**
- * 
- * @param {hex} : string  , Which  is HEX string value 
- * @param {opacity}:number , Which is Number Value which is used for telling opacity , should Range from 0 - 1 
- * @returns : string value of HEX with Opacity that was given As Argument 
+ *
+ * @param {hex} : string  , Which  is HEX string value
+ * @param {opacity}:number , Which is Number Value which is used for telling opacity , should Range from 0 - 1
+ * @returns : string value of HEX with Opacity that was given As Argument
  * @description function that returns the Hex value of color with Opacity
  * {1.0.0} written by Muaaz bin Sarfraz
- * 
+ *
  * Used in Drawic Library
  */
 
-export const ColorWithopacity = (hex : string, opacity : number):string => {
+export const ColorWithopacity = (hex: string, opacity: number): string => {
   if (
     typeof hex !== "string" ||
     !/^#([A-Fa-f0-9]{3}){1,2}($|[A-Fa-f0-9]{2})$/.test(hex)
@@ -244,29 +241,38 @@ export const ColorWithopacity = (hex : string, opacity : number):string => {
   return `#${color}`.toUpperCase();
 };
 
-export function isValidDateFormat(dateString:string) : boolean {
+export function isValidDateFormat(dateString: string): boolean {
   const regex = /^\d{4}-\d{2}-\d{2}$/;
   return regex.test(dateString);
 }
 
-
-export function isValidEmail(email:string) {
+export function isValidEmail(email: string) {
   // Regular expression pattern for email validation
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
+
   return emailPattern.test(email);
 }
 
 /**
  * @description converts date format from YYYY-MM-DD to DD MMM,YY
  * @param dateString string in YYYY-MM-DD format
- * @returns 
+ * @returns
  */
 
-export function convertDateFormat_YMD_DMY(dateString:string):string {
+export function convertDateFormat_YMD_DMY(dateString: string): string {
   const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   const [year, month, day] = dateString.split("-");
@@ -282,7 +288,7 @@ export function convertDateFormat_YMD_DMY(dateString:string):string {
  * @returns Object with StartTime and EndTime
  */
 
-export function calculateEndTime(startTime:string, duration:number) {
+export function calculateEndTime(startTime: string, duration: number) {
   const [startHour, startMinute] = startTime.split(":").map(Number);
 
   const startDate = new Date();
@@ -296,11 +302,11 @@ export function calculateEndTime(startTime:string, duration:number) {
 
   return {
     StartTime: formattedStartTime,
-    EndTime: formattedEndTime
+    EndTime: formattedEndTime,
   };
 }
 
-function formatTime(date:Date) {
+function formatTime(date: Date) {
   const hour = date.getHours();
   const minute = date.getMinutes();
   const period = hour >= 12 ? "PM" : "AM";
@@ -310,19 +316,18 @@ function formatTime(date:Date) {
   return `${formattedHour}:${formattedMinute} ${period}`;
 }
 
-
 /**
  * @description converts file to base64
  * @param filePath : string , which is path of file
  * @returns base64 string
  */
 
-export const convertFileToBase64 = async (filePath:string) => {
+export const convertFileToBase64 = async (filePath: string) => {
   try {
-    const fileContents = await RNFS.readFile(filePath, 'base64');
+    const fileContents = await RNFS.readFile(filePath, "base64");
     return fileContents;
   } catch (error) {
-    console.error('Error converting file to Base64:', error);
+    console.error("Error converting file to Base64:", error);
     throw error;
   }
 };
@@ -333,35 +338,75 @@ export const convertFileToBase64 = async (filePath:string) => {
  * @returns returns object with day and month
  */
 
-export function formatDateWithdaySuffix(currentDate:Date) {
- 
+export function formatDateWithdaySuffix(currentDate: Date) {
   const day = currentDate.getDate();
-  const month = currentDate.toLocaleString('default', { month: 'long' });
-  
+  const month = currentDate.toLocaleString("default", { month: "long" });
+
   let daySuffix;
   if (day >= 11 && day <= 13) {
-    daySuffix = 'th';
+    daySuffix = "th";
   } else {
     const lastDigit = day % 10;
     switch (lastDigit) {
       case 1:
-        daySuffix = 'st';
+        daySuffix = "st";
         break;
       case 2:
-        daySuffix = 'nd';
+        daySuffix = "nd";
         break;
       case 3:
-        daySuffix = 'rd';
+        daySuffix = "rd";
         break;
       default:
-        daySuffix = 'th';
+        daySuffix = "th";
+    }
+  }
+
+  const formattedDay = day + daySuffix;
+
+  return {
+    day: formattedDay,
+    month: month,
+  };
+}
+
+/**
+ * @returns date 18 years before
+ */
+export function calculate18YearsBefore() {
+  // Convert inputDate to a Date object if it's not already
+
+  // Calculate the date 18 years before the input date
+  const newDate = new Date();
+  newDate.setFullYear(newDate.getFullYear() - 18);
+
+  return newDate;
+}
+
+/**
+ * 
+ * @param url : string , which is url to open
+ */
+
+export const LinkingText = (url:string) =>{
+  Linking.openURL(url)
+}
+
+
+export function findEmptyProperties(obj:any) {
+  if (typeof obj !== 'object' || obj === null) {
+    throw new Error('Input is not a valid object');
+  }
+  
+  const emptyProperties = [];
+  
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (!obj[key] || obj[key] === '' || (Array.isArray(obj[key]) && obj[key].length === 0)) {
+        emptyProperties.push(key);
+      }
     }
   }
   
-  const formattedDay = day + daySuffix;
-  
-  return {
-    day: formattedDay,
-    month: month
-  };
+  return emptyProperties;
 }

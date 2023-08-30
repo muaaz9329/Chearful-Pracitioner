@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View, Text, LogBox, Alert } from "react-native";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Header from "./Components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Drawic from "@Library/Drawic/Drawic";
@@ -13,6 +13,7 @@ import HeaderWithFunc from "./Components/HeaderWithFunc";
 import { useDispatch } from "react-redux";
 import { UpdateHasSaved } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 LogBox.ignoreLogs(["Warning:..."]); // Ignore log notification by message
 const DrawingEditor = ({ navigation, route }) => {
   const { mode, content, ClientData, NoteId, ComingFor , routeLoc} = route.params;
@@ -25,6 +26,7 @@ const DrawingEditor = ({ navigation, route }) => {
   const CanvasFunc = new RefFunctions(DrawicRef); // Consists of all the Required Function to work with the Drawic Component
   const LoadingRef = useRef();
   const dispatch = useDispatch();
+  const {deviceType} = useContext(DeviceContext)
   useEffect(() => {
     CanvasFunc.Reset_Canvas();
     if (Mode === "view" && content) {
@@ -73,20 +75,20 @@ const DrawingEditor = ({ navigation, route }) => {
       {Mode === "view" && (
         <View style={styles.editBar}>
           <Pressable
-            style={[styles.Btn, { backgroundColor: "#FF8383" }]}
+            style={[styles.Btn, { backgroundColor: "#FF8383" }, deviceType==='tablet'&&styles.Btn_Tablet]}
             onPress={() => {
               setModel(!model);
             }}
           >
-            <IconTrash size={Wp(30)} color={"white"} />
+            <IconTrash size={deviceType==='mobile'?Wp(30):Wp(20)} color={"white"} />
           </Pressable>
           <Pressable
-            style={[styles.Btn]}
+            style={[styles.Btn,deviceType==='tablet'&&styles.Btn_Tablet]}
             onPress={() => {
               setMode("edit");
             }}
           >
-            <IconPencil size={Wp(30)} color={NoteAppcolor.Primary} />
+            <IconPencil size={deviceType==='mobile'?Wp(30):Wp(20)} color={NoteAppcolor.Primary} />
           </Pressable>
         </View>
       )}
@@ -97,6 +99,10 @@ const DrawingEditor = ({ navigation, route }) => {
 export default DrawingEditor;
 
 const styles = StyleSheet.create({
+  Btn_Tablet: {
+    paddingVertical: Wp(8),
+    paddingHorizontal: Wp(8),
+  },
   Continer: {
     flex: 1,
     backgroundColor: "#fff",

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Modal, Portal } from "react-native-paper";
 import { FontSize, Wp } from "@helper/CustomResponsive";
@@ -8,9 +8,10 @@ import Lottie from "lottie-react-native";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { useDispatch } from "react-redux";
 import { UpdateHasDrawn } from "@app/Library/Drawic/utils/features/Brush-Control/BrushControl";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
 const BackStopModel = ({visible , setVisible , navigation}) => {
-    
+    const {deviceType}=useContext(DeviceContext)
 
     const dispatch = useDispatch()
 
@@ -22,31 +23,37 @@ const BackStopModel = ({visible , setVisible , navigation}) => {
         <Modal
           visible={visible}
           onDismiss={hideModal}
-          contentContainerStyle={styles.containerStyle}
+          contentContainerStyle={[styles.containerStyle,styles.containerStyle_Tablet]}
         >
           <View style={styles.animationCont}>
             <Lottie
               source={require("./animation/Warning.json")}
               autoPlay
-              style={[styles.animationSize]}
+              style={[styles.animationSize,styles.animationSize_tablet]}
             />
           </View>
   
           <View style={styles.content}>
-            <Text style={styles.contentText}>
+            <Text style={[styles.contentText,deviceType === "tablet" && {
+                fontSize: FontSize(12),
+              }]}>
               Are You Sure You Want To Go Back?
             </Text>
             <View style={styles.btnCont}>
-              <TouchableOpacity style={[styles.btnStyles, styles.DeleteBtn]} onPress={()=>{
+              <TouchableOpacity style={[styles.btnStyles, styles.DeleteBtn,styles.btnStyle_tablet]} onPress={()=>{
                 hideModal()
                 navigation.goBack()
               }}>
-                <Text style={styles.btnText}>Yes</Text>
+                <Text style={[styles.btnText,deviceType === "tablet" && {
+                fontSize: FontSize(10),
+              }]}>Yes</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.btnStyles, styles.btnCancel]} onPress={()=>{
+              <TouchableOpacity style={[styles.btnStyles, styles.btnCancel,styles.btnStyle_tablet]} onPress={()=>{
                 hideModal()
               }}>
-                <Text style={[styles.btnText, styles.cancelText]}>Cancel</Text>
+                <Text style={[styles.btnText, styles.cancelText,deviceType === "tablet" && {
+                fontSize: FontSize(10),
+              }]}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -113,5 +120,23 @@ const styles = StyleSheet.create({
     },
     DeleteBtn:{
         backgroundColor:"#FF8383"
-    }
+    },containerStyle_Tablet: {
+      width: Wp(210),
+      alignSelf: "center",
+      backgroundColor: "white",
+      height: Wp(210),
+      justifyContent: "space-between",
+      paddingVertical: Wp(8),
+      borderRadius: Wp(18),
+      paddingHorizontal: Wp(5),
+    },
+    animationSize_tablet: {
+      width: Wp(80),
+      height: Wp(80),
+    },
+    btnStyle_tablet: {
+      width: Wp(70),
+      height: Wp(35),
+      borderRadius: Wp(8),
+    },
   });

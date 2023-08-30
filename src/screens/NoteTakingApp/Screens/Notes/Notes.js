@@ -6,7 +6,7 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { FontSize, Hp, Wp } from "@helper/CustomResponsive";
 import Header from "@CommonComponents/Header";
@@ -23,18 +23,24 @@ import { IconPlus } from "tabler-icons-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ApiServices } from "@app/services/Apiservice";
 import { useDispatch, useSelector } from "react-redux";
-import { ResetAllNotes, SetError, SetLoading, SetSuccess } from "@app/features/Prac-AllNotes/AllNotesReducers";
+import {
+  ResetAllNotes,
+  SetError,
+  SetLoading,
+  SetSuccess,
+} from "@app/features/Prac-AllNotes/AllNotesReducers";
 import LoadingScreen from "@app/common/Module/Loading-Screen/LoadingScreen";
 import { setRefresh } from "@app/features/utils-States/utilsReducers";
-function SearchBox({ HandleFunction, OpenSheet }) {
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
+function SearchBox({ HandleFunction, OpenSheet, deviceType }) {
   const refInput = useRef();
   return (
     <View style={[styles.InputCont, styles.Cont]}>
       <Pressable onPress={() => refInput.current.focus()}>
         <View style={styles.InputBoxIcon}>
           <SearchIcon
-            width={wp(2.5 * 2)}
-            height={wp(2.5 * 2)}
+            width={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
+            height={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
             color={NoteAppcolor.Primary}
           />
         </View>
@@ -42,7 +48,13 @@ function SearchBox({ HandleFunction, OpenSheet }) {
       <View>
         <TextInput
           placeholder={"Search Client"}
-          style={styles.InputBox}
+          style={[
+            styles.InputBox,
+            deviceType === "tablet" && {
+              fontSize: Wp(8),
+              width: wp(70),
+            },
+          ]}
           placeholderTextColor={"rgba(30, 85, 66, 0.5)"}
           onChangeText={(text) => {
             HandleFunction(text);
@@ -53,10 +65,15 @@ function SearchBox({ HandleFunction, OpenSheet }) {
       </View>
 
       <Pressable onPress={() => OpenSheet()}>
-        <View style={styles.FilterBtn}>
+        <View
+          style={[
+            styles.FilterBtn,
+            deviceType === "tablet" && styles.FilterBtn_tablet,
+          ]}
+        >
           <FilterIcon
-            width={wp(2.5 * 2)}
-            height={wp(2.5 * 2)}
+            width={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
+            height={deviceType === "mobile" ? wp(2.5 * 2) : wp(2.5 * 1.2)}
             color={NoteAppcolor.Primary}
           />
         </View>
@@ -164,14 +181,8 @@ const Client = ({ navigation }) => {
     (state) => state.AllNotesReducers
   ); // AllNotesReducers states
   const loadingRef = useRef(null);
-  const {refresh}  = useSelector((state)=>state.utils)
-
-
-
-
-
-
-
+  const { refresh } = useSelector((state) => state.utils);
+  const { deviceType } = useContext(DeviceContext);
 
   const HandleFilter = (Text) => {
     if (Text == "" || Text == null) {
@@ -195,7 +206,6 @@ const Client = ({ navigation }) => {
       let TempList = newList.sort((a, b) => (a.fullname < b.fullname ? 1 : -1));
       SetNotesInfo(TempList);
     } else if (arg == "Dates") {
-     
       let TempList = newList.sort(function (a, b) {
         // Turn your strings into dates, and then subtract them
         // to get a value that is either negative, positive, or zero.
@@ -215,11 +225,9 @@ const Client = ({ navigation }) => {
     );
   };
 
-
-
-  useEffect(()=>{
+  useEffect(() => {
     HandleApi();
-  },[])
+  }, []);
 
   useEffect(() => {
     if (Success) {
@@ -227,15 +235,15 @@ const Client = ({ navigation }) => {
       SetOldData(AllNotes);
       loadingRef.current.LoadingEnds();
     }
-  },[Success])
+  }, [Success]);
 
   useEffect(() => {
-    if(refresh){
+    if (refresh) {
       loadingRef.current.LoadingStarts();
       HandleApi();
-      disptch(setRefresh(false))
+      disptch(setRefresh(false));
     }
-  })
+  });
 
   const bottomSheetClose = (sortBy) => {
     SortList(sortBy);
@@ -262,58 +270,77 @@ const Client = ({ navigation }) => {
 
   return (
     <>
-    <LoadingScreen type="loader" ref={loadingRef}/>
-    <SafeAreaView edges={["top", "left", "right"]} style={styles.Body}>
-      <Pressable
-        style={styles.Addbtn}
-        onPress={() => {
-          navigation.push("Prac_AddNoteClient");
-        }}
-      >
-        <IconPlus size={Wp(25)} color={"white"} />
-      </Pressable>
-      <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
-        <Text style={styles.Text}>Notes</Text>
-      </Header>
-      <SearchBox
-        state={NotesInfo}
-        setState={SetNotesInfo}
-        HandleFunction={HandleFilter}
-        OpenSheet={bottomSheetOpen}
-      />
-      <ScrollView
-        style={{ marginTop: Wp(20) }}
-        showsVerticalScrollIndicator={false}
-      >
-       {NotesInfo && <NotesCard Arr={NotesInfo} navigation={navigation} />}
-      </ScrollView>
-      <RBSheet
-        ref={refRBSheet}
-        height={hp(35)}
-        closeOnDragDown={false}
-        closeOnPressMask={true}
-        customStyles={{
-          container: {
-            borderTopLeftRadius: hp(4),
-            borderTopRightRadius: hp(4),
-          },
-          wrapper: {
-            backgroundColor: "rgba(0,0,0,.6)",
-          },
-          draggableIcon: {
-            backgroundColor: "#000",
-          },
-        }}
-      >
-        <BottomSheet
-          HandleFunction={bottomSheetClose}
-          displayTick={displayTick}
-          setDisplayTick={setDisplayTick}
-          selectedDesign={selectedDesign}
-          UnselectedDesign={UnselectedDesign}
+      <LoadingScreen type="loader" ref={loadingRef} />
+      <SafeAreaView edges={["top", "left", "right"]} style={styles.Body}>
+        <Pressable
+          style={[
+            styles.Addbtn,
+            deviceType === "tablet" && {
+              width: Wp(30),
+              height: Wp(30),
+            },
+          ]}
+          onPress={() => {
+            navigation.push("Prac_AddNoteClient");
+          }}
+        >
+          <IconPlus
+            size={deviceType === "mobile" ? Wp(25) : Wp(14)}
+            color={"white"}
+          />
+        </Pressable>
+        <Header Icon={ChevronLeft} navigation={navigation} pram={"back"}>
+          <Text
+            style={[
+              styles.Text,
+              deviceType === "tablet" && {
+                fontSize: FontSize(14),
+              },
+            ]}
+          >
+            Notes
+          </Text>
+        </Header>
+        <SearchBox
+          state={NotesInfo}
+          setState={SetNotesInfo}
+          HandleFunction={HandleFilter}
+          OpenSheet={bottomSheetOpen}
+          deviceType={deviceType}
         />
-      </RBSheet>
-    </SafeAreaView>
+        <ScrollView
+          style={{ marginTop: Wp(20) }}
+          showsVerticalScrollIndicator={false}
+        >
+          {NotesInfo && <NotesCard Arr={NotesInfo} navigation={navigation} />}
+        </ScrollView>
+        <RBSheet
+          ref={refRBSheet}
+          height={hp(35)}
+          closeOnDragDown={false}
+          closeOnPressMask={true}
+          customStyles={{
+            container: {
+              borderTopLeftRadius: hp(4),
+              borderTopRightRadius: hp(4),
+            },
+            wrapper: {
+              backgroundColor: "rgba(0,0,0,.6)",
+            },
+            draggableIcon: {
+              backgroundColor: "#000",
+            },
+          }}
+        >
+          <BottomSheet
+            HandleFunction={bottomSheetClose}
+            displayTick={displayTick}
+            setDisplayTick={setDisplayTick}
+            selectedDesign={selectedDesign}
+            UnselectedDesign={UnselectedDesign}
+          />
+        </RBSheet>
+      </SafeAreaView>
     </>
   );
 };
@@ -321,6 +348,12 @@ const Client = ({ navigation }) => {
 export default Client;
 
 const styles = StyleSheet.create({
+  FilterBtn_tablet: {
+    padding: wp(1.2),
+    margin: wp(2.5 * 0.5),
+    backgroundColor: "#FFFFFF",
+    borderRadius: Wp(5),
+  },
   Body: {
     backgroundColor: NoteAppcolor.White,
     flex: 1,

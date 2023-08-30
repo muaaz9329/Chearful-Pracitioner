@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import BrushPreview from '../Icons/BrushPreview.jsx'
 import { useDispatch , useSelector } from 'react-redux'
 import { Wp } from '@app/helper/CustomResponsive.js'
-const BrushBtn = ({CanvesRef , OpenControlFunc}) => {
+const BrushBtn = ({CanvesRef , OpenControlFunc , deviceType}) => {
   const  {strokeWidth , Opacity, Color} = useSelector((state)=> state.BrushControl)
   const {BoxOpacity , CanBeTouched } = useSelector((state)=> state.ChooseEraser)
   const ChangeCanvasBrushState = ()=>{
@@ -17,7 +17,7 @@ const BrushBtn = ({CanvesRef , OpenControlFunc}) => {
 
   return (
     <Pressable onPress={OpenControlFunc} style={{opacity:BoxOpacity}} disabled={!(CanBeTouched)}  >
-      <BrushPreview color={Color} width={Wp(48)} height={Wp(48)} Opacity={Opacity} StrokeWidth={strokeWidth} />
+      <BrushPreview color={Color} width={deviceType==='mobile'?Wp(48):Wp(28)} height={deviceType==='mobile'?Wp(48):Wp(28)} Opacity={Opacity} StrokeWidth={strokeWidth} />
     </Pressable>
   )
 }
