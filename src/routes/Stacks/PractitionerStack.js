@@ -17,7 +17,7 @@ import {
   Prac_DocxUpload,
   Prac_ImageUpload,
   Prac_PdfUpload
-} from "@app/screens/NoteTakingApp/Screens";
+} from "@app/screens/practioner-admin-panel/Screens";
 import { createStackNavigator } from "@react-navigation/stack";
 const Stack = createStackNavigator();
 const PractitionerStack = () => {

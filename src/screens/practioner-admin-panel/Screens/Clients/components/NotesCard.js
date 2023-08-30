@@ -15,7 +15,7 @@ import User_Session_Notes_Editor_Pram_object from "@app/adapters/User_Session_No
 import { DateConstrctor } from "@app/helper/customFunction";
 import { IconClockHour3 } from "tabler-icons-react-native";
 import { ClockIcon } from "@app/svgs/Index";
-import FileIconGenrator from "@app/screens/NoteTakingApp/Screens/Session/components/FileIconGenrator";
+import FileIconGenrator from "@app/screens/practioner-admin-panel/Screens/Session/components/FileIconGenrator";
 import { NotesCardAdapterFunction } from "./adapters/NotesCardAdapter";
 import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 

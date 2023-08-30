@@ -12,7 +12,7 @@ import { Mulish } from "@app/helper/FontWeight";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 import { Modal, Portal } from "react-native-paper";
 import Carousel from "react-native-reanimated-carousel";
-import { DocIcon } from "@app/screens/NoteTakingApp/Images/Doc-Icons";
+import { DocIcon } from "@app/screens/practioner-admin-panel/Images/Doc-Icons";
 import { User_Session_Add_Notes_Editor_Pram_object } from "@app/adapters/User_Session_Add_Notes_Editor_Pram_object";
 import {
   IconSquareRoundedArrowLeft,
