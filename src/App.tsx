@@ -16,6 +16,9 @@ import SignUp from "./screens/Authentication/Sign-Up/SignUp";
 import MainMenu from "./screens/Main-Screen/Main-Menu/Main-Menu";
 import {SoundbitesCard} from "./common/components/Cards";
 import SoundBitesPreview from "./screens/Main-Screen/Main-Menu/previews/sound-bites-preview";
+import BlogPreview from "./screens/Main-Screen/Main-Menu/previews/blog-preview";
+import WellBeingPreview from "./screens/Main-Screen/Main-Menu/previews/well-being-preview";
+import ClientForumCard from "./common/components/Cards/client-forum-card";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -66,7 +69,7 @@ const App = () => {
             </Stack.Navigator>
           )}
         </NavigationContainer> */}
-       <SoundBitesPreview/>
+      <MainMenu/>
       </SafeAreaProvider>
 
       <Toast config={Config as ToastConfig} />

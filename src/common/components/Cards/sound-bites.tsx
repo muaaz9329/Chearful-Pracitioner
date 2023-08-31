@@ -6,13 +6,14 @@ import {
   Pressable,
   ImageSourcePropType,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AppImages } from "@app/common/Images";
 import { Wp } from "@app/helper/CustomResponsive";
 import { IconPlayerPause, IconPlayerPlay } from "tabler-icons-react-native";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 
 type Props = {
   source?: ImageSourcePropType;
@@ -24,20 +25,12 @@ const DEFAULT_VALUE = {
 
 const SoundbitesCard = ({ source = DEFAULT_VALUE.source }: Props) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const { deviceType } = useContext(DeviceContext);
   return (
-    <ImageBackground source={source} style={styles.ImageBg} resizeMode="cover">
-      <TouchableOpacity
-        style={styles.controlBtn}
-        onPress={() => {
-          setIsPlaying(!isPlaying);
-        }}
-      >
-        {isPlaying ? (
-          <IconPlayerPause size={Wp(20)} color={NoteAppcolor.OffWhiteCont} />
-        ) : (
-          <IconPlayerPlay size={Wp(20)} color={NoteAppcolor.OffWhiteCont} />
-        )}
-      </TouchableOpacity>
+    <ImageBackground source={source} style={[styles.ImageBg,deviceType==='tablet'&&styles.ImageBg_tablet]} resizeMode="cover">
+      
+       
+    
     </ImageBackground>
   );
 };
@@ -45,6 +38,11 @@ const SoundbitesCard = ({ source = DEFAULT_VALUE.source }: Props) => {
 export default SoundbitesCard;
 
 const styles = StyleSheet.create({
+  ImageBg_tablet: {
+    width: Wp(120),
+    height: Wp(150),
+    borderRadius: Wp(5),
+  },
   controlBtn: {
     borderWidth: Wp(2),
     width: Wp(30),

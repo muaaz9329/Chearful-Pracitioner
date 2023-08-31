@@ -17,6 +17,8 @@ import { Wp } from "@app/helper/CustomResponsive";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 import { Mulish, Nunito } from "@app/helper/FontWeight";
 import YoutubeIframe from "react-native-youtube-iframe";
+import AuthorCont from "./components/author-cont";
+import TitleCont from "./components/title-cont";
 
 type Props = {
   navigation: NavigationHelpers<any, any>;
@@ -39,60 +41,12 @@ const SoundBitesPreview = ({ navigation }: Props) => {
           />
         </Header>
         <View style={[deviceType === "tablet" && styles.TabCont]}>
-          <View style={styles.TitleCont}>
-            <Text
-              style={[
-                styles.TitleStyle,
-                deviceType === "tablet" && styles.TitleStyle_Tablet,
-              ]}
-            >
-              Imposter Syndrome - what it is, and how to manage it{" "}
-            </Text>
-          </View>
+          <TitleCont title={"Imposter Syndrome - what it is, and how to manage it"} />
+         <AuthorCont />
           <View
             style={[
               styles.TitleCont,
-              {
-                flexDirection: "row",
-                alignItems: "center",
-              },
-            ]}
-          >
-            <Image
-              source={require("@app/screens/practioner-admin-panel/Images/urImg.jpg")}
-              style={{
-                width: deviceType === "mobile" ? Wp(40) : Wp(30),
-                height: deviceType === "mobile" ? Wp(40) : Wp(30),
-                borderRadius: deviceType === "mobile" ? Wp(20) : Wp(15),
-                marginRight: deviceType === "mobile" ? Wp(10) : Wp(5),
-              }}
-            />
-            <View>
-              <Text
-                style={[
-                  styles.TitleText,
-                  deviceType === "tablet" && styles.TitleText_Tablet,
-                ]}
-              >
-                By Priya Cima
-              </Text>
-              <Text
-                style={[
-                  styles.subTitleText,
-                  deviceType === "tablet" && styles.subTitleText_Tablet,
-                ]}
-              >
-                On 12 Jun
-              </Text>
-            </View>
-          </View>
-          <View
-            style={[
-              styles.TitleCont,
-              {
-                alignItems: "center",
-                justifyContent: "center",
-              },
+             styles.YoutubeFrame,
             ]}
           >
             <YoutubeIframe
@@ -108,10 +62,7 @@ const SoundBitesPreview = ({ navigation }: Props) => {
             }}
           >
             <Text
-              style={[styles.TextStyle,deviceType==='tablet'&&{
-                fontSize:Wp(8),
-                textAlign:'center'
-              }]}
+              style={[styles.TextStyle,deviceType==='tablet'&&styles.TextStyle_tablet]}
             >
               Do you ever feel like you’re a fake, but you know it isn’t true?
               This is called Imposter Syndrome. And it refers to a psychological
@@ -153,6 +104,14 @@ const SoundBitesPreview = ({ navigation }: Props) => {
 export default SoundBitesPreview;
 
 const styles = StyleSheet.create({
+  TextStyle_tablet: {
+    fontSize:Wp(8),
+    textAlign:'center',
+  },
+  YoutubeFrame: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   TextStyle: {
     fontFamily: Nunito(400),
     fontSize: Wp(14),
