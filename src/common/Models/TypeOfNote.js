@@ -30,6 +30,7 @@ const TypeOfNote = ({
 }) => {
   // data is the object consistig of client data in object {Client_ID:number ,Session_ID:number }
   const { deviceType } = useContext(DeviceContext);
+
   const NotesTypeData = [
     {
       name: "Write",

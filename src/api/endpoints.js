@@ -2,7 +2,7 @@
 const Prod_Base_URL="https://chearful.com/api/v2"
 const Dev_Base_URL="https://dev.chearful.com/api/v2"
 
-export const BASE_URL =Prod_Base_URL
+export const BASE_URL =Dev_Base_URL
 
 
 // GET REQUESTS
@@ -18,6 +18,7 @@ export const Get_User_All_Notes = '/practitioner/load-client-notes'
 
 // POST REQUESTS
 export const Auth = "/user/login" // this is the route to authenticate the user
+export const SignUp_Patient =  "user/register" // this is the route to register the user as a patient
 export const Post_User_Session_Note_Text = "/practitioner/store-notes" // this is the route to post the notes of the Required Client & session
 export const Reset_Password = "/user/password-reset" // this is the route to reset the password
 export const Delete_Session_Note = "/practitioner/delete-note" // this is the route to delete the notes of the Required Client & session

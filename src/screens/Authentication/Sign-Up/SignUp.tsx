@@ -153,15 +153,7 @@ const SignUp = () => {
     <SafeAreaView edges={["top"]} style={styles.Body}>
       {loading && (
         <View
-          style={{
-            position: "absolute",
-            height: heightPercentageToDP(100),
-            width: widthPercentageToDP(100),
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(255,255,255,0.5)",
-            zIndex: 100,
-          }}
+          style={styles.ActivityIndicator}
         >
           <ActivityIndicator size={"large"} color={NoteAppcolor.Primary} />
         </View>
@@ -181,6 +173,15 @@ const SignUp = () => {
 export default SignUp;
 
 const styles = StyleSheet.create({
+  ActivityIndicator: {
+    position: "absolute",
+    height: heightPercentageToDP(100),
+    width: widthPercentageToDP(100),
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255,    255,    255,   0.5)",
+    zIndex: 100,
+  },
   HeaderLogo: {
     alignItems: "center",
   },
