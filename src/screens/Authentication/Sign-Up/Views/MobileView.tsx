@@ -29,6 +29,9 @@ import OtpInput from "../Components/OtpInput";
 import CountrySelection from "../Components/CountrySelection";
 import MobileInput from "../Components/MobileInput";
 import LisenseAndAgreement from "../Components/LisenseAndAgreement";
+import { SignUpState } from "@app/features/sign-up/sign-up-reducers";
+import { useSelector } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type Props = {
   handleForm: (text: string, name: string) => void;
@@ -37,14 +40,18 @@ type Props = {
 
 function FirstSlide({
   handleForm,
-  
 }: {
   handleForm: (text: string, name: string) => void;
-
 }) {
   return (
     <View>
-      <View style={{flexDirection:'row' , width:wp(87) , justifyContent:'space-between'}}>
+      <View
+        style={{
+          flexDirection: "row",
+          width: wp(87),
+          justifyContent: "space-between",
+        }}
+      >
         <FormInput
           showIcon={false}
           showLabel={true}
@@ -95,7 +102,7 @@ function FirstSlide({
 
       <View style={styles.InputCont}>
         <FormLabel label="Date Of Birth">
-          <DateInput handleForm={handleForm}  />
+          <DateInput handleForm={handleForm} />
         </FormLabel>
       </View>
     </View>
@@ -112,7 +119,6 @@ export interface ICountrySelection {
 function SecondSlide(props: {
   handleForm: (text: string, name: string) => void;
 
-  
   setCheck: (value: boolean) => void;
 }) {
   return (
@@ -121,7 +127,7 @@ function SecondSlide(props: {
         <CountrySelection handleForm={props.handleForm} />
       </View>
       <View style={styles.InputCont}>
-        <MobileInput handleFunc={props.handleForm}/>
+        <MobileInput handleFunc={props.handleForm} />
       </View>
 
       <View style={styles.InputCont}>
@@ -135,23 +141,24 @@ function SecondSlide(props: {
           </View>
         </FormLabel>
       </View>
-            <LisenseAndAgreement handleFunc={props.handleForm} />
-      
+      <LisenseAndAgreement handleFunc={props.handleForm} />
     </View>
   );
 }
 
-function MobileView({deviceType,handleForm}: Props) {
+function MobileView({ deviceType, handleForm }: Props) {
   const CoursalRef = useRef(null);
-  
 
+  const { moveNextSlide }: SignUpState = useSelector(
+    (state: any) => state.signUp
+  );
   const [check, setCheck] = useState(false);
   const [otp, setOtp] = useState<string>("");
 
-  const [date, setDate] = useState(new Date());
-
+  const [index, setIndex] = useState<number>(0);
+  const [enable, setEnable] = useState<boolean>(true);
+  const [data, setData] = useState(false);
   const NextBtnRef = useRef(null);
- 
 
   const HandleFunction = () => {
     if (CoursalRef.current) {
@@ -160,10 +167,16 @@ function MobileView({deviceType,handleForm}: Props) {
     }
   };
 
- 
-
-
-
+  useEffect(() => {
+    if (moveNextSlide) { // asking if the it should move to the next slide . if yes(true) then it will move to the next slide
+      setData(true);
+      setTimeout(() => {
+        HandleFunction();
+      }, 1000);
+    }
+    console.log("moveNextSlide:", moveNextSlide);
+  }, [moveNextSlide]); // Only re-run the effect if count changes
+  // using for validation and moving the screen to otp if it is valid
 
   const handleSlide = (index: number) => {
     //@ts-ignore
@@ -172,33 +185,31 @@ function MobileView({deviceType,handleForm}: Props) {
 
   return (
     <Layout deviceType={deviceType}>
+      <KeyboardAwareScrollView enableOnAndroid={true}>
       <View style={styles.Cont}>
         <Carousel
           width={wp(100)}
           height={wp(130)}
-          data={[1, 2, 3]}
+          data={data ? [1, 2, 3] : [1, 2]}
           loop={false}
           autoPlay={false}
           onSnapToItem={(index) => {
             handleSlide(index);
+            setIndex(index);
+            if (index === 2) {
+              setEnable(false);
+            }
           }}
-         
+          enabled={enable}
           scrollAnimationDuration={500}
           ref={CoursalRef}
           renderItem={({ item, index }) => {
             if (index === 0) {
-              return (
-                <FirstSlide
-                  handleForm={handleForm}
-                  
-                />
-              );
+              return <FirstSlide handleForm={handleForm} />;
             } else if (index === 1) {
               return (
                 <SecondSlide
                   handleForm={handleForm}
-                  
-                  
                   setCheck={setCheck}
                 ></SecondSlide>
               );
@@ -219,13 +230,13 @@ function MobileView({deviceType,handleForm}: Props) {
             radius={wp(2.45 * 4.5)}
             color={NoteAppcolor.Primary}
             HandleFunction={HandleFunction}
-  
+            index={index}
             ref={NextBtnRef}
+            deviceType={'mobile'}
           />
         </View>
       </View>
-      
-     
+      </KeyboardAwareScrollView>
     </Layout>
   );
 }
@@ -233,8 +244,6 @@ function MobileView({deviceType,handleForm}: Props) {
 export default MobileView;
 
 const styles = StyleSheet.create({
-  
-  
   InputCont: {
     marginTop: Wp(20),
   },
@@ -242,12 +251,9 @@ const styles = StyleSheet.create({
     height: wp(130),
   },
   btnCont: {
-   
-    position: "absolute",
-    bottom: Wp(30),
-    alignSelf:'center'
     
-   
+    alignSelf: "center",
+    
   },
   itemContainer: {
     flexDirection: "row",
@@ -273,5 +279,4 @@ const styles = StyleSheet.create({
     width: wp(85),
     borderRadius: Wp(12),
   },
- 
 });

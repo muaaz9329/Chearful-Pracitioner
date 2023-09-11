@@ -1,7 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { DocIcon } from "@app/screens/NoteTakingApp/Images/Doc-Icons";
+import { DocIcon } from "@app/screens/practioner-admin-panel/Images/Doc-Icons";
 import { Wp } from "@app/helper/CustomResponsive";
 import { Mulish, Nunito } from "@app/helper/FontWeight";
 import Header from "./Components/Header";

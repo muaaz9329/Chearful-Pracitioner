@@ -40,14 +40,4 @@ const LoadingAndSuccess = forwardRef((props , ref) => {
 
 export default LoadingAndSuccess;
 
-const styles = StyleSheet.create({
-  AnimatedView: {
-    width: Wp(160),
-    height: Wp(160),
-    alignSelf: "center",
-  },
-  AnimatedView_tablet:{
-    width: Wp(80),
-    height: Wp(80),
-  }
-});
+

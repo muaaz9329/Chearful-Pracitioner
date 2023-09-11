@@ -148,10 +148,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
                 <Text
                   style={[
                     styles.GoodMessage,
-                    deviceType === "tablet" && {
-                      fontSize: FontSize(12),
-                      marginRight: Wp(5),
-                    },
+                    deviceType === "tablet" && styles.GoodMessage_Tablet
                   ]}
                 >
                   {greeting},
@@ -354,6 +351,10 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
 export default Home;
 
 const styles = StyleSheet.create({
+  GoodMessage_Tablet: {
+    fontSize: FontSize(12),
+    marginRight: Wp(5),
+  },
   Body: {
     backgroundColor: NoteAppcolor.White,
     flex: 1,

@@ -1,4 +1,4 @@
-import { DocIcon } from "@app/screens/NoteTakingApp/Images/Doc-Icons"
+import { DocIcon } from "@app/screens/practioner-admin-panel/Images/Doc-Icons"
 import { DocTypes } from "@app/types/Modules/Session"
 
 

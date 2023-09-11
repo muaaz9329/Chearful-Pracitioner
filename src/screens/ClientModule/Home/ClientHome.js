@@ -21,146 +21,162 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import BlogsAndArticle from "./Components/BlogsAndArticle";
-import InterviewAndSound from "./Components/InterviewAndSound";
+import InterviewAndSound from "../../../common/components/Cards/InterviewAndSound";
 import { IconBell } from "tabler-icons-react-native";
 import LogoutModel from "@models/LogoutModel";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
-const ClientHome = ({navigation}) => {
-const [visible, setVisible] = React.useState(false);
-  const HandleNavigation = (route)=>{
-    navigation.navigate(route)
-  }
+const ClientHome = ({ navigation }) => {
+  const [visible, setVisible] = React.useState(false);
+  const HandleNavigation = (route) => {
+    navigation.navigate(route);
+  };
 
   const RightIcon = (
-    <Pressable onPress={()=>HandleNavigation("Client_Notification")}
+    <Pressable
+      onPress={() => HandleNavigation("Client_Notification")}
       style={{
         padding: Wp(10),
         backgroundColor: NoteAppcolor.BtnCont,
         borderRadius: Wp(13),
       }}
     >
-      <View style={styles.NoOfNotif} > 
-        <Text style={styles.NoOfNotifText} >
-          1
-        </Text>
+      <View style={styles.NoOfNotif}>
+        <Text style={styles.NoOfNotifText}>1</Text>
       </View>
       <IconBell size={Wp(25)} color={NoteAppcolor.Primary} />
     </Pressable>
   );
 
-
   return (
-    <SafeAreaView style={{ backgroundColor: "white" }} edges={['left','right','top']} >
-    <ScrollView >
-      <LogoutModel navigation={navigation} setVisible={setVisible} visible={visible}  />
-      <View style={styles.Body}>
-        <Animatable.View
-          animation="slideInDown"
-          easing="ease-in-out"
-          duration={1500}
-        >
-          <Header Icon={Logout} RightIcon={RightIcon} ShowRightIcon navigation={navigation} setVisible={setVisible} visible={visible} pram={"model"} >
-            <Pressable
-              onPress={() => {
-                Linking.openURL("https://chearful.com/");
-              }}
+    <SafeAreaView
+      style={{ backgroundColor: "white" }}
+      edges={["left", "right", "top"]}
+    >
+      <ScrollView>
+        <LogoutModel
+          navigation={navigation}
+          setVisible={setVisible}
+          visible={visible}
+        />
+        <View style={styles.Body}>
+          <Animatable.View
+            animation="slideInDown"
+            easing="ease-in-out"
+            duration={1500}
+          >
+            <Header
+              Icon={Logout}
+              RightIcon={RightIcon}
+              ShowRightIcon
+              navigation={navigation}
+              setVisible={setVisible}
+              visible={visible}
+              pram={"model"}
             >
-              <ChearfulLogo
-                height={Wp(27)}
-                width={Wp(122)}
-                color={NoteAppcolor.Primary}
-              />
-            </Pressable>
-          </Header>
-        </Animatable.View>
+              <Pressable
+                onPress={() => {
+                  Linking.openURL("https://chearful.com/");
+                }}
+              >
+                <ChearfulLogo
+                  height={Wp(27)}
+                  width={Wp(122)}
+                  color={NoteAppcolor.Primary}
+                />
+              </Pressable>
+            </Header>
+          </Animatable.View>
 
+          <Animatable.View
+            style={styles.GreatingCont}
+            animation="slideInDown"
+            easing="ease-in-out"
+            duration={1500}
+          >
+            <View>
+              <Text style={styles.GoodMessage}>Good morning,</Text>
+              <Text style={styles.UserName}>Samantha</Text>
+            </View>
+            <View>
+              <Image
+                source={require("../Images/UserImage.png")}
+                style={styles.UserImage}
+              />
+            </View>
+          </Animatable.View>
+          <View style={styles.menuCont}>
+            <Animatable.View
+              style={styles.cont1}
+              animation="slideInLeft"
+              easing="ease-in-out"
+              duration={1500}
+            >
+              <Pressable onPress={() => HandleNavigation("Client_MoodDiary")}>
+                <View style={[styles.RectangleCont, styles.SessionCont]}>
+                  <Text style={styles.MenuText}>Mood Diary</Text>
+                  <View style={styles.MenuImage}>
+                    <JournalImg10
+                      width={wp(2.5 * 14.9)}
+                      height={wp(2.5 * 21)}
+                    />
+                  </View>
+                </View>
+              </Pressable>
+              <Pressable
+                onPress={() => HandleNavigation("Client_SessionHistory")}
+              >
+                <View style={[styles.SquareCont, styles.ClientCont]}>
+                  <Text style={styles.MenuText}>Sessions</Text>
+                  <View style={styles.MenuImage}>
+                    <JournalImg8 width={wp(2.5 * 9)} height={hp(1.5 * 11.8)} />
+                  </View>
+                </View>
+              </Pressable>
+            </Animatable.View>
+            <Animatable.View
+              style={styles.cont2}
+              animation="slideInRight"
+              easing="ease-in-out"
+              duration={1500}
+            >
+              <Pressable onPress={() => HandleNavigation("Client_Journal")}>
+                <View style={[styles.SquareCont, styles.NotesCont]}>
+                  <Text style={styles.MenuText}>Journal</Text>
+                  <View style={styles.MenuImage}>
+                    <JournalImg11 width={wp(2.5 * 10)} height={hp(1.5 * 9.8)} />
+                  </View>
+                </View>
+              </Pressable>
+              <Pressable onPress={() => HandleNavigation("Client_TaskList")}>
+                <View style={[styles.RectangleCont, styles.AddNotes]}>
+                  <Text style={styles.MenuText}>Tasks</Text>
+
+                  <View style={styles.MenuImage}>
+                    <JournalImg5 width={wp(2.5 * 14)} height={wp(2.5 * 14.1)} />
+                  </View>
+                </View>
+              </Pressable>
+            </Animatable.View>
+          </View>
+        </View>
         <Animatable.View
-          style={styles.GreatingCont}
-          animation="slideInDown"
+          animation="slideInUp"
           easing="ease-in-out"
           duration={1500}
+          style={styles.BlogsAndArticleCont}
         >
-          <View>
-            <Text style={styles.GoodMessage}>Good morning,</Text>
-            <Text style={styles.UserName}>Samantha</Text>
-          </View>
-          <View>
-            <Image
-              source={require("../Images/UserImage.png")}
-              style={styles.UserImage}
-            />
-          </View>
+          <BlogsAndArticle navigation={navigation} />
         </Animatable.View>
-        <View style={styles.menuCont}>
-          <Animatable.View
-            style={styles.cont1}
-            animation="slideInLeft"
-            easing="ease-in-out"
-            duration={1500}
-          >
-            <Pressable onPress={()=>HandleNavigation("Client_MoodDiary")}>
-              <View style={[styles.RectangleCont, styles.SessionCont]}>
-                <Text style={styles.MenuText}>Mood Diary</Text>
-                <View style={styles.MenuImage}>
-                  <JournalImg10
-                    width={wp(2.5 * 14.9)}
-                    height={wp(2.5 * 21)}
-                  />
-                </View>
-              </View>
-            </Pressable>
-            <Pressable onPress={()=>HandleNavigation("Client_SessionHistory")}>
-              <View style={[styles.SquareCont, styles.ClientCont]}>
-                <Text style={styles.MenuText}>Sessions</Text>
-                <View style={styles.MenuImage}>
-                  <JournalImg8 width={wp(2.5 * 9)} height={hp(1.5 * 11.8)} />
-                </View>
-              </View>
-            </Pressable>
-          </Animatable.View>
-          <Animatable.View
-            style={styles.cont2}
-            animation="slideInRight"
-            easing="ease-in-out"
-            duration={1500}
-          >
-            <Pressable onPress={()=>HandleNavigation("Client_Journal")}>
-              <View style={[styles.SquareCont, styles.NotesCont]}>
-                <Text style={styles.MenuText}>Journal</Text>
-                <View style={styles.MenuImage}>
-                  <JournalImg11 width={wp(2.5 * 10)} height={hp(1.5 * 9.8)} />
-                </View>
-              </View>
-            </Pressable>
-            <Pressable onPress={()=>HandleNavigation("Client_TaskList")}>
-              <View style={[styles.RectangleCont, styles.AddNotes]}>
-                <Text style={styles.MenuText}>Tasks</Text>
-
-                <View style={styles.MenuImage}>
-                  <JournalImg5 width={wp(2.5 * 14)} height={wp(2.5 * 14.1)} />
-                </View>
-              </View>
-            </Pressable>
-          </Animatable.View>
-        </View>
-      </View>
-      <Animatable.View 
-      animation="slideInUp"
-      easing="ease-in-out"
-      duration={1500}
-      style={styles.BlogsAndArticleCont}>
-        <BlogsAndArticle navigation={navigation}/>
-      </Animatable.View>
-      <Animatable.View 
-      animation="slideInUp"
-      easing="ease-in-out"
-      duration={1500}
-      style={styles.BlogsAndArticleCont}>
-        <InterviewAndSound navigation={navigation}/>
-      </Animatable.View>
-    </ScrollView>
+        <Animatable.View
+          animation="slideInUp"
+          easing="ease-in-out"
+          duration={1500}
+          style={styles.BlogsAndArticleCont}
+        >
+          <InterviewAndSound navigation={navigation} />
+        </Animatable.View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -172,7 +188,7 @@ const styles = StyleSheet.create({
     backgroundColor: NoteAppcolor.White,
     flex: 1,
     paddingHorizontal: Wp(16),
-    paddingVertical: Platform.OS =='android'? Wp(20):Wp(10),
+    paddingVertical: Platform.OS == "android" ? Wp(20) : Wp(10),
   },
   GreatingCont: {
     marginTop: Hp(30),
@@ -275,22 +291,21 @@ const styles = StyleSheet.create({
   BlogsAndArticleCont: {
     marginTop: Hp(20),
   },
-  NoOfNotif:{
-    position:"absolute",
-    top:Hp(-2),
-    right:Hp(-2),
-    backgroundColor:NoteAppcolor.btnColor,
-    borderRadius:Wp(10),
-    width:Wp(20),
-    height:Wp(20),
-    justifyContent:"center",
-    alignItems:"center",
-    zIndex:10
-
+  NoOfNotif: {
+    position: "absolute",
+    top: Hp(-2),
+    right: Hp(-2),
+    backgroundColor: NoteAppcolor.btnColor,
+    borderRadius: Wp(10),
+    width: Wp(20),
+    height: Wp(20),
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
   },
-  NoOfNotifText:{
-    color:NoteAppcolor.White,
-    fontSize:FontSize(12),
-    fontFamily:Nunito(700)
-  }
+  NoOfNotifText: {
+    color: NoteAppcolor.White,
+    fontSize: FontSize(12),
+    fontFamily: Nunito(700),
+  },
 });

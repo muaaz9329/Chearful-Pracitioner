@@ -12,7 +12,6 @@ import Toast, { ToastConfig } from "react-native-toast-message";
 import Config from "./common/Module/Toasts/ToastConfig";
 import DeviceTypeProvider from "./context/Device-Type/DeviceTypeProvider";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import SignUp from "./screens/Authentication/Sign-Up/SignUp";
 
 const Stack = createStackNavigator();
 const App = () => {

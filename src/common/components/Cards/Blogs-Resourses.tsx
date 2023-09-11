@@ -5,6 +5,7 @@ import {
   ImageBackground,
   Image,
   Pressable,
+  ImageSourcePropType,
 } from "react-native";
 import React from "react";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
@@ -12,12 +13,28 @@ import { FontSize, Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { IconCalendarEvent } from "tabler-icons-react-native";
+import { AppImages } from "@app/common/Images";
 
-const CardDesign = ({ Data }) => {
-  console.log("Helping your child through stress".length);
+type Props = {
+  Data?: {
+    img:ImageSourcePropType,
+    title:string
+
+  }
+}
+
+const DEFAULT_VALUE = {
+  img: AppImages.defaultBlogImage,
+  title:"How Therapy Can Help You Cope with Life Transitions and Losses "
+}
+
+const BlogAndResourcesCard = ({ Data=DEFAULT_VALUE }:Props) => {
+  
 
   return (
-    <View style={styles.Parent}>
+    <Pressable style={styles.Parent} onPress={()=>{
+      console.log("Pressed")
+    }}>
       <View style={styles.Parent}>
         <ImageBackground style={styles.cardCont} source={Data.img}>
           <View style={styles.DateCard}>
@@ -38,11 +55,11 @@ const CardDesign = ({ Data }) => {
           </View>
         </ImageBackground>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
-export default CardDesign;
+export default BlogAndResourcesCard;
 
 const styles = StyleSheet.create({
   cardCont: {

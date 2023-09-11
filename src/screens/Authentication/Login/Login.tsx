@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
 
     
     position:'absolute',
-    bottom:Wp(5)
+    bottom:Wp(-10)
   },
   Signupbtn:{
     backgroundColor: NoteAppcolor.OffWhiteCont,

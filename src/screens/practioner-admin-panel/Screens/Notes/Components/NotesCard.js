@@ -13,7 +13,7 @@ import { FontSize, Wp } from "@helper/CustomResponsive";
 import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { DateConstrctor } from "@helper/customFunction";
-import FileIconGenrator from "@app/screens/NoteTakingApp/Screens/Session/components/FileIconGenrator";
+import FileIconGenrator from "@app/screens/practioner-admin-panel/Screens/Session/components/FileIconGenrator";
 import User_Session_Notes_Editor_Pram_object from "@app/adapters/User_Session_Notes_Editor_Pram_object";
 import { NotesCardAdapterFunction } from "./adapter/NotesCardFunction";
 import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
