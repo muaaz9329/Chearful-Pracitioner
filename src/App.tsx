@@ -12,14 +12,6 @@ import Toast, { ToastConfig } from "react-native-toast-message";
 import Config from "./common/Module/Toasts/ToastConfig";
 import DeviceTypeProvider from "./context/Device-Type/DeviceTypeProvider";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import SignUp from "./screens/Authentication/Sign-Up/SignUp";
-import MainMenu from "./screens/Main-Screen/Main-Menu/Main-Menu";
-import {SoundbitesCard} from "./common/components/Cards";
-import SoundBitesPreview from "./screens/Main-Screen/Main-Menu/previews/sound-bites-preview";
-import BlogPreview from "./screens/Main-Screen/Main-Menu/previews/blog-preview";
-import WellBeingPreview from "./screens/Main-Screen/Main-Menu/previews/well-being-preview";
-import ClientForumCard from "./common/components/Cards/client-forum-card";
-import ClientForumReview from "./screens/Main-Screen/Main-Menu/previews/client-forum-preview";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -59,7 +51,7 @@ const App = () => {
     <DeviceTypeProvider>
       <StatusBar barStyle={"dark-content"} />
       <SafeAreaProvider>
-        {/* <NavigationContainer>
+        <NavigationContainer>
           {IsLogedIn !== null && (
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               {IsLogedIn == false ? (
@@ -69,8 +61,8 @@ const App = () => {
               )}
             </Stack.Navigator>
           )}
-        </NavigationContainer> */}
-        <SignUp/>
+        </NavigationContainer>
+       
       </SafeAreaProvider>
 
       <Toast config={Config as ToastConfig} />
