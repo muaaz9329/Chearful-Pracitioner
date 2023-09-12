@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SearchInput from "@app/common/components/Inputs/search-input";
 import Header from "@app/common/components/Header";
@@ -19,12 +19,44 @@ import { Mulish } from "@app/helper/FontWeight";
 import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 import TagsFilter from "@app/common/components/tags-filter";
 import { SoundbitesCard } from "@app/common/components/Cards";
+import useSoundBitesFilter from "./hooks/use-soundBites-filter";
+
+const DEFAULT_DATA = [
+  {
+    index: 0,
+    tags: ["Counseling"],
+    title: "Imposter Syndrome - What It does to you mind",
+  },
+  {
+    index: 1,
+    tags: ["Couple Therapy", "Depression"],
+    title: "Why do we need to talk about mental health?",
+  },
+  {
+    index: 2,
+    tags: ["Family Therapy", "Grief", "Depression"],
+    title: "Why do we need to talk about mental health?",
+  },
+  {
+    index: 3,
+    tags: ["Marriage", "Group Therapy", "Individual Therapy"],
+    title:
+      "Group Therapy, Individual Therapy, Why do we need to talk about mental health",
+  },
+  {
+    index: 4,
+    tags: ["Marriage", "Relationship", "Stress", "Trauma "],
+    title: "stress and trauma",
+  },
+];
 
 const MainMenu = ({
   navigation,
 }: {
   navigation?: NavigationHelpers<any, any>;
 }) => {
+  const { data, setSearchTitle, setSelectedTag } =
+    useSoundBitesFilter(DEFAULT_DATA); //* Api DATA will be passed here , could be from redux or from api call , but for now it is from local data
   return (
     <SafeAreaView style={styles.body} edges={["top"]}>
       <Header
@@ -41,16 +73,20 @@ const MainMenu = ({
         </Pressable>
       </Header>
       <View style={styles.TopMargin}>
-        <SearchInput />
+        <SearchInput
+          onChangeText={(text) => {
+            setSearchTitle(text);
+          }}
+        />
       </View>
       <View style={styles.TopMargin}>
-        <TagsFilter />
+        <TagsFilter setTags={setSelectedTag} />
       </View>
       <FlatList
         style={styles.TopMargin}
-        data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+        data={data}
         renderItem={({ item }) => <SoundbitesCard />}
-        keyExtractor={(item) => item.toString()}
+        keyExtractor={(item) => item.index}
       />
     </SafeAreaView>
   );

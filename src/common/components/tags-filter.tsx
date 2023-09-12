@@ -7,7 +7,7 @@ import { NoteAppcolor } from "@app/constants/NoteAppcolor";
 
 type Props = {
   tags?: string[];
-  setTags?: () => void;
+  setTags?: (tag: string) => void;
 };
 
 const DEFAULT_PROP_TAGS = [
@@ -25,7 +25,11 @@ const DEFAULT_PROP_TAGS = [
   "Trauma ",
 ];
 
-const TagsFilter = ({ tags = DEFAULT_PROP_TAGS }: Props) => {
+const TagsFilter = ({
+  tags = DEFAULT_PROP_TAGS,
+
+  setTags,
+}: Props) => {
   const [selectedTag, setSelectedTag] = React.useState<string>("All");
 
   const handleTagSelection = (tag: string) => {
@@ -34,7 +38,7 @@ const TagsFilter = ({ tags = DEFAULT_PROP_TAGS }: Props) => {
   const ChangeTagColor = (
     tag: string
   ): {
-    tagColor: string,
+    tagColor: string;
     tagTextColor: string;
   } => {
     if (tag == selectedTag) {
@@ -50,46 +54,45 @@ const TagsFilter = ({ tags = DEFAULT_PROP_TAGS }: Props) => {
     }
   };
 
+  useEffect(() => {
+    setTags?.(selectedTag);
+  }, [selectedTag]); // setTags is useState function from parent component
 
-  useEffect(()=>{
-    console.log(selectedTag)
-  },[selectedTag]) //TODO: filteration is going to be done here
+
   return (
-  
-      <ScrollView
-        style={styles.TagCont}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-      >
-        {tags.map((item, index) => {
-          return (
-            <Pressable
-              key={index}
+    <ScrollView
+      style={styles.TagCont}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+    >
+      {tags.map((item, index) => {
+        return (
+          <Pressable
+            key={index}
+            style={[
+              styles.tag,
+              {
+                backgroundColor: ChangeTagColor(item).tagColor,
+              },
+            ]}
+            onPress={() => {
+              handleTagSelection(item);
+            }}
+          >
+            <Text
               style={[
-                styles.tag,
+                styles.tagTextStyles,
                 {
-                  backgroundColor: ChangeTagColor(item).tagColor,
+                  color: ChangeTagColor(item).tagTextColor,
                 },
               ]}
-              onPress={() => {
-                handleTagSelection(item);
-              }}
             >
-              <Text
-                style={[
-                  styles.tagTextStyles,
-                  {
-                    color: ChangeTagColor(item).tagTextColor,
-                  },
-                ]}
-              >
-                {item}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
-
+              {item}
+            </Text>
+          </Pressable>
+        );
+      })}
+    </ScrollView>
   );
 };
 
@@ -98,7 +101,6 @@ export default TagsFilter;
 const styles = StyleSheet.create({
   TagCont: {
     minWidth: wp(100),
-
   },
   tag: {
     padding: Wp(15),
