@@ -12,14 +12,14 @@ import FileIconGenrator from "./FileIconGenrator";
 import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 import { CommonSessionNote, DocTypes } from "@app/types/Modules/Session";
 import { NavigationHelpers } from "@react-navigation/native";
-import { User_Session_notes_pram_object } from "@app/adapters/User_Session_notes_pram_object";
+import { UserSessionNotesParamObj } from "@app/adapters/User_Session_Notes_Pram_object";
 interface ArrType extends CommonSessionNote {
   Apptype: DocTypes;
 }
 interface Props {
   Arr: ArrType[];
   navigation: NavigationHelpers<any, any>;
-  ClientData: User_Session_notes_pram_object;
+  ClientData: UserSessionNotesParamObj;
 }
 
 const NotesCard = ({ Arr, navigation, ClientData }: Props) => {
@@ -79,7 +79,7 @@ const NotesCard = ({ Arr, navigation, ClientData }: Props) => {
                   source={FileIconGenrator(item.Apptype)}
                   style={[
                     styles.DocIconSize,
-                    deviceType === "tablet" && styles.DocIconSize_Tablet
+                    deviceType === "tablet" && styles.DocIconSize_Tablet,
                   ]}
                 />
               </View>
@@ -93,7 +93,7 @@ const NotesCard = ({ Arr, navigation, ClientData }: Props) => {
                   <Text
                     style={[
                       styles.Date,
-                      deviceType === "tablet" && styles.Date_Tablet
+                      deviceType === "tablet" && styles.Date_Tablet,
                     ]}
                   >
                     {DateConstrctor(new Date(item.created_at)).Date}

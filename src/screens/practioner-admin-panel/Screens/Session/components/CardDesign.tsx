@@ -16,7 +16,7 @@ import { NoteAppcolor } from "@constants/NoteAppcolor";
 import { Dot } from "@svg";
 import { Mulish, Nunito } from "@helper/FontWeight";
 import { Plus, Eye } from "@svg";
-import { User_Session_notes_pram_object } from "@app/adapters/User_Session_notes_pram_object";
+import { UserSessionNotesParamObj } from "@app/adapters/User_Session_Notes_Pram_object";
 import TypeOfNote from "@app/common/Models/TypeOfNote";
 import {
   DateConstrctor,
@@ -26,12 +26,11 @@ import { DeviceContext } from "@app/context/Device-Type/DeviceTypeProvider";
 import { NavigationHelpers } from "@react-navigation/native";
 import { SessionData } from "@app/types/Modules/Session";
 interface Props {
-  Data: SessionData
+  Data: SessionData;
   navigation: NavigationHelpers<any, any>;
 }
-const CardDesign = ({ Data, navigation }: Props) => {
+export default function CardDesign({ Data, navigation }: Props) {
   const [model, setmodel] = useState(false);
-
 
   const { deviceType } = useContext(DeviceContext);
   return (
@@ -44,7 +43,8 @@ const CardDesign = ({ Data, navigation }: Props) => {
       <TypeOfNote
         visible={model}
         setVisible={setmodel}
-        data={new User_Session_notes_pram_object(Data)}
+        data={new UserSessionNotesParamObj(Data)}
+        // data={{}}
         navigation={navigation}
         routeLoc={"Prac_Session"}
       />
@@ -64,7 +64,7 @@ const CardDesign = ({ Data, navigation }: Props) => {
             ]}
           />
         </View>
-        <View >
+        <View>
           <Text
             style={[
               styles.Name,
@@ -159,7 +159,7 @@ const CardDesign = ({ Data, navigation }: Props) => {
           ]}
           onPress={() => {
             navigation.navigate("Prac_NotesPreview", {
-              ClientData: new User_Session_notes_pram_object(Data),
+              ClientData: new UserSessionNotesParamObj(Data),
               routeLoc: "Prac_Session",
             });
           }}
@@ -173,9 +173,9 @@ const CardDesign = ({ Data, navigation }: Props) => {
       </View>
     </View>
   );
-};
+}
 
-export default CardDesign;
+// export default CardDesign;
 
 const styles = StyleSheet.create({
   btnDesign_Tablet: {

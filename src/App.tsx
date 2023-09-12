@@ -62,7 +62,6 @@ const App = () => {
             </Stack.Navigator>
           )}
         </NavigationContainer>
-       
       </SafeAreaProvider>
 
       <Toast config={Config as ToastConfig} />

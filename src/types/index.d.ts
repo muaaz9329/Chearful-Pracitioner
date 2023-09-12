@@ -1,5 +1,5 @@
 import { User_Session_Add_Notes_Editor_Pram_object } from "@app/adapters/User_Session_Add_Notes_Editor_Pram_object";
-import { User_Session_notes_pram_object } from "@app/adapters/User_Session_notes_pram_object";
+import { UserSessionNotesParamObj } from "@app/adapters/User_Session_Notes_Pram_object";
 import { NavigationHelpers } from "@react-navigation/native";
 
 interface IconProps {
@@ -17,7 +17,7 @@ interface RouteProps {
 interface IEditorRouteProp extends RouteProps {
   params: {
     mode: string;
-    ClientData: User_Session_notes_pram_object;
+    ClientData: UserSessionNotesParamObj;
     TypeOfNote: "text" | "canvas" | "img" | "pdf" | "docx";
     ComingFor: "update" | "upload";
     content?: string;
@@ -31,21 +31,18 @@ interface IEditorRouteProp extends RouteProps {
 }
 
 interface IEditorProps {
-    navigation:NavigationHelpers<any, any>;
-    route:IEditorRouteProp;
+  navigation: NavigationHelpers<any, any>;
+  route: IEditorRouteProp;
 }
 
-interface IDocsProps{
-
-}
-
+interface IDocsProps {}
 
 type FileUploadObjType = {
-    fileName: string;
-    fileType: string | null;
-    base64: string;
-    fileExtension: string;
-  };
+  fileName: string;
+  fileType: string | null;
+  base64: string;
+  fileExtension: string;
+};
 
 interface IDoodle {
   width: number;

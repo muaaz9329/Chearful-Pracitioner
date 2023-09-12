@@ -7,36 +7,38 @@
  * @returns object of User_Session_Notes_Editor_Pram_object
  */
 
-import { User_Session_notes_pram_object } from "./User_Session_notes_pram_object";
-
+import { UserSessionNotesParamObj } from "./User_Session_Notes_Pram_object";
 
 class User_Session_Notes_Editor_Pram_object {
-  public mode: string='';
+  public mode: string = "";
   public content: any;
-  public ClientData: User_Session_notes_pram_object;
-  public NoteId:number
+  public ClientData: UserSessionNotesParamObj;
+  public NoteId: number;
   private Data: any;
-  public TypeOfNote:string='';
-  public ComingFor:string;
-  constructor(ClientData: User_Session_notes_pram_object, Data: any , type: string , Mode: string) {
+  public TypeOfNote: string = "";
+  public ComingFor: string;
+  constructor(
+    ClientData: UserSessionNotesParamObj,
+    Data: any,
+    type: string,
+    Mode: string
+  ) {
     this.Data = Data;
     this.NoteId = Data.id;
-    this.ComingFor = "update"
+    this.ComingFor = "update";
     this.ClientData = ClientData;
-    if (type === 'pdf'|| "docx" || "img") {
+    if (type === "pdf" || "docx" || "img") {
       this.SetForFile(Mode);
     }
-    if (type == 'text') {
-        this.SetForText(Mode);
-        console.log('content',this.Data.content);
-        this.TypeOfNote = 'text'
+    if (type == "text") {
+      this.SetForText(Mode);
+      console.log("content", this.Data.content);
+      this.TypeOfNote = "text";
     }
-    if (type ==='canvas') {
-        this.SetForCanvas(Mode);
-        this.TypeOfNote = 'canvas'
+    if (type === "canvas") {
+      this.SetForCanvas(Mode);
+      this.TypeOfNote = "canvas";
     }
-
-
   }
   private SetForFile(Mode: string): void {
     this.mode = Mode;
