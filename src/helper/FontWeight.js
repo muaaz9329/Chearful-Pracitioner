@@ -29,12 +29,12 @@ const WeightCalc = (name, Weight) => {
       break;
     case "500":
       {
-       // return Fonts[name].Medium;
+       return Fonts[name].Medium;
       }
       break;
     case "600":
       {
-        //  return Fonts[name].SemiBold
+         return Fonts[name].SemiBold
       }
       break;
     case "700":

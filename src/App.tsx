@@ -12,6 +12,9 @@ import Toast, { ToastConfig } from "react-native-toast-message";
 import Config from "./common/Module/Toasts/ToastConfig";
 import DeviceTypeProvider from "./context/Device-Type/DeviceTypeProvider";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import MainMenu from "./screens/Main-Screen/sound-bites/main-menu/main-menu";
+import SoundBitesCard from "./common/components/Cards/sound-bites";
+import TagsFilter from "./common/components/tags-filter";
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -51,7 +54,7 @@ const App = () => {
     <DeviceTypeProvider>
       <StatusBar barStyle={"dark-content"} />
       <SafeAreaProvider>
-        <NavigationContainer>
+        {/* <NavigationContainer>
           {IsLogedIn !== null && (
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               {IsLogedIn == false ? (
@@ -61,7 +64,8 @@ const App = () => {
               )}
             </Stack.Navigator>
           )}
-        </NavigationContainer>
+        </NavigationContainer> */}
+        <MainMenu/>
       </SafeAreaProvider>
 
       <Toast config={Config as ToastConfig} />

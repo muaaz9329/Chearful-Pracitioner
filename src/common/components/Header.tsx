@@ -22,6 +22,7 @@ interface HeaderProps {
     | "flex-end"
     | "space-around"
     | "space-evenly";
+  HeaderType?: "New" | "Old";
 }
 
 const Header = ({
@@ -31,32 +32,37 @@ const Header = ({
   pram,
   setVisible,
   visible,
-  RightIcon,
+  RightIcon=null,
   ShowRightIcon = false,
   justifyContent = "space-between",
+  HeaderType = "Old",
 }: HeaderProps) => {
-  const {deviceType} = useContext(DeviceContext)
-  return (
+  const { deviceType } = useContext(DeviceContext);
+
+  const handleNavigation = () => {
+    if (pram === "back") {
+      navigation.goBack();
+    } else if (pram === "model") {
+      setVisible?.(!visible);
+    } else {
+      navigation.navigate(pram);
+    }
+  };
+  return HeaderType === "Old" ? (
     <View style={[styles.HeaderCont, { justifyContent: justifyContent }]}>
       <View>
         <Pressable
-          style={[styles.HeaderIconStyles,
-          deviceType ==="tablet"&&{
-            padding:Wp(10),
-            borderRadius:Wp(10)
-          }
+          style={[
+            styles.HeaderIconStyles,
+            deviceType === "tablet" && styles.HeaderIconStyles_tablet,
           ]}
-          onPress={() => {
-            if (pram === "back") {
-              navigation.goBack();
-            } else if (pram === "model") {
-              setVisible?.(!visible);
-            } else {
-              navigation.navigate(pram);
-            }
-          }}
+          onPress={handleNavigation}
         >
-          <Icon width={deviceType==='mobile'? Wp(20):Wp(15)} height={deviceType==='mobile'? Wp(20):Wp(15)} color={NoteAppcolor.Primary} />
+          <Icon
+            width={deviceType === "mobile" ? Wp(20) : Wp(15)}
+            height={deviceType === "mobile" ? Wp(20) : Wp(15)}
+            color={NoteAppcolor.Primary}
+          />
         </Pressable>
       </View>
 
@@ -69,19 +75,61 @@ const Header = ({
         RightIcon
       )}
     </View>
+  ) : (
+    <View style={[styles.HeaderCont]}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Pressable
+          style={[
+            styles.HeaderIconStyles,
+            {
+              marginRight: Wp(10),
+              borderRadius: Wp(10),
+            },
+            deviceType === "tablet" && styles.HeaderIconStyles_tablet,
+          ]}
+          onPress={handleNavigation}
+        >
+          <Icon
+            width={deviceType === "mobile" ? Wp(25) : Wp(15)}
+            height={deviceType === "mobile" ? Wp(25) : Wp(15)}
+            color={NoteAppcolor.Primary}
+          />
+        </Pressable>
+        <View style={{
+          flexDirection:'row',
+          alignItems:'center',
+          justifyContent:justifyContent,
+          
+          flex:1
+
+        }}>{children}</View>
+      </View>
+
+      
+    </View>
   );
 };
 
 export default Header;
 
 const styles = StyleSheet.create({
+  HeaderIconStyles_tablet: {
+    padding: Wp(10),
+    borderRadius: Wp(8),
+    marginRight: Wp(6),
+  },
   HeaderCont: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   HeaderIconStyles: {
-    padding: Wp(16),
+    padding: Wp(14),
     backgroundColor: NoteAppcolor.BtnCont,
     borderRadius: Wp(14),
   },
